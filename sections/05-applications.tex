@@ -351,9 +351,10 @@ completely. Therefore
 where edges of $G[K_2]$ are viewed as size-two hyperedges, with the
 standard width definitions of~\cite{GottlobEtAlHypertree}.
 For the upper bound, expand every tree-decomposition bag of $G$
-to clone pairs and guard it by the pair edges. The guards are
-contained in the bag, so the special condition for ordinary
-hypertree width holds as well. For the lower bound, consider a
+to clone pairs and guard it by the pair edges. This gives each of
+the three widths an upper bound of $\operatorname{tw}(G)+1$.
+The guards are contained in the bag, so the special condition for
+ordinary hypertree width holds as well. For the lower bound, consider a
 fractional decomposition of width $w$. If $B_t$ is one of its bags
 and $\gamma_t(e)$ is the weight on hyperedge $e$, then each vertex
 of $B_t$ receives total incident weight at least one. Since every
@@ -368,8 +369,13 @@ is connected. If $uv\in E(G)$, its four clones form a clique, so their
 bag subtrees intersect pairwise. Subtrees of a tree have the Helly
 property: any finite family that intersects pairwise has a common
 node. Hence one bag contains all four clones. The retained bags form
-a tree decomposition of $G$ with bag size at most $w$, proving the
-reverse inequality.
+a tree decomposition of $G$ with bag size at most $w$, so
+$\operatorname{tw}(G)+1\leq w$. Thus
+$\operatorname{fhw}(G[K_2])\geq\operatorname{tw}(G)+1$. The definitions
+give $\operatorname{fhw}\leq\operatorname{ghw}\leq\operatorname{hw}$,
+since fractional covers relax integral covers and hypertree
+decompositions also impose the special condition. Together with the
+common upper bound, this proves the three equalities.
 Thus the NP $r<12/11$, UGC $r<4/3$, and established SSE treewidth
 hardness at every fixed factor transfer even to rank-two hypergraphs.
 The transfer compares the width value $\operatorname{tw}(G)+1$, which
