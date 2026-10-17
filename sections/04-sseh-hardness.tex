@@ -1,0 +1,390 @@
+\section{Hardness under the Small Set Expansion Hypothesis}
+\label{sec:sseh}
+
+We prove that the Small Set Expansion Hypothesis rules out every fixed
+approximation factor for treedepth. The source is the global partition
+promise of Raghavendra, Steurer, and Tulsiani~\cite{RST}. We call
+the source graph the \emph{host} to distinguish it from its line
+graph. For a fixed number $q$ of classes, the YES case has a partition
+into classes of nearly equal volume, each with few crossing edges.
+For fixed source parameters $c,\varepsilon>0$, the NO case gives every
+set of normalized volume in $[1/10,9/10]$ boundary weight at least
+$c\sqrt{\varepsilon}$ times the total edge weight. Passing to
+the line graph turns the YES partition into an elimination forest of
+height $O(\varepsilon m)$ and the NO cut bound into a balanced-separator
+lower bound of $\Omega(\sqrt{\varepsilon}\,m)$, where $m$ is the number
+of host edges and hence the order of the line graph.
+
+Wu et al.'s incidence construction also gives all-constant SSE
+hardness for treedepth when combined with the elimination-forest
+bound in Appendix~\ref{app:incidence-proof}. Their output has one
+part for replicated host vertices and another for host edges. Our
+line-graph construction uses only host edges as vertices, joining two
+when the corresponding edges share an endpoint. This gives separator
+bounds directly in terms of the output order, which we use again in
+the bounded-degree reductions. We first prove these bounds for host
+multigraphs, then show that rounding the source weights preserves the
+promise.
+
+\begin{theorem}\label{thm:sse-hardness}
+For every fixed $C\geq1$, approximating treedepth within factor $C$ on
+simple unweighted graphs is SSE-hard.
+\end{theorem}
+
+\subsection{The source partition promise}
+
+For a finite undirected weighted graph $G$, let $W>0$ be the total
+undirected edge weight. Edge weights are positive rationals, and parallel
+edges and loops are allowed. Edge collections are treated as multisets,
+so parallel edges are counted separately. For a multiset $F$ of edges,
+$w(F)$ denotes its total weight, counting multiplicity. Define
+$\vol_G(A)=\sum_{v\in A}\deg_G(v)$ and
+$\mu_G(A)=\vol_G(A)/(2W)$. When $\vol_G(A)>0$, put
+$\Phi_G(A)=w(\cut_G(A))/\vol_G(A)$.
+A loop contributes twice its weight to the volume
+and never contributes to a cut. Here $\cut_G(A)$ is the multiset of
+edges with one endpoint in $A$ and the other outside $A$.
+
+\begin{theorem}[Global SSE partition gap, normalized form {\cite[Theorem~3.5]{RST}}]\label{thm:sse-source}
+There are absolute constants $c>0$ and $\varepsilon_0>0$ such that,
+for every fixed integer $q\geq2$ and every fixed
+$0<\varepsilon<\varepsilon_0$, the following promise on rationally
+weighted graphs is SSE-hard:
+\begin{description}
+\item[YES:] There is a partition
+  $V(G)=V_1\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}V_q$ with
+  $\mu_G(V_i)=1/q$ and $\Phi_G(V_i)\leq2\varepsilon$ for every $i$.
+\item[NO:] Every $A\subseteq V(G)$ with
+  $\mu_G(A)\in[1/10,9/10]$ satisfies
+  $w(\cut_G(A))\geq c\sqrt{\varepsilon}\,W$.
+\end{description}
+The source reduction has polynomial size for each fixed pair
+$(q,\varepsilon)$.
+\end{theorem}
+
+Appendix~\ref{app:sse-normalization} derives this formulation from the
+published gap. The following counting lemma converts the partition
+properties into bounds on crossing and internal edge weights.
+
+\begin{lemma}[Crossing and internal edge weights]
+\label{lem:sse-yes-edge-counts}
+Let $G$ be a finite undirected weighted multigraph with positive
+rational edge weights and total edge weight $W>0$.
+Let $(V_1,\ldots,V_q)$ be a partition of its vertices into parts
+of positive volume.
+Let $D$ be the multiset of edges whose endpoints lie in different
+classes. For each $i$, let $E_i$ be the multiset of edges with both
+endpoints in $V_i$, including loops at vertices of $V_i$. Each
+parallel edge is included in the corresponding multiset. Then
+$w(D)\leq W\max_i\Phi_G(V_i)$ and
+$w(E_i)\leq\vol_G(V_i)/2$ for every $i$.
+\end{lemma}
+
+\begin{proof}
+Each edge in $D$ belongs to the cuts of its two endpoint classes.
+Internal edges, including loops, belong to none. Hence
+\[
+  2w(D)=\sum_{i=1}^q w(\cut_G(V_i))
+  =\sum_{i=1}^q\Phi_G(V_i)\vol_G(V_i)
+  \leq\max_i\Phi_G(V_i)\sum_{i=1}^q\vol_G(V_i)
+  =2W\max_i\Phi_G(V_i).
+\]
+Each internal edge, including a loop, contributes twice its weight
+to its class volume, whereas a crossing edge contributes once. Thus
+$2w(E_i)+w(\cut_G(V_i))=\vol_G(V_i)$, which gives the second bound.
+\end{proof}
+
+\subsection{The line graph and its separator lower bound}
+
+For an unweighted host multigraph $G$, its \emph{line graph}
+$\mathcal{L}(G)$ has one vertex for each edge of $G$. Parallel edges
+give distinct vertices. Two distinct output vertices are adjacent
+if and only if their host edges share an endpoint.
+This is a simple unweighted graph, even when the host has
+parallel edges or loops. If the host has $m$ edges, counting parallel
+edges separately, then $\mathcal{L}(G)$ has $m$ vertices.
+
+\begin{lemma}[A treedepth upper bound from a partition]\label{lem:sse-complete}
+Let $G$ be an unweighted host multigraph with $m>0$ edges, counting
+parallel edges separately, and let $(V_1,\ldots,V_q)$ be a partition
+of its vertices. If $D$ is the multiset of edges joining different
+classes, then $\td(\mathcal{L}(G))\leq |D|+\max_i |E(G[V_i])|$.
+\end{lemma}
+
+\begin{proof}
+Make one chain from the line-graph vertices corresponding to the
+edges in $D$. For each class $V_i$, make a second chain from the
+vertices corresponding to the internal edges
+of $G[V_i]$. If $D$ is nonempty, attach the class chains below the last
+vertex of the $D$-chain. If $D$ is empty, use the class chains as
+separate roots.
+
+Vertices on the $D$-chain are comparable with all vertices of the
+forest. Within each class chain all vertices are comparable as well.
+The only remaining pairs lie on different class chains. Their host
+edges have endpoints in disjoint classes, so those pairs are
+nonadjacent in $\mathcal L(G)$. Thus the constructed forest is an
+elimination forest of height $|D|+\max_i|E(G[V_i])|$, including
+when $D$ is empty.
+\end{proof}
+
+For the converse direction, deleting vertices of $\mathcal L(G)$
+means deleting the corresponding multiset of host edges. Different
+components of the remaining line graph have disjoint sets of incident
+host vertices. We use these sets to recover a host cut whose edges
+must all have been deleted.
+
+For $0<\rho<1$, a \emph{$\rho$-balanced separator} of an $N$-vertex
+graph $H$ is a set $S\subseteq V(H)$ such that every component of
+$H-S$ has at most $\rho N$ vertices. We write $b_\rho(H)$ for its
+minimum size. A \emph{balanced separator} is a $1/2$-balanced
+separator, and we abbreviate $b_{1/2}(H)$ to $b(H)$.
+
+\begin{lemma}[From host cuts to line-graph separators]
+\label{lem:linegraph-separators}
+Let $G$ be an unweighted host multigraph with $m>0$ edges, counting
+parallel edges separately. The vertices of $\mathcal{L}(G)$ are
+indexed by these host edges, so $|V(\mathcal{L}(G))|=m$.
+Suppose that, for some $\beta>0$, every set $A$ with
+$\mu_G(A)\in[1/4,3/4]$ satisfies $|\cut_G(A)|\geq\beta m$.
+Then $b_\rho(\mathcal{L}(G))\geq\min\{(3/4-\rho)m,\beta m\}$
+for every $1/2\leq\rho<3/4$.
+\end{lemma}
+
+\begin{proof}
+Fix a $\rho$-balanced separator $S$ of $\mathcal L(G)$, and let
+$F$ be the corresponding multiset of host edges, so $|F|=|S|$.
+If $|S|\ge(3/4-\rho)m$, the claim is immediate. Assume henceforth
+that $|S|<(3/4-\rho)m$.
+
+\emph{Grouping the surviving host edges.}
+The line graph $\mathcal L(G)-S$ has
+$m-|S|>(1/4+\rho)m$ vertices, with each component of order at
+most $\rho m$. Choose a union $C$ of components with
+$m/4\le|C|\le\rho m$. If a component has size in this interval,
+take it. Otherwise, every component has fewer than $m/4$ vertices.
+Add components until their total first reaches $m/4$.
+The total is then below $m/2\le\rho m$.
+
+Let $X$ be the host edges corresponding to vertices in $C$, and
+let $Y$ be the other surviving host edges. Then
+$|X|=|C|\ge m/4$ and
+$|Y|=m-|S|-|X|>m/4$.
+If a host vertex were incident to edges in both multisets, their
+line-graph vertices would be adjacent, with one in $C$ and one
+outside $C$. This contradicts the choice of $C$ as a union of
+components.
+
+\emph{Forming the host cut.}
+Let $A,B\subseteq V(G)$ be the sets of endpoints of edges in
+$X,Y$, respectively. The preceding paragraph gives
+$A\cap B=\varnothing$. Every edge of $X$
+contributes two degree units to $\vol_G(A)$, including a loop.
+The same holds for $Y$ and $B$. Thus
+$\vol_G(A)\ge2|X|\ge m/2$ and
+$\vol_G(B)\ge2|Y|\ge m/2$.
+Since the total host volume is $2m$,
+$\vol_G(A)\le2m-\vol_G(B)\le3m/2$.
+Since $\mu_G(A)=\vol_G(A)/(2m)$, we obtain
+$\mu_G(A)\in[1/4,3/4]$.
+Every surviving edge lies wholly in $A$ or wholly in
+$B\subseteq V(G)\setminus A$, so every edge crossing $A$ belongs
+to $F$. The cut assumption therefore yields
+$|S|=|F|\ge|\cut_G(A)|\ge\beta m$, proving the bound.
+\end{proof}
+
+\begin{lemma}\label{lem:balanced-by-td}
+For every finite graph $H$, $b(H)\leq\td(H)$.
+Moreover, every elimination forest $F$ of an $N$-vertex graph $H$
+satisfies $\totd(F)\geq(N/2)b(H)$.
+\end{lemma}
+
+\begin{proof}
+Fix an elimination forest $F$ of $H$. If every root subtree has
+at most $N/2$ vertices, then $b(H)=0$ and both claims follow.
+Otherwise, delete the root of the unique subtree of size greater
+than $N/2$, and continue into a child subtree of size greater than
+$N/2$ while one exists. Such a child is unique, since two disjoint
+subtrees of that size cannot fit among $N$ vertices.
+
+The deleted vertices form an ancestor path $P$. Every remaining
+subtree has at most $N/2$ vertices, and no graph edge joins distinct
+remaining subtrees. Thus $P$ is balanced and
+$b(H)\leq|P|\leq h(F)$. Minimizing height proves the first claim.
+The original subtree rooted at the last vertex of $P$ has more than
+$N/2$ vertices, each at depth at least $|P|\geq b(H)$. Their depths
+alone give $\totd(F)\geq(N/2)b(H)$.
+\end{proof}
+
+\begin{corollary}[NO treedepth bound]\label{lem:sse-sound}
+Under the cut assumption of Lemma~\ref{lem:linegraph-separators},
+$\td(\mathcal L(G))\geq\min\{m/4,\beta m\}$.
+\end{corollary}
+
+\begin{proof}
+Take $\rho=1/2$ in Lemma~\ref{lem:linegraph-separators} and use
+$b(\mathcal L(G))\leq\td(\mathcal L(G))$ from
+Lemma~\ref{lem:balanced-by-td}.
+\end{proof}
+
+\subsection{Conversion of weighted hosts}
+
+The source promise is stated for weighted hosts, whereas the output
+line graph has one vertex per unweighted host edge. Replace each
+weighted edge $e$ by $\lfloor Mw_e/W\rfloor$ parallel copies, where
+$W$ is the total source edge weight and $M$ is chosen below.
+Rounding introduces an additive error in normalized
+volumes and cut sizes, so the source promise uses the wider interval
+$[1/10,9/10]$ rather than the interval $[1/4,3/4]$ required by
+Lemma~\ref{lem:linegraph-separators}.
+
+\begin{lemma}[Unweighted SSE partition gap]\label{lem:sse-unweighted-gap}
+Let $c>0$ be the constant from Theorem~\ref{thm:sse-source}.
+For every fixed integer $q\geq2$ and every sufficiently small fixed
+rational $\varepsilon>0$, the following promise on unweighted
+multigraphs $G$ with $m>0$ edges, allowing loops, is SSE-hard:
+\begin{description}
+\item[YES:] There is a partition
+  $V(G)=V_1\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}V_q$ such that
+  $(1-\varepsilon)/q\leq\mu_G(V_i)\leq(1+\varepsilon)/q$ and
+  $\Phi_G(V_i)\leq3\varepsilon$ for every $i$.
+\item[NO:] Every $A\subseteq V(G)$ with
+  $\mu_G(A)\in[1/4,3/4]$ satisfies
+  $|\cut_G(A)|\geq(c/2)\sqrt{\varepsilon}\,m$.
+\end{description}
+\end{lemma}
+
+\begin{proof}
+Choose $\varepsilon$ small enough that Theorem~\ref{thm:sse-source}
+applies, $\varepsilon\leq1/10$, and
+$\varepsilon^2\leq(c/2)\sqrt\varepsilon$.
+Set $\theta=\min\{\varepsilon^2,\varepsilon/(2q)\}$.
+
+\emph{Construction.}
+Let $G$ be a weighted source instance with $k\geq1$ edges of weights
+$w_e$ and total weight $W$, counting parallel edges separately.
+Set $M=\lceil k/\theta\rceil$ and $r_e=\lfloor Mw_e/W\rfloor$.
+Form the unweighted multigraph $G^*$ on $V(G)$ by replacing each
+edge $e$ by $r_e$ copies with the same endpoints, with no other edges.
+A loop is replaced by loops, and an edge with $r_e=0$ is removed.
+Write $m=\sum_e r_e$ and output $G^*$.
+
+\emph{Rounding estimates.}
+For each input edge $e$, write $\omega_e=Mw_e/W-r_e\in[0,1)$.
+Since $k\leq\theta M$ and $\omega_e<1$ for each of the $k$ input edges,
+$(1-\theta)M\leq M-k<M-\sum_e\omega_e=m\leq M$.
+Thus $m>0$, and $G^*$ has at most $M=O(k/\theta)$ edges.
+Since $q,\theta$ are fixed, the reduction has polynomial size.
+
+For a fixed vertex set $A$, an edge contributes zero, one, or two
+endpoint incidences to its volume. A loop in $A$ contributes two.
+Since $w_e/W-r_e/M=\omega_e/M$, edge $e$ contributes between zero
+and $\omega_e/M$ to the difference of normalized volumes. Summing gives
+\begin{equation}\label{eq:round-volume}
+ 0\leq\frac{\vol_G(A)}{2W}
+       -\frac{\vol_{G^*}(A)}{2M}
+ \leq\frac1M\sum_e\omega_e
+ <\frac{k}{M}\leq\theta.
+\end{equation}
+
+For the cut, only crossing edges contribute. Thus
+\begin{equation}\label{eq:round-cut}
+  |\cut_{G^*}(A)|
+  =M\frac{w(\cut_G(A))}{W}-\sum_{e\in\cut_G(A)}\omega_e
+  \geq M\left(\frac{w(\cut_G(A))}{W}-\theta\right),
+\end{equation}
+because $\sum_{e\in\cut_G(A)}\omega_e<k\leq\theta M$.
+
+\emph{YES case.}
+Use the source partition $(V_1,\ldots,V_q)$.
+Since $\mu_G(V_i)=1/q$, equation~\eqref{eq:round-volume} gives
+$1/q-\theta\leq\vol_{G^*}(V_i)/(2M)\leq1/q$.
+Also, $(1-\theta)M\leq m\leq M$, so
+$1-\theta\leq m/M\leq1$. Since
+$\mu_{G^*}(V_i)=\bigl(\vol_{G^*}(V_i)/(2M)\bigr)/(m/M)$, it follows
+that
+\[
+\begin{aligned}
+ \mu_{G^*}(V_i)
+ &\geq1/q-\theta
+ \geq(1-\varepsilon/2)/q
+ \geq(1-\varepsilon)/q,\\
+ \mu_{G^*}(V_i)
+ &\leq\frac{1/q}{1-\theta}
+ \leq\frac{1+\varepsilon}{q}.
+\end{aligned}
+\]
+Here the last inequality uses
+$\theta\leq\varepsilon/(2q)\leq\varepsilon/(1+\varepsilon)$.
+Moreover, $r_e\leq Mw_e/W$ and the source expansion bound imply
+$|\cut_{G^*}(V_i)|\leq Mw(\cut_G(V_i))/W\leq4\varepsilon M/q$.
+Consequently
+\[
+  \Phi_{G^*}(V_i)
+  \leq\frac{4\varepsilon M/q}{2M(1/q-\theta)}
+  =\frac{2\varepsilon}{1-q\theta}
+  \leq\frac{2\varepsilon}{1-\varepsilon/2}
+  \leq\frac{40}{19}\varepsilon<3\varepsilon.
+\]
+The penultimate inequality uses $\varepsilon\le1/10$.
+
+\emph{NO case.}
+Let $A$ be any set with
+$\mu_{G^*}(A)\in[1/4,3/4]$. Since
+$\vol_{G^*}(V(G))/(2M)=m/M$, its volume measured at scale $2M$
+satisfies $\vol_{G^*}(A)/(2M)=(m/M)\mu_{G^*}(A)
+\in[(1-\theta)/4,3/4]$.
+The volume bound~\eqref{eq:round-volume} says that this scaled volume
+is at most $\mu_G(A)$ and differs from it by at most $\theta$. Hence
+\[
+ \frac{1-\theta}{4}
+ \leq\frac{\vol_{G^*}(A)}{2M}
+ \leq\mu_G(A)
+ \leq\frac{\vol_{G^*}(A)}{2M}+\theta
+ \leq\frac34+\theta.
+\]
+Since $\theta\le1/10$, the lower endpoint is at least $9/40>1/10$
+and the upper endpoint is at most $17/20<9/10$. Thus
+$\mu_G(A)\in[1/10,9/10]$. The source NO promise
+therefore gives $w(\cut_G(A))/W\geq c\sqrt{\varepsilon}$. Applying
+\eqref{eq:round-cut}, $\theta\leq(c/2)\sqrt\varepsilon$, and $M\geq m$ gives
+\[
+  |\cut_{G^*}(A)|\geq M(c\sqrt\varepsilon-\theta)
+  \geq(c/2)\sqrt\varepsilon\,M
+  \geq(c/2)\sqrt\varepsilon\,m.
+\]
+\end{proof}
+
+\subsection{The approximation gap}
+
+\begin{proof}[Proof of Theorem~\ref{thm:sse-hardness}]
+Fix $C\geq1$ and choose a fixed rational $\varepsilon>0$ small enough
+that Lemma~\ref{lem:sse-unweighted-gap} applies,
+$c\sqrt\varepsilon\leq1/4$, and $\sqrt\varepsilon<c/(8C)$.
+Apply that lemma with $q=\lceil2/\varepsilon\rceil$ to obtain an
+unweighted host $G^*$ with $m$ edges, and output $\mathcal L(G^*)$.
+
+In the YES case, let $D$ be the multiset of host edges joining different
+partition classes. Lemma~\ref{lem:sse-yes-edge-counts} gives
+$|D|\leq3\varepsilon m$ and
+$|E(G^*[V_i])|\leq\vol_{G^*}(V_i)/2\leq(1+\varepsilon)m/q$.
+Lemma~\ref{lem:sse-complete} therefore gives
+\[
+\begin{aligned}
+ \td(\mathcal L(G^*))
+ &\leq3\varepsilon m+(1+\varepsilon)m/q\\
+ &\leq3\varepsilon m+(1+\varepsilon)\varepsilon m/2\\
+ &= (7/2+\varepsilon/2)\varepsilon m<4\varepsilon m,
+\end{aligned}
+\]
+where $q=\lceil2/\varepsilon\rceil$ gives $1/q\leq\varepsilon/2$,
+and $\varepsilon<1$ gives $7/2+\varepsilon/2<4$.
+In the NO case, Corollary~\ref{lem:sse-sound} gives
+\[
+ \td(\mathcal L(G^*))\geq(c/2)\sqrt\varepsilon\,m
+ >4C\varepsilon m,
+\]
+since $\sqrt\varepsilon<c/(8C)$ implies
+$(c/2)\sqrt\varepsilon>4C\varepsilon$. Thus the NO bound exceeds the YES
+bound by a factor greater than $C$.
+\end{proof}

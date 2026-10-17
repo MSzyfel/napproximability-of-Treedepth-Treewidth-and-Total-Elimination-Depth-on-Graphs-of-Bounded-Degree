@@ -1,0 +1,350 @@
+﻿\section{Auxiliary proofs}
+\label{sec:auxiliary-proofs}
+
+The subsections follow the order in which their arguments are first
+invoked in the main text: the earlier incidence construction is
+discussed in the introduction, followed by the branching inequalities
+in the UGC reductions and the anchor-length corollary for the
+NP-hardness construction.
+
+\subsection{The earlier incidence construction}
+\label{app:incidence-proof}
+
+We explain how the incidence construction of Wu, Austrin, Pitassi, and
+Liu~\cite[Sections~4.3 and~5]{APW} already implies the qualitative
+treedepth conclusion of Theorem~\ref{thm:sse-hardness}. The inherited
+part is the source reduction and its separator soundness analysis.
+The additional argument is a treedepth upper bound in the YES case.
+
+\emph{The output graph.}
+Let $G$ be their regular source host, with $m>0$ edges, and let
+$r\geq |V(G)|m$ be an integer. Denote its incidence output by
+$G'$. Its vertex set is the disjoint union of $V(G)\times[r]$ and
+$E(G)$: $(v,s)$ is the $s$th copy of the host vertex $v$, whereas
+the output vertex indexed by $e\in E(G)$ represents a host edge.
+The adjacency rule is
+\[
+ \{e,(v,s)\}\in E(G')
+ \quad\Longleftrightarrow\quad
+ e\in E(G),\ v\in e,\ s\in[r].
+\]
+There are no edges within either $V(G)\times[r]$ or $E(G)$, and
+no other edges. In particular, $G'$ is simple and bipartite.
+
+\emph{The YES forest.}
+The source YES partition $V_1,\ldots,V_q$ has equal class volumes
+$\vol_G(V_i)=2m/q$ and $\Phi_G(V_i)\leq2\varepsilon$.
+Let $D$ be the multiset of crossing host edges and
+$E_i=E(G[V_i])$ the multiset of internal host edges in class $i$.
+Each crossing edge belongs to the cuts of both endpoint classes. Therefore
+\[
+ 2|D|=\sum_{i=1}^q|\cut_G(V_i)|
+ =\sum_{i=1}^q\Phi_G(V_i)\vol_G(V_i)
+ \leq4\varepsilon m.
+\]
+Each internal edge contributes two incidences to its class volume,
+so $2|E_i|\leq\vol_G(V_i)=2m/q$. Consequently
+$|D|\leq2\varepsilon m$ and $|E_i|\leq m/q$ for every $i$.
+These are also the unweighted bounds of
+Lemma~\ref{lem:sse-yes-edge-counts}.
+
+First make a top chain from the output vertices indexed by $D$.
+For each $i$, make a chain from the output vertices indexed by
+$E_i$ and place it below the last vertex of the top chain. Attach
+all vertices $(v,s)$ with $v\in V_i$ as leaves below the last
+vertex of this class chain. Empty chains are omitted: if $E_i$ is
+empty, these leaves go directly below the top chain. If $D$ is
+empty, the class chains and any unattached leaves are separate
+rooted trees. This describes a rooted forest on every vertex of
+$G'$, including copies of isolated host vertices.
+
+To verify that it is an elimination forest, consider an arbitrary
+output edge $\{e,(v,s)\}$. If $e\in D$, its output vertex lies on
+the top chain and is an ancestor of $(v,s)$. Otherwise $e\in E_i$
+for some $i$, both host endpoints of $e$ lie in $V_i$, and the
+output vertex indexed by $e$ is on the class chain above $(v,s)$.
+Thus the endpoints of every output edge are comparable. A
+root-to-leaf path uses at most $|D|$ vertices of the top chain,
+at most $\max_i|E_i|$ vertices of one class chain, and one host
+vertex copy. Consequently
+\[
+ \td(G')\leq |D|+\max_i|E_i|+1
+ \leq 2\varepsilon m+\frac{m}{q}+1.
+\]
+The same bound covers empty top or class chains.
+
+\emph{The NO bound and the gap.}
+The proof of Wu et al.~\cite[Lemma~5.1]{APW} gives, for their
+choice $r\geq |V(G)|m$, a lower bound
+$b(G')\geq c\sqrt{\varepsilon}\,m$ for some absolute constant
+$c>0$ on NO instances. In particular, the source argument bounds
+the balanced separator of the entire output vertex set, which is
+the quantity $b$ used here. Lemma~\ref{lem:balanced-by-td} therefore
+gives $\td(G')\geq c\sqrt{\varepsilon}\,m$.
+
+For completeness, fix any desired approximation factor $C\geq1$.
+Choose a sufficiently small fixed $0<\varepsilon\leq1/2$ for which
+the source promise applies and $\sqrt{\varepsilon}<c/(4C)$, and
+put $q=\lceil1/\varepsilon^2\rceil$. In the YES case, all $q$
+partition classes have positive volume and are therefore nonempty.
+The regular host has positive integer degree, so
+$2m\geq|V(G)|\geq q\geq1/\varepsilon^2$.
+Since $\varepsilon\leq1/2$, this implies
+$m\geq1/(2\varepsilon^2)\geq1/\varepsilon$. The YES upper bound thus satisfies
+\[
+ 2\varepsilon m+\frac{m}{q}+1
+ \leq(2\varepsilon+\varepsilon^2+\varepsilon)m
+ \leq4\varepsilon m,
+\]
+whereas the NO lower bound is
+$c\sqrt{\varepsilon}\,m>4C\varepsilon m$. Thus a factor-$C$
+approximation distinguishes the two cases. Finally, taking
+$r=|V(G)|m$ makes the incidence output polynomial in the source
+size. This proves all-constant-factor treedepth hardness on
+bipartite outputs from the cited construction.
+
+\subsection{The branching inequality}
+\label{app:branching-proof}
+
+\begin{proof}[Proof of Lemma~\ref{lem:branching-ineq}]
+If every $n_j$ is zero, both sides of the claimed inequality are
+zero. Otherwise $\max_j(q_jn_j)>0$, because each $q_j$ is
+positive. For $0<t\leq\max_j(q_jn_j)$, define
+$J(t)=\{j:q_jn_j\geq t\}$. At least one product attains the
+maximum, so $J(t)$ is nonempty throughout this interval.
+
+First we prove an inequality at each such $t$. Since all $q_j$ are
+positive, $\sum_iq_i\geq\sum_{j\in J(t)}q_j$. Applying
+Cauchy--Schwarz to $\sqrt{q_j}$ and $1/\sqrt{q_j}$ on the
+index set $J(t)$ then gives
+\[
+ \left(\sum_{i=1}^{\nu}q_i\right)
+ \left(\sum_{j\in J(t)}\frac1{q_j}\right)
+ \geq
+ \left(\sum_{j\in J(t)}
+       \sqrt{q_j}\,\frac1{\sqrt{q_j}}\right)^2
+ =|J(t)|^2.
+\]
+For a positive integer $|J(t)|$, we also have
+$|J(t)|^2-3|J(t)|+2=(|J(t)|-1)(|J(t)|-2)\geq0$.
+Indeed, this product is zero for $|J(t)|=1,2$ and positive for
+$|J(t)|\geq3$. Combining the two bounds yields
+\[
+ \left(\sum_{i=1}^{\nu}q_i\right)
+ \left(\sum_{j\in J(t)}\frac1{q_j}\right)
+ \geq3|J(t)|-2.
+\]
+
+We now integrate over $0<t\leq\max_i(q_in_i)$. For a fixed
+index $j$, the indicator $\mathbf1_{\{j\in J(t)\}}$ is one
+for $0<t\leq q_jn_j$ and zero otherwise. Since
+$0\leq q_jn_j\leq\max_i(q_in_i)$, its integral is $q_jn_j$.
+This remains true when $n_j=0$, in which case the indicator
+vanishes throughout the integration interval. Interchanging an
+integral with each finite sum gives
+\[
+ \int_0^{\max_i(q_in_i)}
+       \sum_{j\in J(t)}\frac1{q_j}\,dt
+ =\sum_{j=1}^{\nu}n_j,\qquad
+ \int_0^{\max_i(q_in_i)}|J(t)|\,dt
+ =\sum_{j=1}^{\nu}q_jn_j.
+\]
+The constant $2$ has integral $2\max_i(q_in_i)$. Substituting
+these three integrals into the pointwise inequality therefore gives
+\[
+ \left(\sum_{i=1}^{\nu}q_i\right)
+ \left(\sum_{j=1}^{\nu}n_j\right)
+ \geq3\sum_{j=1}^{\nu}q_jn_j-2\max_j(q_jn_j),
+\]
+which is the claimed inequality.
+\end{proof}
+
+\subsection{The quadratic branching inequality}
+\label{app:total-depth-branching}
+
+\begin{proof}[Proof of Lemma~\ref{lem:quadratic-branching}]
+Put $x_j=\sqrt{W_j}$, so every $x_j$ is nonnegative and
+$W_j=x_j^2$. After substituting these expressions, the desired
+inequality is equivalent to
+\[
+ \left(\sum_jx_j\right)^4
+ -\sum_jx_j^4-14\sum_{i<j}x_i^2x_j^2\geq0.
+\]
+
+We expand the fourth power according to the multiplicities of
+its indices. The five patterns are $4$, $3+1$, $2+2$, $2+1+1$,
+and $1+1+1+1$. Their multinomial coefficients are, respectively,
+$1$, $4!/(3!1!)=4$, $4!/(2!2!)=6$, $4!/(2!1!1!)=12$, and $4!=24$.
+Thus the complete expansion is
+\[
+ \begin{aligned}
+ \left(\sum_jx_j\right)^4
+ ={}&\sum_jx_j^4
+   +4\sum_{i<j}(x_i^3x_j+x_ix_j^3)
+   +6\sum_{i<j}x_i^2x_j^2\\
+ &+12\sum_{i<j<k}
+      (x_i^2x_jx_k+x_ix_j^2x_k+x_ix_jx_k^2)
+   +24\sum_{i<j<k<\ell}x_ix_jx_kx_\ell.
+ \end{aligned}
+\]
+In the sum over triples, the three displayed monomials correspond
+to the three choices of repeated index.
+
+Subtracting $\sum_jx_j^4$ cancels the terms with one distinct
+index. Subtracting $14\sum_{i<j}x_i^2x_j^2$ changes the
+coefficient of each $x_i^2x_j^2$ from $6$ to $-8$. For each
+pair $i<j$, the terms supported on that pair regroup as
+$4x_i^3x_j+4x_ix_j^3-8x_i^2x_j^2
+=4x_ix_j(x_i-x_j)^2\geq0$.
+The terms with three distinct indices factor as
+$12x_ix_jx_k(x_i+x_j+x_k)$, and those with four distinct
+indices already have positive coefficients. Hence the entire
+difference is
+\[
+ \begin{aligned}
+ \left(\sum_jx_j\right)^4
+   -\sum_jx_j^4-14\sum_{i<j}x_i^2x_j^2
+ &=4\sum_{i<j}x_ix_j(x_i-x_j)^2\\
+ &\quad+12\sum_{i<j<k}x_ix_jx_k(x_i+x_j+x_k)
+   +24\sum_{i<j<k<\ell}x_ix_jx_kx_\ell\geq0.
+ \end{aligned}
+\]
+Every summand is nonnegative because $x_j\geq0$ for all $j$.
+The identity also covers fewer than three or four indices by
+interpreting the corresponding sums as empty. Substituting
+$x_j=\sqrt{W_j}$ proves the lemma.
+\end{proof}
+
+\subsection{Derivation of the anchor-length corollary}
+\label{app:anchor-proof}
+
+We prove Corollary~\ref{cor:max-part-anchor} for the graph
+$H_\ell(G)$ defined in Section~\ref{subsec:np-treedepth}. The anchor
+graph is the one introduced by Bonnet, Neuen, and
+Soko\l owski~\cite[Lemma~6]{BNS}. We use their identity at long anchor
+length as a black box, and derive the extension to shorter anchors.
+
+\begin{lemma}[BNS anchor identity {\cite[Lemma~6]{BNS}}]
+\label{lem:bns-anchor}
+If $A,B,C$ are nonempty and $L\ge\vc(G)$, then
+$\td(H_L(G))=L+\vc(G)+1$.
+\end{lemma}
+
+Throughout the rest of this subsection, $G$ has nonempty specified
+independent parts $A,B,C$ and $\ell\ge1$. Let
+$\vc_2(G)=\min_{X\ne Y}\vc(G[X\cup Y])$, where
+$X,Y\in\{A,B,C\}$.
+
+For an elimination forest $F$ of $H_\ell(G)$, write $v_X$
+for the deepest vertex of $K_X$, for $X\in\{A,B,C\}$.
+
+\begin{lemma}[A path through an anchor]\label{lem:anchor-path}
+If every vertex of
+$R\subseteq V(H_\ell(G))\setminus(K_X\cup\{z_X\})$ is ancestral
+to $v_X$, then
+\begin{equation}\label{eq:anchor-path-bound}
+ h(F)\ge |R|+\ell+1.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The clique $K_X\cup\{z_X\}$ lies on one root-to-leaf path through
+$v_X$, and that path also contains $R$. This is the path
+bound in~\cite[Claim~7 in the proof of Lemma~6]{BNS}.
+\end{proof}
+
+\begin{lemma}[A cover from two incomparable anchors]\label{lem:anchor-pair-cover}
+If $v_X,v_Y$ are incomparable, the source vertices ancestral
+to both contain a vertex cover of $G[X\cup Y]$.
+\end{lemma}
+
+\begin{proof}
+Claim~9 in the proof of~\cite[Lemma~6]{BNS} shows that every edge
+of $G[X\cup Y]$ has an endpoint ancestral to both anchors.
+\end{proof}
+
+\begin{lemma}[Extending incomparable anchors]\label{lem:incomparable-anchor-extension}
+If $v_A,v_B,v_C$ are pairwise incomparable, then
+$h(F)\ge\ell+\vc(G)+1$.
+\end{lemma}
+
+\begin{proof}
+Set $L=\max\{\ell,\vc(G)\}$ and
+$d=L-\ell$. In each $K_X$, insert a chain of $d$ new vertices
+immediately above $v_X$. They are comparable with every old
+vertex of $K_X$. Every vertex of $X\cup\{z_X\}$ is comparable
+with $v_X$, since it is adjacent to $v_X$. Hence it is
+also comparable with the inserted chain. The resulting forest is
+therefore an elimination forest of $H_L(G)$. Since the three
+anchors are pairwise incomparable, each root-to-leaf path meets
+at most one inserted chain, so its height is at most $h(F)+d$.
+Lemma~\ref{lem:bns-anchor} now gives
+$h(F)+d\ge L+\vc(G)+1$, and thus
+$h(F)\ge\ell+\vc(G)+1$.
+\end{proof}
+
+These lemmas give bounds at every anchor length.
+
+\begin{lemma}[Bounds for arbitrary anchor length]
+\label{lem:arbitrary-anchor}
+For every tripartite graph $G$ with nonempty specified independent
+parts $A,B,C$ and every integer $\ell\ge1$,
+\[
+ 1+\min\{\ell+\vc(G),\ 2\ell+\vc_2(G),\ 3\ell\}
+ \le\td(H_\ell(G))\le\ell+\vc(G)+1.
+\]
+\end{lemma}
+
+\begin{proof}
+\emph{Upper bound.}
+Use the cover-first forest from~\cite[proof of Lemma~6]{BNS}. Its
+construction does not require $\ell\ge\vc(G)$.
+Take a minimum vertex cover $S$ of $G$ and arrange its vertices on
+one chain. Below this chain, make three separate branches, one for
+each $X\in\{A,B,C\}$. In the $X$ branch, put the vertices of $K_X$
+on a chain and attach each vertex of $X\setminus S$ and $z_X$ as a
+leaf below its last vertex. If $S=\varnothing$, take the three
+branches as separate rooted trees. Every source edge meets $S$.
+Each anchor clique lies on a chain. Its neighbors in $S$ lie
+above it, and its other neighbors are leaves below it. Thus every
+edge has comparable endpoints, giving an elimination forest.
+Its height is at most $|S|+\ell+1=\vc(G)+\ell+1$.
+
+\emph{Lower bound.}
+Fix an elimination forest $F$ and use the anchor notation above.
+There are three cases.
+\begin{enumerate}
+ \item If $v_A,v_B,v_C$ are pairwise incomparable,
+   Lemma~\ref{lem:incomparable-anchor-extension} gives
+   $h(F)\ge\ell+\vc(G)+1$.
+
+ \item Suppose all three anchors are comparable, and let $v_X$
+   be the deepest. Every vertex of the other two anchor cliques lies
+   above $v_X$. Apply~\eqref{eq:anchor-path-bound} with
+   $R=K_Y\cup K_Z$ to obtain $h(F)\ge3\ell+1$.
+
+ \item Otherwise some pair is comparable, but the three anchors do
+   not form a chain. Relabel so that $v_A$ is an ancestor of
+   $v_B$ and $v_B$ is incomparable with $v_C$.
+   This includes the case where $v_A$ is above both other
+   anchors. Let $S$ be the source vertices ancestral
+   to both $v_B$ and $v_C$. Lemma~\ref{lem:anchor-pair-cover} shows that
+   $S$ contains a cover of $G[B\cup C]$, so
+   $|S|\ge\vc(G[B\cup C])$. Every vertex
+   of $K_A$ is an ancestor of $v_A$, and hence of $v_B$.
+   Therefore $R=S\cup K_A$ is disjoint from $K_B\cup\{z_B\}$ and
+   consists of ancestors of $v_B$. Equation~\eqref{eq:anchor-path-bound}
+   gives $h(F)\ge2\ell+|S|+1\ge2\ell+\vc_2(G)+1$.
+\end{enumerate}
+Taking the weakest of these three bounds proves the lemma.
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:max-part-anchor}]
+If $\ell\ge\max\{|A|,|B|,|C|,1\}$, then any two parts together
+cover every edge, so $\vc(G)\le2\ell$. Also, choose a pair $X,Y$
+attaining $\vc_2(G)$ and let $Z$ be the omitted part. A minimum
+vertex cover of $G[X\cup Y]$, together with all of $Z$, covers $G$.
+Therefore $\vc(G)\le\vc_2(G)+|Z|\le\vc_2(G)+\ell$. These bounds
+make the minimum in Lemma~\ref{lem:arbitrary-anchor} equal to
+$\ell+\vc(G)$, matching the upper bound.
+\end{proof}

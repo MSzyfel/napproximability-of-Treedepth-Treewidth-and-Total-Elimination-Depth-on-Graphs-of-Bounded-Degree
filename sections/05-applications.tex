@@ -1,0 +1,345 @@
+\section{Applications}
+\label{sec:applications}
+
+We first transfer the total-depth gaps to trivially perfect
+completion. The YES deletion sets and NO separator bounds also
+give hardness for deletion and labeling objectives. Established
+automata and hypergraph reductions transfer the parameter gaps,
+while the linear treewidth gaps yield exponential lower bounds
+for junction-tree table size.
+
+\subsection{Trivially perfect completion by number of added edges}
+
+The separator bound controls total elimination depth, which in turn
+determines the number of edges in a trivially perfect completion.
+An approximation transfer must also account for the edges already
+present in the input.
+
+The \emph{closure} of a rooted forest joins each vertex to all its
+proper ancestors. A graph is \emph{trivially perfect} if and only if
+it is such a closure. Let $f(J)$ be the minimum number of edges
+added to $J$ to obtain a trivially perfect graph, and recall that
+$\totd(J)$ is its minimum total elimination depth.
+The completion identity~\cite[Theorem~8]{HogemoEtAl2021} is
+\begin{equation}\label{eq:tp-fill-depth}
+ f(J)=\totd(J)-|V(J)|-|E(J)|.
+\end{equation}
+Indeed, a forest closure has one edge from each vertex to each
+proper ancestor, so its number of edges is
+$\sum_v(\operatorname{depth}_F(v)-1)$. Every trivially perfect
+graph is a forest closure. Requiring it to contain $J$ is equivalent
+to the elimination-forest condition. Subtracting the original edges
+gives the identity.
+
+For any $C\geq1$, a factor-$C$ completion of cost $z$ satisfies
+$f(J)\leq z\leq C f(J)$. Adding the graph order and the number
+of original edges gives
+\begin{equation}\label{eq:tp-adjusted-cost}
+\begin{aligned}
+ \totd(J)
+ &=f(J)+|V(J)|+|E(J)|\\
+ &\leq z+|V(J)|+|E(J)|\\
+ &\leq C f(J)+|V(J)|+|E(J)|\\
+ &\leq C\bigl(f(J)+|V(J)|+|E(J)|\bigr)\\
+ &=C\totd(J),
+\end{aligned}
+\end{equation}
+where the final inequality uses $C\ge1$.
+Thus Corollary~\ref{cor:total-depth-bounded-degree} also gives NP-hardness
+within some absolute factor $1+\epsilon_0>1$ and UGC hardness
+below $8/7$ for trivially perfect completion on graphs of bounded
+maximum degree. A supplied trivially perfect supergraph has a
+forest representation, whose total depth equals its number of edges
+plus its order, so the adjusted cost also supplies the
+forest needed by the NP extraction argument.
+
+\Needspace{6\baselineskip}
+\begin{theorem}\label{thm:tp-completion-sse}
+Every fixed constant-factor approximation for the minimum number
+of edges added to obtain a trivially perfect graph is SSE-hard,
+including on graphs of bounded maximum degree.
+\end{theorem}
+
+\begin{proof}
+Apply~\eqref{eq:tp-adjusted-cost} to the SSE hardness of total
+depth in Corollary~\ref{cor:total-depth-bounded-degree}.
+\end{proof}
+
+Earlier work establishes NP-hardness and parameterized lower
+bounds for this completion problem~\cite{HogemoEtAl2021,BliznetsEtAl2016}.
+The all-constant SSE hardness of \emph{chordal} Minimum Fill-In,
+whose target graphs have no induced cycle of length at least four,
+is already known~\cite[Theorem~1.2]{APW}. Restricting the
+target class to trivially perfect graphs changes the optimum, so
+that theorem alone does not prove the statement here.
+The same completion consequence can also be derived from the
+earlier incidence construction analyzed in
+Appendix~\ref{app:incidence-proof}: its YES height and NO balanced-separator
+bounds give the same total-depth gap up to absolute constants.
+The depth-sum lemma and the adjusted-cost inequality above are
+the additional steps. Therefore the old graph reduction can be retained.
+
+\subsection{Deletion and labeling objectives}
+
+\paragraph{Vertex integrity and fragmentation.}
+For $c_J(S)$ the largest component order of $J-S$, vertex integrity is
+$\operatorname{vi}(J)=\min_S(|S|+c_J(S))$, with $c_J(V(J))=0$.
+The elementary inequality
+$\td(J)\leq\operatorname{vi}(J)$ follows by putting $S$ on a chain
+and its components on separate chains below it. In the layered graph,
+deleting all copies of a minimum source vertex cover leaves $q$ separate
+cliques on $\alphaI(G)$ vertices. Thus the same YES construction gives
+$\operatorname{vi}(S_q(G))\leq q(n-\alphaI(G))+\alphaI(G)$,
+while Theorem~\ref{thm:ugc-structural} supplies the NO lower bound.
+The parameter choices of Theorem~\ref{thm:ugc-hardness} therefore
+also give UGC hardness for vertex integrity below $4/3$.
+For SSE hardness, let $J=\mathcal L(G^*)$ be the output in the
+proof of Theorem~\ref{thm:sse-hardness}, and take $D$ to be the output vertices
+corresponding to crossing host edges. The YES construction supplies
+$|D|+c_J(D)\leq4\varepsilon |V(J)|$, whereas its NO separator bound
+forces $\operatorname{vi}(J)\geq(c/2)\sqrt\varepsilon\,|V(J)|$.
+The ratio of the NO lower bound to the YES upper bound grows as
+$1/\sqrt\varepsilon$. Thus, for every fixed factor, a sufficiently
+small fixed $\varepsilon$ separates the two cases. Hence vertex integrity has no constant-factor
+approximation under SSEH.
+
+The \emph{fracture number} is
+$\operatorname{fr}(J)=\min_S\max\{|S|,c_J(S)\}$, and
+\emph{starwidth} $\operatorname{sw}(J)$ is the minimum width of
+a tree decomposition whose underlying tree is a star.
+The standard comparisons
+$\operatorname{fr}\leq\operatorname{vi}\leq2\operatorname{fr}$ and
+$\operatorname{sw}+1\leq\operatorname{vi}\leq2(\operatorname{sw}+1)$
+then give the all-constant SSE consequence for fracture number and
+starwidth. These comparisons and an $O(\log\OPT)$ approximation
+for vertex integrity are recorded by Gima et
+al.~\cite[Section 1.3 and Theorem 5.1]{GimaEtAlIntegrity}.
+Earlier NP-hardness includes vertex integrity on connected line
+graphs~\cite[Corollary 4.11]{GimaEtAlIntegrity} and starwidth~\cite{VanEe2017}.
+
+\paragraph{General and average customizable labels.}
+A customizable hub labeling assigns $L(v)\subseteq V(J)$ so that
+every $s$--$t$ path meets $L(s)\cap L(t)$, including the zero-length
+path at a vertex~\cite{BlumStorandt2023}.
+The labeling is \emph{hierarchical} if there is one vertex order
+such that every member of $L(v)$ is ranked at least as high as
+$v$. Without this requirement we call it general. Average,
+maximum, and total label size mean, respectively,
+$\sum_v|L(v)|/|V(J)|$, $\max_v|L(v)|$, and $\sum_v|L(v)|$.
+Blum and Storandt prove
+$\sum_v|L(v)|/|V(J)|\geq b_{2/3}(J)/4$
+\cite[Corollary 10, full version]{BlumStorandt2023}.
+Choose a fixed rational $\varepsilon>0$ so that
+$\beta=(c/2)\sqrt\varepsilon\leq1/12$ and
+$\sqrt\varepsilon<c/(32C)$, where $C\ge1$ is the desired factor.
+For the resulting graph $J=\mathcal L(G^*)$, the YES forest provides hierarchical
+labels by assigning each vertex its ancestors, including itself.
+Every path from $s$ to $t$ meets a common ancestor, so these are
+valid customizable labels, each of size at most
+$4\varepsilon |V(J)|$. Lemma~\ref{lem:linegraph-separators}
+with $\rho=2/3$ gives NO average at least
+$(c/8)\sqrt\varepsilon\,|V(J)|$. Consequently every constant
+approximation factor is SSE-hard for average or maximum general
+label size and average hierarchical label size. The same holds for
+the average upward vertex search-space size in a customizable
+contraction hierarchy (CCH). Here an elimination order adds edges
+between the remaining neighbors of each eliminated vertex. Orient
+the resulting edges toward the later vertex in that order.
+The upward search space of $v$ is the set of vertices reachable
+from $v$ along these oriented edges, including $v$ itself.
+Total label size is average size times the
+graph order and has the same gap. The CCH interpretation follows
+from~\cite[Corollary 5, full version]{BlumStorandt2023}.
+
+\subsection{Transfers through established reductions}
+
+The following consequences use existing correspondences. We state
+the transformations and their losses to specify which parameter
+gaps they preserve.
+
+\paragraph{Automata and restricted cycle rank.}
+The \emph{star height} of a regular language is the minimum nesting
+depth of Kleene stars among regular expressions describing it.
+A star denotes arbitrary finite repetition. A partial deterministic
+finite automaton (DFA) has an initial state, accepting states, and
+at most one transition from each state for each alphabet letter.
+Its language consists of the words read along paths from the
+initial state to an accepting state.
+It is \emph{bideterministic} if it has one accepting state and
+reversing every transition while swapping the initial and accepting
+states again gives a DFA. It is \emph{trim} if every state lies
+on an initial-to-accepting path. A binary alphabet has two letters.
+For a digraph $D$, its \emph{cycle rank} $\operatorname{cr}(D)$
+is zero when $D$ is acyclic, is
+$1+\min_v\operatorname{cr}(D-v)$ when $D$ is strongly connected
+and has a directed cycle, and otherwise is the maximum cycle
+rank of its strongly connected components. These components are
+the maximal sets whose vertices can reach one another by directed
+paths~\cite[Sections~2--3]{Gruber2012}.
+
+Gruber's established cycle-rank/star-height correspondence and
+polynomial binary encoding~\cite[Theorems 20 and 23]{Gruber2012}
+transfer all three treedepth gaps to ordinary language star height
+for a language represented by a binary bideterministic partial DFA.
+To preserve the value,
+add a universal vertex $a$, adjacent to every vertex of $G$,
+replace graph edges by their
+two orientations, give every arc its own letter, and take $a$ as
+initial and sole final state. Adding the universal vertex gives
+$\td(G+a)=\td(G)+1$. The forest correspondence
+in~\cite[proof of Theorem~12]{Gruber2012} then gives
+$\operatorname{cr}(\overleftrightarrow{G+a})=\td(G)$.
+McNaughton's theorem~\cite[Theorem~20]{Gruber2012} and the binary
+encoding~\cite[Theorem~23]{Gruber2012} preserve this value.
+The trim binary automaton also realizes the gaps as cycle-rank gaps
+on strongly connected digraphs of indegree and outdegree at most two.
+Gruber already proves NP-hardness under related degree
+restrictions~\cite[Corollary 24]{Gruber2012}, and the same maps
+transfer earlier treedepth hardness~\cite{BNS}.
+
+\paragraph{Edge ranking.}
+An \emph{edge ranking} assigns positive integer labels to edges
+so that every path containing two distinct edges of the same
+label also contains an edge with a larger label. Its minimum
+possible largest label is the edge-ranking number
+$\operatorname{er}(B)$.
+The standard identity
+$\operatorname{er}(B)=\td(\mathcal L(B))$~\cite{BodlaenderRankings}
+applied to our explicit SSE hosts yields all-constant SSE hardness.
+It also yields the consequence on simple bipartite hosts. Replace
+each loop occurrence by a pendant edge, then subdivide every edge
+occurrence once. For an original edge occurrence $e=uv$, subdivision
+creates two edges $ux_e$ and $x_ev$, where $x_e$ is a new vertex.
+The corresponding two vertices of the new line graph are adjacent.
+Contracting this pair for every $e$ recovers the original line graph.
+Treedepth is minor-monotone, so this gives a lower bound by the old
+line-graph treedepth. Conversely, replacing each vertex of an
+elimination forest of the original line graph by a two-vertex chain
+gives a forest for the new line graph with at most twice the height.
+Thus the transformation loses at most a factor of two. Since the SSE
+hardness holds for every fixed factor, apply it first at factor $2C$
+to obtain hardness at any desired factor $C$ after this loss.
+Edge-ranking hardness itself is already known
+from Lam and Yue~\cite{LamYue1998}.
+
+\paragraph{Hypergraph widths and binary queries.}
+A hypergraph has a vertex set and a collection of subsets called
+hyperedges, and its \emph{rank} is the largest hyperedge size.
+A tree decomposition covers each hyperedge by a bag and has the
+same connectedness requirement for each vertex as a graph
+decomposition. An edge cover of a bag is a set of hyperedges
+whose union contains it. These covering edges are also called
+\emph{guards}. The \emph{generalized hypertree width}
+$\operatorname{ghw}$ minimizes the maximum number of guards in
+a bag. The \emph{fractional hypertree width} $\operatorname{fhw}$
+instead assigns a separate nonnegative weight to each hyperedge
+at each bag, requires the
+weights covering each bag vertex to sum to at least one, and
+minimizes the maximum total weight at a bag.
+For ordinary \emph{hypertree width} $\operatorname{hw}$, use
+integral covers and root the decomposition tree. At each node,
+any vertex in a chosen guard that also occurs in a descendant
+bag must already occur in the current bag. This is the
+\emph{special condition}~\cite[Definitions~2.4--2.7]{GottlobEtAlHypertree}.
+
+Marx reduces treewidth to fractional hypertree width
+in~\cite[proof of Theorem~5.1]{Marx2010Fractional}. We use adjacent
+clone pairs to transfer all three widths on
+rank-two instances, with the proof given below. Define $G[K_2]$ on
+$V(G)\times\{1,2\}$: distinct vertices $(u,i),(v,j)$ are adjacent
+if and only if $u=v$ or $uv\in E(G)$. Thus each source vertex is
+replaced by an adjacent pair, and a source edge joins the two pairs
+completely. Therefore
+\[
+ \operatorname{fhw}(G[K_2])=\operatorname{ghw}(G[K_2])
+ =\operatorname{hw}(G[K_2])=\operatorname{tw}(G)+1,
+\]
+where edges of $G[K_2]$ are viewed as size-two hyperedges, with the
+standard width definitions of~\cite{GottlobEtAlHypertree}.
+For the upper bound, expand every tree-decomposition bag of $G$
+to clone pairs and guard it by the pair edges. The guards are
+contained in the bag, so the special condition for ordinary
+hypertree width holds as well. For the lower bound, a fractional
+decomposition of width $w$ has at most $2w$ vertices in each bag,
+because every hyperedge has size two. Retain an original vertex
+in a bag if and only if both of its clones occur there. Its bags
+form a connected nonempty subtree: the two clone subtrees intersect,
+since the pair is an edge, and their intersection is connected.
+If $uv\in E(G)$, its four clones form a clique. Their bag subtrees
+intersect pairwise, so the Helly property for subtrees of a tree gives
+a bag containing all four. The retained bags thus form a tree decomposition
+of $G$ with bag size at most $w$, proving the reverse inequality.
+Thus the NP $r<12/11$, UGC $r<4/3$, and established all-constant SSE
+treewidth gaps transfer even to rank-two hypergraphs.
+In the usual query representation, vertices are variables and
+each hyperedge supplies one relation atom. Their conjunction is
+a conjunctive query, and size-two hyperedges give binary atoms.
+Using a distinct relation symbol for each atom therefore gives
+the same structural width consequences for these queries.
+
+\subsection{Binary junction-tree total state space}
+
+The width gaps in Sections~\ref{sec:tw-transfer}
+and~\ref{subsec:np-treewidth} are linear in the
+output order. Exponentiating bag sizes therefore yields exponential
+approximation gaps for the total size of dense binary tables.
+
+For an $n$-vertex graph $G$ with $n\ge1$, the established dense-table objective is
+$\operatorname{TSS}(G)=\min_{(T,(B_t))}\sum_t2^{|B_t|}$.
+The minimum ranges over tree decompositions of $G$.
+Each vertex represents a binary variable. The table for bag
+$B_t$ has one entry for each of its $2^{|B_t|}$ assignments.
+Thus this sum is the total number of table entries in the
+corresponding junction tree.
+Bodlaender and Fomin identify the equivalent chordal-completion
+objective and already prove constant-factor hardness~\cite[Lemma 2,
+Section 8, and Theorem 32]{BodlaenderFomin2005}. The elementary bounds
+$2^{\operatorname{tw}(G)+1}\leq\operatorname{TSS}(G)\leq n2^{\operatorname{tw}(G)+1}$
+follow from a decomposition with at most $n$ bags and optimal width,
+obtained from the maximal cliques of an optimal chordal completion,
+and from the fact that every decomposition has a bag of size at least
+$\operatorname{tw}(G)+1$. They give
+NP hardness within $2^{\chi n}$ for every fixed $0<\chi<1/18$,
+and UGC hardness for every fixed $0<\chi<1/6$.
+Indeed, subtracting the YES upper bound on maximum bag size from the
+NO lower bound gives
+\[
+ \begin{array}{lll}
+ \textup{NP:}&Rm(1/2-2\epsilon)-3m
+   =\bigl(1/18-2\epsilon/9-1/(3R)\bigr)n,
+   &n=9Rm,\\[4pt]
+ \textup{UGC:}&RN(1/6-2\zeta)-N/3
+   =\bigl(1/6-2\zeta-1/(3R)\bigr)n,
+   &n=RN.
+ \end{array}
+\]
+For NP hardness, choose $\epsilon>0$ so that
+$1/18-2\epsilon/9>\chi$, then take $R$ large enough that
+$1/(3R)<1/18-2\epsilon/9-\chi$. For UGC, choose $\zeta>0$ so that
+$1/6-2\zeta>\chi$, then take $R$ large enough that
+$1/(3R)<1/6-2\zeta-\chi$. In either case, let $\delta>0$ be the
+remaining margin, so the relevant coefficient exceeds $\chi$ by
+$\delta$. If $b_Y$ is the YES upper bound
+on maximum bag size and $b_N$ the NO lower bound, the displayed
+estimates give $b_N-b_Y\geq(\chi+\delta)n$. The TSS bounds then imply
+\[
+ \frac{\operatorname{TSS}(G_N)}{\operatorname{TSS}(G_Y)}
+ \geq\frac{2^{b_N}}{n2^{b_Y}}
+ \geq\frac{2^{(\chi+\delta)n}}{n}>2^{\chi n}
+\]
+for all sufficiently large $n$, since $2^{\delta n}>n$ then.
+Bonnet's earlier linear width gap~\cite{BonnetTreewidth} also gives
+a fixed positive exponential exponent by the same calculation.
+
+\paragraph{Equivalent formulations.}
+In a \emph{vertex ranking}, every path whose distinct endpoints
+have the same label has an internal vertex with a larger label.
+A \emph{centered coloring} gives every nonempty connected induced
+subgraph a color occurring once. The minimum numbers of
+labels or colors in these two definitions equal treedepth.
+These, together with symbolic elimination height,
+minimum clique number of a trivially perfect completion, maximum
+hierarchical customizable label size, and maximum CCH vertex
+search-space size are established treedepth formulations
+\cite{Reidl2014,BodlaenderRankings,BlumStorandt2023}. These formulations
+are covered by the same theorem.

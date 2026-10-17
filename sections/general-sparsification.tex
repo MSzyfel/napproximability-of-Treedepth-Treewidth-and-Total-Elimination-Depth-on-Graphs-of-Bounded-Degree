@@ -1,0 +1,195 @@
+\subsection{General sparsification theorems}
+\label{subsec:general-sparsification}
+
+Fix constants $d_0\ge0$, $d_{\mathrm{fac}}\ge1$, and $\kappa\ge1$.
+The graph $H$ has $N$ vertices and is supplied as the union of
+retained edges $E_0$, clique factors indexed by $\mathcal C$, and
+complete bipartite factors indexed by $\mathcal B$. A clique factor
+uses a nonempty vertex set $U_f$. A biclique factor has disjoint
+nonempty sides $A_f,B_f$ and uses
+$U_f=A_f\mathbin{\dot\cup}B_f$. Its edge set is
+\[
+ E(H)=E_0\cup\bigcup_{f\in\mathcal C}\binom{U_f}{2}
+       \cup\bigcup_{f\in\mathcal B}\{uv:u\in A_f,\ v\in B_f\}.
+\]
+The \emph{factor hypotheses} are as follows:
+\begin{enumerate}
+\item $(V(H),E_0)$ has maximum degree at most $d_0$.
+\item Each vertex belongs to at most $d_{\mathrm{fac}}$ sets $U_f$.
+\item Each biclique satisfies
+$\max\{|A_f|,|B_f|\}/\min\{|A_f|,|B_f|\}\le\kappa$.
+\end{enumerate}
+Factors may overlap in vertices or edges. Counting the incidences
+between vertices and the sets $U_f$ gives
+\begin{equation}\label{eq:general-factor-incidence}
+ \sum_{f\in\mathcal C\cup\mathcal B}|U_f|\le d_{\mathrm{fac}}N.
+\end{equation}
+
+\begin{lemma}[Common sparse factor replacements]
+\label{lem:factor-replacement}
+Under the factor hypotheses, fix $\zeta>0$ and set
+$t_f=\lceil\zeta|U_f|\rceil$ for every factor. There is a
+deterministic polynomial-time construction of a spanning subgraph
+$J\subseteq H$ that retains $E_0$, replaces each factor by a graph
+with no $(t_f,t_f)$ hole, and has maximum degree at most
+$d_0+d_{\mathrm{fac}}\lceil4\kappa\rceil8^k$, where $k\ge1$ is fixed with
+$\lambda_0^k<\zeta/4$. Here $\lambda_0=5\sqrt2/8$, and the hole condition
+for a clique concerns disjoint subsets of $U_f$.
+Moreover, $\sum_f(t_f-1)<\zeta d_{\mathrm{fac}}N$ whenever at least one factor
+is present.
+\end{lemma}
+
+\begin{proof}
+Replace each factor using Lemma~\ref{lem:factor-expanders} and
+take $E(J)$ to be $E_0$ together with the edges of these
+replacements. The lemma uses an intermediate expander of order
+$M$ at most four times the largest prescribed set size, so
+$M\le4|U_f|$ and $\lambda_0^kM<\zeta|U_f|\le t_f$,
+giving the required hole property.
+
+In a clique replacement at most four intermediate vertices map
+to each output vertex. In a biclique replacement that number is
+at most $\lceil4\kappa\rceil$ on either side, since the side
+sizes have ratio at most $\kappa$. Thus every factor contributes
+at most $\lceil4\kappa\rceil8^k$ to the degree of a vertex
+in $U_f$. Each vertex belongs to at most $d_{\mathrm{fac}}$ factors and
+has at most $d_0$ retained neighbors, proving the degree bound.
+Finally, $t_f-1<\zeta|U_f|$ for each factor. Summing and using
+\eqref{eq:general-factor-incidence} proves the last assertion.
+For fixed $\zeta$, the exponent $k$ is fixed, so the construction
+is polynomial time.
+\end{proof}
+
+\begin{lemma}[Preservation of a dense hardness gap]
+\label{lem:factor-gap-transfer}
+Let $\varphi$ be a graph minimization parameter and fix $a>0$.
+Suppose that, for every fixed $\tau>0$, a deterministic
+polynomial-time construction maps each $N$-vertex graph $H$ in
+a given family to a spanning subgraph $J$ of bounded maximum degree
+with $\varphi(H)-\tau N^a\le\varphi(J)\le\varphi(H)$.
+The degree bound may depend on $\tau$ and the family's fixed
+parameters. Suppose a hardness reduction to this family has, for
+fixed $B>rA\ge0$, YES bound $\varphi(H)\le AN^a+o(N^a)$ and
+NO bound $\varphi(H)\ge BN^a-o(N^a)$.
+Then factor-$r$ hardness holds at bounded maximum degree under the
+same assumption and reduction type, provided the source instances
+can be enlarged to absorb the lower-order terms.
+
+If, in addition, every feasible solution for $J$ can be completed
+to one for $H$ at an additive cost of at most $\tau N^a$, and
+$\varphi(H)\ge c_{\min}N^a$ for a fixed $c_{\min}>0$, then an $r$-approximate
+solution for $J$ completes to a solution for $H$ within factor
+$r+\tau/c_{\min}$.
+\end{lemma}
+
+\begin{proof}
+Choose fixed $0<\tau<B-rA$. The sparse YES upper bound is
+unchanged, and its NO leading coefficient is at least
+$B-\tau>rA$. Sufficiently large instances absorb the lower-order
+terms. For the solution statement, completion gives cost at most
+$r\varphi(J)+\tau N^a\le r\varphi(H)+\tau N^a\le(r+\tau/c_{\min})\varphi(H)$.
+\end{proof}
+
+\begin{theorem}[Treedepth sparsification]
+\label{thm:td-sparsification}
+Under the factor hypotheses, for every fixed $\varepsilon>0$
+one can construct deterministically in polynomial time a spanning
+subgraph $J\subseteq H$ whose maximum degree depends only on
+$d_0,d_{\mathrm{fac}},\kappa,\varepsilon$ and such that
+$\td(H)-\varepsilon N\le\td(J)\le\td(H)$.
+Every elimination forest of $J$ can be transformed into one of
+$H$ whose height increases by at most $\varepsilon N$.
+\end{theorem}
+
+\begin{proof}
+Apply Lemma~\ref{lem:factor-replacement} with
+$\zeta=\varepsilon/(4d_{\mathrm{fac}})$. Its degree bound depends only on
+the stated constants. The error bound in
+Lemma~\ref{lem:factor-sparsification} satisfies
+\begin{equation}\label{eq:common-forest-exception-budget}
+ M\le4\sum_{f\in\mathcal C\cup\mathcal B}(t_f-1)
+   \le4\zeta d_{\mathrm{fac}}N=\varepsilon N.
+\end{equation}
+Lemma~\ref{lem:factor-sparsification} now gives both conclusions.
+\end{proof}
+
+\begin{theorem}[Treewidth sparsification]
+\label{thm:tw-sparsification}
+Under the factor hypotheses, suppose additionally that each side
+of every biclique can be partitioned into at most $s$ sets, each
+contained in a supplied clique factor, where $s\ge1$ is fixed.
+For every fixed $\varepsilon>0$, one can construct deterministically
+in polynomial time a spanning subgraph $J\subseteq H$ whose maximum
+degree depends only on $d_0,d_{\mathrm{fac}},\kappa,s,\varepsilon$ and such that
+$\operatorname{tw}(H)-\varepsilon N
+ \le\operatorname{tw}(J)\le\operatorname{tw}(H)$.
+Every tree decomposition of $J$ can be transformed into one of
+$H$ whose width increases by at most $\varepsilon N$.
+\end{theorem}
+
+\begin{proof}
+Apply Lemma~\ref{lem:factor-replacement} with
+$\zeta=\varepsilon/(d_{\mathrm{fac}}\max\{3,2s^2\})$. This constructs $J$ by replacing
+each original factor once.
+
+For the comparison argument, partition each biclique factor
+$A_f\times B_f$ into the at most $s^2$ bicliques between pairs
+of its supplied pieces. Their union is the original biclique.
+Each side of every resulting biclique is contained in a supplied
+clique factor, as required by
+Lemma~\ref{lem:tw-factor-sparsification}. Use the original
+threshold $t_f$ for every piece pair. The restriction of the sparse
+replacement to that pair has no $(t_f,t_f)$ hole: any two
+$t_f$-subsets of the pieces are also subsets of the original sides.
+If a piece has fewer than $t_f$ vertices, this condition holds
+vacuously.
+
+Apply Lemma~\ref{lem:tw-factor-sparsification} to this factor
+description of the same graphs $H,J$. There is one clique term
+for each original clique, and at most $s^2$ biclique terms, each
+with threshold $t_f$, for each original biclique. Bounding both
+coefficients by $\max\{3,2s^2\}$ and using
+$\sum_f(t_f-1)\le\zeta d_{\mathrm{fac}}N$ bounds the error by
+\[
+ 3\sum_{f\in\mathcal C}(t_f-1)
+       +2s^2\sum_{f\in\mathcal B}(t_f-1)
+ \le\max\{3,2s^2\}\zeta d_{\mathrm{fac}}N=\varepsilon N.
+\]
+Consequently, every tree decomposition of $J$ completes to one
+of $H$ with width increase at most $\varepsilon N$, and the
+same lemma gives the parameter inequalities. The partition is used
+only for this comparison, so it changes neither $J$ nor the degree
+bound obtained from the original factors.
+\end{proof}
+
+\Needspace{9\baselineskip}
+\begin{theorem}[Total-depth sparsification]
+\label{thm:total-depth-sparsification}
+Under the factor hypotheses, for every fixed $\varepsilon>0$
+one can construct deterministically in polynomial time a spanning
+subgraph $J\subseteq H$ whose maximum degree depends only on
+$d_0,d_{\mathrm{fac}},\kappa,\varepsilon$ and such that
+$\totd(H)-\varepsilon N^2\le\totd(J)\le\totd(H)$.
+Every elimination forest $F$ of $J$ can be transformed into an
+elimination forest $\widehat F$ of $H$ satisfying
+$\totd(\widehat F)\le\totd(F)+\varepsilon N^2$.
+\end{theorem}
+
+\begin{proof}
+Use the same factor replacements as in
+Theorem~\ref{thm:td-sparsification}, with
+$\zeta=\varepsilon/(4d_{\mathrm{fac}})$. Equation~\eqref{eq:common-forest-exception-budget}
+gives $M\le\varepsilon N$, and
+Lemma~\ref{lem:total-depth-comparison} completes every forest with
+total-depth increase at most $NM\le\varepsilon N^2$.
+Minimizing therefore gives the lower bound on $\totd(J)$. The upper
+bound follows from $J\subseteq H$.
+\end{proof}
+
+If a construction has $d$ designated vertices that are not needed
+for sparsification, deleting them lowers treedepth and treewidth by
+at most $d$. Restoring them above all existing roots increases total
+depth by at most $dN$, where $N$ is the original graph order.
+These additive terms do not change the linear or quadratic leading
+terms in our hardness gaps. We use this observation to omit the three
+vertices $z_A,z_B,z_C$ from the NP treedepth construction.

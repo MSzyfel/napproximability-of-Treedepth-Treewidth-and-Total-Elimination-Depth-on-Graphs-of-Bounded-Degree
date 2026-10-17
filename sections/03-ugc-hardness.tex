@@ -1,0 +1,329 @@
+\section{Hardness under the Unique Games Conjecture}
+\label{sec:ugc}
+
+We prove ordinary-UGC hardness below $4/3$ for treedepth and
+treewidth, and below $8/7$ for total elimination depth. We begin
+with the treedepth construction. Its first-branch lemmas will also
+be used for total depth.
+
+\subsection{Treedepth}
+\label{subsec:ugc-treedepth}
+
+For a fixed integer $q$, the construction replaces the source graph by
+$q$ clique layers. A large independent set gives a shallow elimination forest: its copies
+can be placed in separate branches after the remaining vertices have
+been removed. For soundness, we prove that branching can save few
+levels when the source independence number is small.
+
+We use the following normalized source promise.
+
+\begin{theorem}[Khot--Regev, normalized form {\cite[Theorem~3.2 and Section~4]{KhotRegev}}]\label{thm:kr}
+For every fixed rational $0<\eta<1/10$, it is Unique Games-hard to
+distinguish simple unweighted graphs $G$ on $n\geq1$ vertices with
+$\alphaI(G)\geq(1/2-\eta)n$ \textup{(YES)} from those with
+$\alphaI(G)<\eta n$ \textup{(NO)}.
+\end{theorem}
+
+Appendix~\ref{app:kr-normalization} derives this unweighted form from
+the published weighted promise.
+
+\subsubsection{The layered construction and first-branch notation}
+
+Let $G$ be a finite simple graph on $n$ vertices and let $q\geq1$
+be an integer. Define $S_q(G)$ on $V(G)\times[q]$, writing
+$v_i=(v,i)$. For distinct output vertices $u_i,v_j$, set
+\[
+ u_iv_j\in E(S_q(G))
+ \quad\Longleftrightarrow\quad
+ \bigl(i=j\text{ and }u\ne v\bigr)
+ \ \text{or}\ \bigl(i\ne j\text{ and }uv\in E(G)\bigr).
+\]
+Thus each layer $V(G)\times\{i\}$ is a clique, and the displayed rule
+specifies all edges between layers. The graph has $qn$ vertices and
+$q\binom n2+q(q-1)|E(G)|$ edges, so the construction has polynomial
+size for fixed $q$.
+
+Bonnet's construction~\cite[Section~3.1]{BonnetTreewidth} completes
+three parts to cliques. Here the $q$ parts are copies of one source
+graph. The first-branch analysis below gives a treedepth lower bound
+for arbitrary $q$.
+
+\paragraph{Notation at the first branch.}
+\label{subsec:ugc-branch-notation}
+
+Fix a nonempty graph $G$ on $n$ vertices and let $q\geq2$. Let $F$
+be an elimination forest of $S_q(G)$ that is not a single chain.
+Vertices in different rooted trees, or in different child subtrees
+of one node, are nonadjacent. We use this property in the first-branch
+analysis below.
+
+We define its initial chain $P$ and child trees as follows. If $F$
+has at least two roots, let $P$ be empty and let $F_1,\ldots,F_\nu$ be
+its rooted trees. Otherwise, start at the unique root and follow the
+unique child until the first vertex with at least two children.
+Such a vertex exists because $F$ is not a single chain. Let $P$
+include this vertex, and let $F_1,\ldots,F_\nu$ be the trees rooted at
+its children. In both cases $\nu\geq2$. Measure the
+depths in each $F_j$ from its own root at depth one.
+
+For each $j\in[\nu]$, put $N_j=|V(F_j)|$ and define
+\[
+\begin{aligned}
+ I_j&=\{i\in[q]:F_j\text{ contains a vertex from layer }i\},
+ &q_j&=|I_j|,\\
+ U_j&=\{v\in V(G):F_j\text{ contains a copy of }v\},
+ &n_j&=|U_j|.
+\end{aligned}
+\]
+Thus $U_j$ is the set of source vertices represented in child
+$F_j$, without counting repeated copies. Write $M_j=q_jn_j-N_j$,
+and let $D$ be the set of source vertices
+belonging to at least two of the sets $U_j$.
+We use this notation throughout the structural treedepth proof.
+
+\subsubsection{Treedepth bounds}
+
+\begin{theorem}\label{thm:ugc-hardness}
+For every fixed real $1\leq r<4/3$, approximating treedepth within
+factor $r$ on simple unweighted graphs is Unique Games-hard.
+\end{theorem}
+
+\begin{lemma}[YES upper bound]\label{lem:ugc-completeness}
+For every graph $G$ on $n$ vertices and integer $q\geq1$,
+\[
+  \td(S_q(G))\leq q\bigl(n-\alphaI(G)\bigr)+\alphaI(G)
+  =qn-(q-1)\alphaI(G).
+\]
+\end{lemma}
+
+\begin{proof}
+Fix a maximum independent set $I$ of $G$. Put the $q$ copies of every
+vertex of $V(G)\setminus I$ on one chain. Beneath this chain, put one
+chain containing the copies of $I$ in each layer. There are no edges
+between the latter chains: within a layer all vertices are comparable,
+and across different layers an edge would require two vertices of $I$
+to be adjacent in $G$. Every edge incident to a vertex on the top chain
+has comparable endpoints. This is an elimination forest of height
+$q(n-|I|)+|I|$. If the top chain is empty, use the $q$ lower chains as
+separate rooted trees.
+\end{proof}
+
+Write $A_{q,\eta}:=(q+1)/2+(q-1)\eta$. In a YES instance of
+Theorem~\ref{thm:kr}, Lemma~\ref{lem:ugc-completeness} gives
+\begin{equation}\label{eq:ugc-yes}
+ \td(S_q(G))\leq qn-(q-1)\alphaI(G)
+ \leq A_{q,\eta}n.
+\end{equation}
+
+\paragraph{The structural lower bound.}
+
+The clique layers force all surviving vertices of a layer into a
+single child subtree at every branch. Moreover, source vertices that
+occur in more than one child form an independent set. These two
+observations allow induction on the number of layers. The following
+inequality combines the resulting child bounds without assuming that
+the children have equal sizes.
+
+\begin{lemma}[Branching inequality]\label{lem:branching-ineq}
+For a positive integer $\nu$, positive reals $q_1,\ldots,q_\nu$, and nonnegative reals
+$n_1,\ldots,n_\nu$,
+\[
+  3\sum_{j=1}^\nu q_jn_j-2\max_j(q_jn_j)
+  \leq \left(\sum_{j=1}^\nu q_j\right)\left(\sum_{j=1}^\nu n_j\right).
+\]
+\end{lemma}
+
+The proof is given in Appendix~\ref{app:branching-proof}.
+
+\begin{lemma}[Layers in different children]\label{lem:ugc-layer-usage}
+The sets $I_j$ are pairwise disjoint. Moreover,
+$\nu\leq\sum_jq_j\leq q$ and $1\leq q_j\leq q-\nu+1<q$ for every
+$j\in[\nu]$.
+\end{lemma}
+
+\begin{proof}
+Vertices in different child trees are incomparable, so a clique
+layer cannot occur in two children. Thus the $I_j$ are pairwise
+disjoint. Each is nonempty, giving $\nu\leq\sum_jq_j\leq q$.
+The other $\nu-1$ children use at least $\nu-1$ layers, so
+$q_j\leq q-\nu+1<q$.
+\end{proof}
+
+\begin{lemma}[Source vertices in different children]
+\label{lem:ugc-source-supports}
+The set $D$ is independent in $G$, and
+\begin{equation}\label{eq:ugc-support-count}
+ \sum_jn_j\leq n+(\nu-1)\alphaI(G)
+ \leq n+(q-1)\alphaI(G)\leq qn.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Take distinct $u,v\in D$. Choose a copy of $u$ in one child. Since
+$v$ occurs in at least two children, some copy of $v$ occurs in a
+different child. The two copies have different layer indices by
+Lemma~\ref{lem:ugc-layer-usage}. If $uv$ were an edge of $G$, the
+definition of $S_q(G)$ would make these copies adjacent. This
+contradicts their incomparability. Hence $uv\notin E(G)$, proving
+that $D$ is independent and $|D|\leq\alphaI(G)$.
+
+The first occurrence of every source vertex contributes at most one
+to $\sum_jn_j$. Only vertices in $D$ contribute further occurrences,
+and each contributes at most $\nu-1$ of them. Thus,
+\[
+ \sum_jn_j
+ =\Bigl|\bigcup_jU_j\Bigr|
+   +\sum_{v\in D}\bigl(|\{j:v\in U_j\}|-1\bigr)
+ \leq n+(\nu-1)|D|\leq n+(\nu-1)\alphaI(G).
+\]
+The remaining inequalities in~\eqref{eq:ugc-support-count} follow
+from $\nu\leq q$ and $\alphaI(G)\leq n$.
+\end{proof}
+
+\begin{lemma}[The full graph associated with a child]
+\label{lem:ugc-child-restriction}
+After relabeling the layers in $I_j$ by $[q_j]$, the graph induced by
+$V(F_j)$ is obtained from $S_{q_j}(G[U_j])$ by deleting $M_j$
+vertices. In particular, $M_j\geq0$.
+\end{lemma}
+
+\begin{proof}
+All vertices of $F_j$ lie in $U_j\times I_j$. On this set, the
+adjacency rule for $S_q(G)$ agrees with that of $S_{q_j}(G[U_j])$
+after relabeling the layers. The child contains $N_j$ of the
+$q_jn_j$ possible vertices, leaving $M_j=q_jn_j-N_j\geq0$ missing.
+\end{proof}
+
+\begin{lemma}[Prefix and child heights]
+\label{lem:ugc-forest-accounting}
+The prefix and the children satisfy
+$|P|+\sum_jN_j=qn$ and $h(F)=|P|+\max_jh(F_j)$.
+\end{lemma}
+
+\begin{proof}
+By the construction of $P$, its vertex set and the sets $V(F_j)$
+partition $V(F)$, proving the first identity. A longest path in $F$
+consists of $P$ followed by a longest path in one child, proving
+the second.
+\end{proof}
+
+\begin{lemma}[Restoring deleted vertices: height]\label{lem:restore-vertices}
+Let $H$ be a graph on $N$ vertices, let $X\subseteq V(H)$ have size
+$d$, and let $F$ be an elimination forest of $H-X$. There is an
+elimination forest $F'$ of $H$ with $h(F')=h(F)+d$.
+In particular, $\td(H)\leq\td(H-X)+d$.
+\end{lemma}
+
+\begin{proof}
+Place $X$ on a chain above all roots of $F$. If $X$ is empty,
+keep $F$. Every new vertex is comparable with every vertex. Hence
+$H$ has an elimination forest whose height increases
+by $d$. Minimizing height gives the inequality.
+\end{proof}
+
+\begin{theorem}[Structural treedepth lower bound]\label{thm:ugc-structural}
+For every finite simple graph $G$ on $n$ vertices and every integer
+$q\geq1$,
+\begin{equation}\label{eq:ugc-structural}
+  \td(S_q(G))\geq
+  \frac{2q}{3}n-\frac{q(q-1)}{3}\alphaI(G).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+We prove the statement by induction on $q$, with the induction
+hypothesis asserted for every finite simple source graph.
+
+\emph{Base cases and the first branch.}
+If $G$ is empty, then $S_q(G)$ is empty and
+both sides of~\eqref{eq:ugc-structural} are zero. For $q=1$,
+$S_1(G)$ is a clique, so $\td(S_1(G))=n\geq2n/3$.
+
+Now fix $q\geq2$, assume the statement for every smaller number of
+layers, and take an arbitrary elimination forest $F$ of $S_q(G)$. We
+will lower-bound its height $h(F)$. A single chain has height
+$qn\geq2qn/3-q(q-1)\alphaI(G)/3$, so assume that $F$ is not a
+single chain.
+
+Use the first-branch notation from
+Section~\ref{subsec:ugc-branch-notation}. By
+Lemmas~\ref{lem:ugc-layer-usage}, \ref{lem:ugc-source-supports},
+and~\ref{lem:ugc-forest-accounting}, we have
+$|P|=qn-\sum_jN_j$, $1\leq q_j<q$, and
+$\sum_jn_j\leq n+(\nu-1)\alphaI(G)$.
+The strict inequality $q_j<q$ is what permits induction within every
+child.
+
+\emph{Induction within each child.}
+By Lemma~\ref{lem:ugc-child-restriction}, the graph induced by
+child $j$ is $S_{q_j}(G[U_j])$ with $M_j$ vertices deleted. By Lemma~\ref{lem:restore-vertices}, restoring these
+vertices increases height by at most $M_j$. Induction and
+$\alphaI(G[U_j])\leq\alphaI(G)$ therefore give
+\[
+  h(F_j)\geq\frac{2}{3}q_jn_j-\frac{q_j(q_j-1)}3\alphaI(G)-M_j.
+\]
+
+\emph{Combining the child bounds.}
+Choose an index $k$ maximizing $q_jn_j$. By
+Lemma~\ref{lem:ugc-layer-usage}, $q_k\leq q-\nu+1$. Consequently,
+$q_k(q_k-1)\leq(q-\nu+1)(q-\nu)$, so
+$h(F_k)\geq\frac23\max_j(q_jn_j)
+-\frac{(q-\nu+1)(q-\nu)}3\alphaI(G)-M_k$.
+The height identity in Lemma~\ref{lem:ugc-forest-accounting} gives
+$h(F)\geq |P|+h(F_k)$. Using $|P|=qn-\sum_jN_j$ and
+$N_j=q_jn_j-M_j$ leaves the missing-vertex contribution
+$\sum_jM_j-M_k\geq0$. Hence
+\[
+  h(F)\geq qn-\sum_jq_jn_j
+       +\frac{2}{3}\max_j(q_jn_j)
+       -\frac{(q-\nu+1)(q-\nu)}3\alphaI(G).
+\]
+
+Apply Lemma~\ref{lem:branching-ineq}, then use
+$\sum_jq_j\leq q$ and the count of source vertices
+in~\eqref{eq:ugc-support-count}:
+\[
+\begin{split}
+  h(F)
+  &\geq qn-\frac13\left(\sum_jq_j\right)\left(\sum_jn_j\right)
+    -\frac{(q-\nu+1)(q-\nu)}3\alphaI(G)\\
+  &\geq\frac{2q}{3}n-
+    \frac{q(\nu-1)+(q-\nu+1)(q-\nu)}3\alphaI(G).
+\end{split}
+\]
+The error coefficient satisfies
+\[
+ q(\nu-1)+(q-\nu+1)(q-\nu)
+ =q(q-1)-(\nu-1)(q-\nu)\leq q(q-1),
+\]
+because $2\leq \nu\leq q$. Substitution proves
+\eqref{eq:ugc-structural} for every $F$, completing the induction.
+\end{proof}
+
+For $q\geq2$, write $B_{q,\eta}:=2q/3-q(q-1)\eta/3$.
+For a NO instance of Theorem~\ref{thm:kr}, the structural bound gives
+\begin{equation}\label{eq:ugc-no}
+ \td(S_q(G))\geq\frac{2q}{3}n-\frac{q(q-1)}3\alphaI(G)
+ >B_{q,\eta}n.
+\end{equation}
+
+\subsubsection{The approximation gap}
+
+\begin{proof}[Proof of Theorem~\ref{thm:ugc-hardness}]
+Fix $1\leq r<4/3$ and choose an integer $q>3r/(4-3r)$.
+For all sufficiently small rational $\eta\in(0,1/10)$,
+\[
+\begin{aligned}
+ B_{q,\eta}-rA_{q,\eta}
+ &=\left(\frac{2q}{3}-\frac{q(q-1)}3\eta\right)
+   -r\left(\frac{q+1}{2}+(q-1)\eta\right)\\
+ &=\frac{q(4-3r)-3r}{6}
+   -(q-1)\left(\frac q3+r\right)\eta>0.
+\end{aligned}
+\]
+The choice of $q$ makes the constant term positive, and then a
+sufficiently small fixed rational $\eta$ keeps the difference positive.
+Fix such an $\eta$. Equations~\eqref{eq:ugc-yes} and~\eqref{eq:ugc-no}
+give a gap greater than $r$. Since $q$ and $\eta$ depend only
+on $r$, this is a polynomial reduction.
+\end{proof}

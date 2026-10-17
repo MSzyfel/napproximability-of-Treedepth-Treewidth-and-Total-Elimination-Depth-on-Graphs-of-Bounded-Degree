@@ -1,0 +1,28 @@
+\section{Open questions}
+\label{sec:conclusion}
+
+The main approximation question for treedepth remains the gap
+between the $O(\log n)$ upper bound~\cite{Anand2026} and
+constant-factor hardness. Our SSE result excludes every fixed
+constant factor, while leaving an $o(\log n)$ approximation
+possible. A superconstant hardness bound would further clarify
+this gap.
+
+The assumptions behind constant-factor hardness also leave room
+for improvement. For treedepth, can the NP-hardness factor exceed
+$18/17$, or can ordinary UGC exclude all fixed constant factors?
+For treewidth, the corresponding thresholds proved here are
+$12/11$ and $4/3$, whereas all fixed factors are already excluded
+under SSEH~\cite{APW}.
+
+For total elimination depth, the $8/7$ ordinary-UGC lower bound
+remains far from the $O(\sqrt{\log n})$ approximation inherited
+from average-case graph search~\cite{Szyfelbein2025GraphSearch}.
+The NP-hardness construction gives an absolute factor above one.
+Obtaining a larger NP-hardness gap is a separate question from
+improving the UGC bound.
+
+Finally, our degree bounds depend on the excluded approximation
+ratio. Preserving comparable gaps on graphs of a prescribed small
+maximum degree would sharpen the distinction between hardness of
+computing the optimum and approximation hardness in sparse graphs.

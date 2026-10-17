@@ -1,0 +1,272 @@
+\subsection{Total elimination depth}
+\label{sec:total-depth}
+
+The same layered graph $S_q(G)$ gives a gap for total elimination
+depth, also called VPT-sum~\cite{HogemoEtAl2021}. A quadratic
+branching inequality accounts for the contributions of all children.
+
+\begin{theorem}\label{thm:total-depth-ugc}
+For every fixed real $1\leq r<8/7$, approximating $\totd(G)$ within
+factor $r$ on simple unweighted graphs is Unique Games-hard.
+\end{theorem}
+
+\subsubsection{The YES upper bound}
+
+The elimination forest from Lemma~\ref{lem:ugc-completeness} has a
+particularly simple depth sum. Its common prefix contains all copies
+of the vertices outside an independent set. The remaining copies form
+one chain per layer.
+
+\begin{lemma}[Total depth of the cover-first forest]
+\label{lem:total-depth-completeness}
+For every graph $G$ on $n$ vertices and every integer $q\geq1$,
+\[
+ \totd(S_q(G))\leq
+ \frac{qn(qn+1)-q(q-1)\alphaI(G)^2}{2}.
+\]
+\end{lemma}
+
+\begin{proof}
+Choose a maximum independent set of $G$, and use the forest of
+Lemma~\ref{lem:ugc-completeness}. A vertex's depth counts itself and
+its proper ancestors. Hence the total depth is the number of
+vertices plus the number of unordered pairs that are comparable
+in the ancestor order.
+
+In this forest, the only incomparable pairs have their endpoints in
+different lower chains. There are $q$ such chains, each with
+$\alphaI(G)$ vertices, so there are
+$\binom q2\alphaI(G)^2$ incomparable pairs. Subtracting these from
+$qn+\binom{qn}{2}$ gives the bound, also when the common prefix is empty.
+\end{proof}
+
+\subsubsection{A structural lower bound for total depth}
+
+We use the notation from Section~\ref{subsec:ugc-branch-notation},
+together with the lemmas counting layers and source vertices in the
+treedepth proof. We first record the total-depth contributions of
+the prefix and of restored vertices.
+
+\begin{lemma}[Prefix and child total depths]
+\label{lem:ugc-total-depth-accounting}
+In the first-branch notation,
+\[
+ \totd(F)=\frac{|P|(|P|+1)}2+|P|\sum_jN_j+\sum_j\totd(F_j).
+\]
+\end{lemma}
+
+\begin{proof}
+The prefix vertices have depths $1,\ldots,|P|$. Each child vertex
+has depth $|P|$ greater than its depth within that child. Summing
+these contributions gives the identity.
+\end{proof}
+
+\begin{lemma}[Restoring deleted vertices: total depth]
+\label{lem:restore-total-depth}
+Under the hypotheses of Lemma~\ref{lem:restore-vertices}, the
+forest $F'$ constructed there satisfies
+\[
+ \totd(F')=\totd(F)+d(N-d)+\frac{d(d+1)}2.
+\]
+Consequently,
+$\totd(H)\leq\totd(H-X)+d(N-d)+d(d+1)/2$.
+\end{lemma}
+
+\begin{proof}
+The restoration increases each of the $N-d$ old depths by $d$,
+and the new vertices have depths $1,\ldots,d$.
+Minimizing over $F$ gives the inequality.
+\end{proof}
+
+The following numerical estimate combines the child costs.
+
+\begin{lemma}[Quadratic branching inequality]
+\label{lem:quadratic-branching}
+For a positive integer $\nu$ and nonnegative reals $W_1,\ldots,W_\nu$,
+\[
+ \sum_{j=1}^\nu W_j^2+14\sum_{1\leq i<j\leq \nu}W_iW_j
+ \leq\left(\sum_{j=1}^\nu\sqrt{W_j}\right)^4.
+\]
+\end{lemma}
+
+Its proof, by expansion into nonnegative terms, is given in
+Appendix~\ref{app:total-depth-branching}.
+
+Define constants $K_q$ by
+\begin{equation}\label{eq:total-depth-K}
+ K_1=0,\qquad
+ K_q=qK_{q-1}+\frac{q^2(q^2-1)}{14}\quad(q\geq2).
+\end{equation}
+The recurrence gives $K_q\geq qK_{q-1}\geq K_{q-1}\geq0$, so the
+sequence is nonnegative and nondecreasing.
+
+\begin{theorem}[Structural total-depth lower bound]
+\label{thm:total-depth-structural}
+For every finite simple graph $G$ on $n$ vertices and every integer
+$q\geq1$,
+\begin{equation}\label{eq:total-depth-structural}
+ \totd(S_q(G))\geq
+ \frac37q^2n^2+\frac{qn}{2}-K_q\alphaI(G)n.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+We induct on $q$, with the induction hypothesis asserted for every
+source graph. An empty source graph
+gives zero on both sides. If $q=1$, then $S_1(G)$ is a clique, so
+$\totd(S_1(G))=n(n+1)/2\geq3n^2/7+n/2$.
+This proves the base case since $K_1=0$.
+
+Now let $q\geq2$ and fix an elimination forest $F$ of $S_q(G)$.
+A single chain satisfies the bound because
+$\totd(F)=qn(qn+1)/2$ and $K_q\geq0$. Assume henceforth that $F$
+is not a single chain.
+
+\emph{The shared first-branch decomposition.}
+Use the notation from Section~\ref{subsec:ugc-branch-notation}.
+Thus $P$ is the prefix and $F_j$ is child $j$, with
+$N_j$ vertices and root depth one. The same layer sets $I_j$,
+sets $U_j$ of represented source vertices, and numbers $q_j,n_j,M_j$ as in the
+height proof satisfy, by Lemmas~\ref{lem:ugc-layer-usage},
+\ref{lem:ugc-child-restriction}, and~\ref{lem:ugc-forest-accounting},
+$|P|+\sum_jN_j=qn$, $1\leq q_j<q$, $\sum_jq_j\leq q$, and
+$M_j=q_jn_j-N_j\geq0$.
+We also use the count of source vertices in~\eqref{eq:ugc-support-count}.
+
+\emph{Restoring the missing vertices in a child.}
+By Lemma~\ref{lem:ugc-child-restriction}, the graph of $F_j$ is
+obtained from $S_{q_j}(G[U_j])$ by deleting
+$M_j$ vertices. Its full order is $q_jn_j$, and its surviving
+order is $N_j$. Lemma~\ref{lem:restore-total-depth} therefore gives
+\[
+ \totd(S_{q_j}(G[U_j]))
+ \leq\totd(F_j)+M_jN_j+\frac{M_j(M_j+1)}2.
+\]
+Since $q_j<q$, induction applies to the full child graph. Using
+$\alphaI(G[U_j])\leq\alphaI(G)$ and $K_{q_j}\geq0$, we obtain
+\begin{equation}\label{eq:total-depth-child-before-simplification}
+ \totd(F_j)\geq\frac37(q_jn_j)^2+\frac{q_jn_j}{2}
+ -K_{q_j}\alphaI(G)n_j-M_jN_j-\frac{M_j(M_j+1)}2.
+\end{equation}
+To simplify the restoration cost, use $N_j+M_j=q_jn_j$:
+\[
+ \begin{aligned}
+ M_jN_j+\frac{M_j(M_j+1)}2
+ &=\frac{2M_jN_j+M_j^2+M_j}{2}\\
+ &=\frac{(N_j+M_j)^2+(N_j+M_j)-N_j^2-N_j}{2}
+ =\frac{q_jn_j(q_jn_j+1)-N_j(N_j+1)}2.
+ \end{aligned}
+\]
+Substituting into~\eqref{eq:total-depth-child-before-simplification}
+cancels $q_jn_j/2$ against $-q_jn_j/2$ and changes the coefficient
+of $(q_jn_j)^2$ from $3/7$ to $3/7-1/2=-1/14$. Hence
+\begin{equation}\label{eq:total-depth-child-bound}
+ \totd(F_j)\geq
+ \frac{N_j^2}{2}+\frac{N_j}{2}
+ -\frac{(q_jn_j)^2}{14}-K_{q_j}\alphaI(G)n_j.
+\end{equation}
+
+\emph{Adding the prefix and the child costs.}
+Insert~\eqref{eq:total-depth-child-bound} into
+Lemma~\ref{lem:ugc-total-depth-accounting} to obtain
+\[
+ \begin{aligned}
+ \totd(F)
+ &=\frac{|P|(|P|+1)}2+|P|\sum_jN_j+\sum_j\totd(F_j)\\
+ &\ge\frac{|P|(|P|+1)}2+|P|\sum_jN_j
+       +\frac12\sum_j(N_j^2+N_j)
+       -\frac1{14}\sum_j(q_jn_j)^2
+       -\alphaI(G)\sum_jK_{q_j}n_j.
+ \end{aligned}
+\]
+We collect the first three terms using
+$(\sum_jN_j)^2=\sum_jN_j^2+2\sum_{i<j}N_iN_j$ and
+$|P|+\sum_jN_j=qn$:
+\[
+ \begin{aligned}
+ &\frac{|P|(|P|+1)}2+|P|\sum_jN_j+\frac12\sum_j(N_j^2+N_j)\\
+ &=\frac12\left(|P|^2+2|P|\sum_jN_j+\sum_jN_j^2\right)
+   +\frac12\left(|P|+\sum_jN_j\right)\\
+ &=\frac12\left(\left(|P|+\sum_jN_j\right)^2
+                 -2\sum_{i<j}N_iN_j\right)
+   +\frac12\left(|P|+\sum_jN_j\right)
+ =\frac{q^2n^2}{2}+\frac{qn}{2}-\sum_{i<j}N_iN_j.
+ \end{aligned}
+\]
+Substituting this identity into the preceding inequality gives
+\begin{equation}\label{eq:total-depth-combined-children}
+ \totd(F)\geq\frac{q^2n^2}{2}+\frac{qn}2-\sum_{i<j}N_iN_j
+ -\frac1{14}\sum_j(q_jn_j)^2-\alphaI(G)\sum_jK_{q_j}n_j.
+\end{equation}
+
+\emph{Bounding the two error terms.}
+For the branching terms, apply Lemma~\ref{lem:quadratic-branching},
+then Cauchy--Schwarz, $\sum_jq_j\le q$, and
+~\eqref{eq:ugc-support-count}:
+\[
+ \begin{aligned}
+ \sum_{i<j}N_iN_j+\frac1{14}\sum_j(q_jn_j)^2
+ &\le\frac1{14}\left(\sum_j\sqrt{q_jn_j}\right)^4\\
+ &\le\frac1{14}\left(\sum_jq_j\right)^2
+          \left(\sum_jn_j\right)^2
+ \le\frac{q^2}{14}\bigl(n+(q-1)\alphaI(G)\bigr)^2.
+ \end{aligned}
+\]
+Since $\alphaI(G)^2\le\alphaI(G)n$, expansion gives
+\[
+ \begin{aligned}
+ \bigl(n+(q-1)\alphaI(G)\bigr)^2
+ &=n^2+2(q-1)n\alphaI(G)+(q-1)^2\alphaI(G)^2\\
+ &\le n^2+(q^2-1)\alphaI(G)n.
+ \end{aligned}
+\]
+For the remaining error, $q_j<q$, monotonicity of $K_q$, and
+$\sum_jn_j\le qn$ give
+$\alphaI(G)\sum_jK_{q_j}n_j\le qK_{q-1}\alphaI(G)n$.
+Insert these bounds into~\eqref{eq:total-depth-combined-children}.
+Since $1/2-1/14=3/7$, we obtain
+\[
+ \totd(F)\geq\frac37q^2n^2+\frac{qn}{2}
+ -\left(\frac{q^2(q^2-1)}{14}+qK_{q-1}\right)\alphaI(G)n.
+\]
+The parenthesized coefficient is $K_q$ by~\eqref{eq:total-depth-K},
+proving the bound for every $F$ and completing the induction.
+\end{proof}
+
+\subsubsection{The approximation gap}
+
+\begin{proof}[Proof of Theorem~\ref{thm:total-depth-ugc}]
+Fix $1\leq r<8/7$. For the source promise of Theorem~\ref{thm:kr},
+Lemma~\ref{lem:total-depth-completeness} and
+Theorem~\ref{thm:total-depth-structural} give the coefficients
+$A^{\Sigma}_{q,\eta}=(q^2-q(q-1)(1/2-\eta)^2)/2$ and
+$B^{\Sigma}_{q,\eta}=3q^2/7-K_q\eta$.
+The corresponding output satisfies
+\[
+ \begin{array}{ll}
+ \textup{YES:}&\totd(S_q(G))\leq A^{\Sigma}_{q,\eta}n^2+qn/2,\\
+ \textup{NO:}&\totd(S_q(G))\geq B^{\Sigma}_{q,\eta}n^2+qn/2.
+ \end{array}
+\]
+Choose a fixed integer $q>7r/(24-21r)$. At $\eta=0$,
+\[
+\begin{aligned}
+ A^{\Sigma}_{q,0}
+ &=\frac{q^2-q(q-1)/4}{2}=\frac{q(3q+1)}8,\\
+ B^{\Sigma}_{q,0}-rA^{\Sigma}_{q,0}
+ &=\frac{3q^2}{7}-\frac{rq(3q+1)}8
+   =\frac{q\bigl(24q-7r(3q+1)\bigr)}{56}>0.
+\end{aligned}
+\]
+Indeed, $q>7r/(24-21r)$ makes $24q-7r(3q+1)>0$.
+The coefficients are continuous in $\eta$, so choose a fixed rational
+$\eta\in(0,1/10)$ with
+$B^{\Sigma}_{q,\eta}>rA^{\Sigma}_{q,\eta}$. Replace each source graph
+by sufficiently many disjoint copies, a fixed number depending only
+on $r,q,\eta$. This preserves its independence fraction and ensures
+that $(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta})n^2>(r-1)qn/2$.
+The NO lower bound therefore exceeds $r$ times the YES upper bound.
+All parameters and the number of copies are fixed, so the reduction
+is polynomial.
+\end{proof}
+

@@ -1,0 +1,399 @@
+\Needspace{14\baselineskip}
+\section{Source promises, normalizations, and provenance}
+\label{sec:source-normalizations}
+
+The subsections follow their first references in the main text:
+the provenance of the NP-hardness construction, the Khot--Regev
+promise, the balanced multipartite promise, the global SSE promise,
+and the parity normalization. The unweighting lemma precedes
+its use in the Khot--Regev proof. The final subsection records an
+additional pairwise-cover bound for the parity witness graph.
+
+\subsection{Provenance of the NP-hardness construction}
+\label{subsec:np-provenance}
+
+The reduction in Section~\ref{subsec:np-treedepth} passes from a constraint
+system to tripartite Vertex Cover and then to Treedepth, following
+Bonnet, Neuen, and Soko\l owski~\cite[Sections~3 and~4]{BNS}. Their
+truth-block and assignment-witness construction adapts Bonnet's earlier
+treewidth reduction~\cite[full version, Section~3.1]{BonnetTreewidth}.
+We inherit two opposite truth blocks per variable, complete bipartite
+edges between them, and witnesses for satisfying local assignments.
+Each witness is adjacent to the truth block that assigns each
+variable the value used by that witness. Variable-dependent block
+sizes also occur in Bonnet's full version~\cite[Section~3.5]{BonnetTreewidth}.
+
+Here the source predicates are three-variable parity equations. Each
+has four satisfying assignments. We add a star on their four
+witnesses, place its monochromatic witness $000$ or $111$ in a truth
+part, and place the other three in the third part. We choose the block
+size $5d_x/6$ by analyzing arbitrary partial assignments: uniformly
+completing the unassigned variables bounds the excess witnesses of an
+equation by $5r_j/6$, where $r_j$ is its number of unassigned variables.
+This is the soundness argument proved in Lemma~\ref{lem:xor-cover}.
+The corresponding argument in~\cite[proof of Lemma~10]{BNS} uses
+variable-by-variable exchanges in a vertex cover.
+Pairing the source with a complemented copy then makes all three
+parts have size $3m$. These are the modifications to the earlier
+encoding used in this proof.
+
+The anchor graph is the one in~\cite[Lemma~6]{BNS}. We use their
+identity as a black box at its stated anchor length, together
+with the cover-first upper bound and Claims~7 and~9 of their proof.
+The main-text corollary extends the identity to anchors as short
+as the largest part. Its derivation is given in
+Appendix~\ref{app:anchor-proof}. For our balanced source graph this
+allows $\ell=3m$ even though $\vc(G_F)\ge11m/2$. Combined with the
+parity-witness bound, the anchor identity yields the factor below
+$18/17$.
+
+\subsection{The Khot--Regev independent-set promise}
+\label{app:kr-normalization}
+
+We first record the unweighting step used below.
+
+\begin{lemma}[Unweighting by copies]\label{lem:copy-unweighting}
+Let $G$ be a simple graph with positive rational vertex weights $w_v$,
+and let $L>0$ make every $m_v=Lw_v$ a positive integer. Define $G'$
+on $\{v_i:v\in V(G),\ i\in[m_v]\}$, with $u_iv_j$ an edge if and
+only if $uv\in E(G)$. Thus the copies of each vertex are independent,
+and a source edge joins its two copy sets completely.
+Minimum vertex-cover weight and maximum independent-set weight
+scale by $L$: $\vc(G')=L\vc_w(G)$ and $\alphaI(G')=L\alpha_w(G)$.
+The construction preserves a specified multipartition, multiplying
+each part's weight by $L$ to obtain its new size. It is polynomial
+when $\sum_v m_v$ is polynomial in the source encoding length.
+\end{lemma}
+
+\begin{proof}
+For an independent set $I\subseteq V(G)$, take all $m_v$ copies of
+each $v\in I$. No two chosen copies are adjacent: copies of the same
+vertex are independent, and copies of distinct chosen vertices are
+adjacent only if their original vertices are adjacent in $G$.
+Thus the copies of vertices in $I$ form an independent set of $G'$ of size
+$\sum_{v\in I}m_v=L\sum_{v\in I}w_v$. Maximizing over $I$ proves
+$\alphaI(G')\geq L\alpha_w(G)$.
+
+Conversely, let $J$ be any independent set of $G'$ and let $I$ consist
+of the source vertices with at least one copy in $J$. If $uv$ were
+an edge of $G$ with $u,v\in I$, any chosen copy of $u$ would be
+adjacent to every chosen copy of $v$, contradicting independence.
+Thus $I$ is independent in $G$. It follows that
+\[
+ |J|\leq\sum_{v\in I}m_v
+ =L\sum_{v\in I}w_v\leq L\alpha_w(G).
+\]
+Together, the two inequalities prove the independent-set identity.
+
+A vertex set is a cover if and only if its complement is independent.
+Using this fact in the weighted source graph and in $G'$ gives
+\[
+ \vc(G')=|V(G')|-\alphaI(G')
+ =L\sum_vw_v-L\alpha_w(G)=L\vc_w(G).
+\]
+When $G$ is nonempty, neither the independent-set density nor the
+cover density changes:
+\[
+ \frac{\alphaI(G')}{|V(G')|}
+ =\frac{\alpha_w(G)}{\sum_vw_v},\qquad
+ \frac{\vc(G')}{|V(G')|}
+ =\frac{\vc_w(G)}{\sum_vw_v}.
+\]
+
+For a specified multipartition, replace each part by the union of
+the copy sets of its vertices. There were no source edges within a
+part, so there are no new edges within a part either. Its new size
+is $L$ times its original weight. Finally, the output has
+$\sum_vm_v$ vertices and at most $(\sum_vm_v)^2$ edges. Hence it can
+be constructed in polynomial time under the stated size assumption.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:kr}]
+Khot and Regev's weighted independent-set
+gap~\cite[Section~4]{KhotRegev} has YES independent-set density
+$1-1/k-2\epsilon$ and NO density less than $\delta$.
+Their Theorem~3.2 derives the intermediate
+source promise from the ordinary UGC. Set $k=2$,
+$\epsilon=\eta/2$, and $\delta=\eta$. The YES density
+becomes $1-1/k-2\epsilon=1/2-\eta$, and the NO density is less
+than $\eta$. These are the two
+independent-set thresholds in Theorem~\ref{thm:kr}. It remains to
+remove the weights without altering either density.
+
+Let $G$ denote the weighted graph in the Khot--Regev construction.
+Let $X$ be the set of source variables, let $s$ be the fixed size of
+their label set, and write
+the fixed rational bias as $p=a_0/a_1$ for integers $0<a_0<a_1$. A vertex
+indexed by $(x,F)$, where $x\in X$ and $F\subseteq[s]$, has weight
+\[
+ w_{x,F}=\frac1{|X|}p^{|F|}(1-p)^{s-|F|}
+ =\frac{a_0^{|F|}(a_1-a_0)^{s-|F|}}{|X|a_1^s}.
+\]
+The weights sum to one, since for each $x$ the sum over $F$ is
+$|X|^{-1}(p+(1-p))^s=|X|^{-1}$.
+Thus the weighted optimum is already its normalized density.
+
+Take $L=|X|a_1^s$. Then $Lw_{x,F}=a_0^{|F|}(a_1-a_0)^{s-|F|}$ is a
+positive integer. Replace $(x,F)$ by this many copies, and
+join two copy sets completely if and only if the source vertices were
+adjacent. For each fixed $x$, the number of new vertices is
+\[
+ \sum_{F\subseteq[s]}a_0^{|F|}(a_1-a_0)^{s-|F|}
+ =\sum_{i=0}^s\binom{s}{i}a_0^i(a_1-a_0)^{s-i}=a_1^s.
+\]
+Consequently the new graph has $n=|X|a_1^s=L$ vertices.
+Lemma~\ref{lem:copy-unweighting} gives
+$\alphaI(G')/n=\alpha_w(G)$, so a YES instance still has
+$\alphaI(G')\geq(1/2-\eta)n$, and a NO instance still has
+$\alphaI(G')<\eta n$. The strict NO inequality is preserved
+because both sides scale by $L$.
+
+For each fixed gap, $a_1$ and $s$ are constants. Hence $|X|a_1^s$ is
+polynomial in the source instance size. The construction has no loops
+or parallel edges and uses only unweighted vertices and edges. It
+therefore gives the simple unweighted source asserted in the theorem.
+\end{proof}
+
+\subsection{The balanced multipartite source}
+\label{app:multipartite-normalization}
+
+\begin{proof}[Proof of Theorem~\ref{thm:ugc-tripartite-cover}]
+Apply the unweighted source of Theorem~\ref{thm:kr} with
+$\eta=\zeta/2$. This is an admissible fixed rational parameter,
+since $0<\zeta<1/12$ gives $0<\eta<1/24<1/10$.
+For a source graph $G$ on $n$ vertices, form $P_k(G)$ as in
+Lemma~\ref{lem:multipartite-product}. It has $N=kn$ vertices,
+with $n=N/k$ vertices in each of its $k$ independent layers.
+
+In the YES case, $\alphaI(G)\geq(1/2-\eta)n$.
+Taking all $k$ copies of a source independent set gives
+\[
+ \alphaI(P_k(G))\geq k\alphaI(G)
+ \geq k(1/2-\eta)n=(1/2-\eta)N.
+\]
+Taking complements, we obtain
+\[
+ \vc(P_k(G))=N-\alphaI(P_k(G))
+ \leq(1/2+\eta)N\leq(1/2+\zeta)N.
+\]
+The last inequality uses $\eta=\zeta/2\leq\zeta$.
+
+In the NO case, $\alphaI(G)<\eta n$, and the upper bound from
+Lemma~\ref{lem:multipartite-product} yields
+\[
+ \alphaI(P_k(G))\leq n+(k-1)\alphaI(G)
+ <n+(k-1)\eta n.
+\]
+Subtracting this strict upper bound from $N=kn$ gives
+\[
+ \vc(P_k(G))
+ >kn-n-(k-1)\eta n
+ =\left(1-\frac1k-\frac{k-1}{k}\eta\right)N
+ \geq\left(1-\frac1k-\zeta\right)N.
+\]
+Here $(k-1)\eta/k\leq\eta=\zeta/2<\zeta$, so the claimed
+non-strict NO threshold follows in particular. The product has no
+loops because edges require distinct layer indices, and no parallel
+edges because $G$ is simple. Its $k$ is fixed, so its size is
+polynomial in that of $G$. This proves the stated balanced,
+simple, unweighted promise.
+\end{proof}
+
+\subsection{The global SSE partition promise}
+\label{app:sse-normalization}
+
+For $-1<\xi<1$, let $\Gamma_\xi(\mu)$ be the probability that
+both of two standard normal variables of correlation $\xi$ are
+below the threshold whose one-variable lower-tail probability is $\mu$.
+
+We spell out the Gaussian estimate on the interval needed here.
+The corresponding Gaussian probability bounds are recorded in the
+author-hosted full version of~\cite[Fact~2.22 and Remark~2.25]{APW}.
+
+\begin{lemma}[Gaussian separation at medium measure]
+\label{lem:gaussian-medium-separation}
+There are absolute constants $a,\varepsilon_0>0$ such that, for
+$0<\varepsilon<\varepsilon_0$, $\varepsilon'\in[\varepsilon/2,\varepsilon]$,
+and $1/10\le\mu\le1/2$,
+$\mu-\Gamma_{1-\varepsilon'/2}(\mu)\ge a\sqrt\varepsilon$.
+\end{lemma}
+
+\begin{proof}
+Let $X,Z$ be independent standard normal random variables, put
+$\xi=1-\varepsilon'/2$, and write
+$Y=\xi X+\sqrt{1-\xi^2}\,Z$. Then $X,Y$ are standard normal
+with correlation $\xi$. If $\Pr[X\leq t]=\mu\in[1/10,1/2]$,
+the threshold $t$ lies in a fixed bounded interval with $t\leq0$.
+Moreover, $\mu-\Gamma_\xi(\mu)=\Pr[X\leq t<Y]$.
+For sufficiently small $\varepsilon'$, we have $0\leq\xi<1$.
+On the event $t-\sqrt{1-\xi^2}\leq X\leq t$ and $Z>1$,
+we have $X\leq t$ and
+\[
+ Y>\xi\bigl(t-\sqrt{1-\xi^2}\bigr)
+       +\sqrt{1-\xi^2}
+ =\xi t+(1-\xi)\sqrt{1-\xi^2}\geq t.
+\]
+The last inequality uses $t\leq0$ and $\xi\leq1$.
+The standard normal density has a positive minimum on the fixed
+bounded interval containing all these possible values of $X$.
+Thus the first event has probability at least an absolute constant
+times its interval length $\sqrt{1-\xi^2}$. The event $Z>1$
+has a fixed positive probability and is independent of $X$.
+Their intersection therefore has probability at least
+$2a\sqrt{1-\xi^2}$ for some absolute constant $a>0$.
+Since $\sqrt{1-\xi^2}\geq\sqrt{1-\xi}
+=\sqrt{\varepsilon'/2}\geq\frac12\sqrt{\varepsilon}$,
+we obtain $\mu-\Gamma_{1-\varepsilon'/2}(\mu)
+\geq a\sqrt{\varepsilon}$ for $1/10\leq\mu\leq1/2$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:sse-source}]
+Fix $q$ and $\varepsilon$ as in the statement, and choose a fixed
+$\varepsilon'\in[\varepsilon/2,\varepsilon]$.
+Instantiate Theorem~3.5 of~\cite{RST} with error parameter
+$\varepsilon'$ and a fixed source error $\gamma$, to be chosen below.
+
+\emph{YES case.}
+In the YES case the source theorem gives $q$ disjoint classes of
+normalized volume $1/q$ and expansion
+$\varepsilon'+o(\varepsilon')$. The sum of their normalized
+volumes is $q\cdot(1/q)=1$. Since normalized volume is additive
+on disjoint sets and the whole graph has normalized volume one,
+the vertices outside these classes have total volume zero.
+Such vertices have degree zero and can be assigned to any class
+without changing its volume or its boundary. We therefore obtain
+a partition of the entire vertex set with the required
+class volumes. Choose the remaining fixed source parameters so
+that the error term is at most $\varepsilon'$. Every class then
+has expansion at most
+$\varepsilon'+\varepsilon'=2\varepsilon'\leq2\varepsilon$.
+
+\emph{NO case.}
+In the NO case, Theorem~3.5 gives, for every set of positive volume,
+the lower bound
+\[
+  \Phi_G(A)\geq
+  1-\frac{\Gamma_{1-\varepsilon'/2}(\mu_G(A))+\gamma}{\mu_G(A)}.
+\]
+Let $a$ be the constant in Lemma~\ref{lem:gaussian-medium-separation},
+and choose $0<\gamma\le a\sqrt\varepsilon/20$, as the source
+theorem permits.
+For $\mu_G(A)\in[1/10,1/2]$, multiply the source expansion
+inequality by $2\mu_G(A)$ and use
+$w(\cut_G(A))/W=2\mu_G(A)\Phi_G(A)$, which follows from
+$\vol_G(A)=2W\mu_G(A)$. Therefore
+\[
+  \frac{w(\cut_G(A))}{W}
+  \geq2\bigl(\mu_G(A)-\Gamma_{1-\varepsilon'/2}(\mu_G(A))\bigr)-2\gamma
+  \geq2a\sqrt{\varepsilon}-2\gamma\geq\frac{a}{10}\sqrt{\varepsilon}.
+\]
+The final inequality uses $2\gamma\leq(a/10)\sqrt{\varepsilon}$. If
+$\mu_G(A)\in[1/2,9/10]$, its complement has measure
+$1-\mu_G(A)\in[1/10,1/2]$. A boundary edge has one endpoint in
+each side, so $\cut_G(V(G)\setminus A)=\cut_G(A)$ as multisets.
+Applying the preceding argument to the complement therefore gives
+the same cut bound for $A$. Thus the
+claimed NO cut bound holds throughout $[1/10,9/10]$ with $c=a/10$.
+Reducing $\varepsilon_0$ if needed ensures the Gaussian stability
+estimate used above. All parameters are fixed constants for each source
+promise, so the source reduction remains polynomial for each fixed
+$(q,\varepsilon)$.
+\end{proof}
+
+\subsection{The parity source normalization}
+\label{app:xor-normalization}
+
+\begin{lemma}[Balancing parity right-hand sides]\label{lem:parity-balance}
+A system $F_0$ of $m_0$ three-variable parity equations can be paired
+with a system $F_0'$ on fresh variables so that their union has
+$2m_0$ equations, optimum $2\OPT(F_0)$, and $m_0$ equations with
+each right-hand side.
+\end{lemma}
+
+\begin{proof}
+Make a copy $F_0'$ on fresh
+variables, replacing every equation $x+y+z=a$ by
+$x'+y'+z'=1-a$. For an assignment $\sigma$ to $F_0$, assign
+$x'=1-\sigma(x)$ in $F_0'$. Since each equation contains three variables,
+\[
+ (1-\sigma(x))+(1-\sigma(y))+(1-\sigma(z))
+ \equiv1-(\sigma(x)+\sigma(y)+\sigma(z))\pmod2.
+\]
+Thus the copied equation is satisfied if and only if the original
+one is satisfied. Complementing all variable values is a bijection
+between assignments of the two systems, so
+$\OPT(F_0')=\OPT(F_0)$.
+
+The systems have disjoint variable sets. Any assignment to their
+union satisfies at most $\OPT(F_0)+\OPT(F_0')$ equations. Choosing
+an optimal assignment independently in each system attains this
+bound. Hence their union has $2m_0$ equations and optimum
+$2\OPT(F_0)$. Every original equation is paired with one having
+the opposite right-hand side, so each right-hand side occurs in
+$m_0$ equations.
+\end{proof}
+
+\begin{proof}[Proof of the normalized form in Theorem~\ref{thm:xor-source}]
+The gap is established in the proof of
+\cite[Theorem~5.4]{Hastad2001}. The proof of Lemma~5.13 there also uses
+this gap explicitly. The source can be unweighted because that proof eliminates
+weights by duplicating equations. A negated Boolean literal is
+$1-x$ over $\mathbb F_2$. Replacing it by $x$ and changing the
+right-hand side by one preserves the equation's truth value for
+every assignment. Doing this for each negation puts the equations
+in the form $x+y+z=a$ without changing either source case.
+
+We impose the additional conditions in~\eqref{eq:xor-normalization}.
+Call the initial system $F_0$, and let $m_0$ be its number of
+equations. First delete unused variables. This does not change the
+number of equations or the optimum. Apply Lemma~\ref{lem:parity-balance} to pair $F_0$ with its
+complemented copy.
+
+Next repeat every equation in the union six times, and call the
+resulting system $F$. An assignment either satisfies all six copies
+of an equation or satisfies none. Consequently
+\[
+ m=12m_0,\qquad \OPT(F)=12\OPT(F_0),\qquad
+ \frac{\OPT(F)}m=\frac{\OPT(F_0)}{m_0}.
+\]
+In particular, a YES instance of the original promise satisfies
+$\OPT(F)\geq(1-\epsilon)m$, and a NO instance satisfies
+$\OPT(F)\leq(1/2+\epsilon)m$.
+
+Each remaining variable occurred at least once before repetition,
+and its final occurrence count is six times a positive integer.
+Thus $d_x\in6\mathbb Z_{>0}$. Counting the three variable
+occurrences in every equation gives $\sum_xd_x=3m$.
+The repetition creates $6m_0=m/2$ equations with each right-hand
+side, so the required balance also holds and $m$ is even. These
+operations increase the number of equations by the fixed factor
+twelve and therefore take polynomial time. This proves all the
+conditions in~\eqref{eq:xor-normalization}.
+\end{proof}
+
+\subsection{Pairwise covers of the parity witness graph}
+
+The independent-set identity of Lemma~\ref{lem:xor-cover} also bounds
+the vertex-cover number on each pair of parts of $G_F$.
+
+\begin{lemma}[Pairwise covers]\label{lem:xor-pair-covers}
+For distinct parts $X,Y$ of $G_F$,
+$\vc(G_F[X\cup Y])\ge7m/2-\OPT(F)$.
+\end{lemma}
+
+\begin{proof}
+Each union of two parts has $6m$ vertices by
+\eqref{eq:xor-equal-parts}. Fix any two distinct parts $X,Y$.
+Every independent set in $G_F[X\cup Y]$ is also independent in
+$G_F$: an induced subgraph has the same edges between
+its vertices as the whole graph. Hence
+$\alphaI(G_F[X\cup Y])\leq\alphaI(G_F)$.
+By the independent-set identity in Lemma~\ref{lem:xor-cover},
+$\alphaI(G_F)=5m/2+\OPT(F)$. Complementing an independent set
+within the $6m$ vertices of $G_F[X\cup Y]$ therefore gives
+\[
+ \vc(G_F[X\cup Y])
+ =6m-\alphaI(G_F[X\cup Y])
+ \geq6m-\alphaI(G_F)=\frac{7m}{2}-\OPT(F).
+\]
+\end{proof}

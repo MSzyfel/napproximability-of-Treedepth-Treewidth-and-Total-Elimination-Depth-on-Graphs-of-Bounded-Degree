@@ -1,0 +1,108 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{needspace}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Inapproximability of Treedepth, Treewidth, and Total Elimination Depth}}
+\setlength{\emergencystretch}{2em}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\td}{\operatorname{td}}
+\newcommand{\totd}{\operatorname{totd}}
+\newcommand{\alphaI}{\alpha}
+\newcommand{\vc}{\operatorname{vc}}
+\newcommand{\OPT}{\operatorname{OPT}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\cut}{\delta}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\UGC}{\mathrm{UGC}}
+\newcommand{\SSEH}{\mathrm{SSEH}}
+\newcommand{\PP}{\mathrm{P}}
+\newcommand{\NP}{\mathrm{NP}}
+
+\title{Inapproximability of Treedepth, Treewidth, and\\
+Total Elimination Depth on Graphs of Bounded Degree}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We prove approximation lower bounds for treedepth, treewidth, and
+total elimination depth on simple unweighted graphs of bounded
+maximum degree. Treedepth is NP-hard to approximate within every
+fixed factor below $18/17$, and treewidth within every fixed factor
+below $12/11$. Under the ordinary Unique Games Conjecture, both
+parameters are hard within every fixed factor below $4/3$. For total
+elimination depth, the corresponding UGC threshold is $8/7$, and we
+also prove NP-hardness within some absolute factor greater than one.
+Under the Small Set Expansion Hypothesis, every fixed constant factor
+is hard for treedepth and total elimination depth. Our line-graph
+construction also gives bounded-degree treewidth instances for the
+known all-constant SSE hardness. In each result, the maximum degree
+depends only on the excluded factor, and the reductions are
+deterministic. The treedepth result resolves the conjecture that
+computing unweighted treedepth remains NP-hard at bounded degree.
+
+For NP-hardness of treedepth, we refine the tripartite witness and
+anchor construction of Bonnet, Neuen, and Soko\l owski. Under UGC,
+clique layers give the treedepth gap and a quadratic branching
+estimate gives the total-depth gap. A replication argument transfers
+tripartite vertex-cover gaps to treewidth. Under SSEH, a line graph
+converts source cuts into balanced-separator lower bounds. To obtain
+bounded degree, we prove separate sparsification theorems for the
+three parameters. Expander replacements preserve the NO bounds after
+deleting an arbitrarily small fixed fraction of the vertices, while
+edge deletion preserves the YES upper bounds.
+
+These bounds also imply hardness for trivially perfect completion by
+number of added edges, vertex integrity, fracture number, starwidth,
+and average and maximum customizable-label size. The linear treewidth gaps
+give explicit exponential approximation lower bounds for the total
+state space of binary junction trees. The paper also records which
+of these consequences follow from existing reductions and which
+require new arguments.
+\end{abstract}
+
+\clearpage
+\setcounter{tocdepth}{2}
+\tableofcontents
+\clearpage
+
+\input{sections/01-introduction}
+\input{sections/02-preliminaries}
+\input{sections/03-ugc-hardness}
+\input{sections/total-depth-hardness}
+\input{sections/treewidth-hardness}
+\input{sections/04-sseh-hardness}
+\input{sections/np-hardness}
+\input{sections/np-treewidth-hardness}
+\input{sections/np-total-depth-hardness}
+\input{sections/bounded-degree-hardness}
+\input{sections/05-applications}
+\input{sections/05-conclusion}
+
+\bibliographystyle{plain}
+\begingroup
+\small
+\phantomsection
+\addcontentsline{toc}{section}{References}
+\bibliography{references}
+\endgroup
+
+\clearpage
+\appendix
+\input{sections/appendix-source-normalizations}
+\input{sections/appendix-auxiliary-proofs}
+\end{document}

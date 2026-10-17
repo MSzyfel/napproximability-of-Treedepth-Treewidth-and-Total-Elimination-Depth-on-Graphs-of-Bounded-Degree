@@ -1,0 +1,48 @@
+\subsection{Treewidth}
+\label{subsec:np-treewidth}
+
+We apply Lemma~\ref{lem:tw-replication} to the parity witness graph
+from Section~\ref{subsec:np-treedepth}. Its vertex-cover number exceeds
+every part size, so the transfer lemma scales the cover gap with an
+additive error controlled by the replication count $R$.
+
+\begin{theorem}\label{thm:tw-hardness}
+For every fixed real $1\leq r<12/11$, approximating treewidth within
+factor $r$ on simple unweighted graphs is NP-hard. The output graphs
+have a specified partition into three equal cliques.
+\end{theorem}
+
+\begin{proof}
+Fix $1\le r<12/11$. Choose a fixed $0<\epsilon<1/4$ such that
+$6-\epsilon>r(11/2+\epsilon)$, then a fixed integer $R\ge1$ with
+$R(6-\epsilon-r(11/2+\epsilon))>3r$.
+Apply the witness construction of Section~\ref{subsec:np-treedepth} to
+the normalized source of Theorem~\ref{thm:xor-source}. The resulting
+graph $G_F$ has $9m$ vertices, three independent parts of size $3m$, and
+$\vc(G_F)=13m/2-\OPT(F)$.
+Since $\OPT(F)\leq m$, we have $\vc(G_F)\geq11m/2>3m$. In the YES case,
+$\vc(G_F)\leq(11/2+\epsilon)m$. In the NO case,
+$\vc(G_F)\geq(6-\epsilon)m$. Construct $K_R(G_F)$.
+Lemma~\ref{lem:tw-replication} yields respectively
+\[
+ \begin{array}{ll}
+ \textup{YES:}&\operatorname{tw}(K_R(G_F))
+       \leq R(11/2+\epsilon)m+3m-1,\\[2pt]
+ \textup{NO:}&\operatorname{tw}(K_R(G_F))
+       \geq R(6-\epsilon)m-1.
+ \end{array}
+\]
+The NO bound minus $r$ times the YES bound equals
+\[
+\begin{aligned}
+ &[R(6-\epsilon)m-1]
+   -r[R(11/2+\epsilon)m+3m-1]\\
+ &=\bigl(R(6-\epsilon-r(11/2+\epsilon))-3r\bigr)m+r-1>0,
+\end{aligned}
+\]
+by the choice of $R$, which makes the coefficient of $m$ positive,
+and $r\ge1$, which gives $r-1\ge0$. This proves the gap.
+The output has $9Rm$ vertices, and its three global cliques have
+equal size $3Rm$. 
+\end{proof}
+

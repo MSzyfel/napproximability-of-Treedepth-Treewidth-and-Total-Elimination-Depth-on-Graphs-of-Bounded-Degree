@@ -1,0 +1,50 @@
+\section{Preliminaries}
+\label{sec:preliminaries}
+
+All graphs produced by our reductions are finite, simple, and
+unweighted. Source graphs may have weights, parallel edges, or loops
+when explicitly stated. An \emph{independent set} contains no adjacent
+pair. A \emph{clique} has every pair of distinct vertices adjacent.
+A \emph{vertex cover} meets every edge. For an unweighted graph $G$,
+let $\alphaI(G)$ denote the maximum independent-set size and
+$\vc(G)$ the minimum vertex-cover size.
+Taking complements gives $\vc(G)=|V(G)|-\alphaI(G)$.
+We write $G[U]$ for the subgraph induced by $U$, $G-U$ for
+$G[V(G)\setminus U]$, $\Delta(G)$ for maximum degree, and
+$[q]=\{1,\ldots,q\}$. A spanning subgraph retains all vertices
+and some of the edges. A \emph{matching} is a set of edges with
+pairwise disjoint endpoints, and a graph is \emph{cubic} if every
+vertex has degree three.
+
+In a rooted forest, two vertices are \emph{comparable} if one is
+an ancestor of the other. We count a vertex as its own ancestor
+and descendant. A \emph{proper} ancestor is a different vertex.
+The subtree rooted at a vertex consists of that vertex and all
+its descendants.
+The \emph{restriction} of a forest to a vertex subset deletes all
+other vertices and attaches each survivor to its nearest surviving
+proper ancestor, or makes it a root if none remains. It preserves
+the ancestor order between survivors and never increases their depths.
+
+An \emph{elimination forest} $F$ of a graph $H$ is a rooted forest on
+$V(H)$ such that the endpoints of every edge of $H$ are comparable in
+the ancestor order. Its height $h(F)$ is the maximum number of vertices on a
+root-to-leaf path. The \emph{treedepth} $\td(H)$ is the minimum height of
+an elimination forest of $H$. We set $\td(\varnothing)=0$. For
+disconnected graphs, treedepth is the maximum treedepth of a component.
+
+The \emph{total depth} of an elimination forest $F$ is
+$\totd(F)=\sum_{v\in V(F)}\operatorname{depth}_F(v)$, with roots at
+depth one. Let $\totd(G)$ be the minimum total depth of an
+elimination forest of $G$. This objective is also called
+\emph{VPT-sum}~\cite{HogemoEtAl2021}. For disconnected graphs,
+$\totd$ is the sum of its values on the components. Restricting a forest
+to each component proves one inequality, and their disjoint union
+proves the other.
+
+A \emph{tree decomposition} of $H$ consists of a tree $T$ and bags
+$B_t\subseteq V(H)$ for $t\in V(T)$. For every graph vertex, the
+nodes whose bags contain it form a nonempty connected subtree. Every
+graph edge has both endpoints in some bag. Its width is
+$\max_t|B_t|-1$, and the \emph{treewidth} $\operatorname{tw}(H)$ is
+the minimum such width.

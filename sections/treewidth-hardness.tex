@@ -1,0 +1,222 @@
+\subsection{Treewidth}
+\label{sec:tw-transfer}
+
+We prove UGC-hardness below $4/3$ by transferring the tripartite
+Vertex Cover gap of B\'erczi, Chandrasekaran, Kir\'aly, Lee, and
+Xu~\cite[Sections~3.5 and~3.6]{BCKLX2017} to treewidth. The same
+transfer will give the NP-hardness bound in
+Section~\ref{subsec:np-treewidth}.
+
+\begin{theorem}\label{thm:tw-ugc}
+Under the ordinary Unique Games Conjecture, approximating treewidth
+within any fixed factor $1\leq r<4/3$ is hard, even on simple
+unweighted graphs with a specified partition into three equal cliques.
+\end{theorem}
+
+The transfer uses Bonnet's completion of three parts to cliques
+and his central-bag lower bound~\cite[Lemma~6]{BonnetTreewidth}.
+We take disjoint source copies \emph{before} completing the three global parts.
+This lets each of three paths attached to a central bag process
+the copies one at a time: the additional bag size is bounded by one part of one copy,
+while the cover contribution grows with the number of copies.
+
+\subsubsection{A transfer from vertex cover to treewidth}
+
+Let $G$ be a nonempty tripartite graph with specified independent
+parts $V(G)=A\mathbin{\dot\cup}B\mathbin{\dot\cup}C$, and put
+$n_{\max}=\max\{|A|,|B|,|C|\}$. Thus $G$ has no edge within a part.
+For an integer $R\ge1$, take copies $G_1,\ldots,G_R$ on
+$V(G)\times\{1\},\ldots,V(G)\times\{R\}$, writing $v_j=(v,j)$.
+For $X\in\{A,B,C\}$, let $X_j=X\times\{j\}$ and
+$X^*=X\times[R]$. Define $K_R(G)$ on $V(G)\times[R]$ by
+\[
+ E(K_R(G))=
+ \bigcup_{X\in\{A,B,C\}}\binom{X^*}{2}
+ \;\cup\;\bigcup_{j=1}^R\{\{u_j,v_j\}:uv\in E(G)\}.
+\]
+Here $\binom{X^*}{2}$ is the set of all unordered pairs of distinct
+vertices of $X^*$. These are all the edges: each global part is a
+clique, and vertices in different global parts are adjacent if and only if
+they belong to the same copy and their source vertices are
+adjacent in $G$.
+
+Its vertex partition into three cliques makes $K_R(G)$
+\emph{co-tripartite}.
+
+\begin{lemma}[A bag covering the source edges]\label{lem:tw-central-bag}
+Every tree decomposition of $K_R(G)$ has a bag containing a vertex
+cover of $G_1\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}G_R$.
+In particular, that bag has size at least $R\vc(G)$.
+\end{lemma}
+
+\begin{proof}
+We apply the cover argument from~\cite[proof of Lemma~6]{BonnetTreewidth}
+to the disjoint union of the $R$ source copies.
+Fix a tree decomposition with underlying tree $T$ and bags $B_u$.
+For each $X\in\{A,B,C\}$, choose a node $u_X$ whose bag contains the global
+clique $X^*$. The bag subtrees of its vertices intersect pairwise,
+since every pair is an edge. Pairwise-intersecting subtrees of a tree
+have a common node (the Helly property), so some bag contains all of
+$X^*$~\cite[Lemma~4]{BonnetTreewidth}.
+An empty part can be assigned any node. Let $u$ be the median of
+$u_A,u_B,u_C$, namely the unique common node of their three pairwise
+connecting paths.
+
+Consider an edge $xy$ of one of the original copies, with $x\in X^*$
+and $y\in Y^*$ for different parts $X,Y$. If either $u_X$ or $u_Y$
+equals $u$, the bag at $u$ already contains the corresponding endpoint.
+Otherwise, $u_X$ and $u_Y$ lie in different components of $T-u$.
+If neither endpoint belonged to the bag at $u$, the connected set of
+bags containing $x$ would stay in the component containing $u_X$,
+and the analogous set for $y$ would stay in the component containing
+$u_Y$. These sets could not intersect, contrary to the existence of
+a bag covering $xy$. Thus $B_u$ contains an endpoint of every
+original edge. The disjoint union of the $R$ copies has vertex-cover number
+$R\vc(G)$, so this bag has size at least $R\vc(G)$.
+\end{proof}
+
+\begin{lemma}[A decomposition from a source cover]\label{lem:tw-cover-decomposition}
+For every vertex cover $S$ of $G$, the graph $K_R(G)$ has a tree
+decomposition whose bags have size at most $R\max\{|S|,n_{\max}\}+n_{\max}$.
+\end{lemma}
+
+\begin{proof}
+We adapt the three-path decomposition of~\cite[Section~3.3]{BonnetTreewidth}
+by processing copies separately, so the temporary bag increase is at
+most $n_{\max}$, independently of $R$.
+Put $I=V(G)\setminus S$.
+Let $S_j,I_j$ be its copies. Start with the central bag
+$S^*=\bigcup_{j=1}^R S_j$, of size $R|S|$. Attach three paths to this
+node, one for each part $X$. The path to $X$ ends with the bag $X^*$.
+On this path process the copies in order $j=1,\ldots,R$. At step $j$,
+first add all vertices of $I_j\cap X_j$, and then remove all vertices
+of $S_j\setminus X_j$.
+
+After processing the first $j$ copies, the bag is
+\[
+ B^X_j=\bigcup_{i\le j}X_i\;\cup\!\bigcup_{i>j}S_i
+ \qquad(0\le j\le R).
+\]
+Here $B^X_0=S^*$ and $B^X_R=X^*$. Between $B^X_{j-1}$ and
+$B^X_j$ insert the bag $B^X_{j-1}\cup(I_j\cap X_j)$.
+The bags after completed steps have size
+$j|X|+(R-j)|S|\le R\max\{|S|,|X|\}$. An inserted bag has at most
+$|I\cap X|\le n_{\max}$ additional vertices. Every bag therefore has
+size at most $R\max\{|S|,n_{\max}\}+n_{\max}$.
+
+We verify the decomposition axioms. Every vertex is present in its
+part's final bag. A vertex in $S_j\cap X_j$ occurs at the center and
+throughout the $X$-path, and on each other path it is removed once.
+A vertex in $I_j\cap X_j$ occurs only on the $X$-path, from its
+addition to the end. Thus each vertex's bag occurrences form a
+connected subtree. Every edge within a global clique is covered at
+the corresponding final bag. An original cross-part edge with both
+endpoints in $S^*$ is covered at the center. Both endpoints cannot
+belong to $I_1\cup\cdots\cup I_R$, since each $I_j$ is independent
+and original edges stay inside a copy. Finally, if one endpoint is
+in $I_j\cap X_j$ and the other in $S_j\setminus X_j$, the latter
+is still present when the former is added, so the edge is covered
+on the $X$-path. All edges are covered, and the bag-size bound follows from the count above.
+\end{proof}
+
+\begin{lemma}[Replicated co-tripartite completion]\label{lem:tw-replication}
+For every such $G$ and every integer $R\geq1$,
+\[
+ R\max\{\vc(G),n_{\max}\}-1
+ \ \leq\ \operatorname{tw}(K_R(G))
+ \ \leq\ R\max\{\vc(G),n_{\max}\}+n_{\max}-1.
+\]
+\end{lemma}
+
+
+\begin{proof}
+The largest global clique has size $Rn_{\max}$, and
+Lemma~\ref{lem:tw-central-bag} gives a bag of size at least
+$R\vc(G)$. For the upper bound, apply
+Lemma~\ref{lem:tw-cover-decomposition} to a minimum cover of $G$.
+Subtracting one from the bag sizes gives both bounds.
+\end{proof}
+
+For fixed $R$, the construction has $R|V(G)|$ vertices and is
+polynomial in the source size.
+
+\subsubsection{The approximation gap}
+
+For the UGC reduction we need cover thresholds $(1/2+\zeta)N$ and
+$(2/3-\zeta)N$ on balanced tripartite graphs. B\'erczi et al. prove
+the general $k$-partite thresholds by a direct Unique Games
+reduction~\cite[Sections~3.5--3.6]{BCKLX2017}. We derive the needed
+balanced, unweighted form from the Khot--Regev promise using the
+product below. Its degree identity will also be used in
+Section~\ref{sec:bounded-degree-hardness}.
+
+\begin{lemma}[Multipartite product]\label{lem:multipartite-product}
+For a simple graph $G$ on $n$ vertices and a positive integer $k$,
+let $P_k(G)$ have vertex
+set $V(G)\times[k]$, with $u_i v_j$ an edge if and only if
+$i\ne j$ and $uv\in E(G)$. Its $k$ layers are independent
+sets of size $n$. Moreover,
+$k\alphaI(G)\le\alphaI(P_k(G))\le n+(k-1)\alphaI(G)$ and
+$\Delta(P_k(G))=(k-1)\Delta(G)$.
+\end{lemma}
+
+\begin{proof}
+All $k$ copies of an independent set of $G$ form an independent
+set of $P_k(G)$, proving the first bound. For the upper bound, let
+$I$ be any independent set in the product. Let $m_v$ count the copies
+of $v$ in $I$, and put $D=\{v:m_v\ge2\}$. If distinct $u,v\in D$
+were adjacent in $G$, choose a copy $u_i\in I$. The set $I$ contains
+at least two copies of $v$, so one has a layer index $j\ne i$. Then
+$u_iv_j$ would be an edge inside $I$. Thus $D$ is independent, and
+$|I|=\sum_vm_v\le n+(k-1)|D|\le n+(k-1)\alphaI(G)$.
+Each copy of a vertex has one neighbor in each of the other
+$k-1$ layers for every source neighbor, giving the degree identity.
+\end{proof}
+
+\begin{theorem}[Multipartite source, normalized form {\cite[Sections~3.5--3.6]{BCKLX2017}}]
+\label{thm:ugc-tripartite-cover}
+For every fixed integer $k\geq3$ and fixed rational
+$0<\zeta<1/12$, it is Unique Games-hard
+to distinguish simple unweighted $k$-partite graphs $G$ on $N$
+vertices, with a specified partition into $k$ parts of size $N/k$,
+with $\vc(G)\leq(1/2+\zeta)N$ \textup{(YES)} from those with
+$\vc(G)\geq(1-1/k-\zeta)N$ \textup{(NO)}.
+\end{theorem}
+
+The normalization follows from Lemma~\ref{lem:multipartite-product}.
+Appendix~\ref{app:multipartite-normalization} records the parameter
+substitution. Taking $k=3$ and applying the replication lemma proves
+the treewidth gap.
+
+
+
+\begin{proof}[Proof of Theorem~\ref{thm:tw-ugc}]
+Fix $1\le r<4/3$. Since $2/3>r/2$, choose a fixed rational
+$0<\zeta<1/12$ and then a fixed integer $R\ge1$ such that
+$2/3-\zeta>r(1/2+\zeta+1/(3R))$.
+Take the $N$-vertex source from Theorem~\ref{thm:ugc-tripartite-cover}
+with $k=3$. Its parts have size $N/3$, so
+Lemma~\ref{lem:tw-replication} gives
+\[
+ \begin{array}{ll}
+ \textup{YES:}&\operatorname{tw}(K_R(G))
+       \le R(1/2+\zeta)N+N/3-1,\\
+ \textup{NO:}&\operatorname{tw}(K_R(G))
+       \ge R(2/3-\zeta)N-1.
+ \end{array}
+\]
+The NO lower bound minus $r$ times the YES upper bound is
+\[
+\begin{aligned}
+ &[R(2/3-\zeta)N-1]
+   -r[R(1/2+\zeta)N+N/3-1]\\
+ &=R\bigl(2/3-\zeta-r(1/2+\zeta+1/(3R))\bigr)N+r-1>0,
+\end{aligned}
+\]
+because the parameter choice makes the coefficient of $N$ positive
+and $r-1\ge0$. Thus an $r$-approximation
+distinguishes the source cases. The construction is polynomial,
+and its three specified cliques each have size $RN/3$. The same
+comparison, omitting the final $r-1$, gives the gap for maximum
+bag size.
+\end{proof}
