@@ -326,8 +326,11 @@ comparison. The lower comparison follows from $J\subseteq H$.
 
 \begin{lemma}[Treewidth comparison]
 \label{lem:tw-factor-sparsification}
-Under the factor setup above, suppose each replacement has no hole
-at its threshold $t_f$, and each side of every biclique factor is
+Suppose $H$ and its spanning subgraph $J$ have factor descriptions
+as in~\eqref{eq:factor-edge-union}, with $J$ retaining $E_0$ and
+replacing every factor by edges from its specified edge set. The
+factor supports may overlap. Suppose each replacement has no hole at
+its threshold $t_f$, and each side of every biclique factor is
 contained in the support of some clique factor. Every tree
 decomposition of $J$ can be completed to one of $H$ whose width
 increases by at most $\Delta_{\mathrm{tw}}$. In particular,
