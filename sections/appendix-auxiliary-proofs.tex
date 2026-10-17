@@ -269,12 +269,17 @@ This is Claim~9 in the proof of~\cite[Lemma~6]{BNS}. We give the
 short argument. Let $xy\in E(G[X\cup Y])$, with $x\in X$ and
 $y\in Y$. The vertices $v_X,x,y,v_Y$ form a path in $H_\ell(G)$.
 Consecutive vertices on this path are comparable in $F$. Let $u_0$
-be a minimum-depth vertex on the path. Moving from $u_0$ along either
-side, maintain that the current vertex is a descendant of or equal
-to $u_0$. Its next neighbor is comparable to it. If the neighbor is
-an ancestor, it cannot lie above $u_0$, since it would be a path
-vertex of smaller depth. If it is a descendant, transitivity gives
-the claim. Induction shows that $u_0$ is an ancestor of all four.
+be a minimum-depth vertex on the path. We show, in each direction
+from $u_0$, that every path vertex is a descendant of $u_0$. Suppose
+the current vertex has this property, and let $w$ be
+the next vertex. If $w$ is a descendant of the current vertex,
+transitivity gives the claim. Otherwise, $w$ is an ancestor of the
+current vertex. The path has no repeated vertices, so $w\ne u_0$.
+Since the current vertex is a descendant of $u_0$, such an ancestor
+$w$ is either a proper ancestor of $u_0$ or a descendant of $u_0$.
+The first possibility would give $w$ smaller depth than the minimum-depth
+vertex $u_0$. Hence $w$ is a descendant of $u_0$. Induction shows that
+$u_0$ is an ancestor of all four.
 It cannot be $v_X$ or
 $v_Y$, because those anchors are incomparable. Hence it is $x$ or $y$,
 so one endpoint of every edge of $G[X\cup Y]$ is ancestral to both
