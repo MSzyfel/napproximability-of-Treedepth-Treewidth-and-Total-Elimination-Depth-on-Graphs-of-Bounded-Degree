@@ -51,7 +51,7 @@ for arbitrary $q$.
 \paragraph{Notation at the first branch.}
 \label{subsec:ugc-branch-notation}
 
-Fix a nonempty graph $G$ on $n$ vertices and let $q\geq2$. Let $F$
+Fix a graph $G$ on $n\geq1$ vertices and let $q\geq2$. Let $F$
 be an elimination forest of $S_q(G)$ that is not a single chain.
 Vertices in different rooted trees, or in different child subtrees
 of one node, are nonadjacent. We use this property in the first-branch
@@ -238,7 +238,7 @@ We prove the statement by induction on $q$, with the induction
 hypothesis asserted for every finite simple source graph.
 
 \emph{Base cases and the first branch.}
-If $G$ is empty, then $S_q(G)$ is empty and
+If $n=0$, then $S_q(G)$ has no vertices and
 both sides of~\eqref{eq:ugc-structural} are zero. For $q=1$,
 $S_1(G)$ is a clique, so $\td(S_1(G))=n\geq2n/3$.
 
