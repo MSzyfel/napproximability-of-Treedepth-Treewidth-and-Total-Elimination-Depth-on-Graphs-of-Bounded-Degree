@@ -274,11 +274,21 @@ Such vertices have degree zero and can be assigned to any class
 without changing its volume or its boundary. We therefore obtain
 a partition of the entire vertex set with the required
 class volumes. In the source NO bound, the Gaussian correlation is
-$\rho^2=1-\varepsilon'/2$. The source chooses a rational
+$\rho^2=1-\varepsilon'/2$. More precisely, Lemma~6.12 of~\cite{RST}
+says that, for fixed $q,\rho,\beta$, there is a constant
+$\zeta=\zeta(\beta,q,\rho)>0$ such that each set $A$ in the output
+satisfies one of the following: a random output edge has both
+endpoints in $A$ with probability at most
+$\Gamma_{\rho^2}(\mu_G(A))+5\beta^{1/3}$, or the SSE input contains
+a set of normalized measure in $[\zeta/R,3k/(\varepsilon_VR)]$
+and expansion at most $1-\zeta/k$. Here $R$ is the number of tensor
+coordinates, $k$ is the block parameter, and $\varepsilon_V$ is the
+vertex-resampling parameter in the RST reduction. We use the second
+alternative to choose the source error below.
+The source chooses a rational
 $0<\beta\leq\min\{\gamma^3/200,\varepsilon'\}$,
 $\varepsilon_V=(\varepsilon')^2$, and a rational $\eta>0$ with
-$\eta\leq\min\{(\varepsilon')^2,\zeta/k\}$, where
-$\zeta=\zeta(\beta,q,\rho)>0$ is given by Lemma~6.12 of~\cite{RST}.
+$\eta\leq\min\{(\varepsilon')^2,\zeta/k\}$.
 The source takes $k$ large enough that
 $2^{-\Omega(k)}\leq(\varepsilon')^2$.
 These rational parameter choices give a rationally weighted source graph.
