@@ -101,7 +101,8 @@ loss is at most $\tau qn$, so the sparse NO height is greater than
 The sparse YES height is at most the dense YES bound $A_{q,\eta}n$.
 
 \emph{SSE hardness.}
-Use the rounded host $G^*$ from Section~\ref{sec:sseh}, with $N$
+Apply Lemma~\ref{lem:sse-unweighted-gap} with its source parameter
+$\varepsilon=\eta$, and let $G^*$ be the resulting host, with $N$
 edges counted with multiplicity. Lemma~\ref{lem:linegraph-factors}
 verifies the factor hypotheses for $\mathcal L(G^*)$ with $d_{\mathrm{fac}}=2$,
 $d_0=0$, and no biclique factors.
@@ -203,7 +204,9 @@ Again, the parameter choice makes the coefficient of $n$ positive,
 and $r-1\ge0$.
 
 \emph{SSE hardness.}
-Use $\mathcal L(G^*)$ from Section~\ref{sec:sseh}, of order $N$,
+Apply Lemma~\ref{lem:sse-unweighted-gap} with source parameter
+$\varepsilon=\eta$, and let $G^*$ be the resulting host, with $N$
+edges counted with multiplicity. Use $\mathcal L(G^*)$, of order $N$,
 with the clique factors of Lemma~\ref{lem:linegraph-factors}:
 $d_{\mathrm{fac}}=2$, $d_0=0$, and no biclique factors.
 
@@ -333,7 +336,9 @@ This makes the NO bound exceed $r$ times the YES bound. Disjoint
 copies preserve the source densities and maximum degree.
 
 \emph{SSE hardness.}
-Use $\mathcal L(G^*)$ from Section~\ref{sec:sseh}, of order $N$,
+Apply Lemma~\ref{lem:sse-unweighted-gap} with source parameter
+$\varepsilon=\eta$, and let $G^*$ be the resulting host, with $N$
+edges counted with multiplicity. Use $\mathcal L(G^*)$, of order $N$,
 with the clique factors of Lemma~\ref{lem:linegraph-factors}:
 $d_{\mathrm{fac}}=2$, $d_0=0$, and no biclique factors. The dense YES height is at most
 $4\eta N$, so its total depth is at most $4\eta N^2$.
