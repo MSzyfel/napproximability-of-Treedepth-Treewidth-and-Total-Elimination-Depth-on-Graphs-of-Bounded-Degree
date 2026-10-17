@@ -3,10 +3,50 @@
 \label{sec:source-normalizations}
 
 The subsections follow their first references in the main text:
-the Khot--Regev promise, the balanced multipartite promise, the global
-SSE promise, the provenance of the NP-hardness construction, and the
-parity normalization. The unweighting lemma precedes its use in the
+the NP-hardness provenance, the Khot--Regev promise, the balanced
+multipartite promise, the global SSE promise, and the parity
+normalization. The unweighting lemma precedes its use in the
 Khot--Regev proof.
+
+\subsection{Provenance of the NP-hardness construction}
+\label{subsec:np-provenance}
+
+The reduction in Section~\ref{subsec:np-treedepth} passes from a constraint
+system to tripartite Vertex Cover and then to Treedepth, following
+Bonnet, Neuen, and Soko\l owski~\cite[Sections~3 and~4]{BNS}. Their
+truth-block and assignment-witness construction adapts Bonnet's earlier
+treewidth reduction~\cite[full version, Section~3.1]{BonnetTreewidth}.
+We inherit two opposite truth blocks per variable, complete bipartite
+edges between them, and witnesses for satisfying local assignments.
+For each variable in its equation, a witness is adjacent to the truth
+block assigning the value opposite to the witness's represented value.
+Thus a selected truth block is compatible with the witnesses
+that agree with its assignment. Variable-dependent block
+sizes also occur in Bonnet's full version~\cite[Section~3.5]{BonnetTreewidth}.
+
+Here the source predicates are three-variable parity equations. Each
+has four satisfying assignments. We add a star on their four
+witnesses, place its monochromatic witness $000$ or $111$ in a truth
+part, and place the other three in the third part. We choose the block
+size $5d_x/6$ by analyzing arbitrary partial assignments: uniformly
+completing the unassigned variables bounds the excess witnesses of an
+equation by $5r_j/6$, where $r_j$ is its number of unassigned variables.
+This is the soundness argument proved in Lemma~\ref{lem:xor-cover}.
+The corresponding argument in~\cite[proof of Lemma~10]{BNS} uses
+variable-by-variable exchanges in a vertex cover.
+Pairing the source with a complemented copy then makes all three
+parts have size $3m$. These are the modifications to the earlier
+encoding used in this proof.
+
+The anchor graph is the one in~\cite[Lemma~6]{BNS}. We use their
+identity as a black box at its stated anchor length, together
+with the cover-first upper bound and Claims~7 and~9 of their proof.
+The main-text corollary extends the identity to anchors as short
+as the largest part. Its derivation is given in
+Appendix~\ref{app:anchor-proof}. For our balanced source graph this
+allows $\ell=3m$ even though $\vc(G_F)\ge11m/2$. Combined with the
+parity-witness bound, the anchor identity yields the factor below
+$18/17$.
 
 \subsection{The Khot--Regev independent-set promise}
 \label{app:kr-normalization}
@@ -267,46 +307,6 @@ estimate used above. All parameters are fixed constants for each source
 promise, so the source reduction remains polynomial for each fixed
 $(q,\varepsilon)$.
 \end{proof}
-
-\subsection{Provenance of the NP-hardness construction}
-\label{subsec:np-provenance}
-
-The reduction in Section~\ref{subsec:np-treedepth} passes from a constraint
-system to tripartite Vertex Cover and then to Treedepth, following
-Bonnet, Neuen, and Soko\l owski~\cite[Sections~3 and~4]{BNS}. Their
-truth-block and assignment-witness construction adapts Bonnet's earlier
-treewidth reduction~\cite[full version, Section~3.1]{BonnetTreewidth}.
-We inherit two opposite truth blocks per variable, complete bipartite
-edges between them, and witnesses for satisfying local assignments.
-For each variable in its equation, a witness is adjacent to the truth
-block assigning the value opposite to the witness's represented value.
-Thus a selected truth block is compatible with the witnesses
-that agree with its assignment. Variable-dependent block
-sizes also occur in Bonnet's full version~\cite[Section~3.5]{BonnetTreewidth}.
-
-Here the source predicates are three-variable parity equations. Each
-has four satisfying assignments. We add a star on their four
-witnesses, place its monochromatic witness $000$ or $111$ in a truth
-part, and place the other three in the third part. We choose the block
-size $5d_x/6$ by analyzing arbitrary partial assignments: uniformly
-completing the unassigned variables bounds the excess witnesses of an
-equation by $5r_j/6$, where $r_j$ is its number of unassigned variables.
-This is the soundness argument proved in Lemma~\ref{lem:xor-cover}.
-The corresponding argument in~\cite[proof of Lemma~10]{BNS} uses
-variable-by-variable exchanges in a vertex cover.
-Pairing the source with a complemented copy then makes all three
-parts have size $3m$. These are the modifications to the earlier
-encoding used in this proof.
-
-The anchor graph is the one in~\cite[Lemma~6]{BNS}. We use their
-identity as a black box at its stated anchor length, together
-with the cover-first upper bound and Claims~7 and~9 of their proof.
-The main-text corollary extends the identity to anchors as short
-as the largest part. Its derivation is given in
-Appendix~\ref{app:anchor-proof}. For our balanced source graph this
-allows $\ell=3m$ even though $\vc(G_F)\ge11m/2$. Combined with the
-parity-witness bound, the anchor identity yields the factor below
-$18/17$.
 
 \subsection{The parity source normalization}
 \label{app:xor-normalization}
