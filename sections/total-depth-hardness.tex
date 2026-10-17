@@ -127,13 +127,19 @@ $q\geq1$,
 We induct on $q$, with the induction hypothesis asserted for every
 source graph. An empty source graph
 gives zero on both sides. If $q=1$, then $S_1(G)$ is a clique, so
-$\totd(S_1(G))=n(n+1)/2\geq3n^2/7+n/2$.
+$\totd(S_1(G))=n(n+1)/2$, and
+$n(n+1)/2-(3n^2/7+n/2)=n^2/14\geq0$.
 This proves the base case since $K_1=0$.
 
 Now let $q\geq2$ and fix an elimination forest $F$ of $S_q(G)$.
-A single chain satisfies the bound because
-$\totd(F)=qn(qn+1)/2$ and $K_q\geq0$. Assume henceforth that $F$
-is not a single chain.
+A single chain has total depth $qn(qn+1)/2$, and
+$qn(qn+1)/2-qn/2=q^2n^2/2$. Its difference from the claimed
+lower bound is
+\[
+ \frac{q^2n^2}{2}-\frac37q^2n^2+K_q\alphaI(G)n
+ =\frac{q^2n^2}{14}+K_q\alphaI(G)n\geq0.
+\]
+Assume henceforth that $F$ is not a single chain.
 
 \emph{The shared first-branch decomposition.}
 Use the notation from Section~\ref{subsec:ugc-branch-notation}.
