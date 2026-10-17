@@ -3,9 +3,9 @@
 
 We prove UGC-hardness below $4/3$ by transferring a balanced,
 unweighted tripartite Vertex Cover gap to treewidth. We derive this
-gap from Khot--Regev using a multipartite product; B\'erczi,
+gap from Khot--Regev using a multipartite product. B\'erczi,
 Chandrasekaran, Kir\'aly, Lee, and Xu prove a related weighted
-$k$-partite Vertex Cover gap under UGC~\cite[Section~3.5]{BCKLX2017}.
+$k$-partite Vertex Cover gap under UGC~\cite[Sections~3.5--3.6]{BCKLX2017}.
 The same transfer gives the NP-hardness bound in
 Section~\ref{subsec:np-treewidth}.
 
@@ -88,7 +88,8 @@ We adapt the three-path decomposition of~\cite[Section~3.3]{BonnetTreewidth}
 by processing copies separately, so the temporary bag increase is at
 most $n_{\max}$, independently of $R$.
 Put $I=V(G)\setminus S$.
-Let $S_j,I_j$ be its copies. Start with the central bag
+For each $j$, let $S_j$ and $I_j$ denote the corresponding copies
+in $G_j$. Start with the central bag
 $S^*=\bigcup_{j=1}^R S_j$, of size $R|S|$. Attach three paths to this
 node, one for each part $X$. The path to $X$ ends with the bag $X^*$.
 On this path process the copies in order $j=1,\ldots,R$. At step $j$,
@@ -133,12 +134,12 @@ For every such $G$ and every integer $R\geq1$,
 
 
 \begin{proof}
-Every tree decomposition has a bag containing the largest global
-clique, so its largest bag has size at least $Rn_{\max}$. By
-Lemma~\ref{lem:tw-central-bag}, it also has a bag of size at least
-$R\vc(G)$. Therefore its largest bag has size at least
-$R\max\{\vc(G),n_{\max}\}$, and subtracting one gives the lower
-bound on treewidth. For the upper bound, apply
+The Helly argument in Lemma~\ref{lem:tw-central-bag} puts each global
+clique in a bag, so every tree decomposition has a bag of size at least
+$Rn_{\max}$. Lemma~\ref{lem:tw-central-bag} also gives a bag of size
+at least $R\vc(G)$. Thus the largest bag in each decomposition has
+size at least $R\max\{\vc(G),n_{\max}\}$. Subtracting one gives the
+lower bound on treewidth. For the upper bound, apply
 Lemma~\ref{lem:tw-cover-decomposition} to a minimum cover of $G$:
 its largest bag has size at most
 $R\max\{\vc(G),n_{\max}\}+n_{\max}$. Subtracting one gives the
@@ -156,18 +157,18 @@ B\'erczi, Chandrasekaran, Kir\'aly, Lee, and Xu prove that for every fixed $k\ge
 small fixed $\epsilon,\eta,\beta>0$, it is UGC-hard to distinguish weighted $k$-partite
 Vertex Cover instances with optimum at most
 $k(1+\epsilon)/2+k\eta$ from instances with optimum at least
-$(k-1)(1-\epsilon)(1-\beta)$; as $\epsilon,\eta,\beta$ tend to zero,
-the gap ratio tends to $2(k-1)/k$~\cite[Section~3.5]{BCKLX2017}.
+$(k-1)(1-\epsilon)(1-\beta)$. As $\epsilon,\eta,\beta$ tend to zero,
+the gap ratio tends to $2(k-1)/k$~\cite[Sections~3.5--3.6]{BCKLX2017}.
 We derive the balanced, unweighted form needed here from the
 Khot--Regev independent-set promise using the product below. Its degree
 identity will also be used in
 Section~\ref{sec:bounded-degree-hardness}.
 
 \begin{lemma}[Multipartite product]\label{lem:multipartite-product}
-For a simple graph $G$ on $n$ vertices and a positive integer $k$,
-let $P_k(G)$ have vertex
-set $V(G)\times[k]$, with $u_i v_j$ an edge if and only if
-$i\ne j$ and $uv\in E(G)$. Its $k$ layers are independent
+For a nonempty simple graph $G$ on $n$ vertices and a positive integer
+$k$, let $P_k(G)$ have vertex set $V(G)\times[k]$, and write
+$v_i=(v,i)$. Join $u_i$ to $v_j$ if and only if $i\ne j$ and
+$uv\in E(G)$. Its $k$ layers are independent
 sets of size $n$. Moreover,
 $k\alphaI(G)\le\alphaI(P_k(G))\le n+(k-1)\alphaI(G)$ and
 $\Delta(P_k(G))=(k-1)\Delta(G)$.

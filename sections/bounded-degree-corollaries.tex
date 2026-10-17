@@ -131,30 +131,11 @@ in~\cite{DirksEtAl2026Weighted}.
 \Needspace{10\baselineskip}
 \subsection{Applications to treewidth}
 
-\begin{lemma}\label{lem:balanced-by-tw}
-For every finite nonempty graph $H$, $b(H)\leq\operatorname{tw}(H)+1$
-\cite[Lemma~5.3]{APW}.
+\begin{lemma}[Balanced separator from treewidth]
+\label{lem:balanced-by-tw}
+For every finite nonempty graph $H$,
+$b(H)\leq\operatorname{tw}(H)+1$~\cite[Lemma~5.3]{APW}.
 \end{lemma}
-
-\begin{proof}
-We give the whole-vertex-set case by a weighted-centroid argument.
-Fix a tree decomposition of minimum width. Assign each graph vertex
-to one bag containing it, and weight each node by the number of
-vertices assigned to its bag. A \emph{weighted centroid} is a node
-whose deletion leaves tree components of weight at most half the
-total. Such a node exists: start anywhere and move into a component
-of weight greater than half while one exists. A move cannot be
-reversed, since the component just left has weight less than half.
-The finite tree therefore forces the process to stop.
-
-Take a weighted centroid. A graph vertex absent from its bag occurs
-only in bags from one component of the decomposition tree, because
-its bag occurrences are connected. Adjacent graph vertices occur
-together in a bag. Therefore each graph component outside the
-centroid bag lies in one tree component and has at most
-$|V(H)|/2$ vertices. The centroid bag is a balanced separator of
-size at most $\operatorname{tw}(H)+1$.
-\end{proof}
 
 \begin{corollary}[Bounded-degree treewidth hardness]
 \label{cor:tw-bounded-degree}

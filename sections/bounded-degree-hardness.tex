@@ -395,42 +395,6 @@ and all $S,T\subseteq V(\mathcal E)$,
 \]
 \end{lemma}
 
-\begin{proof}
-The spectral proof of the cited lemma also applies to our step
-matrix, including loops and parallel edges. Let $\mathbf1_S$ be the
-indicator vector of $S$, and write
-$x_S=\mathbf1_S-(|S|/M)\mathbf1$. Define $x_T$ similarly. Both
-centered vectors have coordinate sum zero. Expanding the indicators gives
-\[
-\begin{aligned}
- \mathbf1_S^{\mathsf T}A\mathbf1_T
- &=x_S^{\mathsf T}Ax_T
-   +\frac{|T|}{M}x_S^{\mathsf T}A\mathbf1
-   +\frac{|S|}{M}\mathbf1^{\mathsf T}Ax_T
-   +\frac{|S||T|}{M^2}\mathbf1^{\mathsf T}A\mathbf1\\
- &=x_S^{\mathsf T}Ax_T+\frac{d|S||T|}{M}.
-\end{aligned}
-\]
-Here $x_S^{\mathsf T}A\mathbf1=d x_S^{\mathsf T}\mathbf1=0$,
-$\mathbf1^{\mathsf T}Ax_T=d\mathbf1^{\mathsf T}x_T=0$, and
-$\mathbf1^{\mathsf T}A\mathbf1=dM$.
-
-Since $A$ is symmetric, its eigenvectors on the zero-sum subspace
-can be chosen orthonormally. Write $\|x\|_2=(\sum_vx_v^2)^{1/2}$.
-If $x_T=\sum_i c_i v_i$ there, with
-eigenvalues $\mu_i$, then
-$\|Ax_T\|_2^2=\sum_i\mu_i^2c_i^2\le\lambda^2\sum_i c_i^2
-=\lambda^2\|x_T\|_2^2$. Cauchy--Schwarz therefore gives
-$|x_S^{\mathsf T}Ax_T|\le\lambda\|x_S\|_2\|x_T\|_2$.
-Finally,
-\[
- \|x_S\|_2^2
- =|S|(1-|S|/M)^2+(M-|S|)(|S|/M)^2
- =|S|(1-|S|/M)\le|S|,
-\]
-and the same bound holds for $T$. Substitution proves the claim.
-\end{proof}
-
 A \emph{walk of length $k$} consists of a starting vertex followed
 by $k$ consecutive edge steps. Vertices and edges may be repeated,
 and different choices among parallel edges count as different
@@ -543,9 +507,9 @@ has polynomial size for fixed $k$.
 We derive a bounded-degree version of the independent-set promise
 used in Section~\ref{sec:ugc}: independent-set density close to
 $1/2$ in the YES case and arbitrarily small constant density in
-the NO case. Austrin, Khot, and Safra prove that, under UGC,
-approximating independent set in maximum-degree-$d$ graphs is hard
-within a factor $\Theta(d/\log^2 d)$
+the NO case. Austrin, Khot, and Safra prove under UGC that independent
+set in maximum-degree-$d$ graphs is hard to approximate within a factor
+$\Theta(d/\log^2 d)$, using a randomized reduction
 \cite[Theorem~1.2 and Section~5.2]{AKS2011}. Their reduction obtains
 bounded degree by random edge sampling and removal of edges incident
 to high-degree vertices
@@ -588,14 +552,10 @@ Khot and Regev show that ordinary UGC is equivalent to the
 following regular bipartite promise, which AKS use
 \cite[Conjecture~2.4]{AKS2011}: for every fixed $\gamma>0$, it is
 NP-hard to distinguish a YES instance in which a
-$(1-\gamma)$-fraction of the right vertices can each be labeled
-consistently with every incident constraint from a NO instance of
+labeling satisfies every constraint incident to at least a
+$(1-\gamma)$-fraction of the right vertices from a NO instance of
 value at most $\gamma$. The underlying bipartite multigraph is
-regular on each side. AKS Theorem~3.1 states that, for a regular
-source instance, the output vertex weight is proportional to its
-weighted degree. Since the total vertex weight is one and the total
-edge weight is one, summing the weighted degrees gives two, so the
-proportionality factor is two.
+regular on each side.
 
 Fix a rational $p\in(0,1/2)$ and put $\xi=-p/(1-p)$.
 Theorem~3.1 of~\cite{AKS2011} gives a deterministic polynomial-time

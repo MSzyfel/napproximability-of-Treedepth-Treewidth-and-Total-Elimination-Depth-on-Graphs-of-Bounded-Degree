@@ -35,12 +35,12 @@ We strengthen the approximation lower bounds for both parameters
 and preserve them on graphs of bounded maximum degree. UGC denotes
 the ordinary Unique Games Conjecture, and SSEH denotes the Small Set
 Expansion Hypothesis.
-Each row states a promise-hardness result under its named assumption;
+Each row states a promise-hardness result under its named assumption.
 NP-hardness means unless $\mathrm{P}=\mathrm{NP}$.
 
 \Needspace{12\baselineskip}
 \begin{theorem}[Main approximation bounds]
-\label{thm:main-results}\label{thm:tw-companion}
+\label{thm:main-results}
 For each row below and every fixed factor $r$ in the indicated
 range, approximating the corresponding parameter within factor $r$
 is hard in the stated sense.
@@ -66,9 +66,10 @@ theorems in Section~\ref{sec:bounded-degree-hardness}. The resulting
 bounds are collected in Corollaries~\ref{cor:td-bounded-degree}
 and~\ref{cor:tw-bounded-degree}. Wu, Austrin, Pitassi, and
 Liu~\cite{APW} proved all-constant SSE hardness for treewidth on
-general graphs. Their regular-host partition promise gives bounded-degree
-treewidth instances directly. Our line-graph construction transfers the
-same SSE hardness to treedepth.
+general graphs. Their regular-host source can have constant degree~\cite[Section~2.5,
+footnote~2]{APW}. Applying our line-graph map
+gives the bounded-degree treewidth result and transfers this hardness
+to treedepth.
 
 The bounded-degree treedepth result answers the conjecture of
 Schirrmacher, Siebertz, and Vigny~\cite[Conjecture~1]{SchirrmacherSiebertzVigny2025}
@@ -322,7 +323,7 @@ the completeness overhead for the source gaps used here.
 
 Khot and Regev~\cite{KhotRegev} supply the ordinary-UGC source for
 the layered construction. B\'erczi, Chandrasekaran, Kir\'aly, Lee,
-and Xu~\cite[Section~3.5]{BCKLX2017} prove a weighted $k$-partite
+and Xu~\cite[Sections~3.5--3.6]{BCKLX2017} prove a weighted $k$-partite
 Vertex Cover gap with ratio approaching $2(k-1)/k$. Our treewidth
 transfer uses an equal-part unweighted gap, which we derive from
 Khot--Regev by a multipartite product in
@@ -332,13 +333,11 @@ Khot, and Safra~\cite{AKS2011}. Our expander replacements use the
 standard Margulis--Gabber--Galil family, as presented
 in~\cite[Construction~8.1 and Theorem~8.2]{HLW2006}.
 
-Wu, Austrin, Pitassi, and Liu~\cite{APW} use the expansion reductions of Raghavendra,
-Steurer, and Tulsiani~\cite{RST} to prove all-constant SSE hardness
-for treewidth, pathwidth, and related objectives. Their regular-host
-partition promise also permits constant degree~\cite[Section~2.5,
-footnote~2]{APW}, so our line-graph map applied to that source gives
-bounded-degree instances directly. Section~\ref{sec:bounded-degree-hardness}
-also derives the degree bound from the weighted source by the same
+Wu, Austrin, Pitassi, and Liu~\cite{APW} use the expansion reductions
+of Raghavendra, Steurer, and Tulsiani~\cite{RST} to prove all-constant
+SSE hardness for treewidth, pathwidth, and related objectives. For our
+bounded-degree result, Section~\ref{sec:bounded-degree-hardness} also
+derives the degree bound from the weighted source by the same
 factor-completion tools used for NP and UGC hardness.
 
 H\o gemo, Bergougnoux, Brandes, Paul, and Telle~\cite{HogemoEtAl2021} introduce VPT-sum and

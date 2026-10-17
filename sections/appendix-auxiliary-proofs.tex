@@ -76,12 +76,13 @@ The same bound covers empty top or class chains.
 \emph{The NO bound and the gap.}
 On a NO source instance, every set $A\subseteq V(G)$ with
 $|A|\in[|V(G)|/10,9|V(G)|/10]$ has at least
-$c\sqrt{\varepsilon}\,m$ crossing host edges, for an absolute
-constant $c>0$. Since the host is regular, this is the same as the
+$c_0\sqrt{\varepsilon}\,m$ crossing host edges, for an absolute
+constant $c_0>0$. Since the host is regular, this is the same as the
 corresponding volume condition. Wu, Austrin, Pitassi, and Liu~\cite[Lemma~5.1]{APW}
 apply this source property to the entire replicated incidence graph
 $G'$ and prove that its minimum balanced-separator size satisfies
-$b(G')\geq c\sqrt{\varepsilon}\,m$. Thus the bound is on separators
+$b(G')\geq c_1\sqrt{\varepsilon}\,m$ for an absolute constant
+$c_1>0$. Set $c=\min\{c_0,c_1\}$. Thus the bound is on separators
 of all output vertices, not just the host-edge vertices.
 Lemma~\ref{lem:balanced-by-td} therefore gives
 $\td(G')\geq c\sqrt{\varepsilon}\,m$.

@@ -72,12 +72,32 @@ whose target graphs have no induced cycle of length at least four,
 is already known~\cite[Theorem~1.2]{APW}. Restricting the
 target class to trivially perfect graphs changes the optimum, so
 that theorem alone does not prove the statement here.
-The same completion consequence can also be derived from the
-earlier incidence construction analyzed in
-Appendix~\ref{app:incidence-proof}: its YES height and NO balanced-separator
-bounds give the same total-depth gap up to absolute constants.
-Combining these bounds with the depth-sum lemma and the adjusted-cost
-inequality above gives the total-depth gap.
+The incidence construction of Wu et al.~\cite[Sections~4.3 and~5]{APW}
+also gives this hardness on
+bipartite inputs. Let $n=|V(G)|$, $N'=|V(G')|=rn+m$, and
+$r=nm$, as in Appendix~\ref{app:incidence-proof}. The output is
+bipartite and has at most $2rm$ edges. Its YES total depth is at most
+$4\varepsilon mN'$, since its treedepth is at most $4\varepsilon m$.
+In the NO case, Lemma~\ref{lem:balanced-by-td} gives total depth at
+least $(c/2)\sqrt{\varepsilon}\,mN'$. The completion identity
+subtracts $N'+|E(G')|$, and
+\[
+ \frac{N'+|E(G')|}{mN'}
+ \leq \frac{rn+m+2rm}{m(rn+m)}
+ =\frac1m+\frac{2n}{n^2+1}
+ \leq \frac4n,
+\]
+where the last inequality uses $m\geq n/2$, since the host is
+regular and $m>0$. For each fixed $\varepsilon$, we may exclude the
+finitely many source instances below any fixed order, so assume
+$n\geq16/(c\sqrt{\varepsilon})$. The subtraction is then at most
+$(c/4)\sqrt{\varepsilon}\,mN'$. Therefore the NO completion cost is
+at least $(c/4)\sqrt{\varepsilon}\,mN'$, whereas the YES cost is at
+most $4\varepsilon mN'$. Their ratio is at least
+$c/(16\sqrt{\varepsilon})$, which exceeds any fixed constant for a
+sufficiently small fixed $\varepsilon$. Hence the completion problem
+is SSE-hard to approximate within every fixed constant on bipartite
+inputs as well.
 
 \subsection{Deletion and labeling objectives}
 
@@ -143,9 +163,14 @@ $\beta=(c/2)\sqrt\varepsilon\leq1/12$ and
 $\sqrt\varepsilon<c/(32C)$, where $C\ge1$ is the desired factor.
 For the resulting graph $J=\mathcal L(G^*)$, the YES forest provides hierarchical
 labels by assigning each vertex its ancestors, including itself.
-Every $s$--$t$ path contains the lowest common ancestor of $s$ and $t$
-in the forest, so these are valid customizable labels. Each label has
-size at most $4\varepsilon |V(J)|$. Lemma~\ref{lem:linegraph-separators}
+Take any $s$--$t$ path and choose a vertex $z$ of minimum depth on it.
+Every edge of $J$ joins comparable vertices in the forest. Moving from
+$z$ along the path in either direction, the next vertex remains below
+$z$: if it is an ancestor of the preceding vertex, it cannot lie above
+$z$, since that would give it smaller depth. Thus $z$ is a common
+ancestor of $s$ and $t$, so these are valid customizable labels. Each
+label has size at most $4\varepsilon |V(J)|$.
+Lemma~\ref{lem:linegraph-separators}
 with $\rho=2/3$ gives NO average at least
 $(c/8)\sqrt\varepsilon\,|V(J)|$. Consequently every constant
 approximation factor is SSE-hard for average or maximum general

@@ -34,16 +34,17 @@ simple unweighted graphs is SSE-hard.
 \subsection{The source partition promise}
 
 For a finite undirected weighted graph $G$, let $W>0$ be the total
-undirected edge weight. Edge weights are positive rationals, and parallel
-edges and loops are allowed. Edge collections are treated as multisets,
-so parallel edges are counted separately. For a multiset $F$ of edges,
-$w(F)$ denotes its total weight, counting multiplicity. Define
-$\vol_G(A)=\sum_{v\in A}\deg_G(v)$ and
+undirected edge weight. Edge weights are positive rationals, and
+parallel edges and loops are allowed. Edge collections are treated as
+multisets, so parallel edges are counted separately. For a multiset
+$F$ of edges, $w(F)$ denotes its total weight, counting multiplicity.
+Let $\cut_G(A)$ be the multiset of edges with one endpoint in $A$ and
+the other outside $A$. The weighted degree $\deg_G(v)$ is the sum of
+the weights of the edges incident to $v$, with a loop counted twice.
+Define $\vol_G(A)=\sum_{v\in A}\deg_G(v)$ and
 $\mu_G(A)=\vol_G(A)/(2W)$. When $\vol_G(A)>0$, put
-$\Phi_G(A)=w(\cut_G(A))/\vol_G(A)$.
-A loop contributes twice its weight to the volume
-and never contributes to a cut. Here $\cut_G(A)$ is the multiset of
-edges with one endpoint in $A$ and the other outside $A$.
+$\Phi_G(A)=w(\cut_G(A))/\vol_G(A)$. Thus a loop contributes twice
+its weight to the volume and never contributes to a cut.
 
 \begin{theorem}[Global SSE partition gap, normalized form {\cite[Theorem~3.5]{RST}}]\label{thm:sse-source}
 There are absolute constants $c>0$ and $\varepsilon_0>0$ such that,

@@ -3,51 +3,10 @@
 \label{sec:source-normalizations}
 
 The subsections follow their first references in the main text:
-the provenance of the NP-hardness construction, the Khot--Regev
-promise, the balanced multipartite promise, the global SSE promise,
-and the parity normalization. The unweighting lemma precedes
-its use in the Khot--Regev proof. The final subsection records an
-additional pairwise-cover bound for the parity witness graph.
-
-\subsection{Provenance of the NP-hardness construction}
-\label{subsec:np-provenance}
-
-The reduction in Section~\ref{subsec:np-treedepth} passes from a constraint
-system to tripartite Vertex Cover and then to Treedepth, following
-Bonnet, Neuen, and Soko\l owski~\cite[Sections~3 and~4]{BNS}. Their
-truth-block and assignment-witness construction adapts Bonnet's earlier
-treewidth reduction~\cite[full version, Section~3.1]{BonnetTreewidth}.
-We inherit two opposite truth blocks per variable, complete bipartite
-edges between them, and witnesses for satisfying local assignments.
-For each variable in its equation, a witness is adjacent to the truth
-block assigning the value opposite to the witness's represented value.
-Thus a selected truth block is compatible with the witnesses
-that agree with its assignment. Variable-dependent block
-sizes also occur in Bonnet's full version~\cite[Section~3.5]{BonnetTreewidth}.
-
-Here the source predicates are three-variable parity equations. Each
-has four satisfying assignments. We add a star on their four
-witnesses, place its monochromatic witness $000$ or $111$ in a truth
-part, and place the other three in the third part. We choose the block
-size $5d_x/6$ by analyzing arbitrary partial assignments: uniformly
-completing the unassigned variables bounds the excess witnesses of an
-equation by $5r_j/6$, where $r_j$ is its number of unassigned variables.
-This is the soundness argument proved in Lemma~\ref{lem:xor-cover}.
-The corresponding argument in~\cite[proof of Lemma~10]{BNS} uses
-variable-by-variable exchanges in a vertex cover.
-Pairing the source with a complemented copy then makes all three
-parts have size $3m$. These are the modifications to the earlier
-encoding used in this proof.
-
-The anchor graph is the one in~\cite[Lemma~6]{BNS}. We use their
-identity as a black box at its stated anchor length, together
-with the cover-first upper bound and Claims~7 and~9 of their proof.
-The main-text corollary extends the identity to anchors as short
-as the largest part. Its derivation is given in
-Appendix~\ref{app:anchor-proof}. For our balanced source graph this
-allows $\ell=3m$ even though $\vc(G_F)\ge11m/2$. Combined with the
-parity-witness bound, the anchor identity yields the factor below
-$18/17$.
+the Khot--Regev promise, the balanced multipartite promise, the global
+SSE promise, the provenance of the NP-hardness construction, and the
+parity normalization. The unweighting lemma precedes its use in the
+Khot--Regev proof.
 
 \subsection{The Khot--Regev independent-set promise}
 \label{app:kr-normalization}
@@ -114,14 +73,14 @@ be constructed in polynomial time under the stated size assumption.
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:kr}]
-Khot and Regev's weighted independent-set
-gap~\cite[Section~4]{KhotRegev} has YES independent-set density
-$1-1/k-2\epsilon$ and NO density less than $\delta$.
-Their Theorem~3.2 derives the intermediate
-source promise from the ordinary UGC. Set $k=2$,
-$\epsilon=\eta/2$, and $\delta=\eta$. The YES density
-becomes $1-1/k-2\epsilon=1/2-\eta$, and the NO density is less
-than $\eta$. These are the two
+Khot and Regev's Theorem~3.2~\cite[Theorem~3.2]{KhotRegev} shows
+that the ordinary UGC implies their stronger Unique Games promise,
+Conjecture~3.1. Their Section~4 reduction~\cite[Section~4]{KhotRegev}
+with $k=2$, $\epsilon=\eta/2$, and $\delta=\eta$
+then gives a weighted $2$-uniform hypergraph, hence a weighted graph,
+with YES independent-set density $1-1/k-2\epsilon=1/2-\eta$ and
+NO density less than $\eta$. Merge any parallel edges, which does not
+change its independent sets. These are the two
 independent-set thresholds in Theorem~\ref{thm:kr}. It remains to
 remove the weights without altering either density.
 
@@ -309,6 +268,46 @@ promise, so the source reduction remains polynomial for each fixed
 $(q,\varepsilon)$.
 \end{proof}
 
+\subsection{Provenance of the NP-hardness construction}
+\label{subsec:np-provenance}
+
+The reduction in Section~\ref{subsec:np-treedepth} passes from a constraint
+system to tripartite Vertex Cover and then to Treedepth, following
+Bonnet, Neuen, and Soko\l owski~\cite[Sections~3 and~4]{BNS}. Their
+truth-block and assignment-witness construction adapts Bonnet's earlier
+treewidth reduction~\cite[full version, Section~3.1]{BonnetTreewidth}.
+We inherit two opposite truth blocks per variable, complete bipartite
+edges between them, and witnesses for satisfying local assignments.
+For each variable in its equation, a witness is adjacent to the truth
+block assigning the value opposite to the witness's represented value.
+Thus a selected truth block is compatible with the witnesses
+that agree with its assignment. Variable-dependent block
+sizes also occur in Bonnet's full version~\cite[Section~3.5]{BonnetTreewidth}.
+
+Here the source predicates are three-variable parity equations. Each
+has four satisfying assignments. We add a star on their four
+witnesses, place its monochromatic witness $000$ or $111$ in a truth
+part, and place the other three in the third part. We choose the block
+size $5d_x/6$ by analyzing arbitrary partial assignments: uniformly
+completing the unassigned variables bounds the excess witnesses of an
+equation by $5r_j/6$, where $r_j$ is its number of unassigned variables.
+This is the soundness argument proved in Lemma~\ref{lem:xor-cover}.
+The corresponding argument in~\cite[proof of Lemma~10]{BNS} uses
+variable-by-variable exchanges in a vertex cover.
+Pairing the source with a complemented copy then makes all three
+parts have size $3m$. These are the modifications to the earlier
+encoding used in this proof.
+
+The anchor graph is the one in~\cite[Lemma~6]{BNS}. We use their
+identity as a black box at its stated anchor length, together
+with the cover-first upper bound and Claims~7 and~9 of their proof.
+The main-text corollary extends the identity to anchors as short
+as the largest part. Its derivation is given in
+Appendix~\ref{app:anchor-proof}. For our balanced source graph this
+allows $\ell=3m$ even though $\vc(G_F)\ge11m/2$. Combined with the
+parity-witness bound, the anchor identity yields the factor below
+$18/17$.
+
 \subsection{The parity source normalization}
 \label{app:xor-normalization}
 
@@ -380,31 +379,4 @@ side, so the required balance also holds and $m$ is even. These
 operations increase the number of equations by the fixed factor
 twelve and therefore take polynomial time. This proves all the
 conditions in~\eqref{eq:xor-normalization}.
-\end{proof}
-
-\subsection{Pairwise covers of the parity witness graph}
-
-The independent-set identity of Lemma~\ref{lem:xor-cover} also bounds
-the vertex-cover number on each pair of parts of $G_F$.
-
-\begin{lemma}[Pairwise covers]\label{lem:xor-pair-covers}
-For distinct parts $X,Y$ of $G_F$,
-$\vc(G_F[X\cup Y])\ge7m/2-\OPT(F)$.
-\end{lemma}
-
-\begin{proof}
-Each union of two parts has $6m$ vertices by
-\eqref{eq:xor-equal-parts}. Fix any two distinct parts $X,Y$.
-Every independent set in $G_F[X\cup Y]$ is also independent in
-$G_F$: an induced subgraph has the same edges between
-its vertices as the whole graph. Hence
-$\alphaI(G_F[X\cup Y])\leq\alphaI(G_F)$.
-By the independent-set identity in Lemma~\ref{lem:xor-cover},
-$\alphaI(G_F)=5m/2+\OPT(F)$. Complementing an independent set
-within the $6m$ vertices of $G_F[X\cup Y]$ therefore gives
-\[
- \vc(G_F[X\cup Y])
- =6m-\alphaI(G_F[X\cup Y])
- \geq6m-\alphaI(G_F)=\frac{7m}{2}-\OPT(F).
-\]
 \end{proof}
