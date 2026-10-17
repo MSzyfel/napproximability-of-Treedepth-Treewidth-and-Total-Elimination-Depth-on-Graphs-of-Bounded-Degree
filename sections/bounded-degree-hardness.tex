@@ -372,25 +372,28 @@ their edge steps join vertex sets through eigenvalues of the adjacency
 matrix. A step traverses one edge in a chosen direction. A loop step
 stays at its vertex, and parallel edges give distinct steps. A real
 symmetric matrix has an orthonormal basis of eigenvectors. For an
-undirected multigraph
-$\mathcal E$ on $M$ vertices, let $A$ be its symmetric adjacency
-matrix. The entry $A_{uv}$ counts steps from $u$ to $v$, including
-loop steps when $u=v$. Since $A$ is symmetric, each step from $u$ to
+undirected multigraph $\mathcal E$ on $M$ vertices, write
+$A_{\mathcal E}$ for its symmetric adjacency matrix. The entry
+$(A_{\mathcal E})_{uv}$ counts steps from $u$ to $v$, including loops
+when $u=v$. Since $A_{\mathcal E}$ is symmetric, each step from $u$ to
 $v$ has a reverse step from $v$ to $u$. Let $\mathbf1$ be the all-ones vector.
 Here $d$-regular means that every row sum is $d$, so there are $d$
-possible next steps from each vertex. Hence $A\mathbf1=d\mathbf1$.
+possible next steps from each vertex. Hence $A_{\mathcal E}\mathbf1=d\mathbf1$.
 The subspace of zero-sum vectors is the orthogonal complement of
-$\mathbf1$ and is invariant under $A$, since
-$\mathbf1^{\mathsf T}Ax=(A\mathbf1)^{\mathsf T}x=d\mathbf1^{\mathsf T}x=0$ whenever
-$\mathbf1^{\mathsf T}x=0$. We call $\mathcal E$ a
+$\mathbf1$ and is invariant under $A_{\mathcal E}$: if
+$\mathbf1^{\mathsf T}x=0$, then
+$\mathbf1^{\mathsf T}A_{\mathcal E}x=(A_{\mathcal E}\mathbf1)^{\mathsf T}x
+=d\mathbf1^{\mathsf T}x=0$.
+We call $\mathcal E$ a
 \emph{spectral expander with eigenvalue bound $\lambda<d$} if every
 eigenvalue on this subspace has absolute value at most $\lambda$.
 For a bounded-degree expander family, $d$ and a bound below one on
 $\lambda/d$ are fixed independently of $M$.
 
 For $S,T\subseteq V(\mathcal E)$, put
-$e_{\mathcal E}(S,T)=\sum_{u\in S,v\in T}A_{uv}$. This counts
-ordered steps with multiplicity, and the sets need not be disjoint.
+$e_{\mathcal E}(S,T)=\sum_{u\in S,v\in T}(A_{\mathcal E})_{uv}$.
+This counts ordered steps with multiplicity, and the sets need not be
+disjoint.
 If the $d|S|$ steps leaving $S$ had endpoints uniformly distributed
 over all $M$ vertices, then $d|S||T|/M$ of them would end in $T$.
 The lemma bounds the error in this expected-count heuristic.
@@ -411,10 +414,11 @@ and different choices among parallel edges count as different
 walks. The \emph{$k$th walk power} of $\mathcal E$ has the same
 vertices, with one step from $u$ to $v$ for each length-$k$ walk
 from $u$ to $v$ in $\mathcal E$. Matrix multiplication counts these
-walks, so its adjacency matrix is $A^k$. Since
-$A^k\mathbf1=d^k\mathbf1$, the walk power is $d^k$-regular.
-Each eigenvector of $A$ is also an eigenvector of $A^k$, with
-eigenvalue raised from $\mu$ to $\mu^k$. Hence the zero-sum
+walks, so its adjacency matrix is $A_{\mathcal E}^k$. Since
+$A_{\mathcal E}^k\mathbf1=d^k\mathbf1$, the walk power is $d^k$-regular.
+Each eigenvector of $A_{\mathcal E}$ is also an eigenvector of
+$A_{\mathcal E}^k$, with eigenvalue raised from $\mu$ to $\mu^k$.
+Hence the zero-sum
 eigenvalue bound becomes $\lambda^k$. Taking a fixed walk power
 therefore makes $(\lambda/d)^k$ as small as needed while keeping
 the degree independent of $M$.
