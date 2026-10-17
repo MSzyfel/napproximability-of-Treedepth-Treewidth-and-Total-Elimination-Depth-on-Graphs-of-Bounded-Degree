@@ -18,17 +18,17 @@ The additional argument is a treedepth upper bound in the YES case.
 
 \emph{The output graph.}
 Let $G$ be their regular source host, with $m>0$ edges, and let
-$r\geq |V(G)|m$ be an integer. Denote its incidence output by
-$G'$. Its vertex set is the disjoint union of $V(G)\times[r]$ and
+$R_{\mathrm{inc}}\geq |V(G)|m$ be an integer. Denote its incidence output by
+$G'$. Its vertex set is the disjoint union of $V(G)\times[R_{\mathrm{inc}}]$ and
 $E(G)$: $(v,s)$ is the $s$th copy of the host vertex $v$, whereas
 the output vertex indexed by $e\in E(G)$ represents a host edge.
 The adjacency rule is
 \[
  \{e,(v,s)\}\in E(G')
  \quad\Longleftrightarrow\quad
- e\in E(G),\ v\in e,\ s\in[r].
+ e\in E(G),\ v\in e,\ s\in[R_{\mathrm{inc}}].
 \]
-There are no edges within either $V(G)\times[r]$ or $E(G)$, and
+There are no edges within either $V(G)\times[R_{\mathrm{inc}}]$ or $E(G)$, and
 no other edges. In particular, $G'$ is simple and bipartite.
 
 \emph{The YES forest.}
@@ -104,7 +104,7 @@ $m\geq1/(2\varepsilon^2)\geq1/\varepsilon$. The YES upper bound thus satisfies
 whereas the NO lower bound is
 $c\sqrt{\varepsilon}\,m>4C\varepsilon m$. Thus a factor-$C$
 approximation distinguishes the two cases. Finally, taking
-$r=|V(G)|m$ makes the incidence output polynomial in the source
+$R_{\mathrm{inc}}=|V(G)|m$ makes the incidence output polynomial in the source
 size. This proves SSE hardness for treedepth at every fixed factor
 on bipartite outputs from the cited construction.
 

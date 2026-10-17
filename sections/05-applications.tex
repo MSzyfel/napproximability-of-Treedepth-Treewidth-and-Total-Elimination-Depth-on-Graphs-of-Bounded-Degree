@@ -74,16 +74,17 @@ target class to trivially perfect graphs changes the optimum, so
 that theorem alone does not prove the statement here.
 The incidence construction of Wu, Austrin, Pitassi, and Liu
 ~\cite[Sections~4.3 and~5]{APW} also gives this hardness on bipartite
-inputs. Let $n=|V(G)|$, $N'=|V(G')|=rn+m$, and
-$r=nm$, as in Appendix~\ref{app:incidence-proof}. The output is
-bipartite and has at most $2rm$ edges. Its YES total depth is at most
+inputs. Let $n=|V(G)|$ and take $R_{\mathrm{inc}}=nm$, as in
+Appendix~\ref{app:incidence-proof}. Then $N'=|V(G')|=R_{\mathrm{inc}}n+m
+=m(n^2+1)$, and the output has at most
+$2R_{\mathrm{inc}}m=2nm^2$ edges. Its YES total depth is at most
 $4\varepsilon mN'$, since its treedepth is at most $4\varepsilon m$.
 In the NO case, Lemma~\ref{lem:balanced-by-td} gives total depth at
 least $(c/2)\sqrt{\varepsilon}\,mN'$. The completion identity
 subtracts $N'+|E(G')|$, and
 \[
  \frac{N'+|E(G')|}{mN'}
- \leq \frac{rn+m+2rm}{m(rn+m)}
+ \leq \frac{N'+2nm^2}{mN'}
  =\frac1m+\frac{2n}{n^2+1}
  \leq \frac4n,
 \]
