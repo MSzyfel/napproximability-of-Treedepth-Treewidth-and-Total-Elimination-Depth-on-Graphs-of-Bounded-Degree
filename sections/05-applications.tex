@@ -289,7 +289,8 @@ vertices on the other.
 For each edge occurrence $e=uv$ before subdivision, the two new
 edges are $ux_e$ and $x_ev$. Their vertices in $\mathcal L(B)$ are
 adjacent. Contracting these pairs, one pair for every edge occurrence,
-recovers $H$. Hence minor monotonicity gives
+recovers $H$. Treedepth cannot increase under vertex deletion,
+edge deletion, or edge contraction, so
 $\td(H)\leq\td(\mathcal L(B))$. Conversely, replace each vertex of
 an elimination forest of $H$ by a two-vertex chain, attaching its
 child subtrees below the lower copy. Every edge of $\mathcal L(B)$
