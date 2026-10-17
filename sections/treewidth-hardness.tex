@@ -56,12 +56,13 @@ In particular, that bag has size at least $R\vc(G)$.
 We apply the cover argument from~\cite[proof of Lemma~6]{BonnetTreewidth}
 to the disjoint union of the $R$ source copies.
 Fix a tree decomposition with underlying tree $T$ and bags $B_u$.
-For each $X\in\{A,B,C\}$, choose a node $u_X$ whose bag contains the global
-clique $X^*$. The bag subtrees of its vertices intersect pairwise,
-since every pair is an edge. Pairwise-intersecting subtrees of a tree
-have a common node (the Helly property), so some bag contains all of
-$X^*$~\cite[Lemma~4]{BonnetTreewidth}.
-An empty part can be assigned any node. Let $u$ be the median of
+For each $X\in\{A,B,C\}$ with $X^*\ne\emptyset$, the bags
+containing each vertex form
+a connected subtree of $T$. Since $X^*$ is a clique, every two of
+these subtrees intersect. The Helly property for subtrees of a tree
+therefore gives a node $u_X$ whose bag contains all of $X^*$
+~\cite[Lemma~4]{BonnetTreewidth}. If $X^*$ is empty, choose any node
+$u_X$. Let $u$ be the median of
 $u_A,u_B,u_C$, namely the unique common node of their three pairwise
 connecting paths.
 
