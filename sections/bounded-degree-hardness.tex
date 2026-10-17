@@ -52,10 +52,11 @@ three steps.
    solution of height or width at most $z+|D|$, or total depth at
    most $z+N|D|$.
  \item \emph{Keep the total loss below the hardness gap.}
-   Choose each factor's threshold as a small fraction of its
-   number of vertices. If each vertex belongs to at most a fixed
-   number of factors, the sum of all factor sizes is $O(N)$.
-   Hence $|D|\le\varepsilon N$ for any prescribed fixed
+   Choose $t_f$ so that $t_f-1$ is a small fraction of $|U_f|$
+   for a clique factor and of $\min\{|A_f|,|B_f|\}$ for a
+   biclique factor. If every vertex lies in at most a fixed number
+   of factor supports, then $\sum_f |U_f|=O(N)$. Hence
+   $|D|\le\varepsilon N$ for any prescribed fixed
    $\varepsilon>0$, by choosing those fractions sufficiently small.
    The resulting losses are at most $\varepsilon N$ for treedepth
    and treewidth, and $\varepsilon N^2$ for total depth. The dense
@@ -66,10 +67,13 @@ three steps.
 
 For the maximum degree to be bounded, we also need bounded degree
 in $E_0$ and a bounded ratio between the two side sizes of every
-biclique. The expander construction below then gives a constant
-degree contribution from each factor. Bounded factor membership
-bounds their sum at every vertex. These constants may depend on
-the desired approximation ratio, but not on $N$. For treewidth, each
+biclique. This ratio lets us choose a fixed walk power for which
+the thresholds above exceed $\lambda_0^kM$ in every factor. The
+expander construction then gives a constant degree contribution
+from each factor. Since each vertex lies in a bounded number of
+factor supports, its total degree is bounded. These constants may
+depend on the desired approximation ratio, but not on $N$. For
+treewidth, each
 side of every biclique must additionally be partitionable into a
 bounded number of sets, each contained in a clique-factor support.
 The corresponding clique-factor bags anchor the side sets in the
@@ -174,8 +178,9 @@ A depth-first traversal introduces a vertex, traverses each of its
 child subtrees completely, and then forgets it. Assign a distinct
 time to each introduction and forgetting event, traversing different
 rooted trees consecutively. Let $t_{\mathrm{in}}(v)$ and $t_{\mathrm{out}}(v)$ be the
-introduction and forgetting times of $v$. Its descendants are the
-vertices visited during $[t_{\mathrm{in}}(v),t_{\mathrm{out}}(v)]$.
+introduction and forgetting times of $v$. The vertices in the
+subtree rooted at $v$ are those visited during
+$[t_{\mathrm{in}}(v),t_{\mathrm{out}}(v)]$.
 Two vertices are incomparable if and only if these intervals
 are disjoint. Let $K$ be the bipartite graph on $A,B$ whose edges
 are the incomparable pairs. Partition its edges according to
