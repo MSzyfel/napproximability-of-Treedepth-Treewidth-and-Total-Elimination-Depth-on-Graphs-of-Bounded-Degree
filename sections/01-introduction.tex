@@ -268,9 +268,10 @@ vertex immediately below the deepest original vertex of its part without
 increasing total depth. All $M$ vertices associated with a part then
 have the same depth, so their total contribution is $M$ times the
 sum of these three depths. Vertices on all three paths cover the edges
-incident to one part and contribute twice to the depth sum. After
-removing them, vertices on the other two paths cover the remaining
-edges between those parts and contribute once. In the construction
+incident to one part and are counted three times, two counts beyond
+their baseline count of one. After removing them, vertices on the
+other two paths cover the remaining edges between those parts and are
+counted twice, one count beyond baseline. In the construction
 from cubic Independent Set, an added matching makes
 the cover cost associated with $A$ smaller than those associated with
 $B$ and $C$. For the constructed graph, the minimum total depth is

@@ -411,13 +411,13 @@ therefore makes $(\lambda/d)^k$ as small as needed while keeping
 the degree independent of $M$.
 
 The Margulis--Gabber--Galil construction gives, for every integer
-$s\ge1$, a deterministically constructible eight-regular multigraph
-on $\mathbb Z_s^2$, where $\mathbb Z_s$ denotes the integers modulo
-$s$, with eigenvalue bound $5\sqrt2$
+$\nu\ge1$, a deterministically constructible eight-regular multigraph
+on $\mathbb Z_\nu^2$, where $\mathbb Z_\nu$ denotes the integers modulo
+$\nu$, with eigenvalue bound $5\sqrt2$
 \cite[Construction~8.1 and Theorem~8.2]{HLW2006}. Its intermediate
 loops and parallel edges are allowed under the convention above.
 Put $\lambda_0=5\sqrt2/8<1$. Its $k$th walk power has
-$M=s^2$ vertices, degree $d=8^k$, and eigenvalue bound
+$M=\nu^2$ vertices, degree $d=8^k$, and eigenvalue bound
 $d\lambda_0^k$. Lemma~\ref{lem:expander-mixing} therefore gives
 \begin{equation}\label{eq:factor-expander-mixing}
  e_{\mathcal E}(S,T)\ge d|S||T|/M-d\lambda_0^k\sqrt{|S||T|}
@@ -639,36 +639,40 @@ have the form
  \frac{a_0^{|x|}(a_1-a_0)^{R-|x|}}{|V|a_1^R},
  \qquad v\in V,\quad x\in\{0,1\}^R.
 \]
-Thus $N=|V|a_1^R$ is polynomial in the Unique Games instance, since
-$a_1$ and $R$ are fixed. Replace each original vertex $u$ by
-$m_u=Na_u$ independent copies, called \emph{clones}, labeled
+Thus $N_{\mathrm{cl}}=|V|a_1^R$ is polynomial in the Unique Games
+instance, since $a_1$ and $R$ are fixed. Replace each original vertex
+$u$ by $m_u=N_{\mathrm{cl}}a_u$ independent copies, called
+\emph{clones}, labeled
 $(u,1),\ldots,(u,m_u)$. These copies form the \emph{clone block} of $u$.
 For every edge $uv$ of weight $w_{uv}$ in $G^-$, join each clone
 of $u$ to each clone of $v$ by an edge of weight
 $w_{uv}/(m_um_v)$. There are no other edges.
 Denote this edge-weighted, vertex-unweighted
-graph by $G_1$. It has $N$ vertices, total edge weight at most one,
-and weighted degree at most $2/N$ at each vertex.
+graph by $G_1$. It has $N_{\mathrm{cl}}$ vertices, total edge weight
+at most one, and weighted degree at most $2/N_{\mathrm{cl}}$ at each vertex.
 
 A clone of $u$ has weighted degree
-$\deg_{G^-}(u)/m_u\le2a_u/(Na_u)=2/N$.
+$\deg_{G^-}(u)/m_u\le2a_u/(N_{\mathrm{cl}}a_u)=2/N_{\mathrm{cl}}$.
 The YES independent set becomes one of the same normalized size by
 selecting all its clone blocks.
 
 \begin{lemma}[Density after vertex unweighting]\label{lem:aks-clone-density}
 In the NO case, every $S'\subseteq V(G_1)$ satisfies
 \begin{equation}\label{eq:aks-clone-density}
- e_{G_1}(S')\ge\Gamma_\xi(|S'|/N)-\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}.
+ \begin{aligned}
+ e_{G_1}(S')&\ge\Gamma_\xi(|S'|/N_{\mathrm{cl}})\\
+ &\quad-\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}.
+ \end{aligned}
 \end{equation}
 \end{lemma}
 
 \begin{proof}
 Take any $S'\subseteq V(G_1)$ and let $f_u$ be the fraction of
 clones of $u$ in $S'$. Include each original vertex $u$ in a random
-set $S$ independently with probability $f_u$. Since $a_u=m_u/N$,
+set $S$ independently with probability $f_u$. Since $a_u=m_u/N_{\mathrm{cl}}$,
 \[
  \mathbb E[a(S)]=\sum_u a_uf_u
- =\frac1N\sum_u m_uf_u=\frac{|S'|}{N}.
+ =\frac1{N_{\mathrm{cl}}}\sum_u m_uf_u=\frac{|S'|}{N_{\mathrm{cl}}}.
 \]
 There are no loops in $G^-$. Thus the two endpoints of each edge
 are chosen independently, and
@@ -683,7 +687,7 @@ convexity of $\Gamma_\xi$ gives
  e_{G_1}(S')=\mathbb E[e_{G^-}(S)]
  \ge\mathbb E[\Gamma_\xi(a(S))]
    -\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}
- \ge\Gamma_\xi(|S'|/N)
+ \ge\Gamma_\xi(|S'|/N_{\mathrm{cl}})
    -\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}.
 \]
 This is the argument of~\cite[Section~4, Step~1]{AKS2011}, applied

@@ -101,10 +101,10 @@ For every graph $G$ on $n$ vertices and integer $q\geq1$,
 \begin{proof}
 Fix a maximum independent set $I$ of $G$. Put the $q$ copies of every
 vertex of $V(G)\setminus I$ on one chain. Beneath this chain, put one
-chain containing the copies of $I$ in each layer. There are no edges
-between the latter chains: within a layer all vertices are comparable,
-and across different layers an edge would require two vertices of $I$
-to be adjacent in $G$. Every edge incident to a vertex on the top chain
+chain containing the copies of $I$ in each layer. Each lower chain
+contains one layer's copies of $I$. Vertices in different lower chains
+lie in different layers, and an edge between them would require two
+vertices of $I$ to be adjacent in $G$. Every edge incident to a vertex on the top chain
 has comparable endpoints. This is an elimination forest of height
 $q(n-|I|)+|I|$. If the top chain is empty, use the $q$ lower chains as
 separate rooted trees.

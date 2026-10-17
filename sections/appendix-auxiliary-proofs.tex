@@ -325,8 +325,9 @@ There are three cases.
 
  \item Suppose all three anchors are comparable, and let $v_X$
    be the deepest. Every vertex of the other two anchor cliques lies
-   above $v_X$. Apply~\eqref{eq:anchor-path-bound} with
-   $R=K_Y\cup K_Z$ to obtain $h(F)\ge3\ell+1$.
+   above $v_X$. Apply Lemma~\ref{lem:anchor-path} and its bound
+   \eqref{eq:anchor-path-bound} with $R=K_Y\cup K_Z$ to obtain
+   $h(F)\ge3\ell+1$.
 
  \item Otherwise some pair is comparable, but the three anchors do
    not form a chain. Relabel so that $v_A$ is an ancestor of
@@ -338,8 +339,9 @@ There are three cases.
    $|S|\ge\vc(G[B\cup C])$. Every vertex
    of $K_A$ is an ancestor of $v_A$, and hence of $v_B$.
    Therefore $R=S\cup K_A$ is disjoint from $K_B\cup\{z_B\}$ and
-   consists of ancestors of $v_B$. Equation~\eqref{eq:anchor-path-bound}
-   gives $h(F)\ge2\ell+|S|+1\ge2\ell+\vc_2(G)+1$.
+   consists of ancestors of $v_B$. Lemma~\ref{lem:anchor-path} and
+   its bound~\eqref{eq:anchor-path-bound} give
+   $h(F)\ge2\ell+|S|+1\ge2\ell+\vc_2(G)+1$.
 \end{enumerate}
 Taking the weakest of these three bounds proves the lemma.
 \end{proof}
