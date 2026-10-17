@@ -65,8 +65,14 @@ Apply~\eqref{eq:tp-adjusted-cost} to the SSE hardness of total
 depth in Corollary~\ref{cor:total-depth-bounded-degree}.
 \end{proof}
 
-Earlier work establishes NP-hardness and parameterized lower
-bounds for this completion problem~\cite{HogemoEtAl2021,BliznetsEtAl2016}.
+Yannakakis proved that deciding whether at most $k$ edges suffice to
+complete a graph to a trivially perfect graph is NP-hard, as recorded
+by H\o gemo et al.~\cite{Yannakakis1981,HogemoEtAl2021}. Bliznets,
+Cygan, Komosa, Mach, and Pilipczuk show that, under ETH, for some
+fixed $c\ge1$ there is no
+$2^{O(k^{1/4}/\log^c k)}n^{O(1)}$-time algorithm for this completion
+problem, where $k$ is the number of added edges and $n$ is the input
+order~\cite[Theorem~1.1]{BliznetsEtAl2016}.
 The SSE hardness of \emph{chordal} Minimum Fill-In at every fixed factor,
 whose target graphs have no induced cycle of length at least four,
 is already known~\cite[Theorem~1.2]{APW}. Restricting the
