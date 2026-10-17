@@ -342,21 +342,22 @@ bounded-degree result, Section~\ref{sec:bounded-degree-hardness} also
 derives the degree bound from the weighted source by the same
 factor-completion tools used for NP and UGC hardness.
 
-H\o gemo, Bergougnoux, Brandes, Paul, and Telle~\cite{HogemoEtAl2021} introduce VPT-sum and
+H\o gemo, Bergougnoux, Brandes, Paul, and Telle~\cite{HogemoEtAl2021} introduce VPT-sum,
 identify its relation to trivially perfect completion, and prove
-NP-hardness. On a connected graph, a query decision tree is an
-elimination tree: after querying $v$, its child subtrees correspond
-to the components of $G-v$. With uniform target probabilities and
-unit query costs, the expected search cost is the mean vertex depth,
-so its optimum is $\totd(G)/|V(G)|$
+NP-hardness. In vertex-query graph search, a query at $v$ either finds
+the hidden target or identifies the component of $G-v$ containing it.
+Thus, on a connected graph, a search decision tree is an elimination
+tree whose child subtrees correspond to those components. With uniform
+target probabilities and unit query costs, the expected search cost
+is the mean vertex depth, so its optimum is $\totd(G)/|V(G)|$
 ~\cite{HogemoEtAl2021,Szyfelbein2025GraphSearch}.
 Szyfelbein~\cite{Szyfelbein2025GraphSearch} gives an
 $O(\sqrt{\log n})$-approximation for the more general search
-problem with nonuniform weights and query costs. The later treatment
-also considers target-dependent costs~\cite{Szyfelbein2026GraphSearch}.
+problem with nonuniform target weights and query costs. A subsequent
+preprint also studies target-dependent costs~\cite{Szyfelbein2026GraphSearch}.
 Our NP and UGC total-depth reductions have connected outputs. The UGC
 graph $S_q(G)$ is connected whenever $G$ has an edge. The edgeless
-source is a trivial YES instance and can be mapped to $K_1$. The NP
+source is always a YES instance and can be mapped to $K_1$. The NP
 construction joins its three part cliques by source-edge paths. The
 bounded-degree replacements retain these joining edges and replace
 each dense factor by a connected expander. Thus the same
