@@ -8,11 +8,12 @@ of a rooted forest in which, for every graph edge, one endpoint is
 an ancestor of the other. Such a forest is an \emph{elimination forest}.
 This formulation connects treedepth to graph search,
 vertex ranking, and symbolic elimination
-\cite{Reidl2014,BodlaenderRankings}. Treewidth is one less than the
-size of the largest bag in a tree decomposition and has a central role
-in algorithms based on dynamic programming. The two parameters constrain different
-features of a decomposition: treedepth controls its depth, whereas
-treewidth controls its largest bag. We write $\td(G)$ for treedepth
+\cite{Reidl2014,BodlaenderRankings}. Treewidth is the minimum, over
+tree decompositions, of one less than the largest bag size. It has a
+central role in algorithms based on dynamic programming. The two
+parameters constrain different features of a decomposition: treedepth
+controls its depth, whereas treewidth controls its largest bag. We
+write $\td(G)$ for treedepth
 and $\operatorname{tw}(G)$ for treewidth. Although
 $\operatorname{tw}(G)+1\leq\td(G)$, approximation lower bounds do not
 transfer between them without control of the YES-case decomposition.
@@ -39,7 +40,7 @@ Each row states a promise-hardness result under its named assumption.
 NP-hardness means unless $\mathrm{P}=\mathrm{NP}$.
 
 \Needspace{12\baselineskip}
-\begin{theorem}[Main approximation bounds]
+\begin{theorem}[Treedepth and treewidth approximation bounds]
 \label{thm:main-results}
 For each row below and every fixed factor $r$ in the indicated
 range, approximating the corresponding parameter within factor $r$
