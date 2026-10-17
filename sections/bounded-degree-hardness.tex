@@ -663,8 +663,9 @@ instance, since $a_1$ and $R$ are fixed. Replace each original vertex
 $u$ by $m_u=N_{\mathrm{cl}}a_u$ independent copies, called
 \emph{clones}, labeled
 $(u,1),\ldots,(u,m_u)$. These copies form the \emph{clone block} of $u$.
-For every edge $uv$ of weight $w_{uv}$ in $G^-$, join each clone
-of $u$ to each clone of $v$ by an edge of weight
+If several source edges join the same pair of vertices, combine their
+weights. For every resulting edge $uv$ of weight $w_{uv}$ in $G^-$,
+join each clone of $u$ to each clone of $v$ by an edge of weight
 $w_{uv}/(m_um_v)$. There are no other edges.
 Denote this edge-weighted, vertex-unweighted
 graph by $G_1$. It has $N_{\mathrm{cl}}$ vertices, total edge weight
