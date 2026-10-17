@@ -1,10 +1,12 @@
 \subsection{Treewidth}
 \label{sec:tw-transfer}
 
-We prove UGC-hardness below $4/3$ by transferring the tripartite
-Vertex Cover gap of B\'erczi, Chandrasekaran, Kir\'aly, Lee, and
-Xu~\cite[Sections~3.5 and~3.6]{BCKLX2017} to treewidth. The same
-transfer will give the NP-hardness bound in
+We prove UGC-hardness below $4/3$ by transferring a balanced,
+unweighted tripartite Vertex Cover gap to treewidth. We derive this
+gap from Khot--Regev using a multipartite product; B\'erczi,
+Chandrasekaran, Kir\'aly, Lee, and Xu prove a related weighted
+$k$-partite Vertex Cover gap under UGC~\cite[Section~3.5]{BCKLX2017}.
+The same transfer gives the NP-hardness bound in
 Section~\ref{subsec:np-treewidth}.
 
 \begin{theorem}\label{thm:tw-ugc}
@@ -29,13 +31,14 @@ For an integer $R\ge1$, take copies $G_1,\ldots,G_R$ on
 $V(G)\times\{1\},\ldots,V(G)\times\{R\}$, writing $v_j=(v,j)$.
 For $X\in\{A,B,C\}$, let $X_j=X\times\{j\}$ and
 $X^*=X\times[R]$. Define $K_R(G)$ on $V(G)\times[R]$ by
+writing $\binom{X^*}{2}$ for the set of unordered pairs of distinct
+vertices in $X^*$:
 \[
  E(K_R(G))=
  \bigcup_{X\in\{A,B,C\}}\binom{X^*}{2}
  \;\cup\;\bigcup_{j=1}^R\{\{u_j,v_j\}:uv\in E(G)\}.
 \]
-Here $\binom{X^*}{2}$ is the set of all unordered pairs of distinct
-vertices of $X^*$. These are all the edges: each global part is a
+These are all the edges: each global part is a
 clique, and vertices in different global parts are adjacent if and only if
 they belong to the same copy and their source vertices are
 adjacent in $G$.
@@ -130,11 +133,16 @@ For every such $G$ and every integer $R\geq1$,
 
 
 \begin{proof}
-The largest global clique has size $Rn_{\max}$, and
-Lemma~\ref{lem:tw-central-bag} gives a bag of size at least
-$R\vc(G)$. For the upper bound, apply
-Lemma~\ref{lem:tw-cover-decomposition} to a minimum cover of $G$.
-Subtracting one from the bag sizes gives both bounds.
+Every tree decomposition has a bag containing the largest global
+clique, so its largest bag has size at least $Rn_{\max}$. By
+Lemma~\ref{lem:tw-central-bag}, it also has a bag of size at least
+$R\vc(G)$. Therefore its largest bag has size at least
+$R\max\{\vc(G),n_{\max}\}$, and subtracting one gives the lower
+bound on treewidth. For the upper bound, apply
+Lemma~\ref{lem:tw-cover-decomposition} to a minimum cover of $G$:
+its largest bag has size at most
+$R\max\{\vc(G),n_{\max}\}+n_{\max}$. Subtracting one gives the
+stated upper bound.
 \end{proof}
 
 For fixed $R$, the construction has $R|V(G)|$ vertices and is
@@ -143,11 +151,16 @@ polynomial in the source size.
 \subsubsection{The approximation gap}
 
 For the UGC reduction we need cover thresholds $(1/2+\zeta)N$ and
-$(2/3-\zeta)N$ on balanced tripartite graphs. B\'erczi et al. prove
-the general $k$-partite thresholds by a direct Unique Games
-reduction~\cite[Sections~3.5--3.6]{BCKLX2017}. We derive the needed
-balanced, unweighted form from the Khot--Regev promise using the
-product below. Its degree identity will also be used in
+$(2/3-\zeta)N$ on balanced tripartite graphs. More generally,
+B\'erczi, Chandrasekaran, Kir\'aly, Lee, and Xu prove that for every fixed $k\geq3$ and sufficiently
+small fixed $\epsilon,\eta,\beta>0$, it is UGC-hard to distinguish weighted $k$-partite
+Vertex Cover instances with optimum at most
+$k(1+\epsilon)/2+k\eta$ from instances with optimum at least
+$(k-1)(1-\epsilon)(1-\beta)$; as $\epsilon,\eta,\beta$ tend to zero,
+the gap ratio tends to $2(k-1)/k$~\cite[Section~3.5]{BCKLX2017}.
+We derive the balanced, unweighted form needed here from the
+Khot--Regev independent-set promise using the product below. Its degree
+identity will also be used in
 Section~\ref{sec:bounded-degree-hardness}.
 
 \begin{lemma}[Multipartite product]\label{lem:multipartite-product}
@@ -173,7 +186,7 @@ Each copy of a vertex has one neighbor in each of the other
 $k-1$ layers for every source neighbor, giving the degree identity.
 \end{proof}
 
-\begin{theorem}[Multipartite source, normalized form {\cite[Sections~3.5--3.6]{BCKLX2017}}]
+\begin{theorem}[Balanced unweighted multipartite cover gap from Khot--Regev]
 \label{thm:ugc-tripartite-cover}
 For every fixed integer $k\geq3$ and fixed rational
 $0<\zeta<1/12$, it is Unique Games-hard
@@ -183,10 +196,10 @@ with $\vc(G)\leq(1/2+\zeta)N$ \textup{(YES)} from those with
 $\vc(G)\geq(1-1/k-\zeta)N$ \textup{(NO)}.
 \end{theorem}
 
-The normalization follows from Lemma~\ref{lem:multipartite-product}.
-Appendix~\ref{app:multipartite-normalization} records the parameter
-substitution. Taking $k=3$ and applying the replication lemma proves
-the treewidth gap.
+The promise follows from Theorem~\ref{thm:kr} and
+Lemma~\ref{lem:multipartite-product}. Appendix~\ref{app:multipartite-normalization}
+records the parameter substitution. Taking $k=3$ and applying the
+replication lemma proves the treewidth gap.
 
 
 

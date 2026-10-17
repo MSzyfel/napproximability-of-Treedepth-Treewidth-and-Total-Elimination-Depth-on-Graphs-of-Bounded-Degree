@@ -35,6 +35,8 @@ We strengthen the approximation lower bounds for both parameters
 and preserve them on graphs of bounded maximum degree. UGC denotes
 the ordinary Unique Games Conjecture, and SSEH denotes the Small Set
 Expansion Hypothesis.
+Each row states a promise-hardness result under its named assumption;
+NP-hardness means unless $\mathrm{P}=\mathrm{NP}$.
 
 \Needspace{12\baselineskip}
 \begin{theorem}[Main approximation bounds]
@@ -64,19 +66,21 @@ theorems in Section~\ref{sec:bounded-degree-hardness}. The resulting
 bounds are collected in Corollaries~\ref{cor:td-bounded-degree}
 and~\ref{cor:tw-bounded-degree}. Wu, Austrin, Pitassi, and
 Liu~\cite{APW} proved all-constant SSE hardness for treewidth on
-general graphs. Our line-graph construction extends this conclusion
-to bounded-degree graphs and gives the corresponding treedepth result.
+general graphs. Their regular-host partition promise gives bounded-degree
+treewidth instances directly. Our line-graph construction transfers the
+same SSE hardness to treedepth.
 
 The bounded-degree treedepth result answers the conjecture of
 Schirrmacher, Siebertz, and Vigny~\cite[Conjecture~1]{SchirrmacherSiebertzVigny2025}
-and strengthens it to approximation hardness. Dirks et al. prove
+and strengthens it to approximation hardness. Dirks, Schirrmacher,
+Siebertz, and Vigny prove
 NP-completeness of weighted treedepth on graphs of maximum degree
 ten~\cite{DirksEtAl2026Weighted}. Our instances are unweighted.
 For treewidth, NP-completeness is already known on cubic
 graphs~\cite{BodlaenderEtAl2023Cubic}. The degree bounds in our
 approximation results depend on the target ratio.
 
-Wu et al.'s earlier incidence construction also implies all-constant
+Wu, Austrin, Pitassi, and Liu's earlier incidence construction also implies all-constant
 SSE hardness for treedepth after an additional elimination-forest
 argument. We give that derivation in Appendix~\ref{app:incidence-proof}.
 The line-graph proof in Section~\ref{sec:sseh} gives balanced-separator
@@ -122,7 +126,7 @@ elimination depths. A balanced separator, whose deletion leaves every
 component with at most half the vertices, supplies this estimate,
 and an adjusted-cost argument handles the offset between total depth
 and the number of added edges. The identity relating these objectives
-is established in~\cite{HogemoEtAl2021}. Wu et al. prove all-constant
+is established in~\cite{HogemoEtAl2021}. Wu, Austrin, Pitassi, and Liu prove all-constant
 SSE hardness for chordal Minimum Fill-In~\cite{APW}, but that result
 does not cover trivially perfect completions, which form a more
 restricted target class.
@@ -138,9 +142,12 @@ from these constructions and from established reductions:
    inherits UGC hardness below $4/3$ and all-constant SSE hardness.
    The SSE separator gap also gives all-constant hardness for
    fracture number, starwidth, average general labels, maximum general
-   labels, and average hierarchical labels, using the comparisons
+    labels, and average and maximum hierarchical labels, using the comparisons
    in~\cite{GimaEtAlIntegrity} and the label lower bound
    of Blum and Storandt~\cite{BlumStorandt2023}.
+    The SSE line-graph construction also gives all-constant hardness
+    for edge ranking on simple bipartite hosts, via
+    $\operatorname{er}(B)=\td(\mathcal L(B))$~\cite{BodlaenderRankings}.
  \item \emph{Automata and hypergraph widths.} Gruber's established
    transformations~\cite{Gruber2012} carry the treedepth gaps to
    star height of regular languages represented by deterministic
@@ -191,10 +198,12 @@ to $3/8$ and $3/7$, respectively, relative to $q^2n^2$.
 Their ratio gives the factor $8/7$.
 
 \paragraph{Treewidth under UGC.}
-We transfer the tripartite Vertex Cover gap of
-B\'erczi et al.~\cite{BCKLX2017} by taking several disjoint source
-copies and completing their three global parts to cliques. Bonnet's
-central-bag argument~\cite[Lemma~6]{BonnetTreewidth} gives the lower bound.
+We derive an equal-part, unweighted tripartite Vertex Cover gap from
+Khot--Regev using a multipartite product. B\'erczi, Chandrasekaran,
+Kir\'aly, Lee, and Xu~\cite{BCKLX2017} prove a related weighted $k$-partite gap whose
+ratio approaches $2(k-1)/k$. We transfer our unweighted gap by taking
+several disjoint source copies and completing their three global parts
+to cliques. Bonnet's central-bag argument~\cite[Lemma~6]{BonnetTreewidth} gives the lower bound.
 For the upper bound, each of three paths attached to a central bag processes
 one source copy at a time. Its additive overhead is bounded by one
 source part, while the cover contribution grows with the number of
@@ -228,7 +237,8 @@ Soko\l owski~\cite{BNS}. A \emph{truth block} is an independent
 set of vertices representing one value of a source variable. An
 \emph{assignment witness} is a vertex representing a satisfying
 assignment to the variables of one equation. Starting from
-H\aa stad's gap for three-variable parity equations~\cite{Hastad2001},
+the bounded-occurrence Max-3-LIN-2 gap, in the distinct-variable form
+stated by Hazan, Safra, and Schwartz~\cite[Theorem~10]{HazanSafraSchwartz2003},
 we use a system $F$ of $m$ equations and write $\OPT(F)$ for the
 maximum number simultaneously satisfiable. We create four
 assignment witnesses per equation, joined as a star. For soundness,
@@ -250,15 +260,15 @@ then transfers the parity gap to factor $12/11$.
 We complete three parts of a tripartite graph to cliques and add an
 independent set of $M$ vertices to each part, adjacent to every vertex
 of that part and no others. An exchange argument moves each added
-vertex immediately below the deepest vertex of its part without
+vertex immediately below the deepest original vertex of its part without
 increasing total depth. All $M$ vertices associated with a part then
 have the same depth, so their total contribution is $M$ times the
 sum of these three depths. Counting vertices shared by the paths to
 the deepest vertices of the parts gives two successive vertex covers.
 In a construction from cubic Independent Set, an added matching makes
 the cover cost associated with $A$ smaller than those associated with
-$B$ and $C$. The resulting minimum depth sum is
-$39n/2-\alphaI(J)+3$.
+$B$ and $C$. For the constructed graph, the minimum total depth is
+$\totd(G(J))=39n/2-\alphaI(J)+3$.
 Every cubic graph on $n$ vertices has an independent set of size at
 least $n/4$. Thus the additive loss in recovering an independent set
 is a relative loss in $\alphaI(J)$. Choosing the reduction error
@@ -305,22 +315,24 @@ We use their anchor theorem as a
 black box, extending the anchor cliques only in the pairwise-incomparable
 case and analyzing comparable anchors separately. Our changes are the
 parity-witness stars and the partial-assignment analysis determining
-the block sizes. The main text states the necessary attribution at
-each step. Appendix~\ref{subsec:np-provenance} gives the detailed
+the block sizes. Appendix~\ref{subsec:np-provenance} gives the detailed
 comparison. The treewidth argument also uses Bonnet's central-bag
 lower bound. Our replication lemma controls
 the completeness overhead for the source gaps used here.
 
 Khot and Regev~\cite{KhotRegev} supply the ordinary-UGC source for
 the layered construction. B\'erczi, Chandrasekaran, Kir\'aly, Lee,
-and Xu~\cite[Sections~3.5--3.6]{BCKLX2017} establish the multipartite
-Vertex Cover source underlying the treewidth consequence. The
+and Xu~\cite[Section~3.5]{BCKLX2017} prove a weighted $k$-partite
+Vertex Cover gap with ratio approaching $2(k-1)/k$. Our treewidth
+transfer uses an equal-part unweighted gap, which we derive from
+Khot--Regev by a multipartite product in
+Section~\ref{sec:tw-transfer}. The
 bounded-degree version uses the Gaussian density source of Austrin,
 Khot, and Safra~\cite{AKS2011}. Our expander replacements use the
 standard Margulis--Gabber--Galil family, as presented
 in~\cite[Construction~8.1 and Theorem~8.2]{HLW2006}.
 
-Wu et al.~\cite{APW} use the expansion reductions of Raghavendra,
+Wu, Austrin, Pitassi, and Liu~\cite{APW} use the expansion reductions of Raghavendra,
 Steurer, and Tulsiani~\cite{RST} to prove all-constant SSE hardness
 for treewidth, pathwidth, and related objectives. Their regular-host
 partition promise also permits constant degree~\cite[Section~2.5,
@@ -329,7 +341,7 @@ bounded-degree instances directly. Section~\ref{sec:bounded-degree-hardness}
 also derives the degree bound from the weighted source by the same
 factor-completion tools used for NP and UGC hardness.
 
-H\o gemo et al.~\cite{HogemoEtAl2021} introduce VPT-sum and
+H\o gemo, Bergougnoux, Brandes, Paul, and Telle~\cite{HogemoEtAl2021} introduce VPT-sum and
 identify its relation to trivially perfect completion, and prove
 NP-hardness. With uniform vertex weights and query costs,
 average-case graph search minimizes $\totd(G)/|V(G)|$.
@@ -346,7 +358,7 @@ clustering objective~\cite{Dasgupta2016}. For a hierarchy $T$ with
 leaves $V(G)$, its cost is
 $\sum_{uv\in E(G)}w_{uv}\,|C_T(u,v)|$,
 where $C_T(u,v)$ is the leaf set below the least common ancestor
-of $u$ and $v$. H\o gemo et al.~\cite[Theorem~6]{HogemoEtAl2021}
+of $u$ and $v$. H\o gemo, Bergougnoux, Brandes, Paul, and Telle~\cite[Theorem~6]{HogemoEtAl2021}
 identify its unweighted optimum with EPT-sum, the sum of original
 vertex-leaf depths in an edge-partition tree. The unweighted problem
 is NP-hard by H\o gemo, Paul, and

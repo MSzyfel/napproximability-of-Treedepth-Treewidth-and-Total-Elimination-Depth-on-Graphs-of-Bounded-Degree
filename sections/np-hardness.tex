@@ -34,14 +34,18 @@ Boolean variables. Equations may be
 repeated, and $\OPT(F)$ denotes the maximum number simultaneously
 satisfied, counting repetitions. Write $a_j$ for the right-hand side
 of equation $j$ and $d_x$ for the number of
-equations containing $x$. We use H\aa stad's gap with the following
-normalizations.
+equations containing $x$. We use the distinct-variable,
+bounded-occurrence form of the Max-3-LIN gap stated by Hazan, Safra,
+and Schwartz.
 
-\begin{theorem}[H\aa stad, normalized form {\cite[Theorem~5.4]{Hastad2001}}]\label{thm:xor-source}
-For every fixed $0<\epsilon<1/4$, it is NP-hard to distinguish systems
+\begin{theorem}[Max-3-LIN-2 gap {\cite[Theorem~10]{HazanSafraSchwartz2003}}]\label{thm:xor-source}
+For every fixed $0<\epsilon<1/4$, it is NP-hard to distinguish unweighted systems
 $F$ with $\OPT(F)\ge(1-\epsilon)m$ (YES) from those with
 $\OPT(F)\le(1/2+\epsilon)m$ (NO).
-The hardness holds even under the conditions
+The hardness holds when every equation contains three distinct
+variables and each variable occurs a constant number of times, with
+at most two possible occurrence counts. It also holds under the
+following normalizations:
 \begin{equation}\label{eq:xor-normalization}
  d_x\in6\mathbb Z_{>0},\qquad
  \sum_xd_x=3m,\qquad
@@ -255,11 +259,9 @@ promise, the two cases satisfy
 \[
 \begin{aligned}
 \textup{YES: }\td(H)
- &=19m/2-\OPT(F)+1\\
  &\le19m/2-(1-\epsilon)m+1
    =(17/2+\epsilon)m+1,\\
 \textup{NO: }\td(H)
- &=19m/2-\OPT(F)+1\\
  &\ge19m/2-(1/2+\epsilon)m+1
    =(9-\epsilon)m+1.
 \end{aligned}

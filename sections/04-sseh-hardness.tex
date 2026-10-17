@@ -15,7 +15,7 @@ height $O(\varepsilon m)$ and the NO cut bound into a balanced-separator
 lower bound of $\Omega(\sqrt{\varepsilon}\,m)$, where $m$ is the number
 of host edges and hence the order of the line graph.
 
-Wu et al.'s incidence construction also gives all-constant SSE
+Wu, Austrin, Pitassi, and Liu's incidence construction also gives all-constant SSE
 hardness for treedepth when combined with the elimination-forest
 bound in Appendix~\ref{app:incidence-proof}. Their output has one
 part for replicated host vertices and another for host edges. Our
@@ -229,8 +229,8 @@ Lemma~\ref{lem:balanced-by-td}.
 
 \subsection{Conversion of weighted hosts}
 
-The source promise is stated for weighted hosts, whereas the output
-line graph has one vertex per unweighted host edge. Replace each
+The source promise is stated for a weighted multigraph, whereas the
+output line graph has one vertex per unweighted host-edge copy. Replace each
 weighted edge $e$ by $\lfloor Mw_e/W\rfloor$ parallel copies, where
 $W$ is the total source edge weight and $M$ is chosen below.
 Rounding introduces an additive error in normalized
@@ -316,7 +316,11 @@ that
 \]
 Here the last inequality uses
 $\theta\leq\varepsilon/(2q)\leq\varepsilon/(1+\varepsilon)$.
-Moreover, $r_e\leq Mw_e/W$ and the source expansion bound imply
+The source bounds give
+$w(\cut_G(V_i))=\Phi_G(V_i)\vol_G(V_i)
+\leq2\varepsilon\cdot2W/q=4\varepsilon W/q$.
+Since $r_e\leq Mw_e/W$, summing the rounded edge multiplicities over
+the cut gives
 $|\cut_{G^*}(V_i)|\leq Mw(\cut_G(V_i))/W\leq4\varepsilon M/q$.
 Consequently
 \[
@@ -361,7 +365,8 @@ therefore gives $w(\cut_G(A))/W\geq c\sqrt{\varepsilon}$. Applying
 Fix $C\geq1$ and choose a fixed rational $\varepsilon>0$ small enough
 that Lemma~\ref{lem:sse-unweighted-gap} applies,
 $c\sqrt\varepsilon\leq1/4$, and $\sqrt\varepsilon<c/(8C)$.
-Apply that lemma with $q=\lceil2/\varepsilon\rceil$ to obtain an
+Since $\varepsilon$ is fixed, $q=\lceil2/\varepsilon\rceil$ is a
+constant. Apply that lemma with this $q$ to obtain an
 unweighted host $G^*$ with $m$ edges, and output $\mathcal L(G^*)$.
 
 In the YES case, let $D$ be the multiset of host edges joining different
@@ -372,9 +377,9 @@ Lemma~\ref{lem:sse-complete} therefore gives
 \[
 \begin{aligned}
  \td(\mathcal L(G^*))
- &\leq3\varepsilon m+(1+\varepsilon)m/q\\
- &\leq3\varepsilon m+(1+\varepsilon)\varepsilon m/2\\
- &= (7/2+\varepsilon/2)\varepsilon m<4\varepsilon m,
+ &\leq3\varepsilon m+(1+\varepsilon)m/q
+ \leq3\varepsilon m+(1+\varepsilon)\varepsilon m/2\\
+ &=(7/2+\varepsilon/2)\varepsilon m<4\varepsilon m,
 \end{aligned}
 \]
 where $q=\lceil2/\varepsilon\rceil$ gives $1/q\leq\varepsilon/2$,

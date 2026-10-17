@@ -36,8 +36,13 @@ in the ancestor order.
 In this forest, the only incomparable pairs have their endpoints in
 different lower chains. There are $q$ such chains, each with
 $\alphaI(G)$ vertices, so there are
-$\binom q2\alphaI(G)^2$ incomparable pairs. Subtracting these from
-$qn+\binom{qn}{2}$ gives the bound, also when the common prefix is empty.
+$\binom q2\alphaI(G)^2$ incomparable pairs. Therefore the forest has
+total depth
+\[
+ qn+\binom{qn}{2}-\binom q2\alphaI(G)^2
+ =\frac{qn(qn+1)-q(q-1)\alphaI(G)^2}{2},
+\]
+which gives the claimed upper bound, also when the common prefix is empty.
 \end{proof}
 
 \subsubsection{A structural lower bound for total depth}
@@ -58,7 +63,11 @@ In the first-branch notation,
 \begin{proof}
 The prefix vertices have depths $1,\ldots,|P|$. Each child vertex
 has depth $|P|$ greater than its depth within that child. Summing
-these contributions gives the identity.
+these contributions gives
+\[
+ \totd(F)=\sum_{i=1}^{|P|}i+|P|\sum_jN_j+\sum_j\totd(F_j)
+ =\frac{|P|(|P|+1)}2+|P|\sum_jN_j+\sum_j\totd(F_j).
+\]
 \end{proof}
 
 \begin{lemma}[Restoring deleted vertices: total depth]
@@ -74,7 +83,11 @@ $\totd(H)\leq\totd(H-X)+d(N-d)+d(d+1)/2$.
 
 \begin{proof}
 The restoration increases each of the $N-d$ old depths by $d$,
-and the new vertices have depths $1,\ldots,d$.
+and the new vertices have depths $1,\ldots,d$. Thus
+\[
+ \totd(F')=\totd(F)+d(N-d)+\sum_{i=1}^d i
+ =\totd(F)+d(N-d)+\frac{d(d+1)}2.
+\]
 Minimizing over $F$ gives the inequality.
 \end{proof}
 
@@ -137,7 +150,8 @@ We also use the count of source vertices in~\eqref{eq:ugc-support-count}.
 By Lemma~\ref{lem:ugc-child-restriction}, the graph of $F_j$ is
 obtained from $S_{q_j}(G[U_j])$ by deleting
 $M_j$ vertices. Its full order is $q_jn_j$, and its surviving
-order is $N_j$. Lemma~\ref{lem:restore-total-depth} therefore gives
+order is $N_j$, so $F_j$ is an elimination forest of this surviving
+graph. Lemma~\ref{lem:restore-total-depth} therefore gives
 \[
  \totd(S_{q_j}(G[U_j]))
  \leq\totd(F_j)+M_jN_j+\frac{M_j(M_j+1)}2.
@@ -152,9 +166,9 @@ To simplify the restoration cost, use $N_j+M_j=q_jn_j$:
 \[
  \begin{aligned}
  M_jN_j+\frac{M_j(M_j+1)}2
- &=\frac{2M_jN_j+M_j^2+M_j}{2}\\
- &=\frac{(N_j+M_j)^2+(N_j+M_j)-N_j^2-N_j}{2}
- =\frac{q_jn_j(q_jn_j+1)-N_j(N_j+1)}2.
+ &=\frac{2M_jN_j+M_j^2+M_j}{2}
+ =\frac{(N_j+M_j)^2+(N_j+M_j)-N_j^2-N_j}{2}\\
+ &=\frac{q_jn_j(q_jn_j+1)-N_j(N_j+1)}2.
  \end{aligned}
 \]
 Substituting into~\eqref{eq:total-depth-child-before-simplification}
@@ -200,16 +214,17 @@ Substituting this identity into the preceding inequality gives
 \end{equation}
 
 \emph{Bounding the two error terms.}
-For the branching terms, apply Lemma~\ref{lem:quadratic-branching},
-then Cauchy--Schwarz, $\sum_jq_j\le q$, and
-~\eqref{eq:ugc-support-count}:
+Set $T_j=q_jn_j$. Since $N_j\leq T_j$, Lemma~\ref{lem:quadratic-branching}
+applied with $W_j=T_j$ gives the first bound below. Cauchy--Schwarz,
+$\sum_jq_j\le q$, and~\eqref{eq:ugc-support-count} then give
 \[
  \begin{aligned}
- \sum_{i<j}N_iN_j+\frac1{14}\sum_j(q_jn_j)^2
- &\le\frac1{14}\left(\sum_j\sqrt{q_jn_j}\right)^4\\
- &\le\frac1{14}\left(\sum_jq_j\right)^2
-          \left(\sum_jn_j\right)^2
- \le\frac{q^2}{14}\bigl(n+(q-1)\alphaI(G)\bigr)^2.
+ \sum_{i<j}N_iN_j+\frac1{14}\sum_jT_j^2
+ &\le\frac1{14}\left(\sum_j\sqrt{T_j}\right)^4\\
+ &=\frac1{14}\left(\left(\sum_j\sqrt{T_j}\right)^2\right)^2
+ \leq\frac1{14}\left(\sum_jq_j\right)^2
+          \left(\sum_jn_j\right)^2\\
+ &\le\frac{q^2}{14}\bigl(n+(q-1)\alphaI(G)\bigr)^2.
  \end{aligned}
 \]
 Since $\alphaI(G)^2\le\alphaI(G)n$, expansion gives
@@ -223,11 +238,18 @@ Since $\alphaI(G)^2\le\alphaI(G)n$, expansion gives
 For the remaining error, $q_j<q$, monotonicity of $K_q$, and
 $\sum_jn_j\le qn$ give
 $\alphaI(G)\sum_jK_{q_j}n_j\le qK_{q-1}\alphaI(G)n$.
-Insert these bounds into~\eqref{eq:total-depth-combined-children}.
-Since $1/2-1/14=3/7$, we obtain
+Insert the two error bounds into~\eqref{eq:total-depth-combined-children}.
+The expansion of the square and the coefficient calculation give
 \[
- \totd(F)\geq\frac37q^2n^2+\frac{qn}{2}
+ \begin{aligned}
+ \totd(F)&\geq\frac{q^2n^2}{2}+\frac{qn}{2}
+ -\frac{q^2}{14}\bigl(n^2+(q^2-1)\alphaI(G)n\bigr)
+ -qK_{q-1}\alphaI(G)n\\
+ &=\left(\frac12-\frac1{14}\right)q^2n^2+\frac{qn}{2}
+ -\left(\frac{q^2(q^2-1)}{14}+qK_{q-1}\right)\alphaI(G)n\\
+ &=\frac37q^2n^2+\frac{qn}{2}
  -\left(\frac{q^2(q^2-1)}{14}+qK_{q-1}\right)\alphaI(G)n.
+ \end{aligned}
 \]
 The parenthesized coefficient is $K_q$ by~\eqref{eq:total-depth-K},
 proving the bound for every $F$ and completing the induction.
@@ -261,10 +283,14 @@ Choose a fixed integer $q>7r/(24-21r)$. At $\eta=0$,
 Indeed, $q>7r/(24-21r)$ makes $24q-7r(3q+1)>0$.
 The coefficients are continuous in $\eta$, so choose a fixed rational
 $\eta\in(0,1/10)$ with
-$B^{\Sigma}_{q,\eta}>rA^{\Sigma}_{q,\eta}$. Replace each source graph
-by sufficiently many disjoint copies, a fixed number depending only
-on $r,q,\eta$. This preserves its independence fraction and ensures
-that $(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta})n^2>(r-1)qn/2$.
+$B^{\Sigma}_{q,\eta}>rA^{\Sigma}_{q,\eta}$. Choose a fixed integer
+$L_0\ge1$ with
+$L_0>(r-1)q/[2(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta})]$ and take
+$L_0$ disjoint copies of the source graph. Since its original order is
+at least one, the new order satisfies
+$n\ge L_0>(r-1)q/[2(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta})]$.
+This preserves its independence fraction and gives
+$(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta})n^2>(r-1)qn/2$.
 The NO lower bound therefore exceeds $r$ times the YES upper bound.
 All parameters and the number of copies are fixed, so the reduction
 is polynomial.

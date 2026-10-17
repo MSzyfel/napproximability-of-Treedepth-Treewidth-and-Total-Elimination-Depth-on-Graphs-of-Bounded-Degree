@@ -19,8 +19,10 @@ truth-block and assignment-witness construction adapts Bonnet's earlier
 treewidth reduction~\cite[full version, Section~3.1]{BonnetTreewidth}.
 We inherit two opposite truth blocks per variable, complete bipartite
 edges between them, and witnesses for satisfying local assignments.
-Each witness is adjacent to the truth block that assigns each
-variable the value used by that witness. Variable-dependent block
+For each variable in its equation, a witness is adjacent to the truth
+block assigning the value opposite to the witness's represented value.
+Thus a selected truth block is compatible with the witnesses
+that agree with its assignment. Variable-dependent block
 sizes also occur in Bonnet's full version~\cite[Section~3.5]{BonnetTreewidth}.
 
 Here the source predicates are three-variable parity equations. Each
@@ -58,10 +60,13 @@ and let $L>0$ make every $m_v=Lw_v$ a positive integer. Define $G'$
 on $\{v_i:v\in V(G),\ i\in[m_v]\}$, with $u_iv_j$ an edge if and
 only if $uv\in E(G)$. Thus the copies of each vertex are independent,
 and a source edge joins its two copy sets completely.
+Write $\alpha_w(G)=\max_I\sum_{v\in I}w_v$ over independent sets $I$,
+and $\vc_w(G)=\min_C\sum_{v\in C}w_v$ over vertex covers $C$.
 Minimum vertex-cover weight and maximum independent-set weight
 scale by $L$: $\vc(G')=L\vc_w(G)$ and $\alphaI(G')=L\alpha_w(G)$.
-The construction preserves a specified multipartition, multiplying
-each part's weight by $L$ to obtain its new size. It is polynomial
+If $G$ has a specified partition $V_1\dot\cup\cdots\dot\cup V_k$
+into independent sets, the construction preserves it, and the $i$th
+part has size $L\sum_{v\in V_i}w_v$. It is polynomial
 when $\sum_v m_v$ is polynomial in the source encoding length.
 \end{lemma}
 
@@ -100,10 +105,10 @@ cover density changes:
  =\frac{\vc_w(G)}{\sum_vw_v}.
 \]
 
-For a specified multipartition, replace each part by the union of
-the copy sets of its vertices. There were no source edges within a
-part, so there are no new edges within a part either. Its new size
-is $L$ times its original weight. Finally, the output has
+For the specified partition into independent sets, replace each part
+by the union of the copy sets of its vertices. There are no source
+edges within a part, so there are no output edges within it either.
+Its new size is $L$ times its original weight. Finally, the output has
 $\sum_vm_v$ vertices and at most $(\sum_vm_v)^2$ edges. Hence it can
 be constructed in polynomial time under the stated size assumption.
 \end{proof}
@@ -206,9 +211,7 @@ For $-1<\xi<1$, let $\Gamma_\xi(\mu)$ be the probability that
 both of two standard normal variables of correlation $\xi$ are
 below the threshold whose one-variable lower-tail probability is $\mu$.
 
-We spell out the Gaussian estimate on the interval needed here.
-The corresponding Gaussian probability bounds are recorded in the
-author-hosted full version of~\cite[Fact~2.22 and Remark~2.25]{APW}.
+We prove the only Gaussian estimate needed here.
 
 \begin{lemma}[Gaussian separation at medium measure]
 \label{lem:gaussian-medium-separation}
@@ -229,11 +232,14 @@ For sufficiently small $\varepsilon'$, we have $0\leq\xi<1$.
 On the event $t-\sqrt{1-\xi^2}\leq X\leq t$ and $Z>1$,
 we have $X\leq t$ and
 \[
- Y>\xi\bigl(t-\sqrt{1-\xi^2}\bigr)
-       +\sqrt{1-\xi^2}
- =\xi t+(1-\xi)\sqrt{1-\xi^2}\geq t.
+ \begin{aligned}
+ Y&>\xi\bigl(t-\sqrt{1-\xi^2}\bigr)
+       +\sqrt{1-\xi^2}\\
+ &=\xi t+(1-\xi)\sqrt{1-\xi^2}\\
+ &=t+(1-\xi)\bigl(\sqrt{1-\xi^2}-t\bigr)\geq t.
+ \end{aligned}
 \]
-The last inequality uses $t\leq0$ and $\xi\leq1$.
+The last inequality follows from $t\leq0$ and $\xi\leq1$.
 The standard normal density has a positive minimum on the fixed
 bounded interval containing all these possible values of $X$.
 Thus the first event has probability at least an absolute constant
@@ -241,9 +247,10 @@ times its interval length $\sqrt{1-\xi^2}$. The event $Z>1$
 has a fixed positive probability and is independent of $X$.
 Their intersection therefore has probability at least
 $2a\sqrt{1-\xi^2}$ for some absolute constant $a>0$.
-Since $\sqrt{1-\xi^2}\geq\sqrt{1-\xi}
-=\sqrt{\varepsilon'/2}\geq\frac12\sqrt{\varepsilon}$,
-we obtain $\mu-\Gamma_{1-\varepsilon'/2}(\mu)
+Since $1-\xi^2=(1-\xi)(1+\xi)\geq1-\xi$, we have
+$\sqrt{1-\xi^2}\geq\sqrt{1-\xi}
+=\sqrt{\varepsilon'/2}\geq\frac12\sqrt{\varepsilon}$.
+Thus $\mu-\Gamma_{1-\varepsilon'/2}(\mu)
 \geq a\sqrt{\varepsilon}$ for $1/10\leq\mu\leq1/2$.
 \end{proof}
 
@@ -285,9 +292,11 @@ $\vol_G(A)=2W\mu_G(A)$. Therefore
 \[
   \frac{w(\cut_G(A))}{W}
   \geq2\bigl(\mu_G(A)-\Gamma_{1-\varepsilon'/2}(\mu_G(A))\bigr)-2\gamma
-  \geq2a\sqrt{\varepsilon}-2\gamma\geq\frac{a}{10}\sqrt{\varepsilon}.
+  \geq2a\sqrt{\varepsilon}-2\gamma
+  \geq\left(2-\frac1{10}\right)a\sqrt{\varepsilon}
+  \geq\frac{a}{10}\sqrt{\varepsilon}.
 \]
-The final inequality uses $2\gamma\leq(a/10)\sqrt{\varepsilon}$. If
+Here $2\gamma\leq(a/10)\sqrt{\varepsilon}$. If
 $\mu_G(A)\in[1/2,9/10]$, its complement has measure
 $1-\mu_G(A)\in[1/10,1/2]$. A boundary edge has one endpoint in
 each side, so $\cut_G(V(G)\setminus A)=\cut_G(A)$ as multisets.
@@ -334,14 +343,16 @@ $m_0$ equations.
 \end{proof}
 
 \begin{proof}[Proof of the normalized form in Theorem~\ref{thm:xor-source}]
-The gap is established in the proof of
-\cite[Theorem~5.4]{Hastad2001}. The proof of Lemma~5.13 there also uses
-this gap explicitly. The source can be unweighted because that proof eliminates
-weights by duplicating equations. A negated Boolean literal is
-$1-x$ over $\mathbb F_2$. Replacing it by $x$ and changing the
-right-hand side by one preserves the equation's truth value for
-every assignment. Doing this for each negation puts the equations
-in the form $x+y+z=a$ without changing either source case.
+Hazan, Safra, and Schwartz state the required source gap as
+Theorem~10 of~\cite{HazanSafraSchwartz2003}, attributing it to
+H\aa stad. Their theorem gives unweighted Max-3-LIN-2 instances with
+bounded variable occurrences and no repeated variable within an
+equation. Thus the three variables in each source equation are
+distinct. Apply their theorem with parameter $\epsilon/2$. Its YES
+threshold $1-\epsilon/2$ is at least $1-\epsilon$, and its NO bound
+$<1/2+\epsilon/2$ implies the required bound $\leq1/2+\epsilon$.
+We use this form directly. Only the balance of the right-hand sides
+and the divisibility of occurrence counts need normalization.
 
 We impose the additional conditions in~\eqref{eq:xor-normalization}.
 Call the initial system $F_0$, and let $m_0$ be its number of

@@ -7,7 +7,7 @@
 \usepackage{needspace}
 \usepackage{booktabs}
 \usepackage[hidelinks]{hyperref}
-\hypersetup{pdftitle={Inapproximability of Treedepth, Treewidth, and Total Elimination Depth}}
+\hypersetup{pdftitle={Inapproximability of Treedepth, Treewidth, and Total Elimination Depth},pdfauthor={Micha\l{} Szyfelbein}}
 \setlength{\emergencystretch}{2em}
 
 \newtheorem{theorem}{Theorem}[section]
@@ -32,7 +32,8 @@
 
 \title{Inapproximability of Treedepth, Treewidth, and\\
 Total Elimination Depth on Graphs of Bounded Degree}
-\author{}
+\author{Micha\l{} Szyfelbein\\
+\small Gda\'nsk University of Technology}
 \date{}
 
 \begin{document}
@@ -70,9 +71,8 @@ These bounds also imply hardness for trivially perfect completion by
 number of added edges, vertex integrity, fracture number, starwidth,
 and average and maximum customizable-label size. The linear treewidth gaps
 give explicit exponential approximation lower bounds for the total
-state space of binary junction trees. The paper also records which
-of these consequences follow from existing reductions and which
-require new arguments.
+state space of binary junction trees, measured by the sum of the table
+sizes over all bags.
 \end{abstract}
 
 \clearpage
@@ -93,7 +93,7 @@ require new arguments.
 \input{sections/05-applications}
 \input{sections/05-conclusion}
 
-\bibliographystyle{plain}
+\bibliographystyle{alpha}
 \begingroup
 \small
 \phantomsection
@@ -105,4 +105,10 @@ require new arguments.
 \appendix
 \input{sections/appendix-source-normalizations}
 \input{sections/appendix-auxiliary-proofs}
+
+\section*{AI methodology}
+OpenAI ChatGPT (Codex) assisted with mathematical proof exploration,
+literature and citation checks, and exposition revisions in Sections
+1 and 3--7 and Appendices A--B. The authors are responsible for all
+claims and references in the submission.
 \end{document}

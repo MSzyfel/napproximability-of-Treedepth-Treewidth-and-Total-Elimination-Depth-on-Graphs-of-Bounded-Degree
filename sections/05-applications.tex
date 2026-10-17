@@ -38,10 +38,10 @@ of original edges gives
 \begin{aligned}
  \totd(J)
  &=f(J)+|V(J)|+|E(J)|\\
- &\leq z+|V(J)|+|E(J)|\\
- &\leq C f(J)+|V(J)|+|E(J)|\\
- &\leq C\bigl(f(J)+|V(J)|+|E(J)|\bigr)\\
- &=C\totd(J),
+ &\leq z+|V(J)|+|E(J)|
+ \leq C f(J)+|V(J)|+|E(J)|\\
+ &\leq C\bigl(f(J)+|V(J)|+|E(J)|\bigr)
+ =C\totd(J),
 \end{aligned}
 \end{equation}
 where the final inequality uses $C\ge1$.
@@ -76,8 +76,8 @@ The same completion consequence can also be derived from the
 earlier incidence construction analyzed in
 Appendix~\ref{app:incidence-proof}: its YES height and NO balanced-separator
 bounds give the same total-depth gap up to absolute constants.
-The depth-sum lemma and the adjusted-cost inequality above are
-the additional steps. Therefore the old graph reduction can be retained.
+Combining these bounds with the depth-sum lemma and the adjusted-cost
+inequality above gives the total-depth gap.
 
 \subsection{Deletion and labeling objectives}
 
@@ -96,8 +96,17 @@ also give UGC hardness for vertex integrity below $4/3$.
 For SSE hardness, let $J=\mathcal L(G^*)$ be the output in the
 proof of Theorem~\ref{thm:sse-hardness}, and take $D$ to be the output vertices
 corresponding to crossing host edges. The YES construction supplies
-$|D|+c_J(D)\leq4\varepsilon |V(J)|$, whereas its NO separator bound
-forces $\operatorname{vi}(J)\geq(c/2)\sqrt\varepsilon\,|V(J)|$.
+$|D|+c_J(D)\leq4\varepsilon |V(J)|$. In the NO case, the separator
+lemma with $\rho=2/3$ gives $b_{2/3}(J)\geq\beta |V(J)|$, where
+$b_{2/3}(J)$ is the minimum size of a set whose deletion leaves every
+component of order at most $2|V(J)|/3$, and
+$\beta=(c/2)\sqrt\varepsilon$. Choose $\varepsilon$ small enough
+that $\beta\leq1/12$. For any $S\subseteq V(J)$, if
+$c_J(S)>|V(J)|/2$, then $|S|+c_J(S)>|V(J)|/2\geq\beta|V(J)|$.
+Otherwise every component of $J-S$ has at most $|V(J)|/2$ vertices,
+so $S$ is a $2/3$-balanced separator and
+$|S|\geq b_{2/3}(J)\geq\beta|V(J)|$. Thus
+$\operatorname{vi}(J)\geq\beta|V(J)|$.
 The ratio of the NO lower bound to the YES upper bound grows as
 $1/\sqrt\varepsilon$. Thus, for every fixed factor, a sufficiently
 small fixed $\varepsilon$ separates the two cases. Hence vertex integrity has no constant-factor
@@ -134,13 +143,13 @@ $\beta=(c/2)\sqrt\varepsilon\leq1/12$ and
 $\sqrt\varepsilon<c/(32C)$, where $C\ge1$ is the desired factor.
 For the resulting graph $J=\mathcal L(G^*)$, the YES forest provides hierarchical
 labels by assigning each vertex its ancestors, including itself.
-Every path from $s$ to $t$ meets a common ancestor, so these are
-valid customizable labels, each of size at most
-$4\varepsilon |V(J)|$. Lemma~\ref{lem:linegraph-separators}
+Every $s$--$t$ path contains the lowest common ancestor of $s$ and $t$
+in the forest, so these are valid customizable labels. Each label has
+size at most $4\varepsilon |V(J)|$. Lemma~\ref{lem:linegraph-separators}
 with $\rho=2/3$ gives NO average at least
 $(c/8)\sqrt\varepsilon\,|V(J)|$. Consequently every constant
 approximation factor is SSE-hard for average or maximum general
-label size and average hierarchical label size. The same holds for
+label size and average or maximum hierarchical label size. The same holds for
 the average upward vertex search-space size in a customizable
 contraction hierarchy (CCH). Here an elimination order adds edges
 between the remaining neighbors of each eliminated vertex. Orient

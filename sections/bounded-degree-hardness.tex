@@ -6,29 +6,46 @@
 \subsection{The degree-reduction approach}
 
 Let $H$ be one of the dense graphs constructed above, with
-$N=|V(H)|$. We describe its edges as a union of specified
-\emph{factors} and an edge set $E_0$ that we retain. A clique factor
-on $U$ contributes every pair in $\binom U2$. A \emph{biclique}
-factor with disjoint sides $A,B$ contributes every edge $uv$ with
-$u\in A$ and $v\in B$. Factors may overlap. A factor specifies
-edges to be included, rather than an induced subgraph: other factors
-or $E_0$ may add further edges on the same vertices.
+$N=|V(H)|$. Its edge set is given by retained edges $E_0$, clique
+factors indexed by $f\in\mathcal C$, and biclique factors indexed by
+$f\in\mathcal B$. Each clique factor has a nonempty support $U_f$ and contributes
+all pairs in $\binom{U_f}{2}$. Each biclique factor has disjoint nonempty sides
+$A_f,B_f$, support $U_f=A_f\mathbin{\dot\cup}B_f$, and contributes
+all edges $uv$ with $u\in A_f$ and $v\in B_f$. Thus
+\begin{equation}\label{eq:factor-edge-union}
+ E(H)=E_0\cup\bigcup_{f\in\mathcal C}\binom{U_f}{2}
+       \cup\bigcup_{f\in\mathcal B}\{uv:u\in A_f,\ v\in B_f\}.
+\end{equation}
+For each factor choose an integer threshold $t_f\ge1$. Two
+disjoint vertex sets are \emph{anticomplete} if no edge joins them.
+A \emph{$(t,t)$ hole} is a pair of anticomplete sets of $t$ vertices
+each. A clique replacement on $U_f$ has no hole at threshold $t_f$
+if every two disjoint $t_f$-subsets of $U_f$ have at least one edge
+between them. A biclique replacement on
+$A_f\mathbin{\dot\cup}B_f$ has no hole at threshold $t_f$ if every
+$t_f$-subset of $A_f$ and every $t_f$-subset of $B_f$ have at least
+one edge between them.
 
-We replace each factor by a graph of bounded degree on the same
-vertices. Write $J$ for the union of the replacements
-and $E_0$, so $J$ is a spanning subgraph of $H$. The argument has
+Different factors may share vertices or edges. A factor specifies
+edges to be included, not an induced subgraph, so other factors or
+$E_0$ may add further edges on its support.
+
+Replace each factor by a subgraph of its specified edge set on
+the same support. Let $J$ be the union of these replacement edges
+with $E_0$. Then $J$ is a spanning subgraph of $H$. The argument has
 three steps.
 \begin{enumerate}
  \item \emph{Preserve the YES bound by deleting edges.}
    Every elimination forest or tree decomposition of $H$ is also
    valid for $J$. Thus none of the three optimum values increases.
  \item \emph{Recover a dense solution from a sparse one.}
-   Each replacement has an edge between every two subsets that meet
-   its chosen threshold. For a clique factor the subsets are disjoint,
-   and for a biclique they lie on opposite sides.
+   Each replacement satisfies its no-hole condition at threshold
+   $t_f$. For clique factors the subsets are disjoint, and for
+   biclique factors they lie on opposite sides.
    The completion lemmas show that, after deleting a small set $D$
    of exceptional vertices, an arbitrary forest or decomposition
-   of $J$ also represents every edge of $H-D$. For forests,
+   of $J$ has every edge of $H-D$ represented by comparable
+   endpoints or by vertices in a common bag. For forests,
    restore $D$ as a chain above all existing roots. For tree
    decompositions, add $D$ to every bag. The height or width
    increases by at most $|D|$, and the total depth by at most
@@ -61,15 +78,7 @@ that their retained source edges satisfy the condition on $E_0$.
 
 \subsection{Completing sparse factors}
 
-Two disjoint vertex sets are \emph{anticomplete} if no edge joins them.
-A \emph{$(t,t)$ hole} is a pair of anticomplete sets of $t$ vertices
-each. For a bipartite replacement on $A\mathbin{\dot\cup}B$, we
-consider only holes with one set in each side. Thus it has no
-$(t,t)$ hole if some edge joins $S$ to $T$ whenever
-$S\subseteq A$, $T\subseteq B$, and $|S|=|T|=t$.
-For a clique replacement on $U$, we consider all disjoint
-$t$-subsets $S,T\subseteq U$.
-Thus the condition is inherited by deleting vertices. Recall that
+The no-hole conditions above are inherited by deleting vertices. Recall that
 forest restriction preserves the ancestor order between surviving
 vertices and never increases their depths.
 
@@ -121,8 +130,10 @@ $v$.
 If $|U|<t$, any bag suffices. Otherwise consider an edge of the
 decomposition tree. Its deletion leaves two sides. Call a side
 heavy if it contains the entire subtree $T_v$ for at least $t$
-vertices $v\in U$. Both sides cannot be heavy: their corresponding
-vertex sets would be anticomplete. Orient the edge toward its
+vertices $v\in U$. If both sides were heavy, choose $t$ vertices whose subtrees lie
+entirely on each side. No bag could contain one vertex from each
+set, so no edge could join the sets. They would be anticomplete,
+contrary to the hypothesis. Orient the edge toward its
 heavy side if one exists, and arbitrarily if neither is heavy.
 Following outgoing edges in a finite tree eventually reaches a
 node with no outgoing edge. Call such a node a \emph{sink}, and let
@@ -142,7 +153,7 @@ $U$ are absent from the bag at $u$.
 
 \subsubsection{Biclique factors}
 
-We use K\H onig's theorem~\cite[Theorem~2.1.1]{Diestel2017}: in a
+We use K\"onig's theorem~\cite[Theorem~2.1.1]{Diestel2017}: in a
 bipartite graph, the maximum matching size equals the minimum
 vertex-cover size.
 
@@ -162,10 +173,10 @@ rooted trees consecutively. Let $t_{\mathrm{in}}(v)$ and $t_{\mathrm{out}}(v)$ b
 introduction and forgetting times of $v$. Its descendants are the
 vertices visited during $[t_{\mathrm{in}}(v),t_{\mathrm{out}}(v)]$.
 Two vertices are incomparable if and only if these intervals
-are disjoint. Let $M$ be the bipartite graph on $A,B$ whose edges
+are disjoint. Let $K$ be the bipartite graph on $A,B$ whose edges
 are the incomparable pairs. Partition its edges according to
 $t_{\mathrm{out}}(u)<t_{\mathrm{in}}(v)$ or $t_{\mathrm{out}}(v)<t_{\mathrm{in}}(u)$.
-If $M$ has a matching of size at least $4t-3$, one type contains
+If $K$ has a matching of size at least $4t-3$, one type contains
 at least $2t-1$ edges of that matching. For the first type, write
 these edges as $u_iv_i$, $1\le i\le m_0$, with $m_0\ge2t-1$ and
 $t_{\mathrm{out}}(u_1)\le\cdots\le t_{\mathrm{out}}(u_{m_0})$. If $i\le t$ and $j\ge m_0-t+1$,
@@ -173,18 +184,21 @@ then $i\le j$, and hence $t_{\mathrm{out}}(u_i)\le t_{\mathrm{out}}(u_j)<t_{\mat
 The first $t$ vertices $u_i$ and the last $t$ vertices $v_j$ are
 therefore pairwise incomparable across the two sets. They are
 anticomplete in $J$, a contradiction. The second type is symmetric.
-It follows that the maximum matching size of $M$ is at most $4t-4$.
-K\H onig's theorem supplies a vertex cover $D$ of $M$ of that size.
+It follows that the maximum matching size of $K$ is at most $4t-4$.
+K\"onig's theorem supplies a vertex cover $D$ of $K$ of that size.
 All surviving cross-pairs are comparable.
 \end{proof}
 
-For treewidth, we will first complete the clique factors and then
-use their bags to anchor the sides of each biclique. Restricting
-vertex subtrees to the path between two such bags reduces the
-argument to prefixes and suffixes, using the subtree projection
-in~\cite[proof of Lemma~5]{BonnetTreewidth}. Here the no-hole
-condition bounds a matching of uncovered pairs. A vertex cover of
-those pairs gives the required deletion set.
+For treewidth, we first complete the clique factors and use their
+bags to anchor the two sides of each biclique. We use the
+path-projection observation from the proof of Bonnet's
+Lemma~5~\cite{BonnetTreewidth}: if two subtrees contain opposite
+endpoints of a path, they intersect if and only if their
+intersections with that path intersect. The proof below recalls this
+fact using the median of the two endpoints and an intersection node.
+The path traces are prefixes and suffixes. The no-hole condition
+then bounds a matching of uncovered pairs, and a vertex cover of
+those pairs gives the deletion set.
 
 When vertices are deleted from a graph, we restrict its tree
 decomposition by removing them from every bag.
@@ -211,7 +225,7 @@ intervals intersect. For the nontrivial direction, if both
 contain some node $z$, they both contain the median of $x,y,z$,
 which lies on $P$.
 
-Let $M$ be the bipartite graph on $A,B$ in which $uv$ is an edge
+Let $K$ be the bipartite graph on $A,B$ in which $uv$ is an edge
 if and only if $T_u$ and $T_v$ are disjoint.
 If it has a matching of size $m_0\ge2t-1$, write its edges
 $u_iv_i$ in increasing order of the endpoint of the prefix for
@@ -221,9 +235,9 @@ $t$ prefixes is disjoint from every one of the last $t$ matched
 suffixes: if $i\le t$ and $j\ge m_0-t+1$, then $i\le j$.
 Their corresponding $t$-subsets of $A$ and $B$ are anticomplete
 in $J$, contradicting the hypothesis. Thus the maximum matching size
-of $M$ is at most $2t-2$.
+of $K$ is at most $2t-2$.
 
-K\H onig's theorem gives a vertex cover of $M$ of size at most
+K\"onig's theorem gives a vertex cover of $K$ of size at most
 $2t-2$. Delete these vertices. Every surviving cross-pair has
 intersecting bag subtrees, so its completed edge is covered.
 \end{proof}
@@ -236,22 +250,19 @@ sets. The treedepth and total-depth bounds apply to
 arbitrary factors. The treewidth bound additionally uses a containing clique
 for each side of a biclique, providing the two bags required above.
 
+The exception budgets for the two comparisons are
+\[
+ \Delta_{\mathrm{td}}=2\sum_{f\in\mathcal C}(t_f-1)+4\sum_{f\in\mathcal B}(t_f-1),
+ \qquad
+ \Delta_{\mathrm{tw}}=3\sum_{f\in\mathcal C}(t_f-1)+2\sum_{f\in\mathcal B}(t_f-1).
+\]
+
 \begin{lemma}[Treedepth comparison]\label{lem:factor-sparsification}
-Suppose $H$ is the union of an edge set $E_0$, clique factors
-on $U_f$ indexed by $f\in\mathcal C$, and complete bipartite
-factors $A_f\times B_f$ indexed by $f\in\mathcal B$.
-For each factor choose a positive integer $t_f$ and replace it by
-a subgraph with no $(t_f,t_f)$ hole. For a clique factor, this means
-that every two disjoint $t_f$-subsets have an edge between them. For a
-biclique factor, it means that every two $t_f$-subsets on opposite
-sides have an edge between them. Retain $E_0$ and let $J$ be the resulting graph on
-$V(H)$. Put $M=2\sum_{f\in\mathcal C}(t_f-1)
-   +4\sum_{f\in\mathcal B}(t_f-1)$.
-Every elimination forest $F$ of $J$ can be completed to an
-elimination forest $\widehat F$ of $H$ with
-$h(\widehat F)\le h(F)+M$.
-In particular, $\td(J)\le\td(H)\le\td(J)+M$.
-Factors may overlap in vertices or edges.
+Under the factor setup above, suppose each replacement has no hole
+at its threshold $t_f$. Every elimination forest $F$ of $J$ can be
+completed to an elimination forest $\widehat F$ of $H$ with
+$h(\widehat F)\le h(F)+\Delta_{\mathrm{td}}$. In particular,
+$\td(J)\le\td(H)\le\td(J)+\Delta_{\mathrm{td}}$.
 \end{lemma}
 
 \begin{proof}
@@ -261,34 +272,33 @@ outside the path given by Lemma~\ref{lem:sparse-clique-completion}.
 For each biclique factor use the deletion set in
 Lemma~\ref{lem:sparse-biclique-completion}. Let $D$ be their union.
 Each vertex of this union is counted at least once in the sum
-defining $M$, so $|D|\le M$, even when factors overlap.
+defining $\Delta_{\mathrm{td}}$, so $|D|\le\Delta_{\mathrm{td}}$, even when factors overlap.
 In the restriction of $F$ to $V(H)\setminus D$,
 every surviving edge of every completed factor has comparable
 endpoints. Every retained edge also has comparable endpoints.
 Thus the restriction is an elimination forest of $H-D$, and its
 height is at most $h(F)$. By Lemma~\ref{lem:restore-vertices},
 restoring $D$ gives an elimination forest $\widehat F$ of $H$ with
-$h(\widehat F)\le h(F)+|D|\le h(F)+M$.
+$h(\widehat F)\le h(F)+|D|\le h(F)+\Delta_{\mathrm{td}}$.
 Choosing $F$ of minimum height proves
-$\td(H)\le\td(J)+M$. The other comparison follows from
+$\td(H)\le\td(J)+\Delta_{\mathrm{td}}$. The other comparison follows from
 $J\subseteq H$.
 \end{proof}
 
 \Needspace{11\baselineskip}
 \begin{lemma}[Total-depth comparison]
 \label{lem:total-depth-comparison}
-Let $H,J$, the factor thresholds, and $M$ be as in
-Lemma~\ref{lem:factor-sparsification}, and put $N=|V(H)|$.
-Every elimination forest $F$ of $J$ can be completed to an
-elimination forest $\widehat F$ of $H$ with
-$\totd(\widehat F)\le\totd(F)+NM$.
-In particular, $\totd(J)\le \totd(H)\le \totd(J)+NM$.
+Under the factor setup above, put $N=|V(H)|$. Every elimination
+forest $F$ of $J$ can be completed to an elimination forest
+$\widehat F$ of $H$ with
+$\totd(\widehat F)\le\totd(F)+N\Delta_{\mathrm{td}}$.
+In particular, $\totd(J)\le \totd(H)\le \totd(J)+N\Delta_{\mathrm{td}}$.
 \end{lemma}
 
 \begin{proof}
 Fix any elimination forest $F$ of $J$. Use the exceptional set
 $D$ from the proof of Lemma~\ref{lem:factor-sparsification} for
-this forest, so $|D|\le M$. That proof shows that the
+this forest, so $|D|\le\Delta_{\mathrm{td}}$. That proof shows that the
 restriction $F'$ of $F$ to $V(H)\setminus D$ is an elimination
 forest of $H-D$.
 
@@ -300,28 +310,20 @@ increases the depths of the existing vertices by one and gives
 the new root depth one. Its total cost is therefore the number of
 vertices then present, at most $N$. After $|D|$ restorations, the
 resulting elimination forest $\widehat F$ satisfies
-$\totd(\widehat F)\le\totd(F)+N|D|\le\totd(F)+NM$.
+$\totd(\widehat F)\le\totd(F)+N|D|\le\totd(F)+N\Delta_{\mathrm{td}}$.
 Choosing $F$ of minimum total depth proves the upper
 comparison. The lower comparison follows from $J\subseteq H$.
 \end{proof}
 
 \begin{lemma}[Treewidth comparison]
 \label{lem:tw-factor-sparsification}
-Let $H$ be the union of retained edges $E_0$, clique factors
-on $U_f$ indexed by $f\in\mathcal C$, and complete bipartite
-factors $A_f\times B_f$ indexed by $f\in\mathcal B$.
-Suppose each side of every biclique factor is contained in
-$U_f$ for some $f\in\mathcal C$. For each factor choose a
-positive integer threshold $t_f$. Replace each factor by a
-subgraph with no hole at its chosen threshold, retain $E_0$,
-and call the resulting spanning graph $J$.
-Put $M=3\sum_{f\in\mathcal C}(t_f-1)
-   +2\sum_{f\in\mathcal B}(t_f-1)$.
-Every tree decomposition of $J$ can be completed to one of $H$
-whose width increases by at most $M$. In particular,
+Under the factor setup above, suppose each replacement has no hole
+at its threshold $t_f$, and each side of every biclique factor is
+contained in the support of some clique factor. Every tree
+decomposition of $J$ can be completed to one of $H$ whose width
+increases by at most $\Delta_{\mathrm{tw}}$. In particular,
 $\operatorname{tw}(J)\le\operatorname{tw}(H)
- \le\operatorname{tw}(J)+M$.
-Clique and biclique factors may overlap in vertices or edges.
+ \le\operatorname{tw}(J)+\Delta_{\mathrm{tw}}$.
 \end{lemma}
 
 \begin{proof}
@@ -343,7 +345,7 @@ including all completed factors and all retained edges.
 Add every vertex of $D$ to every bag. The resulting bags form a
 decomposition of $H$: every edge with an endpoint in $D$ is covered,
 and the bags containing each vertex remain connected. Its width exceeds
-that of the supplied decomposition by at most $|D|\le M$.
+that of the supplied decomposition by at most $|D|\le\Delta_{\mathrm{tw}}$.
 Choosing a minimum-width decomposition proves the upper comparison.
 The lower comparison follows from $J\subseteq H$.
 \end{proof}
@@ -357,27 +359,31 @@ construction, then map an expander onto each prescribed factor.
 \subsubsection{Expanders, walks, and the mixing lemma}
 
 The replacement graphs have a fixed degree. We measure how evenly
-their edges join vertex sets through the eigenvalues of the adjacency
-matrix. The following definitions and mixing lemma make
-this condition precise. A \emph{step} traverses one edge in a chosen
-direction. A loop step stays at the same vertex.
-For an intermediate undirected multigraph
+their edge steps join vertex sets through eigenvalues of the adjacency
+matrix. A step traverses one edge in a chosen direction. A loop step
+stays at its vertex, and parallel edges give distinct steps. A real
+symmetric matrix has an orthonormal basis of eigenvectors. For an
+intermediate undirected multigraph
 $\mathcal E$ on $M$ vertices, let $A$ be its symmetric adjacency
-matrix. The entry $A_{uv}$ counts the available steps from $u$ to
-$v$, including loop steps when $u=v$. Parallel edges give separate
-steps. In this subsection, $d$-regular means that every row of $A$
-sums to $d$, so there are $d$ possible next steps at every vertex.
-The all-ones vector $\mathbf1$ is then an eigenvector with eigenvalue
-$d$. A \emph{spectral expander with eigenvalue bound $\lambda<d$}
-means that every eigenvalue on the subspace
-$\{x:\sum_vx_v=0\}$ has absolute value at most $\lambda$.
-For a bounded-degree expander family, both $d$ and an upper bound
-smaller than one on $\lambda/d$ are fixed independently of $M$.
+matrix. The entry $A_{uv}$ counts steps from $u$ to $v$, including
+loop steps when $u=v$. Let $\mathbf1$ be the all-ones vector.
+Here $d$-regular means that every row sum is $d$, so there are $d$
+possible next steps from each vertex. Hence $A\mathbf1=d\mathbf1$.
+The subspace of zero-sum vectors is the orthogonal complement of
+$\mathbf1$ and is invariant under $A$, since
+$\mathbf1^{\mathsf T}Ax=(A\mathbf1)^{\mathsf T}x=d\mathbf1^{\mathsf T}x=0$ whenever
+$\mathbf1^{\mathsf T}x=0$. We call $\mathcal E$ a
+\emph{spectral expander with eigenvalue bound $\lambda<d$} if every
+eigenvalue on this subspace has absolute value at most $\lambda$.
+For a bounded-degree expander family, $d$ and a bound below one on
+$\lambda/d$ are fixed independently of $M$.
 
 For $S,T\subseteq V(\mathcal E)$, put
 $e_{\mathcal E}(S,T)=\sum_{u\in S,v\in T}A_{uv}$. This counts
-ordered steps with multiplicity. The sets need not be disjoint.
-The following lemma states the distribution property we need.
+ordered steps with multiplicity, and the sets need not be disjoint.
+If the $d|S|$ steps leaving $S$ had endpoints uniformly distributed
+over all $M$ vertices, then $d|S||T|/M$ of them would end in $T$.
+The lemma bounds the error in this expected-count heuristic.
 
 \begin{lemma}[Expander mixing lemma {\cite[Lemma~2.5]{HLW2006}}]
 \label{lem:expander-mixing}
@@ -391,16 +397,38 @@ and all $S,T\subseteq V(\mathcal E)$,
 
 \begin{proof}
 The spectral proof of the cited lemma also applies to our step
-matrix, including loops and parallel edges.
-Let $\mathbf1_S$ be the vector equal to one on $S$ and zero
-elsewhere, and put $x_S=\mathbf1_S-(|S|/M)\mathbf1$. Define $x_T$
-similarly. These two vectors have coordinate sum zero. Since
-$A\mathbf1=d\mathbf1$,
-$e_{\mathcal E}(S,T)-d|S||T|/M=x_S^{\mathsf T}Ax_T$.
-The eigenvalue bound and Cauchy--Schwarz give absolute value at most
-$\lambda\|x_S\|_2\|x_T\|_2$, where $\|\cdot\|_2$ is the Euclidean
-norm. Since $\|x_S\|_2^2=|S|(1-|S|/M)\le|S|$, and similarly for
-$T$, this is at most $\lambda\sqrt{|S||T|}$.
+matrix, including loops and parallel edges. Let $\mathbf1_S$ be the
+indicator vector of $S$, and write
+$x_S=\mathbf1_S-(|S|/M)\mathbf1$. Define $x_T$ similarly. Both
+centered vectors have coordinate sum zero. Expanding the indicators gives
+\[
+\begin{aligned}
+ \mathbf1_S^{\mathsf T}A\mathbf1_T
+ &=x_S^{\mathsf T}Ax_T
+   +\frac{|T|}{M}x_S^{\mathsf T}A\mathbf1
+   +\frac{|S|}{M}\mathbf1^{\mathsf T}Ax_T
+   +\frac{|S||T|}{M^2}\mathbf1^{\mathsf T}A\mathbf1\\
+ &=x_S^{\mathsf T}Ax_T+\frac{d|S||T|}{M}.
+\end{aligned}
+\]
+Here $x_S^{\mathsf T}A\mathbf1=d x_S^{\mathsf T}\mathbf1=0$,
+$\mathbf1^{\mathsf T}Ax_T=d\mathbf1^{\mathsf T}x_T=0$, and
+$\mathbf1^{\mathsf T}A\mathbf1=dM$.
+
+Since $A$ is symmetric, its eigenvectors on the zero-sum subspace
+can be chosen orthonormally. Write $\|x\|_2=(\sum_vx_v^2)^{1/2}$.
+If $x_T=\sum_i c_i v_i$ there, with
+eigenvalues $\mu_i$, then
+$\|Ax_T\|_2^2=\sum_i\mu_i^2c_i^2\le\lambda^2\sum_i c_i^2
+=\lambda^2\|x_T\|_2^2$. Cauchy--Schwarz therefore gives
+$|x_S^{\mathsf T}Ax_T|\le\lambda\|x_S\|_2\|x_T\|_2$.
+Finally,
+\[
+ \|x_S\|_2^2
+ =|S|(1-|S|/M)^2+(M-|S|)(|S|/M)^2
+ =|S|(1-|S|/M)\le|S|,
+\]
+and the same bound holds for $T$. Substitution proves the claim.
 \end{proof}
 
 A \emph{walk of length $k$} consists of a starting vertex followed
@@ -408,11 +436,14 @@ by $k$ consecutive edge steps. Vertices and edges may be repeated,
 and different choices among parallel edges count as different
 walks. The \emph{$k$th walk power} of $\mathcal E$ has the same
 vertices, with one step from $u$ to $v$ for each length-$k$ walk
-from $u$ to $v$ in $\mathcal E$. Its adjacency matrix is $A^k$.
-It is $d^k$-regular, and its eigenvalues on the zero-sum subspace
-have absolute value at most $\lambda^k$. Thus taking a fixed walk
-power makes the ratio $(\lambda/d)^k$ as small as needed while
-keeping the degree independent of $M$.
+from $u$ to $v$ in $\mathcal E$. Matrix multiplication counts these
+walks, so its adjacency matrix is $A^k$. Since
+$A^k\mathbf1=d^k\mathbf1$, the walk power is $d^k$-regular.
+Each eigenvector of $A$ is also an eigenvector of $A^k$, with
+eigenvalue raised from $\mu$ to $\mu^k$. Hence the zero-sum
+eigenvalue bound becomes $\lambda^k$. Taking a fixed walk power
+therefore makes $(\lambda/d)^k$ as small as needed while keeping
+the degree independent of $M$.
 
 The Margulis--Gabber--Galil construction gives, for every integer
 $s\ge1$, a deterministically constructible eight-regular multigraph
@@ -440,11 +471,12 @@ For each fixed integer $k\ge1$ there is a deterministic polynomial-time
 construction of a simple bipartite graph on prescribed disjoint
 sets of sizes $n_A,n_B$ with maximum degree at most
 $8^k\max\{\lceil M/n_A\rceil,\lceil M/n_B\rceil\}$,
-having no $(t,t)$ hole whenever $t>\lambda_0^kM$.
+having no $(t,t)$ hole for every integer $t\ge1$ with
+$t>\lambda_0^kM$.
 For one set of size $n_A$, the same construction gives a simple
 graph of maximum degree at most $8^k\lceil M/n_A\rceil$,
 where $M=\lceil\sqrt{n_A}\rceil^2$, with no disjoint anticomplete
-$t$-subsets whenever $t>\lambda_0^kM$.
+$t$-subsets for every integer $t\ge1$ with $t>\lambda_0^kM$.
 Neither construction adds vertices.
 \end{lemma}
 
@@ -459,20 +491,26 @@ Put an edge $uv$, with $u\in A$ and $v\in B$, in the output if
 and only if some step $xy$ of $\mathcal E$ satisfies
 $\pi_A(x)=u$ and $\pi_B(y)=v$.
 Repeated occurrences give a single output edge.
-Each intermediate vertex has $8^k$ steps leaving it and, by
-symmetry, $8^k$ steps entering it. Consequently an output vertex
-receives at most $8^k$ incident edges per intermediate vertex
-mapped to it, proving the degree bound.
+In the bipartite construction, each intermediate vertex mapped to
+$A$ contributes at most $8^k$ outgoing steps, and each one mapped to
+$B$ contributes at most $8^k$ incoming steps. In the one-set
+construction, the walk power is symmetric, so every incident output
+edge can be represented by an outgoing step from one of that output
+vertex's intermediate preimages. Repeated steps give only one edge.
+Thus each preimage contributes at most $8^k$ incident edges, proving
+the degree bound.
 
 For subsets $S_A\subseteq A$ and $T_B\subseteq B$ of size $t$,
 let $S=\pi_A^{-1}(S_A)$ and $T=\pi_B^{-1}(T_B)$ be the sets of
 intermediate vertices mapped into them. Both maps are onto, so
 $|S|,|T|\ge t$. Equation~\eqref{eq:factor-expander-mixing}
-gives a step between them when $t>\lambda_0^kM$, since
+gives a positive number of steps between them when
+$t>\lambda_0^kM$:
 \[
- |S||T|/M-\lambda_0^k\sqrt{|S||T|}
- =\sqrt{|S||T|}\big(\sqrt{|S||T|}/M-\lambda_0^k\big)>0.
+ e_{\mathcal E}(S,T)\ge
+ d\sqrt{|S||T|}\left(\frac{\sqrt{|S||T|}}{M}-\lambda_0^k\right)>0,
 \]
+since $\sqrt{|S||T|}/M\ge t/M>\lambda_0^k$.
 That step produces an output edge between $S_A$ and $T_B$.
 The sets $S,T$ may overlap. The mixing inequality still applies. An
 intermediate loop also gives a legitimate edge between the
@@ -483,9 +521,18 @@ the prescribed set by $\pi$, with at most $\lceil M/n_A\rceil$
 vertices mapped to any output vertex. Include an edge $uv$ for
 distinct output vertices $u,v$ if and only if a step of $\mathcal E$
 has its endpoints mapped to $u,v$.
-Discard loops and repeated edges. Intermediate vertices mapped into
-disjoint output subsets form disjoint sets, so an edge between them does not
-disappear as a loop. In either construction, $M$ is at
+Take disjoint output sets $S_A,T_A$ of size $t$. Their preimages
+$S,T$ are disjoint and each has size at least $t$. The mixing bound
+in~\eqref{eq:factor-expander-mixing} gives
+$\sqrt{|S||T|}/M\ge t/M>\lambda_0^k$, and hence
+\[
+ e_{\mathcal E}(S,T)\ge d\sqrt{|S||T|}
+ \left(\frac{\sqrt{|S||T|}}{M}-\lambda_0^k\right)>0.
+\]
+Thus some step joins $S$ to $T$. Since $S$ and $T$ are disjoint,
+the step's endpoints map to distinct output vertices, so it gives
+an edge between $S_A$ and $T_A$. Discard repeated edges.
+In either construction, $M$ is at
 most four times the largest prescribed set size, so the construction
 has polynomial size for fixed $k$.
 \end{proof}
@@ -496,22 +543,24 @@ has polynomial size for fixed $k$.
 We derive a bounded-degree version of the independent-set promise
 used in Section~\ref{sec:ugc}: independent-set density close to
 $1/2$ in the YES case and arbitrarily small constant density in
-the NO case. We use the weighted density construction of Austrin,
-Khot, and Safra~\cite[Theorem~3.1]{AKS2011}. Their bounded-degree
-theorem uses randomized edge sampling and removal of high-degree
-vertices~\cite[Theorem~4.1 and Section~4, Steps~2--3]{AKS2011}.
-We instead use deterministic spectral sparsification
-\cite[Theorem~1.1]{BSS2012} and discard edges below a fixed weight
-threshold. The resulting degree bound depends only on the fixed source
-gap parameters.
+the NO case. Austrin, Khot, and Safra prove that, under UGC,
+approximating independent set in maximum-degree-$d$ graphs is hard
+within a factor $\Theta(d/\log^2 d)$
+\cite[Theorem~1.2 and Section~5.2]{AKS2011}. Their reduction obtains
+bounded degree by random edge sampling and removal of edges incident
+to high-degree vertices
+\cite[Section~4, Steps~2--3]{AKS2011}. We instead use their weighted
+density construction~\cite[Theorem~3.1]{AKS2011} and give a
+deterministic route to the fixed-gap bounded-degree promise below,
+using spectral sparsification~\cite[Theorem~1.1]{BSS2012}.
 
 The derivation has three steps. We first remove loops while retaining
 the weighted density promise. We then replace each vertex by
 independent copies in proportion to its weight, obtaining a
 uniform bound on weighted degrees. Finally, a sparse reweighted
-graph preserves positive edge
-weight inside every vertex set above a fixed size threshold. Discarding
-edges turns the weighted-degree bound into an ordinary degree bound.
+graph preserves positive edge weight inside every vertex set above
+a fixed size threshold. Discarding edges turns the weighted-degree
+bound into an ordinary degree bound.
 
 \subsubsection{The weighted density source and removal of loops}
 
@@ -535,28 +584,31 @@ to the label at $u$. A \emph{labeling} assigns one label to every
 vertex. Its value is the fraction of constraints it satisfies,
 counting parallel constraints separately. The instance's optimum
 is the largest such fraction.
-We use the regular bipartite formulation in
-\cite[Conjecture~2.4]{AKS2011}, which is equivalent to the ordinary
-UGC by Khot and Regev~\cite{KhotRegev}. In its YES case, a
-$(1-\gamma)$-fraction of the right vertices admit labels satisfying
-every incident constraint. Its NO case has optimum at most
-$\gamma$. The underlying bipartite multigraph is regular in
-both cases: every left vertex has one common degree, and every
-right vertex has another common degree. This final condition
-in~\cite[Conjecture~2.4]{AKS2011} supplies the weighted-degree
-identity used below in both cases.
+Khot and Regev show that ordinary UGC is equivalent to the
+following regular bipartite promise, which AKS use
+\cite[Conjecture~2.4]{AKS2011}: for every fixed $\gamma>0$, it is
+NP-hard to distinguish a YES instance in which a
+$(1-\gamma)$-fraction of the right vertices can each be labeled
+consistently with every incident constraint from a NO instance of
+value at most $\gamma$. The underlying bipartite multigraph is
+regular on each side. AKS Theorem~3.1 states that, for a regular
+source instance, the output vertex weight is proportional to its
+weighted degree. Since the total vertex weight is one and the total
+edge weight is one, summing the weighted degrees gives two, so the
+proportionality factor is two.
 
 Fix a rational $p\in(0,1/2)$ and put $\xi=-p/(1-p)$.
 Theorem~3.1 of~\cite{AKS2011} gives a deterministic polynomial-time
 reduction, for fixed alphabet size, to a vertex- and edge-weighted
 graph $G$ with both total weights equal to one. If $a_v$ is the
 vertex weight, write $a(S)=\sum_{v\in S}a_v$. The weighted degree
-of $v$, the sum of its incident edge weights, is $2a_v$. In the YES case,
+of $v$, the sum of its incident edge weights, is $2a_v$. For
+$S\subseteq V(G)$, let $e_G(S)$ be the total weight of edges with
+both endpoints in $S$. In the YES case,
 $G$ has an independent set of weight at least $p-\gamma$. In the
 NO case, $e_G(S)\ge\Gamma_\xi(a(S))-\varepsilon_{\mathrm{dens}}$ for every
 $S\subseteq V(G)$. Here $\varepsilon_{\mathrm{dens}}>0$ is an arbitrarily small fixed analytic error
-and the Unique Games error $\gamma$ is chosen sufficiently small.
-Here $e_G(S)$ is the internal edge weight. We allow loops in this
+and the Unique Games error $\gamma$ is chosen sufficiently small. We allow loops in this
 intermediate graph, counting a loop once in $e_G(S)$ and twice in
 weighted degree.
 
@@ -597,13 +649,14 @@ Regularity and the YES fraction are unchanged.
 The coordinates $[\ell]\times\{j\}$, for a fixed $j\in[t]$,
 form one coordinate block. Put $c=p^2+(1-p)^2<1$. Conditional on any choice of the two
 constraints, a loop requires equality of the two permuted strings
-in every one of the $t$ coordinate blocks. In one block, consider
-one output coordinate. If the two permutations select the same
-input coordinate, equality has probability $1-2p$. If they select
-different input coordinates, the two bits are independent with
-marginal probability $p$, so equality has probability $c$.
-In either case it is at most $c$. Different blocks are independent.
-Consequently the total loop weight is at most $c^t$.
+in every one of the $t$ coordinate blocks. In each block, full
+string equality implies equality at a fixed output coordinate. If
+the two permutations select the same input coordinate there, equality
+has probability $1-2p$. If they select different input coordinates,
+the bits are independent with marginal probability $p$, so equality
+has probability $c=p^2+(1-p)^2$. Both bounds are at most $c$.
+The coordinate blocks are independent, so the probability of full
+string equality, and hence the total loop weight, is at most $c^t$.
 Choose a fixed $t$ with $c^t<\varepsilon_{\mathrm{loop}}$, and delete all loops.
 This loses at most $\varepsilon_{\mathrm{loop}}$ internal edge weight in any set,
 preserves the YES independent set, and does not increase weighted
@@ -651,12 +704,27 @@ In the NO case, every $S'\subseteq V(G_1)$ satisfies
 \begin{proof}
 Take any $S'\subseteq V(G_1)$ and let $f_u$ be the fraction of
 clones of $u$ in $S'$. Include each original vertex $u$ in a random
-set $S$ independently with probability $f_u$.
-Since $G^-$ has no loops,
-$\mathbb E a(S)=|S'|/N$ and
-$\mathbb E e_{G^-}(S)=e_{G_1}(S')$.
-Apply~\eqref{eq:aks-loop-free-density} and Jensen's inequality for
-the convex function $\Gamma_\xi$.
+set $S$ independently with probability $f_u$. Since $a_u=m_u/N$,
+\[
+ \mathbb E[a(S)]=\sum_u a_uf_u
+ =\frac1N\sum_u m_uf_u=\frac{|S'|}{N}.
+\]
+There are no loops in $G^-$. Thus the two endpoints of each edge
+are chosen independently, and
+\[
+ \mathbb E[e_{G^-}(S)]
+ =\sum_{uv}w_{uv}f_uf_v
+ =e_{G_1}(S').
+\]
+Taking expectations in~\eqref{eq:aks-loop-free-density} and using
+convexity of $\Gamma_\xi$ gives
+\[
+ e_{G_1}(S')=\mathbb E[e_{G^-}(S)]
+ \ge\mathbb E[\Gamma_\xi(a(S))]
+   -\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}
+ \ge\Gamma_\xi(|S'|/N)
+   -\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}.
+\]
 This is the argument of~\cite[Section~4, Step~1]{AKS2011}, applied
 after the loop removal of Lemma~\ref{lem:aks-loop-removal}.
 \end{proof}
@@ -664,22 +732,28 @@ after the loop removal of Lemma~\ref{lem:aks-loop-removal}.
 \subsubsection{Deterministic sparsification of a dense-set promise}
 
 The next lemma converts this weighted density promise into the
-required bounded-degree graph. We introduce the matrix notation
-used in its proof. For a loopless edge-weighted graph $G$, its
-\emph{Laplacian} $L_G$ is the symmetric matrix determined by
+required bounded-degree graph. For a loopless weighted graph $G$,
+let $w_{uv}$ be the total weight of edges between distinct vertices
+$u,v$. Its \emph{Laplacian} is the symmetric matrix with
+$L_G(u,u)=\deg_G(u)$ and $L_G(u,v)=-w_{uv}$ for $u\ne v$.
+Expanding the quadratic form gives
 \[
- x^{\mathsf T}L_Gx=\sum_{uv\in E(G)}w_{uv}(x_u-x_v)^2
- \qquad(x\in\mathbb R^{V(G)}).
+ x^{\mathsf T}L_Gx
+ =\sum_{uv\in E(G)}w_{uv}(x_u-x_v)^2.
 \]
+For a vertex set $S$, let $\operatorname{vol}_G(S)$ be the sum of
+its vertices' weighted degrees, and let $w(\cut_G(S))$ be the
+weight of edges with one endpoint in $S$. Thus
+$\mathbf1_S^{\mathsf T}L_G\mathbf1_S=w(\cut_G(S))$ and
+$\mathbf1_{\{v\}}^{\mathsf T}L_G\mathbf1_{\{v\}}=\deg_G(v)$.
 The notation $L_G\preceq L_H$ means that
 $x^{\mathsf T}L_Gx\le x^{\mathsf T}L_Hx$ for every vector $x$.
-For the indicator vector $\mathbf1_S$, this quadratic form is the
-weight of the cut of $S$. For $S=\{v\}$, it is the weighted degree
-of $v$. A \emph{spectral sparsifier} uses fewer edges, with
-possibly different positive weights, while preserving these
-quadratic forms within specified multiplicative bounds.
-Bounds on cuts and weighted degrees then control internal edge
-weights through $2e_G(S)=\vol_G(S)-w(\cut_G(S))$.
+A \emph{spectral sparsifier} is a weighted subgraph with fewer
+edges whose Laplacian preserves these quadratic forms within
+multiplicative bounds. Finally,
+$2e_G(S)=\operatorname{vol}_G(S)-w(\cut_G(S))$: an internal edge
+contributes twice to the volume, while a crossing edge contributes
+once to both the volume and the cut.
 
 \begin{lemma}\label{lem:deterministic-density-sparsification}
 Fix positive constants $C_0,\zeta,\eta$. Let $G$ be a loopless
@@ -696,42 +770,57 @@ $\eta N$. Every independent set of $G$ remains independent in $J$.
 
 \begin{proof}
 Choose a fixed rational $0<\theta\le\min\{1/12,\zeta/14\}$,
-and put $d=\lceil\theta^{-2}\rceil$.
-The spectral sparsification theorem of Batson, Spielman, and
-Srivastava~\cite[Theorem~1.1]{BSS2012}, followed by rescaling,
-gives a graph $H$ on $V(G)$, using at most $dN$ of the edges of
-$G$ with new positive weights, and satisfying
-$L_G\preceq L_H\preceq(1+7\theta) L_G$.
-Indeed, its distortion is at most
-$((1+\theta)/(1-\theta))^2\le1+7\theta$.
-Applying this inequality to $\mathbf1_{\{v\}}$ gives
-$\deg_G(v)\le\deg_H(v)\le(1+7\theta) C_0/N$ and,
-after summing, $\operatorname{vol}_H(S)\ge\operatorname{vol}_G(S)$.
-Applying it to $\mathbf1_S$ gives
-$w(\cut_H(S))\le(1+7\theta) w(\cut_G(S))$.
-If $|S|\ge\eta N$, use
-$2e_H(S)=\vol_H(S)-w(\cut_H(S))$ to obtain
+and put $q=\theta^{-2}$ and $d=\lceil q\rceil$. The spectral
+sparsification theorem of Batson, Spielman, and
+Srivastava~\cite[Theorem~1.1]{BSS2012} states that for every $q>1$ there is a
+weighted subgraph $G'$ on $V(G)$ with at most
+$\lceil q(N-1)\rceil\le dN$ edges and
 \[
- e_H(S)\ge e_G(S)-\tfrac{7\theta}{2}w(\cut_G(S))
- \ge\zeta-\tfrac{7\theta}{2}\ge3\zeta/4,
+ L_G\preceq L_{G'}\preceq
+ \frac{q+1+2\sqrt q}{q+1-2\sqrt q}L_G.
 \]
-because every cut has weight at most one.
+The theorem gives this Laplacian sandwich directly. Substituting $q=\theta^{-2}$ gives
+\[
+ \frac{q+1+2\sqrt q}{q+1-2\sqrt q}
+ =\left(\frac{1+\theta}{1-\theta}\right)^2
+ =1+\frac{4\theta}{(1-\theta)^2}
+ \le1+\frac{576}{121}\theta<1+7\theta,
+\]
+since $\theta\le1/12$.
 
-Discard every edge of $H$ whose weight is less than
-$\zeta/(4dN)$, and let $J$ be the simple unweighted graph formed
-by the remaining edges. Since $H$ has at most $dN$ edges, the
-total weight discarded is at most $\zeta/4$. Every set of at
-least $\eta N$ vertices therefore retains internal weight at
-least $\zeta/2$, so it contains an edge of $J$. Thus every
-independent set of $J$ has size less than $\eta N$.
+Applying this sandwich to $\mathbf1_{\{v\}}$ gives
+$\deg_G(v)\le\deg_{G'}(v)\le(1+7\theta)C_0/N$. Summing the lower
+bounds over $v\in S$ gives
+$\operatorname{vol}_{G'}(S)\ge\operatorname{vol}_G(S)$.
+Applying the sandwich to $\mathbf1_S$ gives
+$w(\cut_{G'}(S))\le(1+7\theta)w(\cut_G(S))$. Every cut has weight at most the total edge weight, so
+$w(\cut_G(S))\le1$. Also $\theta\le\zeta/14$ gives
+$7\theta/2\le\zeta/4$. Therefore, whenever $|S|\ge\eta N$,
+\begin{align*}
+ 2e_{G'}(S)&=\operatorname{vol}_{G'}(S)-w(\cut_{G'}(S))\\
+ &\ge\operatorname{vol}_G(S)-(1+7\theta)w(\cut_G(S))\\
+ &=2e_G(S)-7\theta w(\cut_G(S)),\\
+ e_{G'}(S)&\ge e_G(S)-\tfrac{7\theta}{2}w(\cut_G(S))
+ \ge\zeta-\tfrac{7\theta}{2}\ge3\zeta/4.
+\end{align*}
+Discard each edge of $G'$ whose weight is less than
+$\zeta/(4dN)$, and let $J$ be the simple unweighted graph formed by
+the remaining edges. There are at most $dN$ edges, so the total
+discarded weight is at most $\zeta/4$. Every set of at least
+$\eta N$ vertices retains internal edge weight at least
+$3\zeta/4-\zeta/4=\zeta/2>0$, and therefore contains an edge of $J$.
+Thus every independent set of $J$ has size less than $\eta N$.
 
 Every retained edge incident with $v$ has weight at least
-$\zeta/(4dN)$. Consequently,
-$\deg_J(v)\le(4dN/\zeta)\deg_H(v)\le4(1+7\theta) C_0d/\zeta$.
-This is a constant depending only on $C_0$ and $\zeta$.
-Since $J$ uses only edges of $G$, every independent set of $G$
-remains independent in $J$. The construction is deterministic
-and polynomial time by the cited sparsification theorem.
+$\zeta/(4dN)$. Hence
+\[
+ \deg_J(v)\le\frac{4dN}{\zeta}\deg_{G'}(v)
+ \le\frac{4(1+7\theta)C_0d}{\zeta},
+\]
+a constant depending only on $C_0,\zeta$. Since $J$ uses only
+edges of $G$, every independent set of $G$ remains independent in
+$J$. The construction is deterministic and polynomial time by the
+cited theorem.
 \end{proof}
 
 Combining the three steps gives the source promise used in the

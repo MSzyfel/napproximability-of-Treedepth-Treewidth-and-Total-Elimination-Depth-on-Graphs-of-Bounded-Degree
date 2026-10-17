@@ -74,13 +74,17 @@ vertex copy. Consequently
 The same bound covers empty top or class chains.
 
 \emph{The NO bound and the gap.}
-The proof of Wu et al.~\cite[Lemma~5.1]{APW} gives, for their
-choice $r\geq |V(G)|m$, a lower bound
-$b(G')\geq c\sqrt{\varepsilon}\,m$ for some absolute constant
-$c>0$ on NO instances. In particular, the source argument bounds
-the balanced separator of the entire output vertex set, which is
-the quantity $b$ used here. Lemma~\ref{lem:balanced-by-td} therefore
-gives $\td(G')\geq c\sqrt{\varepsilon}\,m$.
+On a NO source instance, every set $A\subseteq V(G)$ with
+$|A|\in[|V(G)|/10,9|V(G)|/10]$ has at least
+$c\sqrt{\varepsilon}\,m$ crossing host edges, for an absolute
+constant $c>0$. Since the host is regular, this is the same as the
+corresponding volume condition. Wu, Austrin, Pitassi, and Liu~\cite[Lemma~5.1]{APW}
+apply this source property to the entire replicated incidence graph
+$G'$ and prove that its minimum balanced-separator size satisfies
+$b(G')\geq c\sqrt{\varepsilon}\,m$. Thus the bound is on separators
+of all output vertices, not just the host-edge vertices.
+Lemma~\ref{lem:balanced-by-td} therefore gives
+$\td(G')\geq c\sqrt{\varepsilon}\,m$.
 
 For completeness, fix any desired approximation factor $C\geq1$.
 Choose a sufficiently small fixed $0<\varepsilon\leq1/2$ for which
@@ -280,7 +284,7 @@ anchors are pairwise incomparable, each root-to-leaf path meets
 at most one inserted chain, so its height is at most $h(F)+d$.
 Lemma~\ref{lem:bns-anchor} now gives
 $h(F)+d\ge L+\vc(G)+1$, and thus
-$h(F)\ge\ell+\vc(G)+1$.
+$h(F)\ge L+\vc(G)+1-d=\ell+\vc(G)+1$.
 \end{proof}
 
 These lemmas give bounds at every anchor length.
@@ -344,7 +348,10 @@ If $\ell\ge\max\{|A|,|B|,|C|,1\}$, then any two parts together
 cover every edge, so $\vc(G)\le2\ell$. Also, choose a pair $X,Y$
 attaining $\vc_2(G)$ and let $Z$ be the omitted part. A minimum
 vertex cover of $G[X\cup Y]$, together with all of $Z$, covers $G$.
-Therefore $\vc(G)\le\vc_2(G)+|Z|\le\vc_2(G)+\ell$. These bounds
-make the minimum in Lemma~\ref{lem:arbitrary-anchor} equal to
-$\ell+\vc(G)$, matching the upper bound.
+Therefore $\vc(G)\le\vc_2(G)+|Z|\le\vc_2(G)+\ell$. The two
+cover bounds give
+$\ell+\vc(G)\le3\ell$ and
+$\ell+\vc(G)\le2\ell+\vc_2(G)$, respectively. Thus the minimum
+in Lemma~\ref{lem:arbitrary-anchor} is $\ell+\vc(G)$, matching the
+upper bound.
 \end{proof}

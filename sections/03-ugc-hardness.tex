@@ -256,9 +256,16 @@ child.
 
 \emph{Induction within each child.}
 By Lemma~\ref{lem:ugc-child-restriction}, the graph induced by
-child $j$ is $S_{q_j}(G[U_j])$ with $M_j$ vertices deleted. By Lemma~\ref{lem:restore-vertices}, restoring these
-vertices increases height by at most $M_j$. Induction and
-$\alphaI(G[U_j])\leq\alphaI(G)$ therefore give
+child $j$ is $S_{q_j}(G[U_j])$ with $M_j$ vertices deleted. Let $X_j$
+be this deleted set. Thus $F_j$ is an elimination forest of
+$S_{q_j}(G[U_j])-X_j$. Lemma~\ref{lem:restore-vertices} and the height
+of $F_j$ give
+\[
+ \td(S_{q_j}(G[U_j]))
+ \leq \td(S_{q_j}(G[U_j])-X_j)+M_j
+ \leq h(F_j)+M_j.
+\]
+Induction and $\alphaI(G[U_j])\leq\alphaI(G)$ therefore give
 \[
   h(F_j)\geq\frac{2}{3}q_jn_j-\frac{q_j(q_j-1)}3\alphaI(G)-M_j.
 \]
@@ -272,24 +279,20 @@ $h(F_k)\geq\frac23\max_j(q_jn_j)
 The height identity in Lemma~\ref{lem:ugc-forest-accounting} gives
 $h(F)\geq |P|+h(F_k)$. Using $|P|=qn-\sum_jN_j$ and
 $N_j=q_jn_j-M_j$ leaves the missing-vertex contribution
-$\sum_jM_j-M_k\geq0$. Hence
+$\sum_jM_j-M_k\geq0$. Apply Lemma~\ref{lem:branching-ineq} to
+the resulting first-branch bound. The last line also uses
+$\sum_jq_j\leq q$ and~\eqref{eq:ugc-support-count}:
 \[
-  h(F)\geq qn-\sum_jq_jn_j
-       +\frac{2}{3}\max_j(q_jn_j)
-       -\frac{(q-\nu+1)(q-\nu)}3\alphaI(G).
-\]
-
-Apply Lemma~\ref{lem:branching-ineq}, then use
-$\sum_jq_j\leq q$ and the count of source vertices
-in~\eqref{eq:ugc-support-count}:
-\[
-\begin{split}
-  h(F)
-  &\geq qn-\frac13\left(\sum_jq_j\right)\left(\sum_jn_j\right)
-    -\frac{(q-\nu+1)(q-\nu)}3\alphaI(G)\\
-  &\geq\frac{2q}{3}n-
+\begin{aligned}
+ h(F)&\geq qn-\sum_jq_jn_j+\frac23\max_j(q_jn_j)
+       -\frac{(q-\nu+1)(q-\nu)}3\alphaI(G)\\
+ &=qn-\frac13\left(3\sum_jq_jn_j-2\max_j(q_jn_j)\right)
+       -\frac{(q-\nu+1)(q-\nu)}3\alphaI(G)\\
+ &\geq qn-\frac13\left(\sum_jq_j\right)\left(\sum_jn_j\right)
+       -\frac{(q-\nu+1)(q-\nu)}3\alphaI(G)\\
+ &\geq\frac{2q}{3}n-
     \frac{q(\nu-1)+(q-\nu+1)(q-\nu)}3\alphaI(G).
-\end{split}
+\end{aligned}
 \]
 The error coefficient satisfies
 \[

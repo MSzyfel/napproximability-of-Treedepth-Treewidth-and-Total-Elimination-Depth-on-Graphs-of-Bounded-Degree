@@ -1,26 +1,16 @@
 \subsection{General sparsification theorems}
 \label{subsec:general-sparsification}
 
-Fix constants $d_0\ge0$, $d_{\mathrm{fac}}\ge1$, and $\kappa\ge1$.
-The graph $H$ has $N$ vertices and is supplied as the union of
-retained edges $E_0$, clique factors indexed by $\mathcal C$, and
-complete bipartite factors indexed by $\mathcal B$. A clique factor
-uses a nonempty vertex set $U_f$. A biclique factor has disjoint
-nonempty sides $A_f,B_f$ and uses
-$U_f=A_f\mathbin{\dot\cup}B_f$. Its edge set is
-\[
- E(H)=E_0\cup\bigcup_{f\in\mathcal C}\binom{U_f}{2}
-       \cup\bigcup_{f\in\mathcal B}\{uv:u\in A_f,\ v\in B_f\}.
-\]
-The \emph{factor hypotheses} are as follows:
+Use the edge decomposition in~\eqref{eq:factor-edge-union} and the replacement graph $J$ defined in Section~\ref{sec:bounded-degree-hardness}.
+For these sparsification theorems, fix constants $d_0\ge0$,
+$d_{\mathrm{fac}}\ge1$, and $\kappa\ge1$, and assume:
 \begin{enumerate}
-\item $(V(H),E_0)$ has maximum degree at most $d_0$.
-\item Each vertex belongs to at most $d_{\mathrm{fac}}$ sets $U_f$.
-\item Each biclique satisfies
+\item the retained graph $(V(H),E_0)$ has maximum degree at most $d_0$;
+\item each vertex belongs to at most $d_{\mathrm{fac}}$ factor supports $U_f$;
+\item every biclique factor has nonempty sides and satisfies
 $\max\{|A_f|,|B_f|\}/\min\{|A_f|,|B_f|\}\le\kappa$.
 \end{enumerate}
-Factors may overlap in vertices or edges. Counting the incidences
-between vertices and the sets $U_f$ gives
+Counting incidences between vertices and factor supports gives
 \begin{equation}\label{eq:general-factor-incidence}
  \sum_{f\in\mathcal C\cup\mathcal B}|U_f|\le d_{\mathrm{fac}}N.
 \end{equation}

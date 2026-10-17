@@ -243,7 +243,7 @@ makes this difference positive and preserves the factor hypotheses.
 \end{proof}
 
 The all-constant SSE conclusion for treewidth on unrestricted graphs
-is due to Wu et al.~\cite[Theorem~1.1]{APW}. The bounded-degree
+is due to Wu, Austrin, Pitassi, and Liu~\cite[Theorem~1.1]{APW}. The bounded-degree
 statement here follows by applying our treewidth sparsification
 theorem to the line-graph construction.
 
@@ -303,16 +303,17 @@ $\totd(H)\ge CnW(G(J))\ge Cn^2$, and
 $Cn^2=CN^2/(11+3C)^2$ because $N=(11+3C)n$.
 Choose $\tau\le\epsilon_0 C/(11+3C)^2$. Then
 $\tau N^2\le\epsilon_0 Cn^2\le\epsilon_0\totd(H)$.
-Let $H'$ be the sparse spanning subgraph. A
-$(1+\epsilon_0)$-approximate elimination forest $F$ of $H'$ completes
-to an elimination forest $\widehat F$ of $H$, and
+Let $H'$ be the sparse spanning subgraph. Since every elimination
+forest of $H$ is also an elimination forest of $H'$, we have
+$\totd(H')\le\totd(H)$. A $(1+\epsilon_0)$-approximate elimination
+forest $F$ of $H'$ completes to an elimination forest $\widehat F$ of $H$, and
 \[
 \begin{aligned}
  \totd(\widehat F)
- &\leq\totd(F)+\tau N^2\\
- &\leq(1+\epsilon_0)\totd(H')+\tau N^2\\
- &\leq(1+\epsilon_0)\totd(H)+\epsilon_0\totd(H)\\
- &=(1+2\epsilon_0)\totd(H).
+ &\leq\totd(F)+\tau N^2
+ \leq(1+\epsilon_0)\totd(H')+\tau N^2\\
+ &\leq(1+\epsilon_0)\totd(H)+\epsilon_0\totd(H)
+ =(1+2\epsilon_0)\totd(H).
 \end{aligned}
 \]
 Lemma~\ref{lem:np-total-depth-extraction} applies with error
