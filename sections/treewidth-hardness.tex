@@ -114,13 +114,14 @@ throughout the $X$-path, and on each other path it is removed once.
 A vertex in $I_j\cap X_j$ occurs only on the $X$-path, from its
 addition to the end. Thus each vertex's bag occurrences form a
 connected subtree. Every edge within a global clique is covered at
-the corresponding final bag. An original cross-part edge with both
-endpoints in $S^*$ is covered at the center. Both endpoints cannot
-belong to $I_1\cup\cdots\cup I_R$, since each $I_j$ is independent
-and original edges stay inside a copy. Finally, if one endpoint is
-in $I_j\cap X_j$ and the other in $S_j\setminus X_j$, the latter
-is still present when the former is added, so the edge is covered
-on the $X$-path. All edges are covered, and the bag-size bound follows from the count above.
+the corresponding final bag. Now consider an edge between two global
+parts. It comes from a single source copy, and its endpoints cannot
+both lie in that copy's independent set. If both endpoints lie in
+$S^*$, the center bag covers the edge. Otherwise, one endpoint lies
+in $I_j\cap X_j$ and the other in $S_j\setminus X_j$ for some $j$
+and part $X$. When the first endpoint is added on the $X$-path, the
+second is still in the bag, so the edge is covered there. All edges
+are covered, and the bag-size bound follows from the count above.
 \end{proof}
 
 \begin{lemma}[Replicated co-tripartite completion]\label{lem:tw-replication}
@@ -155,7 +156,7 @@ For the UGC reduction we need cover thresholds $(1/2+\zeta)N$ and
 $(2/3-\zeta)N$ on balanced tripartite graphs. More generally,
 B\'erczi, Chandrasekaran, Kir\'aly, Lee, and Xu prove that for every fixed $k\geq3$ and sufficiently
 small fixed $\epsilon,\eta,\beta>0$, it is UGC-hard to distinguish weighted $k$-partite
-Vertex Cover instances with optimum at most
+Vertex Cover instances of total vertex weight $k$ with optimum at most
 $k(1+\epsilon)/2+k\eta$ from instances with optimum at least
 $(k-1)(1-\epsilon)(1-\beta)$. As $\epsilon,\eta,\beta$ tend to zero,
 the gap ratio tends to $2(k-1)/k$~\cite[Sections~3.5--3.6]{BCKLX2017}.
