@@ -68,7 +68,8 @@ depth in Corollary~\ref{cor:total-depth-bounded-degree}.
 Yannakakis proved that deciding whether at most $k$ edges suffice to
 complete a graph to a trivially perfect graph is NP-hard, as recorded
 by H\o gemo et al.~\cite{Yannakakis1981,HogemoEtAl2021}. Bliznets,
-Cygan, Komosa, Mach, and Pilipczuk show that, under ETH, for some
+Cygan, Komosa, Mach, and Pilipczuk show that, under the Exponential
+Time Hypothesis (ETH), for some
 fixed $c\ge1$ there is no
 $2^{O(k^{1/4}/\log^c k)}n^{O(1)}$-time algorithm for this completion
 problem, where $k$ is the number of added edges and $n$ is the input
@@ -179,7 +180,7 @@ Choose a fixed rational $\varepsilon>0$ so that
 $\beta=(c/2)\sqrt\varepsilon\leq1/12$ and
 $\sqrt\varepsilon<c/(32C)$, where $C\ge1$ is the desired factor.
 Blum and Storandt show that the upward search spaces of a
-customizable contraction hierarchy form a hierarchical customizable
+customizable contraction hierarchy (CCH) form a hierarchical customizable
 hub labeling. Their Corollary~5 identifies the corresponding minimum
 average label size~\cite[Corollary 5, full version]{BlumStorandt2023}.
 Thus the same lower bound applies to every CCH search-space labeling.
@@ -203,8 +204,8 @@ with $\rho=2/3$ gives NO average at least
 $(c/8)\sqrt\varepsilon\,|V(J)|$. Consequently every constant
 approximation factor is SSE-hard for average or maximum general
 label size and average hierarchical label size. The same holds for
-the average upward vertex search-space size in a customizable
-contraction hierarchy (CCH). Here an elimination order adds edges
+the average upward vertex search-space size in a CCH. Here an
+elimination order adds edges
 between the remaining neighbors of each eliminated vertex. Orient
 the resulting edges toward the later vertex in that order.
 The upward search space of $v$ is the set of vertices reachable
@@ -378,8 +379,8 @@ and~\ref{subsec:np-treewidth} are linear in the
 output order. Exponentiating bag sizes therefore yields exponential
 approximation gaps for the total size of dense binary tables.
 
-For an $n$-vertex graph $G$ with $n\ge1$, the established dense-table objective is
-$\operatorname{TSS}(G)=\min_{(T,(B_t))}\sum_t2^{|B_t|}$.
+For an $n$-vertex graph $G$ with $n\ge1$, define the total state space
+(TSS) by $\operatorname{TSS}(G)=\min_{(T,(B_t))}\sum_t2^{|B_t|}$.
 The minimum ranges over tree decompositions of $G$.
 Each vertex represents a binary variable. The table for bag
 $B_t$ has one entry for each of its $2^{|B_t|}$ assignments.
