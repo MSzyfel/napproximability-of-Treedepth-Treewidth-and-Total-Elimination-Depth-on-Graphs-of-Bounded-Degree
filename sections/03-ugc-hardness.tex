@@ -107,8 +107,8 @@ contains one layer's copies of $I$. Vertices in different lower chains
 lie in different layers, and an edge between them would require two
 vertices of $I$ to be adjacent in $G$. Every edge incident to a vertex on the top chain
 has comparable endpoints. This is an elimination forest of height
-$q(n-|I|)+|I|$. If the top chain is empty, use the $q$ lower chains as
-separate rooted trees.
+$q(n-|I|)+|I|$. If $n=0$, it is the empty forest. If the top chain
+is empty and $n>0$, use the $q$ lower chains as separate rooted trees.
 \end{proof}
 
 Write $A_{q,\eta}:=(q+1)/2+(q-1)\eta$. In a YES instance of

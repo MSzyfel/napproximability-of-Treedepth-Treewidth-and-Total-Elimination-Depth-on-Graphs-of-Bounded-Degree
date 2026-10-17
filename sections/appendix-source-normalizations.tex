@@ -254,12 +254,14 @@ Thus $\mu-\Gamma_{1-\varepsilon'/2}(\mu)
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:sse-source}]
-Fix $q$ and $\varepsilon$ as in the statement, and choose a fixed
-rational $\varepsilon'\in[\varepsilon/2,\varepsilon]$.
+Fix $q$ and $\varepsilon$ as in the statement, reducing
+$\varepsilon_0$ so that $\varepsilon<1$. Put $\rho=1-\varepsilon/4$
+and $\varepsilon'=2(1-\rho^2)=\varepsilon-\varepsilon^2/8$.
+Then $\rho$ and $\varepsilon'$ are rational, and
+$\varepsilon'\in(\varepsilon/2,\varepsilon)$.
 Instantiate Theorem~3.5 of~\cite{RST} with error parameter
 $\varepsilon'$ and a fixed rational source error $\gamma$, to be
-chosen below. The interval for $\varepsilon'$ and the allowed positive
-range for $\gamma$ contain such rational choices.
+chosen below.
 
 \emph{YES case.}
 In the YES case the source theorem gives $q$ disjoint classes of
@@ -271,16 +273,16 @@ the vertices outside these classes have total volume zero.
 Such vertices have degree zero and can be assigned to any class
 without changing its volume or its boundary. We therefore obtain
 a partition of the entire vertex set with the required
-class volumes. In the proof of Theorem~3.5, the source parameter is
-$\rho=\sqrt{1-\varepsilon'/2}$, so the Gaussian correlation in the
-NO bound is $\rho^2=1-\varepsilon'/2$. The source also chooses
-$\beta\leq\min\{\gamma^3/200,\varepsilon'\}$,
-$\varepsilon_V=(\varepsilon')^2$, and
-$\eta=\min\{(\varepsilon')^2,\zeta/k\}$, where
+class volumes. In the source NO bound, the Gaussian correlation is
+$\rho^2=1-\varepsilon'/2$. The source chooses a rational
+$0<\beta\leq\min\{\gamma^3/200,\varepsilon'\}$,
+$\varepsilon_V=(\varepsilon')^2$, and a rational $\eta>0$ with
+$\eta\leq\min\{(\varepsilon')^2,\zeta/k\}$, where
 $\zeta=\zeta(\beta,q,\rho)>0$ is given by Lemma~6.12 of~\cite{RST}.
 The source takes $k$ large enough that
 $2^{-\Omega(k)}\leq(\varepsilon')^2$.
-These choices make the YES expansion $\varepsilon'+O((\varepsilon')^2)$.
+These rational parameter choices give a rationally weighted source graph.
+They make the YES expansion $\varepsilon'+O((\varepsilon')^2)$.
 After reducing $\varepsilon_0$ if needed, the error term is at most
 $\varepsilon'$. Every class then
 has expansion at most
