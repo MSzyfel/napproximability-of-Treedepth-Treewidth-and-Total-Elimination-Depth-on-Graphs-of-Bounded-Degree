@@ -13,7 +13,7 @@ extension to cubic graphs, gives the following source gap
 \cite[Theorem~3.2 and the final paragraph of Section~3]{AlimontiKann2000}.
 \begin{theorem}[Source gap for cubic Independent Set]
 \label{thm:source-cubic-independent-set}
-There is a constant $\delta_0>0$ such that no polynomial-time
+There is a constant $\delta_0\in(0,1)$ such that no polynomial-time
 algorithm, unless $\PP=\NP$, always finds an independent set of size
 at least $(1-\delta_0)\alphaI(J)$ in a given simple cubic graph $J$.
 \end{theorem}
@@ -85,9 +85,9 @@ descendants only move upwards. If $u$ was above $y_X$, deleting $u$
 decreases the depth of $y_X$ by one, so the new depth of $u$ is the
 old depth of $y_X$. The increase in the depth of $u$ therefore equals
 the number of vertices on the old path strictly below $u$ through
-$y_X$. Each of these vertices decreases its depth by one. All other
-former descendants also move up one level. No other depth increases.
-The total depth thus does not increase.
+$y_X$. Each of these vertices decreases its depth by one, canceling
+$u$'s increase. All other former descendants also move up one level,
+and no other depth increases. Thus the total depth does not increase.
 
 The modification preserves all graph edges. Deletion preserves the
 ancestor relation among the remaining vertices. Every neighbor of
