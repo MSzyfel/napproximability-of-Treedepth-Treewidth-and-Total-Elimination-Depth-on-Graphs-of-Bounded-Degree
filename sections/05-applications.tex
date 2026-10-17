@@ -302,8 +302,14 @@ vertices on the other.
 For each edge occurrence $e=uv$ before subdivision, the two new
 edges are $ux_e$ and $x_ev$. Their vertices in $\mathcal L(B)$ are
 adjacent. Contracting these pairs, one pair for every edge occurrence,
-recovers $H$. Treedepth cannot increase under vertex deletion,
-edge deletion, or edge contraction, so
+recovers $H$. Treedepth cannot increase under these operations. For a
+contraction of an edge $uv$, its endpoints are comparable in any valid
+elimination forest; suppose $u$ is above $v$. Identify $v$ with $u$,
+delete $v$, and attach the child subtrees of $v$ to its parent. Every
+neighbor of $u$ or $v$ remains comparable with the identified vertex,
+and no root-to-leaf path gets longer. Vertex deletion is handled by
+removing the vertex and attaching its child subtrees to its parent, while
+edge deletion leaves the forest unchanged. Hence
 $\td(H)\leq\td(\mathcal L(B))$. Conversely, replace each vertex of
 an elimination forest of $H$ by a two-vertex chain, attaching its
 child subtrees below the lower copy. Every edge of $\mathcal L(B)$
