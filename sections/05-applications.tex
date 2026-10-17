@@ -124,12 +124,24 @@ also give UGC hardness for vertex integrity below $4/3$.
 For SSE hardness, let $J=\mathcal L(G^*)$ be the output in the
 proof of Theorem~\ref{thm:sse-hardness}, and take $D$ to be the output vertices
 corresponding to crossing host edges. The YES construction supplies
-$|D|+c_J(D)\leq4\varepsilon |V(J)|$. In the NO case, the separator
+\[
+\begin{aligned}
+ |D|+c_J(D)
+ &\leq3\varepsilon |V(J)|
+   +(1+\varepsilon)|V(J)|/q\\
+ &\leq\left(3+\frac{1+\varepsilon}{2}\right)
+      \varepsilon |V(J)|
+ \leq4\varepsilon |V(J)|,
+\end{aligned}
+\]
+using $q=\lceil2/\varepsilon\rceil$ and $\varepsilon\le1$.
+In the NO case, the separator
 lemma with $\rho=2/3$ gives $b_{2/3}(J)\geq\beta |V(J)|$, where
 $b_{2/3}(J)$ is the minimum size of a set whose deletion leaves every
 component of order at most $2|V(J)|/3$, and
 $\beta=(c/2)\sqrt\varepsilon$. Choose $\varepsilon$ small enough
-that $\beta\leq1/12$. For any $S\subseteq V(J)$, if
+that $\beta\leq1/12$ and $\varepsilon\leq1$. For any
+$S\subseteq V(J)$, if
 $c_J(S)>|V(J)|/2$, then $|S|+c_J(S)>|V(J)|/2\geq\beta|V(J)|$.
 Otherwise every component of $J-S$ has at most $|V(J)|/2$ vertices,
 so $S$ is a $2/3$-balanced separator and
