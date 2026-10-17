@@ -294,16 +294,23 @@ standard width definitions of~\cite{GottlobEtAlHypertree}.
 For the upper bound, expand every tree-decomposition bag of $G$
 to clone pairs and guard it by the pair edges. The guards are
 contained in the bag, so the special condition for ordinary
-hypertree width holds as well. For the lower bound, a fractional
-decomposition of width $w$ has at most $2w$ vertices in each bag,
-because every hyperedge has size two. Retain an original vertex
-in a bag if and only if both of its clones occur there. Its bags
-form a connected nonempty subtree: the two clone subtrees intersect,
-since the pair is an edge, and their intersection is connected.
-If $uv\in E(G)$, its four clones form a clique. Their bag subtrees
-intersect pairwise, so the Helly property for subtrees of a tree gives
-a bag containing all four. The retained bags thus form a tree decomposition
-of $G$ with bag size at most $w$, proving the reverse inequality.
+hypertree width holds as well. For the lower bound, consider a
+fractional decomposition of width $w$. If $B_t$ is one of its bags
+and $\gamma_t(e)$ is the weight on hyperedge $e$, then each vertex
+of $B_t$ receives total incident weight at least one. Since every
+hyperedge has size two,
+$|B_t|\leq\sum_e\gamma_t(e)|e\cap B_t|\leq2\sum_e\gamma_t(e)\leq2w$.
+Retain an original vertex in a bag if and only if both of its clones
+occur there. Each retained vertex accounts for two bag vertices, so
+each retained bag has size at most $2w/2=w$. The bags containing a
+retained vertex form a connected nonempty subtree: the two clone
+subtrees intersect, since the pair is an edge, and their intersection
+is connected. If $uv\in E(G)$, its four clones form a clique, so their
+bag subtrees intersect pairwise. Subtrees of a tree have the Helly
+property: any finite family that intersects pairwise has a common
+node. Hence one bag contains all four clones. The retained bags form
+a tree decomposition of $G$ with bag size at most $w$, proving the
+reverse inequality.
 Thus the NP $r<12/11$, UGC $r<4/3$, and established SSE treewidth
 hardness at every fixed factor transfer even to rank-two hypergraphs.
 The transfer compares the width value $\operatorname{tw}(G)+1$, which
