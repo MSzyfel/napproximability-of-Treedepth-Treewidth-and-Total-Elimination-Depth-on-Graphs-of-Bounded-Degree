@@ -35,7 +35,8 @@ three steps.
 \begin{enumerate}
  \item \emph{Preserve the YES bound by deleting edges.}
    Every elimination forest or tree decomposition of $H$ is also
-   valid for $J$. Thus none of the three optimum values increases.
+   valid for $J$. Thus treedepth, treewidth, and total elimination
+   depth do not increase.
  \item \emph{Recover a dense solution from a sparse one.}
    Each replacement satisfies its no-hole condition at threshold
    $t_f$. For clique factors the subsets are disjoint, and for
@@ -68,9 +69,11 @@ in $E_0$ and a bounded ratio between the two side sizes of every
 biclique. The expander construction below then gives a constant
 degree contribution from each factor. Bounded factor membership
 bounds their sum at every vertex. These constants may depend on
-the desired approximation ratio, but not on $N$. For treewidth,
-each biclique side must additionally lie in a bounded number of
-clique factors. These supply the bags used in its completion proof.
+the desired approximation ratio, but not on $N$. For treewidth, each
+side of every biclique must additionally be partitionable into a
+bounded number of sets, each contained in a clique-factor support.
+The corresponding clique-factor bags anchor the side sets in the
+biclique completion lemma.
 The UGC applications require a bounded-degree independent-set source so
 that their retained source edges satisfy the condition on $E_0$.
 
@@ -367,7 +370,8 @@ symmetric matrix has an orthonormal basis of eigenvectors. For an
 intermediate undirected multigraph
 $\mathcal E$ on $M$ vertices, let $A$ be its symmetric adjacency
 matrix. The entry $A_{uv}$ counts steps from $u$ to $v$, including
-loop steps when $u=v$. Let $\mathbf1$ be the all-ones vector.
+loop steps when $u=v$. Since $A$ is symmetric, each step from $u$ to
+$v$ has a reverse step from $v$ to $u$. Let $\mathbf1$ be the all-ones vector.
 Here $d$-regular means that every row sum is $d$, so there are $d$
 possible next steps from each vertex. Hence $A\mathbf1=d\mathbf1$.
 The subspace of zero-sum vectors is the orthogonal complement of
@@ -438,9 +442,9 @@ sets of sizes $n_A,n_B$ with maximum degree at most
 $8^k\max\{\lceil M/n_A\rceil,\lceil M/n_B\rceil\}$,
 having no $(t,t)$ hole for every integer $t\ge1$ with
 $t>\lambda_0^kM$.
-For one set of size $n_A$, the same construction gives a simple
-graph of maximum degree at most $8^k\lceil M/n_A\rceil$,
-where $M=\lceil\sqrt{n_A}\rceil^2$, with no disjoint anticomplete
+For one prescribed set of size $n$, the same construction gives a
+simple graph of maximum degree at most $8^k\lceil M/n\rceil$,
+where $M=\lceil\sqrt n\rceil^2$, with no disjoint anticomplete
 $t$-subsets for every integer $t\ge1$ with $t>\lambda_0^kM$.
 Neither construction adds vertices.
 \end{lemma}
