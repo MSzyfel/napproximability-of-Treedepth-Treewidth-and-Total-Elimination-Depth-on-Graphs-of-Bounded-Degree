@@ -268,11 +268,11 @@ the largest biclique side-size ratio is $C/2$. The retained
 cross-part graph has degree at most three. Thus the theorem applies
 with $d_{\mathrm{fac}}=2$, $\kappa=C/2$, and $d_0=3$.
 
-The graph order is $N=(11+3C)n$. The base graph $G(J)$ has $11n$
-vertices, so the size condition of
+Write $N_G=|V(G(J))|=11n$ for the base graph order and
+$N_H=|V(H)|=N_G+3Cn=(11+3C)n$ for the output graph order. The size condition of
 Lemma~\ref{lem:np-total-depth-extraction} follows from
 \[
- \frac{11n(11n+1)}{2Cn}
+ \frac{N_G(N_G+1)}{2Cn}=\frac{11n(11n+1)}{2Cn}
  =\frac{121n+11}{2C}
  \leq\frac{495}{8C}n<\epsilon_0n.
 \]
@@ -281,9 +281,9 @@ $C\ge64/\epsilon_0$ gives $495/(8C)\le495\epsilon_0/512<\epsilon_0$.
 Also, Lemma~\ref{lem:np-total-depth-cubic} and $\alphaI(J)\le n$ give
 $W(G(J))=39n/2-\alphaI(J)+3\ge37n/2+3\ge n$. Hence
 $\totd(H)\ge CnW(G(J))\ge Cn^2$, and
-$Cn^2=CN^2/(11+3C)^2$ because $N=(11+3C)n$.
+$Cn^2=CN_H^2/(11+3C)^2$ by the definition of $N_H$.
 Choose $\tau\le\epsilon_0 C/(11+3C)^2$. Then
-$\tau N^2\le\epsilon_0 Cn^2\le\epsilon_0\totd(H)$.
+$\tau N_H^2\le\epsilon_0 Cn^2\le\epsilon_0\totd(H)$.
 Let $H'$ be the sparse spanning subgraph. Since every elimination
 forest of $H$ is also an elimination forest of $H'$, we have
 $\totd(H')\le\totd(H)$. A $(1+\epsilon_0)$-approximate elimination
@@ -291,8 +291,8 @@ forest $F$ of $H'$ completes to an elimination forest $\widehat F$ of $H$, and
 \[
 \begin{aligned}
  \totd(\widehat F)
- &\leq\totd(F)+\tau N^2
- \leq(1+\epsilon_0)\totd(H')+\tau N^2\\
+ &\leq\totd(F)+\tau N_H^2
+ \leq(1+\epsilon_0)\totd(H')+\tau N_H^2\\
  &\leq(1+\epsilon_0)\totd(H)+\epsilon_0\totd(H)
  =(1+2\epsilon_0)\totd(H).
 \end{aligned}
