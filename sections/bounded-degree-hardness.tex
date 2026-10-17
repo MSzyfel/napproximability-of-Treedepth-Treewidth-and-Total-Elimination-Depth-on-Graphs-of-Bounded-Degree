@@ -137,10 +137,10 @@ Following outgoing edges in a finite tree eventually reaches a
 node with no outgoing edge. Call such a node a \emph{sink}, and let
 $u$ be one.
 
-Each component $C$ of $T-u$ contains $T_v$ entirely for at most
-$t-1$ vertices $v\in U$. Otherwise, the edge from $u$ into $C$
-would be oriented away from the sink $u$. Every vertex of $U$ absent
-from the bag at $u$ has its entire subtree in one of these components.
+For each component $C$ of $T-u$, at most $t-1$ vertices $v\in U$
+have $T_v\subseteq C$. Otherwise, the edge from $u$ into $C$ would be
+oriented away from the sink $u$. Every vertex of $U$ absent from the
+bag at $u$ has its entire subtree in one of these components.
 For $t=1$ there are no such vertices. For $t\ge2$, suppose their
 total were at least $3t-2$. Collect components until the number of
 vertices of $U$ assigned to them first reaches $t$. This count is at most
