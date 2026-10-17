@@ -231,7 +231,8 @@ length as a black box, and derive the extension to shorter anchors.
 
 \begin{lemma}[BNS anchor identity {\cite[Lemma~6]{BNS}}]
 \label{lem:bns-anchor}
-If $A,B,C$ are nonempty and $L\ge\vc(G)$, then
+Let $G$ be a tripartite graph with specified nonempty independent parts
+$A,B,C$. If $L\ge\vc(G)$, then
 $\td(H_L(G))=L+\vc(G)+1$.
 \end{lemma}
 
@@ -259,13 +260,25 @@ bound in~\cite[Claim~7 in the proof of Lemma~6]{BNS}.
 \end{proof}
 
 \begin{lemma}[A cover from two incomparable anchors]\label{lem:anchor-pair-cover}
-If $v_X,v_Y$ are incomparable, the source vertices ancestral
-to both contain a vertex cover of $G[X\cup Y]$.
+If $v_X,v_Y$ are incomparable, the vertices of $G$ ancestral to both
+contain a vertex cover of $G[X\cup Y]$.
 \end{lemma}
 
 \begin{proof}
-Claim~9 in the proof of~\cite[Lemma~6]{BNS} shows that every edge
-of $G[X\cup Y]$ has an endpoint ancestral to both anchors.
+This is Claim~9 in the proof of~\cite[Lemma~6]{BNS}; we give the
+short argument. Let $xy\in E(G[X\cup Y])$, with $x\in X$ and
+$y\in Y$. The vertices $v_X,x,y,v_Y$ form a path in $H_\ell(G)$.
+Consecutive vertices on this path are comparable in $F$. Let $u_0$
+be a minimum-depth vertex on the path. Moving from $u_0$ along either
+side, maintain that the current vertex is a descendant of or equal
+to $u_0$. Its next neighbor is comparable to it. If the neighbor is
+an ancestor, it cannot lie above $u_0$, since it would be a path
+vertex of smaller depth; if it is a descendant, transitivity gives
+the claim. Induction shows that $u_0$ is an ancestor of all four.
+It cannot be $v_X$ or
+$v_Y$, because those anchors are incomparable. Hence it is $x$ or $y$,
+so one endpoint of every edge of $G[X\cup Y]$ is ancestral to both
+anchors. These endpoints form the required vertex cover.
 \end{proof}
 
 \begin{lemma}[Extending incomparable anchors]\label{lem:incomparable-anchor-extension}

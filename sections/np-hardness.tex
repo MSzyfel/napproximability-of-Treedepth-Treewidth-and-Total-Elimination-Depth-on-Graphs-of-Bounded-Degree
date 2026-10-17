@@ -34,11 +34,11 @@ Boolean variables. Equations may be
 repeated, and $\OPT(F)$ denotes the maximum number simultaneously
 satisfied, counting repetitions. Write $a_j$ for the right-hand side
 of equation $j$ and $d_x$ for the number of
-equations containing $x$. We use the distinct-variable,
-bounded-occurrence form of the Max-3-LIN gap stated by Hazan, Safra,
-and Schwartz.
+equations containing $x$. We use Håstad's Max-3-LIN-$2$
+gap~\cite{Hastad1997}, in the distinct-variable,
+bounded-occurrence form stated by Hazan, Safra, and Schwartz.
 
-\begin{theorem}[Max-3-LIN-2 gap {\cite[Theorem~10]{HazanSafraSchwartz2003}}]\label{thm:xor-source}
+\begin{theorem}[Bounded-occurrence Max-3-LIN-2 gap {\cite[Theorem~10]{HazanSafraSchwartz2003}}]\label{thm:xor-source}
 For every fixed $0<\epsilon<1/4$, it is NP-hard to distinguish unweighted systems
 $F$ with $\OPT(F)\ge(1-\epsilon)m$ (YES) from those with
 $\OPT(F)\le(1/2+\epsilon)m$ (NO).
