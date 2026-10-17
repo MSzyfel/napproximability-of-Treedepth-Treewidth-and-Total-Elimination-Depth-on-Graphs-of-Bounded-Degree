@@ -280,7 +280,8 @@ The corresponding output satisfies
  \textup{NO:}&\totd(S_q(G))\geq B^{\Sigma}_{q,\eta}n^2+qn/2.
  \end{array}
 \]
-Choose a fixed integer $q>7r/(24-21r)$. At $\eta=0$,
+Since $r<8/7$, $24-21r>0$, so we can choose a fixed integer
+$q>7r/(24-21r)$. At $\eta=0$,
 \[
 \begin{aligned}
  A^{\Sigma}_{q,0}
@@ -290,7 +291,8 @@ Choose a fixed integer $q>7r/(24-21r)$. At $\eta=0$,
    =\frac{q\bigl(24q-7r(3q+1)\bigr)}{56}>0.
 \end{aligned}
 \]
-Indeed, $q>7r/(24-21r)$ makes $24q-7r(3q+1)>0$.
+Indeed,
+$24q-7r(3q+1)=(24-21r)q-7r>0$ by the choice of $q$.
 The coefficients are continuous in $\eta$, so choose a fixed rational
 $\eta\in(0,1/10)$ with
 $B^{\Sigma}_{q,\eta}>rA^{\Sigma}_{q,\eta}$. Choose a fixed integer
@@ -301,7 +303,14 @@ at least one, the new order satisfies
 $n\ge L_0>(r-1)q/[2(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta})]$.
 This preserves its independence fraction and gives
 $(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta})n^2>(r-1)qn/2$.
-The NO lower bound therefore exceeds $r$ times the YES upper bound.
+Subtracting $r$ times the YES upper bound from the NO lower bound gives
+\[
+ (B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta})n^2
+ +\frac{qn}{2}-r\frac{qn}{2}
+ =(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta})n^2
+  -\frac{(r-1)qn}{2}>0.
+\]
+Thus the NO lower bound exceeds $r$ times the YES upper bound.
 All parameters and the number of copies are fixed, so the reduction
 is polynomial.
 \end{proof}
