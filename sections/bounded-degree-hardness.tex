@@ -367,7 +367,7 @@ their edge steps join vertex sets through eigenvalues of the adjacency
 matrix. A step traverses one edge in a chosen direction. A loop step
 stays at its vertex, and parallel edges give distinct steps. A real
 symmetric matrix has an orthonormal basis of eigenvectors. For an
-intermediate undirected multigraph
+undirected multigraph
 $\mathcal E$ on $M$ vertices, let $A$ be its symmetric adjacency
 matrix. The entry $A_{uv}$ counts steps from $u$ to $v$, including
 loop steps when $u=v$. Since $A$ is symmetric, each step from $u$ to
@@ -418,8 +418,9 @@ The Margulis--Gabber--Galil construction gives, for every integer
 $\nu\ge1$, a deterministically constructible eight-regular multigraph
 on $\mathbb Z_\nu^2$, where $\mathbb Z_\nu$ denotes the integers modulo
 $\nu$, with eigenvalue bound $5\sqrt2$
-\cite[Construction~8.1 and Theorem~8.2]{HLW2006}. Its intermediate
-loops and parallel edges are allowed under the convention above.
+\cite[Construction~8.1 and Theorem~8.2]{HLW2006}. The initial graph
+may have loops and parallel edges, which are allowed under the
+convention above.
 Put $\lambda_0=5\sqrt2/8<1$. Its $k$th walk power has
 $M=\nu^2$ vertices, degree $d=8^k$, and eigenvalue bound
 $d\lambda_0^k$. Lemma~\ref{lem:expander-mixing} therefore gives
@@ -452,26 +453,24 @@ Neither construction adds vertices.
 \begin{proof}
 Let $A,B$ be the prescribed sides, and let $\mathcal E$ be the
 walk power on $M$ vertices just described. Map its vertices onto
-$A$ by $\pi_A$ so that every vertex of $A$ receives either
-$\lfloor M/n_A\rfloor$ or $\lceil M/n_A\rceil$ intermediate vertices.
-Choose a map $\pi_B$ onto $B$ in the same way, using the corresponding
-side size $n_B$. Such maps exist because $M\ge\max\{n_A,n_B\}$.
+$A$ by an onto map $\pi_A$ so that each vertex of $A$ has either
+$\lfloor M/n_A\rfloor$ or $\lceil M/n_A\rceil$ preimages in
+$V(\mathcal E)$. Choose an onto map $\pi_B$ to $B$ in the same way,
+using the side size $n_B$. Such maps exist because
+$M\ge\max\{n_A,n_B\}$.
 Put an edge $uv$, with $u\in A$ and $v\in B$, in the output if
 and only if some step $xy$ of $\mathcal E$ satisfies
 $\pi_A(x)=u$ and $\pi_B(y)=v$.
 Repeated occurrences give a single output edge.
-In the bipartite construction, each intermediate vertex mapped to
-$A$ contributes at most $8^k$ outgoing steps, and each one mapped to
-$B$ contributes at most $8^k$ incoming steps. In the one-set
-construction, the walk power is symmetric, so every incident output
-edge can be represented by an outgoing step from one of that output
-vertex's intermediate preimages. Repeated steps give only one edge.
-Thus each preimage contributes at most $8^k$ incident edges, proving
-the degree bound.
+In the bipartite construction, each vertex of $A$ has at most
+$\lceil M/n_A\rceil$ preimages under $\pi_A$, each with at most
+$8^k$ outgoing steps. Each vertex of $B$ has at most
+$\lceil M/n_B\rceil$ preimages under $\pi_B$, each with at most
+$8^k$ incoming steps. Thus the degrees satisfy the claimed bound.
 
 For subsets $S_A\subseteq A$ and $T_B\subseteq B$ of size $t$,
-let $S=\pi_A^{-1}(S_A)$ and $T=\pi_B^{-1}(T_B)$ be the sets of
-intermediate vertices mapped into them. Both maps are onto, so
+let $S=\pi_A^{-1}(S_A)$ and $T=\pi_B^{-1}(T_B)$ be their preimages
+in $V(\mathcal E)$. Both maps are onto, so
 $|S|,|T|\ge t$. Equation~\eqref{eq:factor-expander-mixing}
 gives a positive number of steps between them when
 $t>\lambda_0^kM$:
@@ -481,17 +480,24 @@ $t>\lambda_0^kM$:
 \]
 since $\sqrt{|S||T|}/M\ge t/M>\lambda_0^k$.
 That step produces an output edge between $S_A$ and $T_B$.
-The sets $S,T$ may overlap. The mixing inequality still applies. An
-intermediate loop also gives a legitimate edge between the
-two disjoint output sides.
+The sets $S,T$ may overlap. The mixing inequality still applies. A
+loop in $\mathcal E$ also gives a legitimate edge between the two
+disjoint output sides.
 
-For the one-set construction, map the intermediate vertices onto
-the prescribed set by $\pi$, with at most $\lceil M/n_A\rceil$
-vertices mapped to any output vertex. Include an edge $uv$ for
-distinct output vertices $u,v$ if and only if a step of $\mathcal E$
-has its endpoints mapped to $u,v$.
-Take disjoint output sets $S_A,T_A$ of size $t$. Their preimages
-$S,T$ are disjoint and each has size at least $t$. The mixing bound
+For the one-set construction, set $M=\lceil\sqrt n\rceil^2$ and
+take the corresponding $M$-vertex walk power $\mathcal E$. Map its
+vertices onto the prescribed set by $\pi$, with at most
+$\lceil M/n\rceil$ preimages at each output vertex. Include an edge
+$uv$ for distinct output vertices $u,v$ if and only if a step of
+$\mathcal E$ has endpoints mapped to $u,v$. By symmetry, each
+incident output edge is witnessed by an outgoing step from a
+preimage of that output vertex. Since each preimage has at most
+$8^k$ outgoing steps, the maximum degree is at most
+$8^k\lceil M/n\rceil$.
+
+Take disjoint subsets $X,Y$ of the prescribed set, each of size $t$.
+Their preimages $S=\pi^{-1}(X)$ and $T=\pi^{-1}(Y)$ are disjoint
+and each has size at least $t$. The mixing bound
 in~\eqref{eq:factor-expander-mixing} gives
 $\sqrt{|S||T|}/M\ge t/M>\lambda_0^k$, and hence
 \[
@@ -500,7 +506,7 @@ $\sqrt{|S||T|}/M\ge t/M>\lambda_0^k$, and hence
 \]
 Thus some step joins $S$ to $T$. Since $S$ and $T$ are disjoint,
 the step's endpoints map to distinct output vertices, so it gives
-an edge between $S_A$ and $T_A$. Discard repeated edges.
+an edge between $X$ and $Y$. Discard repeated edges.
 In either construction, $M$ is at
 most four times the largest prescribed set size, so the construction
 has polynomial size for fixed $k$.
