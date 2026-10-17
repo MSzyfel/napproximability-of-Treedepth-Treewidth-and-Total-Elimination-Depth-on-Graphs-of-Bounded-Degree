@@ -15,8 +15,9 @@ parameters constrain different features of a decomposition: treedepth
 controls its depth, whereas treewidth controls its largest bag. We
 write $\td(G)$ for treedepth
 and $\operatorname{tw}(G)$ for treewidth. Although
-$\operatorname{tw}(G)+1\leq\td(G)$, approximation lower bounds do not
-transfer between them without control of the YES-case decomposition.
+$\operatorname{tw}(G)+1\leq\td(G)$, a NO-case lower bound on treedepth
+does not lower-bound treewidth. A treewidth hardness gap needs a
+separate NO-case width bound and a suitably small YES-case decomposition.
 
 Bonnet, Neuen, and Soko\l owski proved that approximating treedepth
 within factor $1.0003$ is NP-hard~\cite{BNS}. Bonnet proved the
@@ -67,9 +68,9 @@ theorems in Section~\ref{sec:bounded-degree-hardness}. The resulting
 bounds are collected in Corollaries~\ref{cor:td-bounded-degree}
 and~\ref{cor:tw-bounded-degree}. Wu, Austrin, Pitassi, and
 Liu~\cite[Theorem~1.1]{APW} proved SSE hardness for treewidth at
-every fixed factor on general graphs. Our line-graph reduction,
-combined with sparsification, gives bounded-degree hardness for
-treewidth and treedepth at every fixed factor.
+every fixed factor on general graphs. Our line-graph reduction gives
+SSE hardness for both treewidth and treedepth at every fixed factor.
+Our sparsification theorems give the bounded-degree versions.
 
 The bounded-degree treedepth result answers the conjecture of
 Schirrmacher, Siebertz, and Vigny~\cite[Conjecture~1]{SchirrmacherSiebertzVigny2025}
@@ -145,7 +146,7 @@ from these constructions and from established reductions:
    inherits UGC hardness below $4/3$ and SSE hardness at every fixed
    factor. The SSE separator gap also gives this hardness for fracture
    number, starwidth, average and maximum general labels, and average
-   and maximum hierarchical labels, using the comparisons
+    hierarchical labels, using the comparisons
    in~\cite{GimaEtAlIntegrity} and the label lower bound
    of Blum and Storandt~\cite{BlumStorandt2023}.
     The SSE line-graph construction also gives edge-ranking hardness
