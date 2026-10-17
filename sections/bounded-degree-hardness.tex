@@ -518,10 +518,10 @@ $\sqrt{|S||T|}/M\ge t/M>\lambda_0^k$, and hence
 \]
 Thus some step joins $S$ to $T$. Since $S$ and $T$ are disjoint,
 the step's endpoints map to distinct output vertices, so it gives
-an edge between $X$ and $Y$. Discard repeated edges.
-In either construction, $M$ is at
-most four times the largest prescribed set size, so the construction
-has polynomial size for fixed $k$.
+an edge between $X$ and $Y$. Discard repeated edges. If $L$ is the
+largest prescribed set size, then in either construction
+$M=\lceil\sqrt L\rceil^2\le(\sqrt L+1)^2\le4L$, since $L\ge1$.
+Thus the construction has polynomial size for fixed $k$.
 \end{proof}
 
 \subsection{A bounded-degree independent-set source under UGC}
