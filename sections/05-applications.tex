@@ -228,12 +228,17 @@ oriented arcs, label every arc with a distinct letter, and take $a$
 as the initial and sole accepting state. Then
 $\td(G+a)=\td(G)+1$ and
 $\operatorname{cr}(\overleftrightarrow{G+a})=\td(G)$
-~\cite[proof of Theorem~12]{Gruber2012}. Gruber's theorems preserve
-this value in the binary encoding and give cycle-rank instances on
-strongly connected digraphs of indegree and outdegree at most two.
-Gruber already proves NP-hardness under related degree restrictions
-~\cite[Corollary 24]{Gruber2012}. Our consequence is the transfer of
-the present approximation gaps.
+~\cite[proof of Theorem~12]{Gruber2012}. The binary encoding
+preserves the language's star height. The minimal trim DFA for the
+encoded language has its initial state as its sole accepting state.
+Thus every state lies on a path from and back to that state, so its
+transition digraph is strongly connected. Bideterminism over two
+letters bounds its indegree and outdegree by two, and McNaughton's
+theorem identifies its cycle rank with the language's star height.
+Gruber proves cycle-rank NP-hardness
+even for digraphs of maximum outdegree two and maximum total degree
+four~\cite[Corollary 24]{Gruber2012}. Our consequence is the transfer
+of the present approximation gaps.
 
 \paragraph{Edge ranking.}
 An \emph{edge ranking} assigns positive integer labels to edges
@@ -246,9 +251,13 @@ $\operatorname{er}(B)=\td(\mathcal L(B))$~\cite{BodlaenderRankings}
 applied to our explicit SSE hosts yields SSE hardness at every fixed
 factor.
 It also yields the consequence on simple bipartite hosts. Replace
-each loop occurrence by a pendant edge, then subdivide every edge
-occurrence once. For an original edge occurrence $e=uv$, subdivision
-creates two edges $ux_e$ and $x_ev$, where $x_e$ is a new vertex.
+each loop occurrence by an edge to a fresh pendant vertex, keeping
+parallel edge occurrences distinct. Then subdivide every edge
+occurrence of this loopless host once, using a fresh vertex $x_e$.
+The result is bipartite, with the old and pendant vertices on one
+side and the subdivision vertices on the other. For each edge
+occurrence $e=uv$ before subdivision, the new edges are $ux_e$ and
+$x_ev$.
 The corresponding two vertices of the new line graph are adjacent.
 Contracting this pair for every $e$ recovers the original line graph.
 Treedepth is minor-monotone, so this gives a lower bound by the old
