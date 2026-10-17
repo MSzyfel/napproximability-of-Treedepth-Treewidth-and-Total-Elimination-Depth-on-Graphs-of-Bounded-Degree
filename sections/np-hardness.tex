@@ -164,8 +164,9 @@ $\vc(G_F)=13m/2-\OPT(F)$.
 \begin{proof}
 Start with any independent set $I$, and fill every truth block that
 it meets. This preserves independence because a block has no internal
-edges and its vertices have identical neighborhoods. The two nonempty
-blocks of a variable are joined completely, so at most one is selected.
+edges and its vertices have identical neighborhoods. The filled set
+is no smaller than the original. From now on, write $I$ for the filled set. The
+two nonempty blocks of a variable are joined completely, so at most one is selected.
 A selected block $T_x^a$ fixes $x=a$. A variable with neither block
 selected remains unassigned.
 The selected truth vertices number $\frac{5m}{2}-5D_U/6$. Use the random
@@ -181,7 +182,8 @@ of expectation, $\sum_jp_j\le\OPT(F)$. It follows that
  =\frac{5m}{2}+\sum_jp_j\le\frac{5m}{2}+\OPT(F).
 \end{aligned}
 \]
-The same bound holds before the blocks were filled.
+Since filling does not decrease the size, this bound also holds for
+the independent set before its truth blocks were filled.
 
 For the reverse bound, take an assignment satisfying $\OPT(F)$
 equations. Select its truth blocks, of total size $\frac{5m}{2}$, and, for each
