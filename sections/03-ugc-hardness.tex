@@ -158,6 +158,10 @@ The set $D$ is independent in $G$, and
  \sum_jn_j\leq n+(\nu-1)\alphaI(G)
  \leq n+(q-1)\alphaI(G)\leq qn.
 \end{equation}
+Moreover,
+\[
+ \sum_j\vc(G[U_j])=\vc\Bigl(G\bigl[\bigcup_jU_j\bigr]\Bigr)\leq\vc(G).
+\]
 \end{lemma}
 
 \begin{proof}
@@ -180,6 +184,9 @@ and each contributes at most $\nu-1$ of them. Thus,
 \]
 The remaining inequalities in~\eqref{eq:ugc-support-count} follow
 from $\nu\leq q$ and $\alphaI(G)\leq n$.
+More generally, distinct vertices belonging to different supports cannot
+be adjacent. Thus $D$ is isolated in $G[\bigcup_jU_j]$, and the
+remaining supports are disjoint and anticomplete, proving the cover identity.
 \end{proof}
 
 \begin{lemma}[The full graph associated with a child]
@@ -228,7 +235,7 @@ For every finite simple graph $G$ on $n$ vertices and every integer
 $q\geq1$,
 \begin{equation}\label{eq:ugc-structural}
   \td(S_q(G))\geq
-  \frac{2q}{3}n-\frac{q(q-1)}{3}\alphaI(G).
+  \frac{2q}{3}\vc(G).
 \end{equation}
 \end{theorem}
 
@@ -244,17 +251,16 @@ $S_1(G)$ is a clique, so $\td(S_1(G))=n\geq2n/3$.
 Now fix $q\geq2$, assume the statement for every smaller number of
 layers, and take an arbitrary elimination forest $F$ of $S_q(G)$. We
 will lower-bound its height $h(F)$. A single chain has height
-$qn\geq2qn/3-q(q-1)\alphaI(G)/3$, so assume that $F$ is not a
+$qn\geq2q\vc(G)/3$, so assume that $F$ is not a
 single chain.
 
 Use the first-branch notation from
 Section~\ref{subsec:ugc-branch-notation}. By
 Lemmas~\ref{lem:ugc-layer-usage}, \ref{lem:ugc-source-supports},
 and~\ref{lem:ugc-forest-accounting}, we have
-$|P|=qn-\sum_jN_j$, $1\leq q_j<q$, and
-$\sum_jn_j\leq n+(\nu-1)\alphaI(G)$.
-The strict inequality $q_j<q$ is what permits induction within every
-child.
+$|P|=qn-\sum_jN_j$ and $1\leq q_j<q$.
+Put $c=\vc(G)$ and $c_j=\vc(G[U_j])$. Then
+$\sum_jc_j\leq c$ and $n_j\leq c_j+\alphaI(G)$.
 
 \emph{Induction within each child.}
 By Lemma~\ref{lem:ugc-child-restriction}, the graph induced by
@@ -267,48 +273,31 @@ of $F_j$ give
  \leq \td(S_{q_j}(G[U_j])-X_j)+M_j
  \leq h(F_j)+M_j.
 \]
-Induction and $\alphaI(G[U_j])\leq\alphaI(G)$ therefore give
+Induction therefore gives
 \[
-  h(F_j)\geq\frac{2}{3}q_jn_j-\frac{q_j(q_j-1)}3\alphaI(G)-M_j.
+  h(F_j)\geq\frac{2}{3}q_jc_j-M_j.
 \]
 
 \emph{Combining the child bounds.}
-Choose an index $k$ maximizing $q_jn_j$. By
-Lemma~\ref{lem:ugc-layer-usage}, $q_k\leq q-\nu+1$. Consequently,
-$q_k(q_k-1)\leq(q-\nu+1)(q-\nu)$, so
-$h(F_k)\geq\frac23\max_j(q_jn_j)
--\frac{(q-\nu+1)(q-\nu)}3\alphaI(G)-M_k$.
-The height identity in Lemma~\ref{lem:ugc-forest-accounting} gives
-$h(F)\geq |P|+h(F_k)$. Using $|P|=qn-\sum_jN_j$ and
-$N_j=q_jn_j-M_j$ leaves the missing-vertex contribution
-$\sum_jM_j-M_k\geq0$. Apply Lemma~\ref{lem:branching-ineq} to
-the resulting first-branch bound. The last line also uses
-$\sum_jq_j\leq q$ and~\eqref{eq:ugc-support-count}:
+Choose an index $k$ maximizing $q_jc_j$. The height identity in
+Lemma~\ref{lem:ugc-forest-accounting} and $N_j=q_jn_j-M_j$
+leave a nonnegative contribution $\sum_jM_j-M_k$. Since
+$\sum_jq_j\leq q$ and $n=c+\alphaI(G)$, Lemma~\ref{lem:branching-ineq} gives
 \[
 \begin{aligned}
- h(F)&\geq qn-\sum_jq_jn_j+\frac23\max_j(q_jn_j)
-       -\frac{(q-\nu+1)(q-\nu)}3\alphaI(G)\\
- &=qn-\frac13\left(3\sum_jq_jn_j-2\max_j(q_jn_j)\right)
-       -\frac{(q-\nu+1)(q-\nu)}3\alphaI(G)\\
- &\geq qn-\frac13\left(\sum_jq_j\right)\left(\sum_jn_j\right)
-       -\frac{(q-\nu+1)(q-\nu)}3\alphaI(G)\\
- &\geq\frac{2q}{3}n-
-    \frac{q(\nu-1)+(q-\nu+1)(q-\nu)}3\alphaI(G).
+ h(F)&\geq qn-\sum_jq_jn_j+\frac23\max_j(q_jc_j)\\
+ &\geq qc-\frac13\left(3\sum_jq_jc_j-2\max_j(q_jc_j)\right)\\
+ &\geq qc-\frac13\left(\sum_jq_j\right)\left(\sum_jc_j\right)
+ \geq\frac23qc.
 \end{aligned}
 \]
-The error coefficient satisfies
-\[
- q(\nu-1)+(q-\nu+1)(q-\nu)
- =q(q-1)-(\nu-1)(q-\nu)\leq q(q-1),
-\]
-because $2\leq \nu\leq q$. Substitution proves
-\eqref{eq:ugc-structural} for every $F$, completing the induction.
+This completes the induction.
 \end{proof}
 
-For $q\geq2$, write $B_{q,\eta}:=2q/3-q(q-1)\eta/3$.
+For $q\geq2$, write $B_{q,\eta}:=(2q/3)(1-\eta)$.
 For a NO instance of Theorem~\ref{thm:kr}, the structural bound gives
 \begin{equation}\label{eq:ugc-no}
- \td(S_q(G))\geq\frac{2q}{3}n-\frac{q(q-1)}3\alphaI(G)
+ \td(S_q(G))\geq\frac{2q}{3}\bigl(n-\alphaI(G)\bigr)
  >B_{q,\eta}n.
 \end{equation}
 
@@ -320,10 +309,10 @@ For all sufficiently small rational $\eta\in(0,1/10)$,
 \[
 \begin{aligned}
  B_{q,\eta}-rA_{q,\eta}
- &=\left(\frac{2q}{3}-\frac{q(q-1)}3\eta\right)
+ &=\frac{2q}{3}(1-\eta)
    -r\left(\frac{q+1}{2}+(q-1)\eta\right)\\
  &=\frac{q(4-3r)-3r}{6}
-   -(q-1)\left(\frac q3+r\right)\eta>0.
+   -\left(\frac{2q}{3}+r(q-1)\right)\eta>0.
 \end{aligned}
 \]
 The choice of $q$ makes the constant term positive, and then a
