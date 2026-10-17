@@ -344,15 +344,24 @@ factor-completion tools used for NP and UGC hardness.
 
 H\o gemo, Bergougnoux, Brandes, Paul, and Telle~\cite{HogemoEtAl2021} introduce VPT-sum and
 identify its relation to trivially perfect completion, and prove
-NP-hardness. With uniform vertex weights and query costs,
-average-case graph search minimizes $\totd(G)/|V(G)|$.
+NP-hardness. On a connected graph, a query decision tree is an
+elimination tree: after querying $v$, its child subtrees correspond
+to the components of $G-v$. With uniform target probabilities and
+unit query costs, the expected search cost is the mean vertex depth,
+so its optimum is $\totd(G)/|V(G)|$
+~\cite{HogemoEtAl2021,Szyfelbein2025GraphSearch}.
 Szyfelbein~\cite{Szyfelbein2025GraphSearch} gives an
 $O(\sqrt{\log n})$-approximation for the more general search
 problem with nonuniform weights and query costs. The later treatment
 also considers target-dependent costs~\cite{Szyfelbein2026GraphSearch}.
-Our total-depth results give constant approximation lower bounds under
-$\PP\ne\NP$ and ordinary UGC for uniform weights and query costs,
-including on graphs of bounded maximum degree.
+Our NP and UGC total-depth reductions have connected outputs. The UGC
+graph $S_q(G)$ is connected whenever $G$ has an edge; the edgeless
+source is a trivial YES instance and can be mapped to $K_1$. The NP
+construction joins its three part cliques by source-edge paths. The
+bounded-degree replacements retain these joining edges and replace
+each dense factor by a connected expander. Thus the same
+constant-factor hardness holds for average-case search with uniform
+weights and unit query costs, also at bounded maximum degree.
 
 The edge-query analogue is Dasgupta's similarity-based hierarchical
 clustering objective~\cite{Dasgupta2016}. For a hierarchy $T$ with
