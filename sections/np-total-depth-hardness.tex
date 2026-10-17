@@ -305,8 +305,10 @@ source vertex or neither.
 
 Let $S\subseteq V(J)$ consist of the vertices whose two copies are
 outside $S_0$. All auxiliary neighbors of these copies are forced
-into $S_0$. No other auxiliary vertex is needed there. Removing an
-unforced auxiliary vertex from $S_0$ decreases $2|S_0|$ by two.
+into $S_0$. If both copies of a source vertex are in $S_0$, they already
+cover every incident edge from those copies, so their auxiliary
+neighbors are not needed in $S_0$. Removing any such unforced auxiliary
+vertex decreases $2|S_0|$ by two.
 The old minimum vertex cover of the residual $BC$ graph, together
 with this restored vertex, covers the enlarged residual graph, so its
 cover number increases by at most one. Hence the total cost does not
