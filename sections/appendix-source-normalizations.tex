@@ -271,8 +271,15 @@ the vertices outside these classes have total volume zero.
 Such vertices have degree zero and can be assigned to any class
 without changing its volume or its boundary. We therefore obtain
 a partition of the entire vertex set with the required
-class volumes. Choose the remaining fixed source parameters so
-that the error term is at most $\varepsilon'$. Every class then
+class volumes. In the proof of Theorem~3.5, the source parameters
+are chosen as $\rho=1-\varepsilon'/2$,
+$\beta\leq\min\{\gamma^3/200,\varepsilon'\}$,
+$\varepsilon_V=(\varepsilon')^2$, and $\eta\leq(\varepsilon')^2$.
+The source takes $k$ large enough that
+$2^{-\Omega(k)}\leq(\varepsilon')^2$.
+These choices make the YES expansion $\varepsilon'+O((\varepsilon')^2)$.
+After reducing $\varepsilon_0$ if needed, the error term is at most
+$\varepsilon'$. Every class then
 has expansion at most
 $\varepsilon'+\varepsilon'=2\varepsilon'\leq2\varepsilon$.
 
