@@ -336,8 +336,8 @@ and from the fact that every decomposition has a bag of size at least
 $\operatorname{tw}(G)+1$. They give
 NP hardness within $2^{\chi n}$ for every fixed $0<\chi<1/18$,
 and UGC hardness for every fixed $0<\chi<1/6$.
-Indeed, subtracting the YES upper bound on maximum bag size from the
-NO lower bound gives
+For each reduction, subtract the YES treewidth upper bound from the
+NO treewidth lower bound. The resulting differences are
 \[
  \begin{array}{lll}
  \textup{NP:}&Rm(1/2-2\epsilon)-3m
@@ -354,15 +354,19 @@ $1/(3R)<1/18-2\epsilon/9-\chi$. For UGC, choose $\zeta>0$ so that
 $1/6-2\zeta>\chi$, then take $R$ large enough that
 $1/(3R)<1/6-2\zeta-\chi$. In either case, let $\delta>0$ be the
 remaining margin, so the relevant coefficient exceeds $\chi$ by
-$\delta$. If $b_Y$ is the YES upper bound
-on maximum bag size and $b_N$ the NO lower bound, the displayed
-estimates give $b_N-b_Y\geq(\chi+\delta)n$. The TSS bounds then imply
+$\delta$. Let $w_Y,w_N$ be the displayed YES upper and NO lower
+treewidth bounds. The corresponding bag-size bounds are
+$b_Y=w_Y+1$ and $b_N=w_N+1$, so
+$b_N-b_Y=w_N-w_Y\geq(\chi+\delta)n$. The TSS bounds then imply
 \[
  \frac{\operatorname{TSS}(G_N)}{\operatorname{TSS}(G_Y)}
  \geq\frac{2^{b_N}}{n2^{b_Y}}
  \geq\frac{2^{(\chi+\delta)n}}{n}>2^{\chi n}
 \]
 for all sufficiently large $n$, since $2^{\delta n}>n$ then.
+The source instances may be replaced by any fixed number of disjoint
+copies without changing their promise fractions. Taking enough copies
+therefore ensures that every output order lies in this range.
 Bonnet's earlier linear width gap~\cite{BonnetTreewidth} also gives
 a fixed positive exponential exponent by the same calculation.
 
