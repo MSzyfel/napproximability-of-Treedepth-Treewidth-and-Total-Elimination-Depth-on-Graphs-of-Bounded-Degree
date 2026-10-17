@@ -344,10 +344,11 @@ $m_0$ equations.
 \begin{proof}[Proof of the normalized form in Theorem~\ref{thm:xor-source}]
 Hazan, Safra, and Schwartz state the required source gap as
 Theorem~10 of~\cite{HazanSafraSchwartz2003}, attributing it to
-H\aa stad. Their theorem gives unweighted Max-3-LIN-2 instances with
-bounded variable occurrences and no repeated variable within an
-equation. Thus the three variables in each source equation are
-distinct. Apply their theorem with parameter $\epsilon/2$. Its YES
+H\aa stad. Their theorem gives unweighted Max-3-LIN-2 instances in
+which each variable occurs a constant number of times, chosen from
+two possible values, and no variable repeats within an equation.
+Thus the three variables in each source equation are distinct. Apply
+their theorem with parameter $\epsilon/2$. Its YES
 threshold $1-\epsilon/2$ is at least $1-\epsilon$, and its NO bound
 $<1/2+\epsilon/2$ implies the required bound $\leq1/2+\epsilon$.
 We use this form directly. Only the balance of the right-hand sides
