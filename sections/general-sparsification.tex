@@ -97,8 +97,12 @@ $\zeta=\varepsilon/(4d_{\mathrm{fac}})$. Its degree bound depends only on
 the stated constants. The error bound in
 Lemma~\ref{lem:factor-sparsification} satisfies
 \begin{equation}\label{eq:common-forest-exception-budget}
- M\le4\sum_{f\in\mathcal C\cup\mathcal B}(t_f-1)
-   \le4\zeta d_{\mathrm{fac}}N=\varepsilon N.
+ \begin{aligned}
+ \Delta_{\mathrm{td}}
+ &=2\sum_{f\in\mathcal C}(t_f-1)+4\sum_{f\in\mathcal B}(t_f-1)\\
+ &\le4\sum_{f\in\mathcal C\cup\mathcal B}(t_f-1)
+ <4\zeta d_{\mathrm{fac}}N=\varepsilon N.
+ \end{aligned}
 \end{equation}
 Lemma~\ref{lem:factor-sparsification} now gives both conclusions.
 \end{proof}
@@ -169,9 +173,10 @@ $\totd(\widehat F)\le\totd(F)+\varepsilon N^2$.
 Use the same factor replacements as in
 Theorem~\ref{thm:td-sparsification}, with
 $\zeta=\varepsilon/(4d_{\mathrm{fac}})$. Equation~\eqref{eq:common-forest-exception-budget}
-gives $M\le\varepsilon N$, and
+gives $\Delta_{\mathrm{td}}\le\varepsilon N$, and
 Lemma~\ref{lem:total-depth-comparison} completes every forest with
-total-depth increase at most $NM\le\varepsilon N^2$.
+total-depth increase at most
+$N\Delta_{\mathrm{td}}\le\varepsilon N^2$.
 Minimizing therefore gives the lower bound on $\totd(J)$. The upper
 bound follows from $J\subseteq H$.
 \end{proof}
