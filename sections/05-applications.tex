@@ -261,27 +261,34 @@ so that every path containing two distinct edges of the same
 label also contains an edge with a larger label. Its minimum
 possible largest label is the edge-ranking number
 $\operatorname{er}(B)$.
-The standard identity
-$\operatorname{er}(B)=\td(\mathcal L(B))$~\cite{BodlaenderRankings}
-applied to our explicit SSE hosts yields SSE hardness at every fixed
-factor.
-It also yields the consequence on simple bipartite hosts. Replace
-each loop occurrence by an edge to a fresh pendant vertex, keeping
-parallel edge occurrences distinct. Then subdivide every edge
-occurrence of this loopless host once, using a fresh vertex $x_e$.
-The result is bipartite, with the old and pendant vertices on one
-side and the subdivision vertices on the other. For each edge
-occurrence $e=uv$ before subdivision, the new edges are $ux_e$ and
-$x_ev$.
-The corresponding two vertices of the new line graph are adjacent.
-Contracting this pair for every $e$ recovers the original line graph.
-Treedepth is minor-monotone, so this gives a lower bound by the old
-line-graph treedepth. Conversely, replacing each vertex of an
-elimination forest of the original line graph by a two-vertex chain
-gives a forest for the new line graph with at most twice the height.
-Thus the transformation loses at most a factor of two. Since the SSE
-hardness holds for every fixed factor, apply it first at factor $2C$
-to obtain hardness at any desired factor $C$ after this loss.
+Let $G^*$ be the host multigraph in Section~\ref{sec:sseh}, and put
+$H=\mathcal L(G^*)$. The SSE reduction proves hardness of
+$\td(H)$ at every fixed factor. For a simple graph $B$, the standard
+identity $\operatorname{er}(B)=\td(\mathcal L(B))$ transfers
+treedepth hardness of its line graph to edge ranking~\cite{BodlaenderRankings}.
+We turn $G^*$ into a simple bipartite graph before applying this
+identity. Replace every loop occurrence by an edge to a fresh pendant
+vertex, keeping parallel edge occurrences distinct. This preserves
+the line graph: each loop is replaced by one edge incident with its
+original endpoint, and the new pendant vertices have no other
+incident edges. Then subdivide each edge occurrence once, using a
+fresh vertex $x_e$. Call the resulting graph $B$. It is bipartite,
+with the old and pendant vertices on one side and the subdivision
+vertices on the other.
+
+For each edge occurrence $e=uv$ before subdivision, the two new
+edges are $ux_e$ and $x_ev$. Their vertices in $\mathcal L(B)$ are
+adjacent. Contracting these pairs, one pair for every edge occurrence,
+recovers $H$. Hence minor monotonicity gives
+$\td(H)\leq\td(\mathcal L(B))$. Conversely, replace each vertex of
+an elimination forest of $H$ by a two-vertex chain, attaching its
+child subtrees below the lower copy. Every edge of $\mathcal L(B)$
+joins two copies of adjacent vertices of $H$, or the two copies of
+one vertex. The expanded forest is therefore valid and has at most
+twice the original height. Thus
+$\td(H)\leq\operatorname{er}(B)\leq2\td(H)$. Applying the SSE
+treedepth hardness at factor $2C$ gives hardness for edge ranking on
+simple bipartite graphs at every fixed factor $C\geq1$.
 Lam and Yue proved that computing an optimal edge ranking is NP-hard
 at ICS 1996~\cite{LamYue1996}.
 
