@@ -8,9 +8,9 @@ of a rooted forest in which, for every graph edge, one endpoint is
 an ancestor of the other. Such a forest is an \emph{elimination forest}.
 This formulation connects treedepth to graph search,
 vertex ranking, and symbolic elimination
-\cite{Reidl2014,BodlaenderRankings}. Treewidth measures the size of
-bags in a tree decomposition and has a central role in algorithms
-based on dynamic programming. The two parameters constrain different
+\cite{Reidl2014,BodlaenderRankings}. Treewidth is one less than the
+size of the largest bag in a tree decomposition and has a central role
+in algorithms based on dynamic programming. The two parameters constrain different
 features of a decomposition: treedepth controls its depth, whereas
 treewidth controls its largest bag. We write $\td(G)$ for treedepth
 and $\operatorname{tw}(G)$ for treewidth. Although
@@ -121,8 +121,8 @@ where edges are added until the graph is a forest closure. Two
 distinct vertices are adjacent if and only if one is an ancestor of
 the other in a rooted forest. The objective is the number of added
 edges. Every fixed constant approximation factor is SSE-hard, even at bounded degree
-(Theorem~\ref{thm:tp-completion-sse}). The proof uses the same graph
-as the treedepth reduction, but needs a bound on the \emph{sum} of
+(Theorem~\ref{thm:tp-completion-sse}). The SSE proof uses the same
+line graph as our SSE treedepth reduction, but needs a bound on the \emph{sum} of
 elimination depths. A balanced separator, whose deletion leaves every
 component with at most half the vertices, supplies this estimate,
 and an adjusted-cost argument handles the offset between total depth
@@ -152,8 +152,8 @@ from these constructions and from established reductions:
     $\operatorname{er}(B)=\td(\mathcal L(B))$~\cite{BodlaenderRankings}.
  \item \emph{Automata and hypergraph widths.} Gruber's established
    transformations~\cite{Gruber2012} carry the treedepth gaps to
-   star height of regular languages represented by deterministic
-   finite automata over a two-letter alphabet. Replacing each vertex
+   star height of regular languages represented by trim binary
+   bideterministic partial automata. Replacing each vertex
    by a pair of adjacent copies carries the treewidth gaps to fractional, generalized,
    and ordinary hypertree width on rank-two hypergraphs, following
    the treewidth-hardness strategy of~\cite{Marx2010Fractional}.
@@ -243,8 +243,8 @@ the bounded-occurrence Max-3-LIN-2 problem, which asks for the maximum
 number of simultaneously satisfiable three-variable Boolean parity
 equations, we use the distinct-variable hardness gap stated by Hazan,
 Safra, and Schwartz~\cite[Theorem~10]{HazanSafraSchwartz2003}. For a system $F$
-of $m$ equations, write $\OPT(F)$ for the maximum number simultaneously
-satisfiable. We create four
+of $m$ equations, write $\OPT(F)$ for the maximum number of equations
+simultaneously satisfiable. We create four
 assignment witnesses per equation, joined as a star. For soundness,
 we complete each equation's selected partial assignment uniformly at
 random and bound its selected witnesses in terms of its unassigned
@@ -267,9 +267,11 @@ of that part and no others. An exchange argument moves each added
 vertex immediately below the deepest original vertex of its part without
 increasing total depth. All $M$ vertices associated with a part then
 have the same depth, so their total contribution is $M$ times the
-sum of these three depths. Counting vertices shared by the paths to
-the deepest vertices of the parts gives two successive vertex covers.
-In a construction from cubic Independent Set, an added matching makes
+sum of these three depths. Vertices on all three paths cover the edges
+incident to one part and contribute twice to the depth sum. After
+removing them, vertices on the other two paths cover the remaining
+edges between those parts and contribute once. In the construction
+from cubic Independent Set, an added matching makes
 the cover cost associated with $A$ smaller than those associated with
 $B$ and $C$. For the constructed graph, the minimum total depth is
 $\totd(G(J))=39n/2-\alphaI(J)+3$.

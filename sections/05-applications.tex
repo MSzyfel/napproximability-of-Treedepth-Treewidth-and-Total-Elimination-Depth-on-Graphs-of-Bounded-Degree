@@ -203,43 +203,37 @@ gaps they preserve.
 
 \paragraph{Automata and restricted cycle rank.}
 The \emph{star height} of a regular language is the minimum nesting
-depth of Kleene stars among regular expressions describing it.
-A star denotes arbitrary finite repetition. A partial deterministic
-finite automaton (DFA) has an initial state, accepting states, and
-at most one transition from each state for each alphabet letter.
-Its language consists of the words read along paths from the
-initial state to an accepting state.
-It is \emph{bideterministic} if it has one accepting state and
-reversing every transition while swapping the initial and accepting
-states again gives a DFA. It is \emph{trim} if every state lies
-on an initial-to-accepting path. A binary alphabet has two letters.
-For a digraph $D$, its \emph{cycle rank} $\operatorname{cr}(D)$
-is zero when $D$ is acyclic, is
-$1+\min_v\operatorname{cr}(D-v)$ when $D$ is strongly connected
-and has a directed cycle, and otherwise is the maximum cycle
-rank of its strongly connected components. These components are
-the maximal sets whose vertices can reach one another by directed
-paths~\cite[Sections~2--3]{Gruber2012}.
+depth of Kleene stars in a regular expression for the language.
+A partial deterministic finite automaton (DFA) has an initial state,
+accepting states, and at most one transition from each state per
+letter, but may omit transitions. Its language consists of words labeling paths
+from the initial state to an accepting state. It is
+\emph{bideterministic} if it has one accepting state and remains
+deterministic when its transitions are reversed and its initial and
+accepting states are exchanged. It is \emph{trim} if every state lies
+on such a path. A binary DFA uses a two-letter alphabet. For a digraph
+$D$, the \emph{cycle rank} $\operatorname{cr}(D)$ is zero if $D$ is
+acyclic, is $1+\min_v\operatorname{cr}(D-v)$ if $D$ is strongly
+connected and has a directed cycle, and otherwise is the maximum
+cycle rank of its strongly connected components, the maximal sets
+whose vertices can reach one another by directed paths
+~\cite[Sections~2--3]{Gruber2012}.
 
-Gruber's established cycle-rank/star-height correspondence and
-polynomial binary encoding~\cite[Theorems 20 and 23]{Gruber2012}
-transfer all three treedepth gaps to ordinary language star height
-for a language represented by a binary bideterministic partial DFA.
-To preserve the value,
-add a universal vertex $a$, adjacent to every vertex of $G$,
-replace graph edges by their
-two orientations, give every arc its own letter, and take $a$ as
-initial and sole final state. Adding the universal vertex gives
-$\td(G+a)=\td(G)+1$. The forest correspondence
-in~\cite[proof of Theorem~12]{Gruber2012} then gives
-$\operatorname{cr}(\overleftrightarrow{G+a})=\td(G)$.
-McNaughton's theorem~\cite[Theorem~20]{Gruber2012} and the binary
-encoding~\cite[Theorem~23]{Gruber2012} preserve this value.
-The trim binary automaton also realizes the gaps as cycle-rank gaps
-on strongly connected digraphs of indegree and outdegree at most two.
-Gruber already proves NP-hardness under related degree
-restrictions~\cite[Corollary 24]{Gruber2012}, and the same maps
-transfer earlier treedepth hardness~\cite{BNS}.
+Gruber's cycle-rank/star-height correspondence and polynomial binary
+encoding~\cite[Theorems 20 and 23]{Gruber2012} transfer our three
+treedepth gaps to star height for languages represented by trim binary
+bideterministic partial DFAs. For the value-preserving graph step,
+add to $G$ a universal vertex $a$, replace each edge by its two
+oriented arcs, label every arc with a distinct letter, and take $a$
+as the initial and sole accepting state. Then
+$\td(G+a)=\td(G)+1$ and
+$\operatorname{cr}(\overleftrightarrow{G+a})=\td(G)$
+~\cite[proof of Theorem~12]{Gruber2012}. Gruber's theorems preserve
+this value in the binary encoding and give cycle-rank instances on
+strongly connected digraphs of indegree and outdegree at most two.
+Gruber already proves NP-hardness under related degree restrictions
+~\cite[Corollary 24]{Gruber2012}. Our consequence is the transfer of
+the present approximation gaps.
 
 \paragraph{Edge ranking.}
 An \emph{edge ranking} assigns positive integer labels to edges
