@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+\documentclass[11pt,letterpaper]{article}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage[T1]{fontenc}
@@ -51,8 +51,8 @@ also prove NP-hardness within some absolute factor greater than one.
 Under the Small Set Expansion Hypothesis, every fixed constant factor
 is hard for treedepth and total elimination depth. Our line-graph
 construction also gives bounded-degree treewidth instances for the
-known all-constant SSE hardness. In each result, the maximum degree
-depends only on the excluded factor, and the reductions are
+known SSE hardness at every fixed factor. In each result, the maximum
+degree depends only on the excluded factor, and the reductions are
 deterministic. The treedepth result resolves the conjecture that
 computing unweighted treedepth remains NP-hard at bounded degree.
 
@@ -93,6 +93,12 @@ sizes over all bags.
 \input{sections/05-applications}
 \input{sections/05-conclusion}
 
+\clearpage
+\appendix
+\input{sections/appendix-source-normalizations}
+\input{sections/appendix-auxiliary-proofs}
+
+\clearpage
 \bibliographystyle{alpha}
 \begingroup
 \small
@@ -101,14 +107,9 @@ sizes over all bags.
 \bibliography{references}
 \endgroup
 
-\clearpage
-\appendix
-\input{sections/appendix-source-normalizations}
-\input{sections/appendix-auxiliary-proofs}
-
 \section*{AI methodology}
-OpenAI ChatGPT (Codex) assisted with mathematical proof exploration,
+OpenAI Codex assisted with mathematical proof exploration,
 source and citation checks, and exposition revisions throughout the
-main text and appendices. The authors are responsible for all claims
+main text and appendices. The author is responsible for all claims
 and references in the submission.
 \end{document}

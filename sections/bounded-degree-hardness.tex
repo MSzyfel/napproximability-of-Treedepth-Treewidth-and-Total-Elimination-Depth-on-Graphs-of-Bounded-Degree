@@ -551,11 +551,11 @@ is the largest such fraction.
 Khot and Regev show that ordinary UGC is equivalent to the
 following regular bipartite promise, which AKS use
 \cite[Conjecture~2.4]{AKS2011}: for every fixed $\gamma>0$, it is
-NP-hard to distinguish a YES instance in which a
-labeling satisfies every constraint incident to at least a
-$(1-\gamma)$-fraction of the right vertices from a NO instance of
-value at most $\gamma$. The underlying bipartite multigraph is
-regular on each side.
+NP-hard to distinguish a YES instance in which there is a set
+$V_0\subseteq V$ of at least $(1-\gamma)|V|$ right vertices and one
+labeling satisfies every constraint incident to a vertex in $V_0$,
+from a NO instance of value at most $\gamma$. The underlying
+bipartite multigraph is regular on each side.
 
 Fix a rational $p\in(0,1/2)$ and put $\xi=-p/(1-p)$.
 Theorem~3.1 of~\cite{AKS2011} gives a deterministic polynomial-time

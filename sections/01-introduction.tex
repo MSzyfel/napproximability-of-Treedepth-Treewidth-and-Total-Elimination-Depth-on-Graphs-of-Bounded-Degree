@@ -65,8 +65,8 @@ The dense gaps transfer to bounded degree by the sparsification
 theorems in Section~\ref{sec:bounded-degree-hardness}. The resulting
 bounds are collected in Corollaries~\ref{cor:td-bounded-degree}
 and~\ref{cor:tw-bounded-degree}. Wu, Austrin, Pitassi, and
-Liu~\cite{APW} proved all-constant SSE hardness for treewidth on
-general graphs. Their regular-host source can have constant degree~\cite[Section~2.5,
+Liu~\cite{APW} proved SSE hardness for treewidth at every fixed
+factor on general graphs. Their regular-host source can have constant degree~\cite[Section~2.5,
 footnote~2]{APW}. Applying our line-graph map
 gives the bounded-degree treewidth result and transfers this hardness
 to treedepth.
@@ -81,9 +81,10 @@ For treewidth, NP-completeness is already known on cubic
 graphs~\cite{BodlaenderEtAl2023Cubic}. The degree bounds in our
 approximation results depend on the target ratio.
 
-Wu, Austrin, Pitassi, and Liu's earlier incidence construction also implies all-constant
-SSE hardness for treedepth after an additional elimination-forest
-argument. We give that derivation in Appendix~\ref{app:incidence-proof}.
+Wu, Austrin, Pitassi, and Liu's earlier incidence construction also
+implies SSE hardness for treedepth at every fixed factor after an
+additional elimination-forest argument. We give that derivation in
+Appendix~\ref{app:incidence-proof}.
 The line-graph proof in Section~\ref{sec:sseh} gives balanced-separator
 bounds proportional to the output order, which we use in several
 applications.
@@ -127,8 +128,9 @@ elimination depths. A balanced separator, whose deletion leaves every
 component with at most half the vertices, supplies this estimate,
 and an adjusted-cost argument handles the offset between total depth
 and the number of added edges. The identity relating these objectives
-is established in~\cite{HogemoEtAl2021}. Wu, Austrin, Pitassi, and Liu prove all-constant
-SSE hardness for chordal Minimum Fill-In~\cite{APW}, but that result
+is established in~\cite{HogemoEtAl2021}. Wu, Austrin, Pitassi, and
+Liu prove SSE hardness for chordal Minimum Fill-In at every fixed
+factor~\cite{APW}, but that result
 does not cover trivially perfect completions, which form a more
 restricted target class.
 The adjusted-cost argument also transfers both constant total-depth
@@ -140,14 +142,14 @@ Section~\ref{sec:applications} derives the following consequences
 from these constructions and from established reductions:
 \begin{itemize}
  \item \emph{Deletion and labeling objectives.} Vertex integrity
-   inherits UGC hardness below $4/3$ and all-constant SSE hardness.
-   The SSE separator gap also gives all-constant hardness for
-   fracture number, starwidth, average general labels, maximum general
-    labels, and average and maximum hierarchical labels, using the comparisons
+   inherits UGC hardness below $4/3$ and SSE hardness at every fixed
+   factor. The SSE separator gap also gives this hardness for fracture
+   number, starwidth, average and maximum general labels, and average
+   and maximum hierarchical labels, using the comparisons
    in~\cite{GimaEtAlIntegrity} and the label lower bound
    of Blum and Storandt~\cite{BlumStorandt2023}.
-    The SSE line-graph construction also gives all-constant hardness
-    for edge ranking on simple bipartite hosts, via
+    The SSE line-graph construction also gives edge-ranking hardness
+    at every fixed factor on simple bipartite hosts, via
     $\operatorname{er}(B)=\td(\mathcal L(B))$~\cite{BodlaenderRankings}.
  \item \emph{Automata and hypergraph widths.} Gruber's established
    transformations~\cite{Gruber2012} carry the treedepth gaps to
@@ -334,8 +336,9 @@ standard Margulis--Gabber--Galil family, as presented
 in~\cite[Construction~8.1 and Theorem~8.2]{HLW2006}.
 
 Wu, Austrin, Pitassi, and Liu~\cite{APW} use the expansion reductions
-of Raghavendra, Steurer, and Tulsiani~\cite{RST} to prove all-constant
-SSE hardness for treewidth, pathwidth, and related objectives. For our
+of Raghavendra, Steurer, and Tulsiani~\cite{RST} to prove SSE hardness
+for treewidth, pathwidth, and related objectives at every fixed factor.
+For our
 bounded-degree result, Section~\ref{sec:bounded-degree-hardness} also
 derives the degree bound from the weighted source by the same
 factor-completion tools used for NP and UGC hardness.

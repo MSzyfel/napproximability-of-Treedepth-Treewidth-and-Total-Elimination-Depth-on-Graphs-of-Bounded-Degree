@@ -67,7 +67,7 @@ depth in Corollary~\ref{cor:total-depth-bounded-degree}.
 
 Earlier work establishes NP-hardness and parameterized lower
 bounds for this completion problem~\cite{HogemoEtAl2021,BliznetsEtAl2016}.
-The all-constant SSE hardness of \emph{chordal} Minimum Fill-In,
+The SSE hardness of \emph{chordal} Minimum Fill-In at every fixed factor,
 whose target graphs have no induced cycle of length at least four,
 is already known~\cite[Theorem~1.2]{APW}. Restricting the
 target class to trivially perfect graphs changes the optimum, so
@@ -139,7 +139,7 @@ a tree decomposition whose underlying tree is a star.
 The standard comparisons
 $\operatorname{fr}\leq\operatorname{vi}\leq2\operatorname{fr}$ and
 $\operatorname{sw}+1\leq\operatorname{vi}\leq2(\operatorname{sw}+1)$
-then give the all-constant SSE consequence for fracture number and
+then give SSE hardness at every fixed factor for fracture number and
 starwidth. These comparisons and an $O(\log\OPT)$ approximation
 for vertex integrity are recorded by Gima et
 al.~\cite[Section 1.3 and Theorem 5.1]{GimaEtAlIntegrity}.
@@ -239,7 +239,8 @@ possible largest label is the edge-ranking number
 $\operatorname{er}(B)$.
 The standard identity
 $\operatorname{er}(B)=\td(\mathcal L(B))$~\cite{BodlaenderRankings}
-applied to our explicit SSE hosts yields all-constant SSE hardness.
+applied to our explicit SSE hosts yields SSE hardness at every fixed
+factor.
 It also yields the consequence on simple bipartite hosts. Replace
 each loop occurrence by a pendant edge, then subdivide every edge
 occurrence once. For an original edge occurrence $e=uv$, subdivision
@@ -303,8 +304,8 @@ If $uv\in E(G)$, its four clones form a clique. Their bag subtrees
 intersect pairwise, so the Helly property for subtrees of a tree gives
 a bag containing all four. The retained bags thus form a tree decomposition
 of $G$ with bag size at most $w$, proving the reverse inequality.
-Thus the NP $r<12/11$, UGC $r<4/3$, and established all-constant SSE
-treewidth gaps transfer even to rank-two hypergraphs.
+Thus the NP $r<12/11$, UGC $r<4/3$, and established SSE treewidth
+hardness at every fixed factor transfer even to rank-two hypergraphs.
 In the usual query representation, vertices are variables and
 each hyperedge supplies one relation atom. Their conjunction is
 a conjunctive query, and size-two hyperedges give binary atoms.
