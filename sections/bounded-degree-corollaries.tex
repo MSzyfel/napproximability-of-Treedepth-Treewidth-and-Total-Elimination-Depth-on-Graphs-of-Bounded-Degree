@@ -150,7 +150,7 @@ Each truth block lies in one global clique, and each $W_x^a$
 meets at most two. The nonempty intersections of a biclique side
 with the global parts therefore partition it into at most two
 sets, each contained in its global clique. Thus $s=2$.
-The graph contains a clique of order $3Rm$, so its treewidth is
+The dense graph contains a clique of order $3Rm$, so its treewidth is
 at least $3Rm-1$. The loss $9\tau Rm$ can be made arbitrarily
 small relative to this bound, preserving the gap below $12/11$
 from Theorem~\ref{thm:tw-hardness}.
@@ -162,8 +162,9 @@ Thus $d_1=1$ and $d_0=2d_\eta$, with no biclique factors.
 Lemma~\ref{lem:multipartite-product} gives YES cover bound
 $(3/2+3\eta)n$ and NO cover bound $(2-2\eta)n$ for $P_3(G)$,
 as required for the dense gap in Theorem~\ref{thm:tw-ugc}.
-A global clique gives treewidth at least $Rn-1$, while the loss
-is at most $3\tau Rn$. Small $\tau$ preserves every factor
+The dense graph has global cliques of size $Rn$, so its treewidth is
+at least $Rn-1$. The sparsification loss is at most $3\tau Rn$.
+Small $\tau$ preserves every factor
 below $4/3$.
 
 \emph{SSE hardness.}
