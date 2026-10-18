@@ -380,12 +380,20 @@ $(d+2)n\leq |V(R)|\leq(d+3)n$ and
 
 \begin{proof}
 For each $v$, set $t=d-\deg_G(v)$ and attach a fresh gadget $Q_t$
-by joining $v$ to its $t$ ports. If $t$ is even, take $K_{d+1}$
-minus a perfect matching on the ports. If $t\geq3$ is odd, take $K_{d+2}$
-minus a cycle on the ports and a perfect matching on the other vertices.
-For $t=1$, delete from $K_{d+2}$ a two-edge path centered at the port
-and a perfect matching on the remaining vertices. Each port has degree
-$d-1$ and each other vertex degree $d$; the gadgets are connected.
+by joining $v$ to its $t$ ports. Since $d>\Delta(G)$, $t\geq1$.
+If $t$ is even, take $K_{d+1}$ and remove a perfect matching on the
+ports. If $t\geq3$ is odd, take $K_{d+2}$ and remove a cycle on the
+ports and a perfect matching on the other vertices; the number
+$d+2-t$ of other vertices is even. For $t=1$, take $K_{d+2}$,
+remove a two-edge path centered at the port, and remove a perfect
+matching on the remaining vertices. In each case every port has
+degree $d-1$ inside $Q_t$ and gains one edge to $v$, so its final
+degree is $d$; all other gadget vertices already have degree $d$.
+Each $Q_t$ has minimum
+degree $d-1$ and at most $d+2$ vertices. Every connected component
+therefore has at least $d$ vertices, so $Q_t$ is connected because
+$2d>d+2$ for $d\geq3$. The resulting graph $R$ is simple.
+
 Appending each gadget as a chain below $v$ proves the upper bounds
 for height and total depth. Adding a bag $\{v\}\cup V(Q_t)$ to a
 tree decomposition proves the treewidth bound.
