@@ -48,10 +48,13 @@ Lemma~\ref{lem:tw-replication} yields respectively
        \geq R(6-\epsilon)m-1.
  \end{array}
 \]
-The choices of $\epsilon,R$ make the ratio of the linear
-coefficients larger than $r$. Taking disjoint copies of $F$
-preserves the source promise and makes $m$ arbitrarily large.
-Lemma~\ref{lem:gap-preservation} then absorbs the constants $-1$.
+For every $m\ge1$, the NO bound minus $r$ times the YES bound is
+\[
+ \bigl(R(6-\epsilon)-r(R(11/2+\epsilon)+3)\bigr)m+(r-1)>0,
+\]
+by the choice of $R$ and $r\ge1$. Thus the bounds are separated by
+factor $r$ even with the additive constants $-1$. Taking disjoint
+copies of $F$ preserves the source promise and makes $m$ arbitrarily large.
 The output has $9Rm$ vertices, and its three global cliques have
 equal size $3Rm$. 
 \end{proof}
