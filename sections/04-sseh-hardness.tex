@@ -153,27 +153,27 @@ for every $1/2\leq\rho<3/4$.
 \end{lemma}
 
 \begin{proof}
-Fix a $\rho$-balanced separator $S$ of $\mathcal L(G)$, and let
-$F$ be the corresponding multiset of host edges, so $|F|=|S|$.
+Fix a $\rho$-balanced separator $S$ of $\mathcal L(G)$, and write
+$F_S$ for the corresponding multiset of host edges, so $|F_S|=|S|$.
 If $|S|\ge(3/4-\rho)m$, the claim is immediate. Assume henceforth
 that $|S|<(3/4-\rho)m$.
 
 \emph{Grouping the surviving host edges.}
 The line graph $\mathcal L(G)-S$ has
 $m-|S|>(1/4+\rho)m$ vertices, with each component of order at
-most $\rho m$. Choose a union $C$ of components with
-$m/4\le|C|\le\rho m$. If a component has size in this interval,
+most $\rho m$. Choose a union $Z$ of components with
+$m/4\le|Z|\le\rho m$. If a component has size in this interval,
 take it. Otherwise, every component has fewer than $m/4$ vertices.
 Add components until their total first reaches $m/4$.
 The total is then below $m/2\le\rho m$.
 
-Let $X$ be the host edges corresponding to vertices in $C$, and
+Let $X$ be the host edges corresponding to vertices in $Z$, and
 let $Y$ be the other surviving host edges. Then
-$|X|=|C|\ge m/4$ and
+$|X|=|Z|\ge m/4$ and
 $|Y|=m-|S|-|X|>m/4$.
 If a host vertex were incident to edges in both multisets, their
-line-graph vertices would be adjacent, with one in $C$ and one
-outside $C$. This contradicts the choice of $C$ as a union of
+line-graph vertices would be adjacent, with one in $Z$ and one
+outside $Z$. This contradicts the choice of $Z$ as a union of
 components.
 
 \emph{Forming the host cut.}
@@ -190,8 +190,8 @@ Since $\mu_G(A)=\vol_G(A)/(2m)$, we obtain
 $\mu_G(A)\in[1/4,3/4]$.
 Every surviving edge lies wholly in $A$ or wholly in
 $B\subseteq V(G)\setminus A$, so every edge crossing $A$ belongs
-to $F$. The cut assumption therefore yields
-$|S|=|F|\ge|\cut_G(A)|\ge\beta m$, proving the bound.
+to $F_S$. The cut assumption therefore yields
+$|S|=|F_S|\ge|\cut_G(A)|\ge\beta m$, proving the bound.
 \end{proof}
 
 \begin{lemma}\label{lem:balanced-by-td}
