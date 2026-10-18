@@ -465,19 +465,49 @@ minor-monotonicity, this gives
 \[
  \td(G)\leq\td(G_\ell)\leq\td(G)+h,\qquad h=\lceil\log_2\ell\rceil.
 \]
-Thus the linear gaps persist. For total depth start with a $d$-regular
-instance from Corollary~\ref{cor:regular-hardness}. Orient its edges
-with outdegree at least $(d-1)/2$, using an Euler tour after pairing
-odd-degree vertices. Group each vertex with the internal vertices
-of its outgoing paths. These connected groups have size at least
-$M=1+(\ell-1)(d-1)/2$, so the projection argument above and the
-path-forest construction give
+Thus the linear gaps persist. For total depth, start with a
+$d$-regular instance from Corollary~\ref{cor:regular-hardness}.
+Since $d$ is odd, add a perfect matching to make every degree even,
+orient the augmented graph along an Euler tour, and then delete the
+added matching. Every vertex initially has outdegree $(d+1)/2$, so
+after deleting the matching its outdegree is at least $(d-1)/2$.
+
+Assign the internal vertices of each replacement path to the tail
+of its oriented edge. For each vertex $v$, let $X_v$ consist of $v$
+and the internal vertices assigned to it. The sets $X_v$ partition
+$V(G_\ell)$; each is connected and has size at least
+$s=1+(\ell-1)(d-1)/2$. In an elimination forest of $G_\ell$, let
+$r_v$ be the shallowest vertex of $X_v$. Since $X_v$ is connected
+and the endpoints of each graph edge are comparable, $r_v$ is an
+ancestor of every vertex in $X_v$. Each original edge $uv$ has a
+replacement path whose last edge joins $X_u$ to $X_v$, so $r_u$ and
+$r_v$ are comparable. Therefore the representatives $r_v$ form an
+elimination forest of $G$. Every vertex in $X_v$ has depth at least
+$\operatorname{depth}_{F}(r_v)$, giving the lower bound below.
+
+For the upper bound, take an optimal elimination forest of $G$ and,
+for each original edge, attach a midpoint-recursive elimination tree
+of its internal path below the deeper endpoint. Each of the
+$\ell-1$ new vertices on that path has depth at most the depth of
+that endpoint plus $h$. Each vertex is the deeper endpoint of at
+most $d$ edges, so summing the original and new depths gives
 \[
- M\totd(G)\leq\totd(G_\ell)
- \leq[1+d(\ell-1)]\totd(G)+h(\ell-1)|E(G)|.
+\begin{aligned}
+ s\totd(G)&\leq\totd(G_\ell)\\
+ &\leq\totd(G)+(\ell-1)\sum_{uv\in E(G)}
+       \operatorname{depth}_{F}(\text{deeper endpoint of }uv)
+       +h(\ell-1)|E(G)|\\
+ &\leq[1+d(\ell-1)]\totd(G)+h(\ell-1)|E(G)|.
+\end{aligned}
 \]
-Since $1+d(\ell-1)\leq3M$, an SSE gap greater than $3r$ yields
-a gap greater than $r$, absorbing the linear error.
+Here $1+d(\ell-1)\leq3s$, since
+$3s-[1+d(\ell-1)]=2+(\ell-1)(d-3)/2\geq0$. The last term is
+$O(n)$ because $d$ and $\ell$ are fixed. Choose the source SSE gap
+with NO bound $Z>3rY$, where $Y$ is its YES upper bound. The
+subdivided instance then has YES bound at most $3sY+O(n)$ and NO
+bound at least $sZ$. The explicit SSE gaps above have a positive
+quadratic margin between $Z$ and $3rY$, so scaling the source makes
+$sZ-r(3sY+O(n))>0$. Thus the factor-$r$ gap persists.
 \end{proof}
 
 The total-depth conclusions of both corollaries also hold for average
