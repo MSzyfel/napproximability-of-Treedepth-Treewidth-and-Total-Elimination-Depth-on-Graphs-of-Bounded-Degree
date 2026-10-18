@@ -453,8 +453,15 @@ to approximate within every fixed factor.
 \begin{proof}
 Replace every edge of $G$ by a path of fixed even length
 $\ell\geq\max\{2,g/3\}$, obtaining $G_\ell$. This gives the claimed
-graph class and preserves treewidth. Minor-monotonicity and appending
-an elimination tree for each internal path below its deeper endpoint give
+graph class and preserves treewidth. A path on $s$ vertices has an
+elimination tree of height at most $\lceil\log_2(s+1)\rceil$: choose
+a middle vertex as root and recurse on the two remaining subpaths.
+Thus the $\ell-1$ internal vertices on each replaced edge have such
+a tree of height $h=\lceil\log_2\ell\rceil$. Attach this tree below
+the deeper of the original edge's endpoints in an elimination forest
+of $G$. The original endpoints are comparable, so the edge to the
+shallower endpoint is represented as well. Together with
+minor-monotonicity, this gives
 \[
  \td(G)\leq\td(G_\ell)\leq\td(G)+h,\qquad h=\lceil\log_2\ell\rceil.
 \]
