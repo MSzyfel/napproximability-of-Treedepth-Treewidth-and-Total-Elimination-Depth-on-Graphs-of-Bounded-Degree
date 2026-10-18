@@ -222,13 +222,15 @@ the resulting edges toward the later vertex in that order.
 The upward search space of $v$ is the set of vertices reachable
 from $v$ along these oriented edges, including $v$ itself.
 Use a postorder of the YES elimination forest, eliminating each
-subtree before its root. When a vertex is eliminated, its remaining
-neighbors are among its ancestors: this holds for original edges by
-the elimination-forest property, and each added fill edge joins two
-such ancestors, which lie on one path. Inductively, every fill edge
-joins comparable vertices. Since each such edge is oriented toward
-its later endpoint, every upward search space is contained in the
-vertex's ancestor set and has size at most its forest label.
+subtree before its root. Initially every edge joins comparable
+vertices. Suppose this remains true before eliminating a vertex $v$.
+Each remaining neighbor of $v$ is later in the order and comparable
+with $v$, so it is an ancestor of $v$. Therefore every fill edge added
+at $v$ joins two ancestors of $v$, which are comparable. This proves
+the claim by induction over the elimination order. Each upward edge
+thus leads from a vertex to one of its ancestors, so every upward
+search space is contained in that vertex's ancestor set and has size
+at most its forest label.
 Total label size is average size times the
 graph order and has the same gap.
 
