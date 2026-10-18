@@ -1,0 +1,370 @@
+\subsection{Derivation of the bounded-degree hardness corollaries}
+\label{app:bounded-degree-hardness}
+
+\subsubsection{Treedepth}
+\label{app:bounded-degree-treedepth}
+
+For every variable $x$ of $F$ and $a\in\{0,1\}$, let
+$W_x^a\subseteq V(G_F)$ consist of the witnesses for equations
+containing $x$ whose represented assignments set $x=a$.
+
+\begin{lemma}[Local factors of the parity graph]\label{lem:parity-local-factors}
+The edges of $G_F$ are the union of its witness-star edges and the
+bicliques $T_x^0\times T_x^1$, $T_x^0\times W_x^1$, and
+$T_x^1\times W_x^0$ over all variables $x$.
+The star edges have maximum degree three, every vertex belongs to
+at most three local factors, and their side-size ratios are at
+most $12/5$. Moreover, $W_x^0\subseteq A\cup C$ and
+$W_x^1\subseteq B\cup C$ for every variable $x$.
+\end{lemma}
+
+\begin{proof}
+These are the truth-block and inconsistency edges in the
+construction. A truth vertex belongs to two local bicliques. A
+witness belongs to one per variable of its equation, hence three.
+The sizes $|T_x^a|=5d_x/6$ and $|W_x^a|=2d_x$ give the ratio
+$12/5$. A witness setting $x=0$ lies in $A\cup C$, and one
+setting $x=1$ lies in $B\cup C$, by the placement of the special
+witnesses.
+\end{proof}
+
+\begin{lemma}[Clique factors of a line graph]\label{lem:linegraph-factors}
+Let $G$ be an unweighted host multigraph. Identify each edge
+occurrence $e\in E(G)$ with its vertex in $\mathcal L(G)$, and put
+$U_v=\{e\in E(G):v\text{ is an endpoint of }e\}$ for $v\in V(G)$.
+The nonempty sets
+$U_v$ give clique factors for $\mathcal L(G)$, and each line-graph
+vertex belongs to at most two factors.
+\end{lemma}
+
+\begin{proof}
+Two line-graph vertices are adjacent if and only if their host edges
+share an endpoint, so
+$E(\mathcal L(G))=\bigcup_v\binom{U_v}{2}$.
+An edge has at most two endpoints. A loop contributes one vertex
+to the factor at its endpoint.
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:td-bounded-degree}]
+We apply Theorem~\ref{thm:td-sparsification} separately to the three
+dense constructions. Denote its error parameter by $\tau>0$.
+For an output of order $N$, sparsification preserves the YES
+height bound and lowers the NO treedepth bound by at most $\tau N$.
+For each target factor $r$, we first choose the dense reduction to
+leave a positive separation between the NO bound and $r$ times
+the YES bound, and then choose $\tau$ small enough to retain it.
+
+\emph{NP-hardness.}
+Use the local factors of Lemma~\ref{lem:parity-local-factors},
+the three anchor cliques, and, after omitting $z_A,z_B,z_C$, the
+three anchor--part bicliques. Set $E_0$ equal to the set of
+witness-star edges.
+Each vertex of $G_F$ belongs to at most three local factors and one
+anchor--part biclique. Each anchor vertex belongs to its clique and
+one anchor--part biclique. These bicliques have equal side sizes, so
+the largest side-size ratio is $12/5$, attained by the local factors.
+Thus $d_1=4$, $d_0=3$, and $\kappa=12/5$. The occurrence
+counts $d_x$ may be unbounded.
+
+Deleting the three added vertices
+changes treedepth by at most three. The resulting dense graph has
+order $18m$, YES upper bound $(17/2+\eta)m+1$, and NO lower bound
+$(9-\eta)m-2$. The limiting ratio of the linear coefficients is
+$9/(17/2)=18/17$. Thus, for a fixed $r<18/17$, the difference
+$9-17r/2$ is positive. Choose $\eta,\tau>0$ so small that
+$(1+r)\eta+18\tau<9-17r/2$.
+The sparse YES height is at most $(17/2+\eta)m+1$. The NO height is
+at least $(9-\eta)m-2-18\tau m$. Thus the NO lower bound minus
+$r$ times the YES upper bound is at least
+\[
+ \begin{aligned}
+ &\bigl(9-\eta-18\tau-r(17/2+\eta)\bigr)m-(2+r)\\
+ &=\bigl(9-17r/2-(1+r)\eta-18\tau\bigr)m-(2+r).
+ \end{aligned}
+\]
+The term proportional to $m$ is positive and eventually exceeds
+$2+r$. To ensure this, take a fixed number of disjoint copies of
+$F$, using disjoint variable sets, before constructing the graph.
+Both $m$ and $\OPT(F)$ are multiplied by the number of copies, so
+the source promise and its normalizations are preserved.
+
+\emph{UGC hardness.}
+Use the source in Theorem~\ref{thm:bounded-degree-kr-source}. In
+$S_q(G)$, replace its $q$ layer cliques and let $E_0$ be its
+cross-layer edges. Each vertex belongs to one factor, and its degree in $(V(S_q(G)),E_0)$
+is at most $(q-1)d_\eta$. There are no biclique factors, so the
+theorem applies with $d_1=1$ and $\kappa=1$. For $r<4/3$, choose
+$q$ large and then $\eta$ small as in
+Theorem~\ref{thm:ugc-hardness}. The dense ratios approach $4/3$,
+so these choices give $B_{q,\eta}>rA_{q,\eta}$. The dense YES
+height is at most $A_{q,\eta}n$, the NO height is greater than
+$B_{q,\eta}n$, and the graph order is $qn$.
+Choose $0<\tau<(B_{q,\eta}-rA_{q,\eta})/(2q)$, so sparsification
+uses less than half the separation between these coefficients.
+The sparsification loss is at most $\tau qn$, so the sparse NO
+height is greater than
+\[
+ B_{q,\eta}n-\tau qn
+ =(B_{q,\eta}-\tau q)n
+ >\frac{B_{q,\eta}+rA_{q,\eta}}2n>rA_{q,\eta}n.
+\]
+The sparse YES height is at most the dense YES bound $A_{q,\eta}n$.
+
+\emph{SSE hardness.}
+Apply Lemma~\ref{lem:sse-unweighted-gap} with its source parameter
+$\varepsilon=\eta$, and let $G^*$ be the resulting host, with $N$
+edges counted with multiplicity. Lemma~\ref{lem:linegraph-factors}
+verifies the factor hypotheses for $\mathcal L(G^*)$ with $d_1=2$,
+$d_0=0$, and no biclique factors.
+
+The dense YES height is at most $4\eta N$. Put
+$\beta=(c/2)\sqrt\eta\le1/4$, where $c$ is the source expansion
+constant. Lemma~\ref{lem:linegraph-separators}, with $\rho=1/2$,
+gives a NO balanced-separator lower bound $\beta N$, and
+Lemma~\ref{lem:balanced-by-td} gives $\td(\mathcal L(G^*))\ge\beta N$.
+Here the YES coefficient is proportional to $\eta$, while the NO
+coefficient is proportional to $\sqrt\eta$. Their ratio
+$\beta/(4\eta)=c/(8\sqrt\eta)$ grows without bound as $\eta$
+decreases. For a fixed $r\ge1$, choose $\eta$ small enough that
+$\beta>8r\eta$, and then choose $0<\tau<\beta/2$.
+Thus we can lose up to half the NO bound and still retain the
+factor-$r$ separation.
+The sparse NO height is at least
+\[
+ (\beta-\tau)N>\frac{\beta N}{2}>4r\eta N.
+\]
+The sparse YES height is at most $4\eta N$.
+
+\end{proof}
+
+\subsubsection{Treewidth}
+\label{app:bounded-degree-treewidth}
+
+\begin{lemma}[Balanced separator from treewidth]
+\label{lem:balanced-by-tw}
+For every finite nonempty graph $H$,
+$b(H)\leq\operatorname{tw}(H)+1$~\cite[Lemma~5.3]{APW}.
+\end{lemma}
+
+\begin{proof}[Proof of Corollary~\ref{cor:tw-bounded-degree}]
+We verify the hypotheses of Theorem~\ref{thm:tw-sparsification}
+for each construction and denote its error parameter by $\tau$.
+For an output of order $N$, sparsification preserves the YES
+width bound and lowers the NO treewidth bound by at most $\tau N$.
+As for treedepth, we choose the source and sparsification errors
+small enough that the target factor remains below the resulting gap.
+
+\emph{NP-hardness.}
+Use the three global cliques of $K_R(G_F)$ and, within each
+replicated copy, the local factors of
+Lemma~\ref{lem:parity-local-factors}. Let $E_0$ consist of the
+witness-star edges in all replicated copies.
+Thus $d_1=4$, $d_0=3$, and $\kappa=12/5$.
+Each truth block lies in one global clique, while each $W_x^a$
+meets at most two. Thus every biclique side partitions into at
+most two sets contained in supplied clique factors, giving $s=2$.
+
+The dense graph has order $9Rm$. By
+Lemma~\ref{lem:tw-replication}, its YES width is at most
+$R(11/2+\eta)m+3m-1$, and its NO width is at least
+$R(6-\eta)m-1$. After division by $Rm$, the leading YES and NO
+bounds approach $11/2$ and $6$ as $\eta,\tau$ decrease and $R$
+increases. Their ratio is $12/11$, so for a fixed $r<12/11$ we
+have $6-11r/2>0$. Choose $\eta,\tau>0$ small and then a fixed
+$R$ large enough that
+$(1+r)\eta+9\tau+3r/R<6-11r/2$.
+Sparsification lowers the NO width by at most $9\tau Rm$. Thus the
+sparse NO width is at least $R(6-\eta-9\tau)m-1$, while the sparse
+YES width is at most $R(11/2+\eta)m+3m-1$. Subtracting $r$ times
+the YES upper bound from the NO lower bound gives
+\[
+ \begin{aligned}
+ &R\bigl(6-\eta-9\tau-r(11/2+\eta+3/R)\bigr)m+r-1\\
+ &=R\bigl(6-11r/2-(1+r)\eta-9\tau-3r/R\bigr)m+r-1>0.
+ \end{aligned}
+\]
+The chosen errors use less than the available separation
+$6-11r/2$, and $r-1\ge0$.
+
+\emph{UGC hardness.}
+For the source of Theorem~\ref{thm:bounded-degree-kr-source}, put
+$Q=P_3(G)$, using the product defined in
+Lemma~\ref{lem:multipartite-product}. In $K_R(Q)$, replace its three global cliques
+and let $E_0$ consist of the edges within the replicated copies of $Q$.
+Each vertex belongs to one clique factor and has degree in $(V(K_R(Q)),E_0)$
+at most $2d_\eta$. Thus $d_1=1$, and the biclique hypotheses are
+vacuous. The independent-set bounds in that lemma and the source
+promises give $\vc(Q)\le(3/2+3\eta)n$ in the YES case and
+$\vc(Q)\ge(2-2\eta)n$ in the NO case.
+The dense graph has order $3Rn$, YES width at most
+$R(3/2+3\eta)n+n-1$, and NO width at least $R(2-2\eta)n-1$.
+The leading YES and NO coefficients approach $3/2$ and $2$.
+Thus, for any fixed $r<4/3$, we have $2-r(3/2)>0$.
+Choose $\eta,\tau>0$ small and then $R$ large enough that
+$(2+3r)\eta+3\tau+r/R<2-3r/2$.
+The sparse NO width is at least $R(2-2\eta-3\tau)n-1$, and the
+sparse YES width is at most $R(3/2+3\eta)n+n-1$. Therefore
+\[
+ \begin{aligned}
+ &R\bigl(2-2\eta-3\tau-r(3/2+3\eta+1/R)\bigr)n+r-1\\
+ &=R\bigl(2-3r/2-(2+3r)\eta-3\tau-r/R\bigr)n+r-1>0.
+ \end{aligned}
+\]
+Thus the errors leave a positive separation for every target
+factor below $4/3$.
+
+\emph{SSE hardness.}
+Apply Lemma~\ref{lem:sse-unweighted-gap} with source parameter
+$\varepsilon=\eta$, and let $G^*$ be the resulting host, with $N$
+edges counted with multiplicity. Use $\mathcal L(G^*)$, of order $N$,
+with the clique factors of Lemma~\ref{lem:linegraph-factors}:
+$d_1=2$, $d_0=0$, and no biclique factors.
+
+The dense YES width is at most its height bound $4\eta N$.
+The NO separator bound $\beta N$, where
+$\beta=(c/2)\sqrt\eta\le1/4$, gives width at least $\beta N-1$
+by Lemma~\ref{lem:balanced-by-tw}. Choose $\eta$ with
+$\beta>8r\eta$ and then $0<\tau<\beta/2$. The sparse NO bound
+is at least $(\beta-\tau)N-1$, while the sparse YES bound is at most
+$4\eta N$. These choices are possible because
+$\beta/(4\eta)=c/(8\sqrt\eta)$ grows without bound as $\eta$
+decreases. Losing less than half the NO coefficient therefore
+leaves it larger than $r$ times the YES coefficient:
+$\beta-\tau-4r\eta>\beta/2-4r\eta>0$. Hence
+\[
+ (\beta-\tau)N-1-r(4\eta N)
+ =(\beta-\tau-4r\eta)N-1.
+\]
+To make the positive linear term exceed the remaining constant $1$,
+replace every host edge by the same fixed number of parallel copies.
+This multiplies $N$ and all cut sizes by that number, preserving
+the normalized source bounds and the factor hypotheses.
+\end{proof}
+
+\subsubsection{Total depth}
+\label{app:bounded-degree-total-depth}
+
+\begin{proof}[Proof of Corollary~\ref{cor:total-depth-bounded-degree}]
+Apply Theorem~\ref{thm:total-depth-sparsification}, with error
+parameter $\tau>0$.
+For an output of order $N$, sparsification preserves the YES
+total-depth bound and lowers the NO bound by at most $\tau N^2$.
+Completing a sparse elimination forest increases its total depth
+by at most the same amount.
+
+\emph{NP-hardness.}
+Let $\delta_0>0$ be the relative-loss hardness constant for
+Independent Set on simple cubic graphs~\cite{AlimontiKann2000}.
+Choose a fixed rational
+$0<\epsilon_0<\min\{1/200,\delta_0/184\}$ and an integer
+$\Lambda\ge64/\epsilon_0$. For a cubic source $J$ on $n\ge4$ vertices,
+put $H=H^{\Sigma}_{\Lambda n}(G(J))$. The six subgraphs used in sparsification
+are the three cliques on the parts of $G(J)$ and the three complete
+bipartite graphs joining each part $X\in\{A,B,C\}$ to $T_X$. The
+parts have sizes $2n,9n/2,9n/2$, and
+$|T_A|=|T_B|=|T_C|=\Lambda n$. A vertex
+of $G(J)$ belongs to its part clique and the corresponding complete
+bipartite graph. Each added vertex belongs only to that graph. Since
+$\Lambda\ge5$,
+the largest biclique side-size ratio is $\Lambda/2$.
+Set $E_0=E(G(J))$, so $(V(H),E_0)$ has maximum degree at most three.
+Thus the theorem applies
+with $d_1=2$, $\kappa=\Lambda/2$, and $d_0=3$.
+
+Write $N_G=|V(G(J))|=11n$ for the base graph order and
+$N_H=|V(H)|=N_G+3\Lambda n=(11+3\Lambda)n$ for the output graph order. The size condition of
+Lemma~\ref{lem:np-total-depth-extraction} follows from
+\[
+ \frac{N_G(N_G+1)}{2\Lambda n}=\frac{11n(11n+1)}{2\Lambda n}
+ =\frac{121n+11}{2\Lambda}
+ \leq\frac{495}{8\Lambda}n<\epsilon_0n.
+\]
+Here $n\ge4$ gives $11\le(11/4)n$, and
+$\Lambda\ge64/\epsilon_0$ gives
+$495/(8\Lambda)\le495\epsilon_0/512<\epsilon_0$.
+Also, Lemma~\ref{lem:np-total-depth-cubic} and $\alphaI(J)\le n$ give
+$W(G(J))=39n/2-\alphaI(J)+3\ge37n/2+3\ge n$. Hence
+$\totd(H)\ge\Lambda nW(G(J))\ge\Lambda n^2$, and
+$\Lambda n^2=\Lambda N_H^2/(11+3\Lambda)^2$ by the definition of $N_H$.
+Thus the optimum is bounded below by a fixed positive multiple of
+$N_H^2$. Making $\tau$ small enough therefore makes the additive
+completion error at most an $\epsilon_0$ fraction of the optimum.
+Choose $\tau\le\epsilon_0\Lambda/(11+3\Lambda)^2$. Then
+$\tau N_H^2\le\epsilon_0\Lambda n^2\le\epsilon_0\totd(H)$.
+Let $H'$ be the sparse spanning subgraph. Since every elimination
+forest of $H$ is also an elimination forest of $H'$, we have
+$\totd(H')\le\totd(H)$. A $(1+\epsilon_0)$-approximate elimination
+forest $F$ of $H'$ completes to an elimination forest $\widehat F$ of $H$, and
+\[
+\begin{aligned}
+ \totd(\widehat F)
+ &\leq\totd(F)+\tau N_H^2
+ \leq(1+\epsilon_0)\totd(H')+\tau N_H^2\\
+ &\leq(1+\epsilon_0)\totd(H)+\epsilon_0\totd(H)
+ =(1+2\epsilon_0)\totd(H).
+\end{aligned}
+\]
+Lemma~\ref{lem:np-total-depth-extraction} applies with error
+$2\epsilon_0$ and yields an independent set of $J$ of size
+at least $(1-184\epsilon_0)\alphaI(J)>(1-\delta_0)\alphaI(J)$,
+contradicting the cubic source hardness.
+
+\emph{UGC hardness.}
+Use Theorem~\ref{thm:bounded-degree-kr-source} and the graph
+$S_q(G)$. Its layer cliques are the only factors. Each vertex
+belongs to one. Let $E_0$ consist of its cross-layer edges, so its
+degree in $(V(S_q(G)),E_0)$ is at most
+$(q-1)d_\eta$. Hence $d_1=1$, with no biclique condition. For
+$r<8/7$, choose $q$ large and then $\eta$ small as in
+Theorem~\ref{thm:total-depth-ugc}. The ratio of its quadratic NO
+and YES coefficients approaches $8/7$, so these choices give
+$B^\Sigma_{q,\eta}>rA^\Sigma_{q,\eta}$. Its YES bound is
+$\totd(S_q(G))\le A^\Sigma_{q,\eta}n^2+qn/2$, and its NO bound is
+$\totd(S_q(G))\ge B^\Sigma_{q,\eta}n^2+qn/2$. The graph order
+is $qn$, so sparsification loses at most $\tau q^2n^2$.
+Choose $0<\tau<(B^\Sigma_{q,\eta}-rA^\Sigma_{q,\eta})/(2q^2)$.
+This uses less than half the separation between the quadratic
+coefficients.
+After sparsification, the NO lower bound is at least
+$B^\Sigma_{q,\eta}n^2+qn/2-\tau q^2n^2$, while the YES upper
+bound is at most $A^\Sigma_{q,\eta}n^2+qn/2$. Subtracting $r$ times
+the YES bound from the NO bound gives
+\[
+ \begin{aligned}
+ &\bigl(B^\Sigma_{q,\eta}-rA^\Sigma_{q,\eta}-\tau q^2\bigr)n^2
+ -(r-1)qn/2\\
+ &>\tfrac12\bigl(B^\Sigma_{q,\eta}-rA^\Sigma_{q,\eta}\bigr)n^2
+ -(r-1)qn/2.
+ \end{aligned}
+\]
+The positive quadratic term exceeds the linear term whenever
+$n>(r-1)q/(B^\Sigma_{q,\eta}-rA^\Sigma_{q,\eta})$. We can ensure
+this by taking a fixed number of disjoint copies of the source
+graph before constructing $S_q(G)$. This multiplies its order and
+independence number by the same integer and leaves its maximum
+degree unchanged. Thus every target factor below $8/7$ remains
+hard after sparsification.
+
+\emph{SSE hardness.}
+Apply Lemma~\ref{lem:sse-unweighted-gap} with source parameter
+$\varepsilon=\eta$, and let $G^*$ be the resulting host, with $N$
+edges counted with multiplicity. Use $\mathcal L(G^*)$, of order $N$,
+with the clique factors of Lemma~\ref{lem:linegraph-factors}:
+$d_1=2$, $d_0=0$, and no biclique factors. The dense YES height is at most
+$4\eta N$, so its total depth is at most $4\eta N^2$.
+For $\beta=(c/2)\sqrt\eta\le1/4$,
+Lemma~\ref{lem:linegraph-separators} at $\rho=1/2$ gives a NO
+balanced-separator lower bound $\beta N$. By
+Lemma~\ref{lem:balanced-by-td}, this implies
+$\totd(\mathcal L(G^*))\ge\beta N^2/2$.
+The ratio of these NO and YES coefficients is
+$\beta/(8\eta)=c/(16\sqrt\eta)$, which grows without bound as
+$\eta$ decreases. Given a fixed $r\ge1$, choose $\eta$ so that
+$\beta>16r\eta$,
+and then choose $0<\tau<\beta/4$. The sparse YES bound remains
+$4\eta N^2$, and its NO total depth is at least
+$(\beta/2-\tau)N^2>\beta N^2/4>4r\eta N^2$.
+Thus losing less than half the NO coefficient preserves a gap
+greater than $r$.
+
+\end{proof}
