@@ -484,19 +484,39 @@ The lower comparison follows from $J\subseteq H$.
 
 \subsection{Sparse replacements at arbitrary sizes}
 
-The comparison lemmas only require an edge between any two disjoint
-sets of $t_f$ vertices in a factor, or between sets of $t_f$ vertices
-on opposite sides of a biclique. An expander can force these edges
-while giving each vertex only a bounded number of neighbors. We
-introduce the required expansion and eigenvalue bounds, then use
-them to construct replacements on the prescribed vertex sets.
+The dense reductions use a clique to force its vertices onto one
+ancestor path in an elimination forest or into one bag of a tree decomposition.
+The completion lemmas recover this behavior, after deleting a few
+vertices, when a sparse replacement has no two large anticomplete sets.
+For bicliques, each surviving pair on opposite sides is
+comparable in the forest or occurs together in some bag.
+More specifically, a clique replacement need only join every two
+disjoint sets of $t_f$ vertices, and a biclique replacement need
+only join every pair of $t_f$-sets on opposite sides. Each factor
+then contributes at most a constant multiple of $t_f-1$ exceptional
+vertices. Our remaining task is to satisfy these conditions with
+bounded degree, while bounding $t_f-1$ by a small fixed fraction of
+the factor size. This makes the completion loss small enough to
+preserve the hardness gap.
+
+The idea is to distribute a few edges at each vertex so that two
+large sets cannot avoid each other. Expanders let us do this. We
+first use the expander mixing lemma to turn an eigenvalue bound
+into an edge between any two sufficiently large sets. We then join
+endpoints of fixed-length walks to lower the required set size.
+The degree increases, but remains bounded independently of the
+number of vertices. Finally, we map these graphs onto the prescribed
+clique supports and biclique sides. Lemma~\ref{lem:factor-expanders}
+collects the degree and no-hole bounds needed for the comparison
+lemmas.
 
 \subsubsection{Edge expansion and adjacency matrices}
 
-We use families of bounded-degree graphs in which every vertex set
-of size at most half the graph has a boundary proportional to its
-size. We first define this expansion property, then introduce the
-eigenvalue condition used to obtain our replacements.
+We begin with edge expansion, which requires a set to send many
+edges to its complement. For our replacements, we must also force
+an edge between two prescribed large sets, even when they do not
+cover the graph. An eigenvalue bound will control these edge counts
+through the mixing lemma.
 The definitions and standard spectral facts below follow
 \cite[Section~2]{HLW2006}.
 
@@ -533,8 +553,8 @@ work for every graph in the sequence.
 The boundary condition says that separating $S$ from its complement
 requires deleting at least $c|S|$ edge occurrences. Bounded degree
 keeps the total number of edges linear in the number of vertices.
-For our construction we use a spectral condition, which also bounds
-the number of edges between any two specified vertex sets.
+To bound the edges between two specified sets, we express their
+number using the adjacency matrix and then bound its eigenvalues.
 
 Now assume that $\mathcal E$ is $d$-regular. Its \emph{adjacency
 matrix} $A_{\mathcal E}$ has rows and columns
@@ -575,6 +595,12 @@ Moreover, multiplication by $A_{\mathcal E}$ preserves zero sums:
  \quad\text{if }\mathbf1^{\mathsf T}x=0.
 \]
 
+Subtracting the average coordinate from every coordinate of a
+vector produces a zero-sum vector. Thus zero-sum vectors describe
+deviations from a constant assignment. The eigenvalue bound below
+controls these deviations and will give the error bound in the
+mixing lemma.
+
 \begin{definition}[Spectral expanders]
 The graph $\mathcal E$ has \emph{nonconstant eigenvalue bound}
 $\lambda\ge0$ if all eigenvalues belonging to the zero-sum
@@ -598,8 +624,9 @@ under the preceding definition.
 
 \subsubsection{The mixing lemma and walk powers}
 
-If the $d|S|$ steps leaving $S$ had endpoints uniformly distributed
-over the $M$ vertices, then $d|S||T|/M$ would end in $T$.
+Our goal is to show that the edge count between two large sets is
+positive. If the $d|S|$ steps leaving $S$ had endpoints uniformly
+distributed over the $M$ vertices, then $d|S||T|/M$ would end in $T$.
 The expander mixing lemma bounds the difference between this
 quantity and the actual step count. We use its standard form,
 including when $S,T$ overlap.
@@ -624,9 +651,17 @@ main term exceed the error term. For nonempty $S,T$, the lemma gives
 \]
 Thus $e_{\mathcal E}(S,T)>0$ if
 $\sqrt{|S||T|}/M>\lambda/d$. In particular, sets of at least $t$
-vertices are joined whenever $t>(\lambda/d)M$. Reducing
-$\lambda/d$ therefore lets us enforce the no-hole condition at
-smaller thresholds. We do this by replacing steps with walks.
+vertices are joined whenever $t>(\lambda/d)M$. Thus $\lambda/d$
+determines the fraction of vertices above which holes are
+impossible. A smaller ratio gives a smaller threshold and hence a
+smaller completion loss.
+
+To reduce this ratio, we treat each fixed-length walk as a new
+step between its endpoints. A walk can reach beyond the immediate
+neighbors of its starting vertex, giving more possible endpoints
+in a second set. The calculations below show that this operation
+reduces the eigenvalue-to-degree ratio while keeping the degree
+bounded for any fixed walk length.
 
 For an integer $k\ge0$, a \emph{walk of length $k$} consists of vertices
 $x_0,x_1,\ldots,x_k$ and a chosen step from $x_{i-1}$ to $x_i$
@@ -665,7 +700,8 @@ When $\lambda/d<1$, a fixed sufficiently large $k$ makes this ratio
 smaller than any prescribed positive constant. The new degree
 $d^k$ still does not depend on the number of vertices.
 
-We use the following fixed family as the starting graph.
+We now choose a starting family whose degree and eigenvalue ratio
+are independent of the required factor size.
 Here $\mathbb Z_\nu$ is the set of residues modulo $\nu$, so
 $\mathbb Z_\nu^2$ is the set of $\nu^2$ ordered pairs of residues.
 
@@ -695,9 +731,14 @@ positive. Hence a step joins $S$ to $T$.
 
 \subsubsection{Mapping to the prescribed vertex sets}
 
-The auxiliary graph has a square number of vertices, whereas a
-factor can have any size. We map the auxiliary vertices onto the
-prescribed vertices and retain the images of its steps.
+We have obtained the desired no-hole condition on square numbers
+of vertices. A clique support can have any size, and a biclique
+requires two prescribed sides. We accommodate these sizes by
+grouping auxiliary vertices and assigning each group to one
+prescribed vertex. Each auxiliary step whose assigned vertices
+differ gives an edge between them. The size of a group controls
+the degree of its image vertex.
+
 For a map $\pi:V(\mathcal E)\to U$ and a subset $X\subseteq U$,
 the \emph{preimage} is
 $\pi^{-1}(X)=\{x\in V(\mathcal E):\pi(x)\in X\}$.
@@ -707,6 +748,13 @@ $M$ auxiliary vertices into $n$ groups of sizes
 $\lfloor M/n\rfloor$ or $\lceil M/n\rceil$ and assigning one group
 to each vertex of $U$. This gives
 $1\le|\pi^{-1}(\{u\})|\le\lceil M/n\rceil$ for every $u\in U$.
+
+These maps preserve the required edge condition. For disjoint
+output sets, a step between their preimages gives an output edge.
+Since an onto map gives every output vertex a preimage, the
+preimages have at least as many vertices as the output sets. The
+mixing bound therefore applies at the same threshold. For a
+biclique, we use a separate map for each side.
 
 Fix $k\ge1$ and use the following two constructions.
 \begin{enumerate}
@@ -732,6 +780,10 @@ Fix $k\ge1$ and use the following two constructions.
  There are no edges within either side. The two maps have the same
  domain, and their preimage groups may differ.
 \end{enumerate}
+
+The following lemma proves the degree and no-hole bounds. It also
+proves that each replacement is connected, so replacing the factors
+of a connected graph preserves connectedness.
 
 \begin{lemma}[Sparse replacements on prescribed vertex sets]
 \label{lem:factor-expanders}
@@ -789,8 +841,13 @@ $t>\lambda_0^kM$.
  two images lie in the disjoint sets $A,B$.
 \end{enumerate}
 
-For connectedness, we first justify two properties of the
-auxiliary graph $\mathcal E$. Its nonconstant eigenvalue bound is
+It remains to prove connectedness. In the one-set construction,
+an auxiliary walk maps to an output walk after consecutive
+repetitions are removed. In the bipartite construction, each step
+switches sides, so reaching both images of an auxiliary vertex
+requires walks of both parities. We obtain these walks by showing
+that $\mathcal E$ is connected and nonbipartite.
+Its nonconstant eigenvalue bound is
 $d\lambda_0^k<d$. If $\mathcal E$ were disconnected, let $S$ be a
 nonempty proper connected component. Regularity and the absence of
 steps crossing its boundary give
@@ -845,6 +902,16 @@ polynomial time, and its $k$th walk power has degree $8^k$.
 For fixed $k$, taking this power and mapping its steps to the
 prescribed sets therefore takes polynomial time.
 \end{proof}
+
+Since $M$ is at most four times the largest prescribed set size,
+the map groups have bounded size for clique supports and for
+bicliques with bounded side-size ratio. We can therefore choose a
+smaller no-hole threshold by fixing a larger walk length, with a
+degree bound independent of the factor size. This lets us make
+the completion losses small enough to preserve the hardness gaps
+in the sparsification theorems below. For the UGC constructions, we
+must also bound the degree of the retained edges $E_0$. The next
+subsection supplies the required independent-set source.
 
 \subsection{A bounded-degree independent-set source under UGC}
 \label{sec:bounded-degree-ugc-source}
