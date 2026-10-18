@@ -13,9 +13,9 @@ replacement graph $J$ from Section~\ref{sec:bounded-degree-hardness}.
 Fix constants $d_0\ge0$,
 $d_{\mathrm{fac}}\ge1$, and $\kappa\ge1$, and assume:
 \begin{enumerate}
-\item the retained graph $(V(H),E_0)$ has maximum degree at most $d_0$.
-\item each vertex belongs to at most $d_{\mathrm{fac}}$ factor supports $U_f$.
-\item every biclique factor has nonempty sides and satisfies
+\item\label{hyp:retained-degree} the retained graph $(V(H),E_0)$ has maximum degree at most $d_0$.
+\item\label{hyp:factor-incidence} each vertex belongs to at most $d_{\mathrm{fac}}$ factor supports $U_f$.
+\item\label{hyp:biclique-ratio} every biclique factor has nonempty sides and satisfies
 $\max\{|A_f|,|B_f|\}/\min\{|A_f|,|B_f|\}\le\kappa$.
 \end{enumerate}
 Counting incidences between vertices and factor supports gives
@@ -25,7 +25,10 @@ Counting incidences between vertices and factor supports gives
 
 \begin{lemma}[Common sparse factor replacements]
 \label{lem:factor-replacement}
-Under the factor hypotheses, fix $\zeta>0$ and set
+Let $H$ have the edge description~\eqref{eq:factor-edge-union},
+and let $d_0,d_{\mathrm{fac}},\kappa$ satisfy
+conditions~\ref{hyp:retained-degree}--\ref{hyp:biclique-ratio}.
+Fix $\zeta>0$ and set
 $t_f=\lceil\zeta|U_f|\rceil$ for every factor. There is a
 deterministic polynomial-time construction of a spanning subgraph
 $J\subseteq H$ that retains $E_0$, replaces each factor by a graph
@@ -90,7 +93,10 @@ $r\varphi(J)+\tau N^a\le r\varphi(H)+\tau N^a\le(r+\tau/c_{\min})\varphi(H)$.
 
 \begin{theorem}[Treedepth sparsification]
 \label{thm:td-sparsification}
-Under the factor hypotheses, for every fixed $\varepsilon>0$
+Let $H$ have the edge description~\eqref{eq:factor-edge-union},
+and let $d_0,d_{\mathrm{fac}},\kappa$ satisfy
+conditions~\ref{hyp:retained-degree}--\ref{hyp:biclique-ratio}.
+For every fixed $\varepsilon>0$
 one can construct deterministically in polynomial time a spanning
 subgraph $J\subseteq H$ whose maximum degree depends only on
 $d_0,d_{\mathrm{fac}},\kappa,\varepsilon$ and such that
@@ -117,7 +123,10 @@ Lemma~\ref{lem:factor-sparsification} now gives both conclusions.
 
 \begin{theorem}[Treewidth sparsification]
 \label{thm:tw-sparsification}
-Under the factor hypotheses, suppose additionally that each side
+Let $H$ have the edge description~\eqref{eq:factor-edge-union},
+and let $d_0,d_{\mathrm{fac}},\kappa$ satisfy
+conditions~\ref{hyp:retained-degree}--\ref{hyp:biclique-ratio}.
+Suppose additionally that each side
 of every biclique can be partitioned into at most $s$ sets, each
 contained in a supplied clique factor, where $s\ge1$ is fixed.
 For every fixed $\varepsilon>0$, one can construct deterministically
@@ -167,7 +176,10 @@ bound obtained from the original factors.
 \Needspace{9\baselineskip}
 \begin{theorem}[Total-depth sparsification]
 \label{thm:total-depth-sparsification}
-Under the factor hypotheses, for every fixed $\varepsilon>0$
+Let $H$ have the edge description~\eqref{eq:factor-edge-union},
+and let $d_0,d_{\mathrm{fac}},\kappa$ satisfy
+conditions~\ref{hyp:retained-degree}--\ref{hyp:biclique-ratio}.
+For every fixed $\varepsilon>0$
 one can construct deterministically in polynomial time a spanning
 subgraph $J\subseteq H$ whose maximum degree depends only on
 $d_0,d_{\mathrm{fac}},\kappa,\varepsilon$ and such that

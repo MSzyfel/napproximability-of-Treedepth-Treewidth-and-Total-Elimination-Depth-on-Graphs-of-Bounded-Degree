@@ -94,11 +94,12 @@ and the new vertices have depths $1,\ldots,d$. Thus
 Minimizing over $F$ gives the inequality.
 \end{proof}
 
-When we combine the child bounds, pairs of vertices in different
-children contribute cross terms $W_iW_j$. The following inequality
-bounds these terms and the individual squares $W_j^2$ by one fourth
-power. Cauchy--Schwarz will then bound this fourth power using the
-total number of layers and the sum of the child vertex-cover numbers.
+Induction gives a squared term involving each child's layer count
+and vertex-cover number. Combining the children also produces
+products of these quantities from different children. The following
+inequality bounds the squares and products together.
+Cauchy--Schwarz will then bound its right-hand side using the total
+number of layers and the sum of the child vertex-cover numbers.
 
 \begin{lemma}[Quadratic branching inequality]
 \label{lem:quadratic-branching}
@@ -123,8 +124,11 @@ $q\geq1$,
 \end{theorem}
 
 \begin{proof}
-We induct on $q$. The empty graph, $q=1$, and single-chain forests
-satisfy the bound immediately. Otherwise use the first-branch notation
+We induct on $q$. The empty graph satisfies the bound with both
+sides zero. If $q=1$, every elimination forest is a chain. More
+generally, a single-chain forest has total depth
+$qn(qn+1)/2\ge(3/7)q^2\vc(G)^2+qn/2$, since $\vc(G)\le n$ and
+$1/2\ge3/7$. Otherwise use the first-branch notation
 from Section~\ref{subsec:ugc-branch-notation}, and put
 $c=\vc(G)$, $c_j=\vc(G[U_j])$, $W_j=q_jc_j$, $L_j=q_jn_j$,
 $S=\sum_jW_j$, $A=q\alphaI(G)$, and $N=qn=qc+A$.
@@ -132,13 +136,42 @@ Lemmas~\ref{lem:ugc-layer-usage} and~\ref{lem:ugc-source-supports} give
 $\sum_jq_j\leq q$, $\sum_jc_j\leq c$, and $n_j\leq c_j+\alphaI(G)$;
 hence $S\leq qc$ and $\sum_jL_j\leq S+A$.
 
-Since $q_j<q$, induction and Lemma~\ref{lem:restore-total-depth} give
+To use induction in child $j$, restore its $M_j=L_j-N_j$ missing
+vertices above its roots. By Lemma~\ref{lem:restore-total-depth},
+the added cost is
+\[
+ M_jN_j+\frac{M_j(M_j+1)}2
+ =\frac{(N_j+M_j)(N_j+M_j+1)-N_j(N_j+1)}2
+ =\frac{L_j(L_j+1)-N_j(N_j+1)}2.
+\]
+The restored forest represents $S_{q_j}(G[U_j])$. Since $q_j<q$,
+induction bounds its total depth below by $3W_j^2/7+L_j/2$.
+Subtracting the restoration cost gives
 \begin{equation}\label{eq:total-depth-child-bound}
  \totd(F_j)\geq\frac37W_j^2+\frac{L_j}{2}
  -\frac{L_j(L_j+1)-N_j(N_j+1)}2
  =\frac{N_j^2+N_j-L_j^2}{2}+\frac37W_j^2.
 \end{equation}
-By Lemma~\ref{lem:ugc-total-depth-accounting} and $N_j\leq L_j$,
+We now add the prefix and child costs. The prefix and the
+triangular terms in~\eqref{eq:total-depth-child-bound} satisfy
+\[
+\begin{aligned}
+ &\frac{|P|(|P|+1)}2+|P|\sum_jN_j+\frac12\sum_j(N_j^2+N_j)\\
+ &\qquad=\frac{(|P|+\sum_jN_j)^2+|P|+\sum_jN_j}{2}
+             -\sum_{i<j}N_iN_j
+ =\frac{N^2+N}{2}-\sum_{i<j}N_iN_j.
+\end{aligned}
+\]
+Thus the triangular cost of one chain on all $N$ vertices loses
+one unit for each pair in different children. To bound this loss
+together with the terms $L_j^2/2$, use $N_j\le L_j$ and
+$\sum_jL_j\le S+A$:
+\[
+ \sum_{i<j}N_iN_j+\frac12\sum_jL_j^2
+ \le\sum_{i<j}L_iL_j+\frac12\sum_jL_j^2
+ =\frac12\Bigl(\sum_jL_j\Bigr)^2\le\frac{(S+A)^2}{2}.
+\]
+Lemma~\ref{lem:ugc-total-depth-accounting} therefore yields
 \begin{equation}\label{eq:total-depth-combined-children}
 \begin{aligned}
  \totd(F)&\geq\frac{N^2+N}{2}-\sum_{i<j}N_iN_j
@@ -146,17 +179,28 @@ By Lemma~\ref{lem:ugc-total-depth-accounting} and $N_j\leq L_j$,
  &\geq\frac{N^2+N}{2}-\frac{(S+A)^2}{2}+\frac37\sum_jW_j^2.
 \end{aligned}
 \end{equation}
-Lemma~\ref{lem:quadratic-branching} and Cauchy--Schwarz yield
+The terms involving only the $W_j$ can be grouped into the
+left-hand side of Lemma~\ref{lem:quadratic-branching}. Applying it,
+then Cauchy--Schwarz to $\sqrt{q_j},\sqrt{c_j}$, gives
 \[
+\begin{aligned}
  \frac{S^2}{2}-\frac37\sum_jW_j^2
- \leq\frac1{14}\left(\sum_j\sqrt{W_j}\right)^4
- \leq\frac1{14}\left(\sum_jq_j\right)^2\left(\sum_jc_j\right)^2
+ &=\frac1{14}\left(\sum_jW_j^2+14\sum_{i<j}W_iW_j\right)
+ \leq\frac1{14}\left(\sum_j\sqrt{W_j}\right)^4\\
+ &\leq\frac1{14}\left(\sum_jq_j\right)^2\left(\sum_jc_j\right)^2
  \leq\frac{q^2c^2}{14}.
+\end{aligned}
 \]
-Using $S\leq qc$ in~\eqref{eq:total-depth-combined-children}, we obtain
+Expand $(S+A)^2$ in~\eqref{eq:total-depth-combined-children}, apply
+this estimate, and use $AS\le Aqc$. Finally, substitute $N=qc+A$:
 \[
- \totd(F)\geq\frac{N^2+N}{2}-\frac{q^2c^2}{14}-Aqc-\frac{A^2}{2}
+\begin{aligned}
+ \totd(F)&\geq\frac{N^2+N}{2}
+ -\left(\frac{S^2}{2}-\frac37\sum_jW_j^2\right)-AS-\frac{A^2}{2}
+ \geq\frac{N^2+N}{2}-\frac{q^2c^2}{14}-Aqc-\frac{A^2}{2}\\
+ &=\frac{q^2c^2+2Aqc+A^2+N}{2}-\frac{q^2c^2}{14}-Aqc-\frac{A^2}{2}
  =\frac37q^2c^2+\frac N2.
+\end{aligned}
 \]
 \end{proof}
 

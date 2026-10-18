@@ -298,6 +298,23 @@ covers the completed edge.
 
 \subsubsection{Comparison bounds}
 
+\begin{definition}[Graphs and replacement conditions]
+\label{def:factor-comparison}
+Let $H$ be a finite simple graph whose edges are specified
+by~\eqref{eq:factor-edge-union}. For each
+$f\in\mathcal C\cup\mathcal B$, fix an integer $t_f\ge1$.
+Let $J\subseteq H$ be a spanning subgraph containing $E_0$ and
+satisfying the following conditions.
+\begin{enumerate}
+ \item For each $f\in\mathcal C$, every two disjoint sets
+   $X,Y\subseteq U_f$ with $|X|=|Y|=t_f$ have an edge of $J$
+   between them.
+ \item For each $f\in\mathcal B$, every $X\subseteq A_f$ and
+   $Y\subseteq B_f$ with $|X|=|Y|=t_f$ have an edge of $J$
+   between them.
+\end{enumerate}
+\end{definition}
+
 Each preceding completion lemma starts with a solution for $J$ and
 deletes a small set of vertices so that the same solution also covers
 the edges of one completed factor. To cover all edges of $H$, take
@@ -312,15 +329,17 @@ For treewidth, we complete the clique factors first, placing each
 surviving support in a bag. If every biclique side lies in a clique
 support, these bags provide the two bags required by the biclique
 completion lemma. Summing the deletion bounds gives
-\[
+\begin{equation}\label{eq:completion-deletion-bounds}
  \Delta_{\mathrm{td}}=2\sum_{f\in\mathcal C}(t_f-1)+4\sum_{f\in\mathcal B}(t_f-1),
  \qquad
  \Delta_{\mathrm{tw}}=3\sum_{f\in\mathcal C}(t_f-1)+2\sum_{f\in\mathcal B}(t_f-1).
-\]
+\end{equation}
 
 \begin{lemma}[Treedepth comparison]\label{lem:factor-sparsification}
-Under the factor setup above, suppose each replacement has no hole
-at its threshold $t_f$. Every elimination forest $F$ of $J$ can be
+Let $H,J$ and the thresholds $t_f$ satisfy
+Definition~\ref{def:factor-comparison}, and let $\Delta_{\mathrm{td}}$
+be defined by~\eqref{eq:completion-deletion-bounds}.
+Every elimination forest $F$ of $J$ can be
 completed to an elimination forest $\widehat F$ of $H$ with
 $h(\widehat F)\le h(F)+\Delta_{\mathrm{td}}$. In particular,
 $\td(J)\le\td(H)\le\td(J)+\Delta_{\mathrm{td}}$.
@@ -349,7 +368,10 @@ $J\subseteq H$.
 \Needspace{11\baselineskip}
 \begin{lemma}[Total-depth comparison]
 \label{lem:total-depth-comparison}
-Under the factor setup above, put $N=|V(H)|$. Every elimination
+Let $H,J$ and the thresholds $t_f$ satisfy
+Definition~\ref{def:factor-comparison}. Put $N=|V(H)|$, and let
+$\Delta_{\mathrm{td}}$ be defined by~\eqref{eq:completion-deletion-bounds}.
+Every elimination
 forest $F$ of $J$ can be completed to an elimination forest
 $\widehat F$ of $H$ with
 $\totd(\widehat F)\le\totd(F)+N\Delta_{\mathrm{td}}$.
@@ -378,9 +400,12 @@ comparison. The lower comparison follows from $J\subseteq H$.
 
 \begin{lemma}[Treewidth comparison]
 \label{lem:tw-factor-sparsification}
-Under the factor setup above, suppose each replacement has no hole at
-its threshold $t_f$, and each side of every biclique factor is
-contained in the support of some clique factor. Every tree
+Let $H,J$ and the thresholds $t_f$ satisfy
+Definition~\ref{def:factor-comparison}, and let $\Delta_{\mathrm{tw}}$
+be defined by~\eqref{eq:completion-deletion-bounds}. Suppose that for
+every $f\in\mathcal B$ there are $g,h\in\mathcal C$ with
+$A_f\subseteq U_g$ and $B_f\subseteq U_h$.
+Every tree
 decomposition of $J$ can be completed to one of $H$ whose width
 increases by at most $\Delta_{\mathrm{tw}}$. In particular,
 $\operatorname{tw}(J)\le\operatorname{tw}(H)
