@@ -192,14 +192,16 @@ same parameter bounds rather than stated as separate results.
 \paragraph{Treedepth and total depth under UGC.}
 We encode the Khot--Regev source~\cite{KhotRegev} in several clique
 layers: edges between layers record which source vertices are
-adjacent. In a YES instance, a small vertex cover can be placed on a
-common chain, while independent sets from different layers lie below
-separate branches. For the lower bound, follow the forest's initial
-chain to the first split into two or more child subtrees. Each child
-uses fewer layers, and source vertices represented in multiple
-children form an independent set. This limits the sum of the child
-cover numbers. Induction bounds the possible height savings at each
-split. For total depth, we also count how far each child is shifted
+adjacent. A YES independent set gives a shallow forest: put the copies
+of its complement, a small vertex cover, on a common chain, then put
+each layer's copies of the independent set on a separate lower chain.
+No edge joins two lower chains because the chosen source vertices are
+independent. For the lower bound, follow the forest's initial chain to
+the first split into two or more child subtrees. Each child uses fewer
+layers, and source vertices represented in multiple children form an
+independent set. This limits the sum of the child cover numbers.
+Induction bounds the possible height savings at each split. For total
+depth, we also count how far each child is shifted
 below the shared chain and account for copies omitted from it. A
 quadratic inequality bounds the total saving over all children.
 
