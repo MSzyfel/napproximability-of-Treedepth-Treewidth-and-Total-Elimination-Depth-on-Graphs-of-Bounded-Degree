@@ -272,10 +272,12 @@ replacements from expanders. The completion lemmas isolate an
 exception set for each dense piece. Restoring these vertices above the
 forest roots or in every tree-decomposition bag has small total cost
 because each vertex lies in only a bounded number of replaced pieces.
-For treewidth, one bag containing each completed clique part locates
-the sides of every replaced complete bipartite graph. For
-UGC, a bounded-degree independent-set source keeps the retained source
-edges from spoiling the output degree bound.
+For treewidth, each side of a replaced complete bipartite graph must
+be covered by a bounded number of sets inside completed cliques. The
+corresponding bags let the completion argument recover every cross
+edge after exceptions are removed. For UGC, a bounded-degree
+independent-set source keeps retained source edges from spoiling the
+output degree bound.
 
 OpenAI Codex assisted with exploratory proof development and
 derivation checks for the reductions and sparsification arguments.
