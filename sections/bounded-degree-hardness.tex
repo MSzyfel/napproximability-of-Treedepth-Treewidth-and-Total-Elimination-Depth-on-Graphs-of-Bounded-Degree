@@ -4,11 +4,13 @@
 \subsection{The degree-reduction approach}
 
 Let $H$ be one of the dense graphs constructed above, with
-$N=|V(H)|$. Its edge set is given by retained edges $E_0$, clique
-factors indexed by $f\in\mathcal C$, and biclique factors indexed by
-$f\in\mathcal B$. Each clique factor has a nonempty support $U_f$ and contributes
+$N=|V(H)|$. Its edge set consists of $E_0\subseteq\binom{V(H)}2$,
+which we keep during sparsification, and clique and biclique factors
+indexed by finite disjoint sets $\mathcal C$ and $\mathcal B$.
+Each clique factor $f\in\mathcal C$ has a nonempty support
+$U_f\subseteq V(H)$ and contributes
 all pairs in $\binom{U_f}{2}$. Each biclique factor has disjoint nonempty sides
-$A_f,B_f$, support $U_f=A_f\mathbin{\dot\cup}B_f$, and contributes
+$A_f,B_f\subseteq V(H)$, support $U_f=A_f\mathbin{\dot\cup}B_f$, and contributes
 all edges $uv$ with $u\in A_f$ and $v\in B_f$. Thus
 \begin{equation}\label{eq:factor-edge-union}
  E(H)=E_0\cup\bigcup_{f\in\mathcal C}\binom{U_f}{2}
@@ -117,7 +119,7 @@ have been introduced but not forgotten, so they lie on the current
 ancestor path. We traverse the rooted trees one after another, with
 this path empty between trees.
 
-At every point, no edge joins $L$ to $R$. Indeed, if $x\in L$ and
+At every point, no edge of $J$ joins $L$ to $R$. Indeed, if $x\in L$ and
 $y\in R$, then $y$ cannot be an ancestor of $x$, since ancestors are
 introduced first. Also, $x$ cannot be an ancestor of $y$, since the
 traversal finishes the subtree of $x$ before forgetting $x$. Thus
@@ -145,9 +147,9 @@ $B_u$ satisfies $|U\setminus B_u|\leq3(t-1)$.
 \end{lemma}
 
 \begin{proof}
-Let $T$ be the decomposition tree. For each graph vertex $v$, let
-$T_v$ be the nonempty connected subtree of nodes whose bags contain
-$v$.
+Let $(T,(B_u)_{u\in V(T)})$ be the supplied decomposition. For
+$v\in V(J)$, put $T_v=\{u\in V(T):v\in B_u\}$.
+Each $T_v$ is a nonempty connected set of tree nodes.
 If $|U|<t$, choose any node $u$ of $T$; then
 $|U\setminus B_u|\leq|U|\leq t-1\leq3(t-1)$. Otherwise consider an edge of the
 decomposition tree. Its deletion leaves two sides. Call a side
@@ -167,10 +169,10 @@ edge. Call such a node a \emph{sink}, and let
 $u$ be one.
 
 For each component $C$ of $T-u$, at most $t-1$ vertices $v\in U$
-have $T_v\subseteq C$. Otherwise, the edge from $u$ into $C$ would be
+have $T_v\subseteq V(C)$. Otherwise, the edge from $u$ into $C$ would be
 oriented away from the sink $u$. Let $W=U\setminus B_u$. Every
 vertex $v\in W$ has its entire subtree in one component of $T-u$;
-write $W_C=\{v\in W:T_v\subseteq C\}$. Thus $|W_C|\leq t-1$ for
+write $W_C=\{v\in W:T_v\subseteq V(C)\}$. Thus $|W_C|\leq t-1$ for
 each component $C$. If $t=1$, this gives $W=\varnothing$. For
 $t\geq2$, suppose $|W|\geq3t-2$. Select components one at a time
 until the sum of their $|W_C|$ first reaches $t$, and let $W_1$ be
@@ -213,8 +215,9 @@ $t_{\mathrm{out}}(v)$ be the introduction and forgetting times of
 $v$. The vertices in the subtree rooted at $v$ are visited during
 $[t_{\mathrm{in}}(v),t_{\mathrm{out}}(v)]$.
 Two vertices are incomparable if and only if these intervals
-are disjoint. Let $K$ be the bipartite graph on $A,B$ whose edges
-are the incomparable pairs. Partition its edges according to
+are disjoint. Define the bipartite graph $K$ by
+$E(K)=\{uv:u\in A,\ v\in B,\ u,v\text{ are incomparable in }F\}$.
+For each $uv\in E(K)$, take $u\in A$ and $v\in B$, and partition these edges according to
 $t_{\mathrm{out}}(u)<t_{\mathrm{in}}(v)$ or $t_{\mathrm{out}}(v)<t_{\mathrm{in}}(u)$.
 If $K$ has a matching of size at least $4t-3$, one type contains
 at least $2t-1$ matching edges. Consider first the type satisfying
@@ -235,7 +238,9 @@ roles of $A$ and $B$ and order by the forgetting times of the
 vertices in $B$; the same argument gives a contradiction.
 It follows that the maximum matching size of $K$ is at most $4t-4$.
 K\"onig's theorem supplies a vertex cover $D$ of $K$ of that size.
-All surviving cross-pairs are comparable.
+For $u\in A\setminus D$ and $v\in B\setminus D$, we have
+$uv\notin E(K)$ because $D$ covers $K$. By the definition of $K$,
+$u,v$ are comparable in $F$.
 \end{proof}
 
 For treewidth, we first complete the clique factors and use their
@@ -260,15 +265,15 @@ Suppose $A,B\subseteq V(J)$ are disjoint, $A\subseteq B_x$ and
 $B\subseteq B_y$ for some $x,y\in V(T)$, and the
 bipartite graph of $J$ between $A$ and $B$ has no $(t,t)$ hole.
 There is a set $D\subseteq A\cup B$ with $|D|\leq2(t-1)$ such that
-after deleting $D$ from every bag, each pair
-$u\in A\setminus D$, $v\in B\setminus D$ occurs together in a bag.
+for every $u\in A\setminus D$ and $v\in B\setminus D$, some
+$z\in V(T)$ satisfies $\{u,v\}\subseteq B_z\setminus D$.
 \end{lemma}
 
 \begin{proof}
-For each vertex $v$, let $T_v$ be the subtree of decomposition
-nodes whose bags contain $v$.
-If $x=y$, no deletion is needed. Otherwise let $P$ be their
-connecting path. For $u\in A$, the intersection $T_u\cap P$
+For each $v\in V(J)$, put $T_v=\{z\in V(T):v\in B_z\}$.
+If $x=y$, take $D=\varnothing$. Otherwise let $P$ be the vertex
+set of the path from $x$ to $y$, ordered from $x$ toward $y$.
+For $u\in A$, the intersection $T_u\cap P$
 is a nonempty prefix of $P$, starting at $x$. For $v\in B$,
 $T_v\cap P$ is a suffix ending at $y$.
 The subtrees $T_u,T_v$ intersect if and only if these path
@@ -276,10 +281,10 @@ intervals intersect. For the nontrivial direction, if both
 contain some node $z$, they both contain the median of $x,y,z$,
 which lies on $P$.
 
-Let $K$ be the bipartite graph on $A,B$ in which $uv$ is an edge
-if and only if $T_u$ and $T_v$ are disjoint.
+Define the bipartite graph $K$ by
+$E(K)=\{uv:u\in A,\ v\in B,\ T_u\cap T_v=\varnothing\}$.
 If it has a matching of size $m_0\ge2t-1$, write its edges
-$u_iv_i$ and order them so that the endpoint of the prefix
+$u_iv_i$, with $u_i\in A$ and $v_i\in B$, and order them so that the endpoint of the prefix
 $T_{u_i}\cap P$ is nondecreasing in $i$. The endpoint of each
 $u_i$-prefix precedes the start of its matched $v_i$-suffix, since
 the two subtrees are disjoint and the prefix starts at $x$ while the
@@ -294,11 +299,11 @@ its endpoints to occur together in a bag, so $X,Y$ are anticomplete,
 contrary to the hypothesis. Therefore the maximum matching size of
 $K$ is at most $2t-2$.
 
-K\"onig's theorem gives a vertex cover of $K$ of size at most
-$2t-2$. Delete these vertices. Every surviving cross-pair is not an
-edge of $K$, so its two bag subtrees intersect. A node in their
-intersection has a bag containing both endpoints, and therefore
-covers the completed edge.
+K\"onig's theorem gives a vertex cover $D$ of $K$ with
+$|D|\le2t-2$. If $u\in A\setminus D$ and $v\in B\setminus D$,
+then $uv\notin E(K)$, so $T_u\cap T_v\ne\varnothing$.
+Choose $z\in T_u\cap T_v$. Then $\{u,v\}\subseteq B_z\setminus D$,
+as required.
 \end{proof}
 
 \subsubsection{Comparison bounds}
@@ -308,8 +313,8 @@ covers the completed edge.
 Let $H$ be a finite simple graph whose edges are specified
 by~\eqref{eq:factor-edge-union}. For each
 $f\in\mathcal C\cup\mathcal B$, fix an integer $t_f\ge1$.
-Let $J\subseteq H$ be a spanning subgraph containing $E_0$ and
-satisfying the following conditions.
+Let $J\subseteq H$ be a spanning subgraph with $E_0\subseteq E(J)$.
+Assume the following conditions.
 \begin{enumerate}
  \item For each $f\in\mathcal C$, every two disjoint sets
    $X,Y\subseteq U_f$ with $|X|=|Y|=t_f$ have an edge of $J$
@@ -330,9 +335,11 @@ $D$ to every bag of a tree decomposition. Thus the number of deleted
 vertices controls the increase in height or width. For total depth,
 each restored vertex increases the cost by at most $N=|V(H)|$.
 
-For treewidth, we complete the clique factors first, placing each
-surviving support in a bag. If every biclique side lies in a clique
-support, these bags provide the two bags required by the biclique
+For treewidth, we first choose a deletion set $D_{\mathcal C}$
+for the clique factors, so each $U_f\setminus D_{\mathcal C}$ lies
+in a bag. If every biclique side lies in a clique support, these
+bags contain $A_f\setminus D_{\mathcal C}$ and
+$B_f\setminus D_{\mathcal C}$, as required by the biclique
 completion lemma. Summing the deletion bounds gives
 \begin{equation}\label{eq:completion-deletion-bounds}
  \Delta_{\mathrm{td}}=2\sum_{f\in\mathcal C}(t_f-1)+4\sum_{f\in\mathcal B}(t_f-1),
@@ -351,18 +358,27 @@ $\td(J)\le\td(H)\le\td(J)+\Delta_{\mathrm{td}}$.
 \end{lemma}
 
 \begin{proof}
-Fix any elimination forest $F$ of $J$.
-For each clique factor delete the vertices
-outside the path given by Lemma~\ref{lem:sparse-clique-completion}.
-For each biclique factor use the deletion set in
-Lemma~\ref{lem:sparse-biclique-completion}. Let $D$ be their union.
-Each vertex of this union is counted at least once in the sum
-defining $\Delta_{\mathrm{td}}$, so $|D|\le\Delta_{\mathrm{td}}$.
-In the restriction of $F$ to $V(H)\setminus D$,
-every surviving edge of every completed factor has comparable
-endpoints. Every retained edge also has comparable endpoints.
-Thus the restriction is an elimination forest of $H-D$, and its
-height is at most $h(F)$. By Lemma~\ref{lem:restore-vertices},
+Fix an elimination forest $F$ of $J$. For each $f\in\mathcal C$,
+choose the path $P_f$ from Lemma~\ref{lem:sparse-clique-completion}
+and put $D_f=U_f\setminus V(P_f)$, so $|D_f|\le2(t_f-1)$.
+For each $f\in\mathcal B$, let $D_f\subseteq A_f\cup B_f$ be
+the set from Lemma~\ref{lem:sparse-biclique-completion}, with
+$|D_f|\le4(t_f-1)$. Set
+$D=\bigcup_{f\in\mathcal C\cup\mathcal B}D_f$.
+Thus $|D|\le\sum_f|D_f|\le\Delta_{\mathrm{td}}$.
+
+Let $F'$ be the restriction of $F$ to $V(H)\setminus D$.
+For $f\in\mathcal C$, the set
+$U_f\setminus D\subseteq U_f\setminus D_f$ lies on $P_f$,
+so every pair in $\binom{U_f\setminus D}{2}$ is comparable in $F'$.
+For $f\in\mathcal B$, every pair in
+$(A_f\setminus D)\times(B_f\setminus D)$ is comparable in $F'$ by the
+choice of $D_f$. Finally, if
+$uv\in E_0\cap\binom{V(H)\setminus D}{2}$, then $uv\in E(J)$,
+so $u,v$ are comparable in $F$ and remain comparable in $F'$.
+By~\eqref{eq:factor-edge-union}, these three cases cover every
+edge of $H-D$. Thus $F'$ is an elimination forest of $H-D$ with
+$h(F')\le h(F)$. By Lemma~\ref{lem:restore-vertices},
 restoring $D$ gives an elimination forest $\widehat F$ of $H$ with
 $h(\widehat F)\le h(F)+|D|\le h(F)+\Delta_{\mathrm{td}}$.
 Choosing $F$ of minimum height proves
@@ -390,8 +406,9 @@ this forest, so $|D|\le\Delta_{\mathrm{td}}$. That proof shows that the
 restriction $F'$ of $F$ to $V(H)\setminus D$ is an elimination
 forest of $H-D$.
 
-Deleting vertices and restricting the forest can only decrease the
-depth of a surviving vertex, so $\totd(F')\le\totd(F)$. Restore
+For each $v\in V(H)\setminus D$, restriction gives
+$\operatorname{depth}_{F'}(v)\le\operatorname{depth}_F(v)$.
+Summing over $V(H)\setminus D$ gives $\totd(F')\le\totd(F)$. Restore
 the vertices of $D$ as in Lemma~\ref{lem:restore-vertices}, placing
 them one at a time above all existing roots. Each restoration
 increases the depths of the existing vertices by one and gives
@@ -418,27 +435,50 @@ $\operatorname{tw}(J)\le\operatorname{tw}(H)
 \end{lemma}
 
 \begin{proof}
-Fix any tree decomposition of $J$. For each clique
-factor apply Lemma~\ref{lem:tw-clique-completion}, and delete
-the exceptions outside its chosen bag. In the restricted
-decomposition each surviving set $U_f$ is contained in
-its chosen bag, so its clique can be completed.
+Fix a tree decomposition $(T,(B_u)_{u\in V(T)})$ of $J$.
+For each $f\in\mathcal C$, choose $u_f$ by
+Lemma~\ref{lem:tw-clique-completion} and put
+$D_f=U_f\setminus B_{u_f}$, so $|D_f|\le3(t_f-1)$.
+Set $D_{\mathcal C}=\bigcup_{f\in\mathcal C}D_f$ and restrict
+the bags to $B_u\setminus D_{\mathcal C}$.
+Then $U_f\setminus D_{\mathcal C}\subseteq
+B_{u_f}\setminus D_{\mathcal C}$ for each $f\in\mathcal C$.
 
-Each surviving biclique factor still has no $(t_f,t_f)$ hole,
-and its sides are contained in the chosen bags of their containing
-clique factors.
-Apply Lemma~\ref{lem:tw-biclique-completion} to choose at most
-$2(t_f-1)$ further exceptions for each factor. Let $D$ be the
-union of all exception sets.
-The restricted bags still cover each edge whose endpoints survive:
-deleting other exceptional vertices removes neither endpoint from
-those bags nor the bag intersection that covers the edge. Thus the
-restricted decomposition covers every edge of $H-D$, including all
-completed factors and all retained edges.
-Add every vertex of $D$ to every bag. The resulting bags form a
-decomposition of $H$: every edge with an endpoint in $D$ is covered,
-and the bags containing each vertex remain connected. Its width exceeds
-that of the supplied decomposition by at most $|D|\le\Delta_{\mathrm{tw}}$.
+For $f\in\mathcal B$, choose $g,h\in\mathcal C$ with
+$A_f\subseteq U_g$ and $B_f\subseteq U_h$.
+The restricted sides $A_f\setminus D_{\mathcal C}$ and
+$B_f\setminus D_{\mathcal C}$ lie in
+$B_{u_g}\setminus D_{\mathcal C}$ and
+$B_{u_h}\setminus D_{\mathcal C}$, respectively. They still
+satisfy the no-hole condition at threshold $t_f$, since any
+$t_f$-subsets of them were also subsets of the original sides.
+Lemma~\ref{lem:tw-biclique-completion} therefore gives
+$D_f\subseteq(A_f\cup B_f)\setminus D_{\mathcal C}$ with
+$|D_f|\le2(t_f-1)$.
+Put $D=D_{\mathcal C}\cup\bigcup_{f\in\mathcal B}D_f$.
+Then $|D|\le\sum_f|D_f|\le\Delta_{\mathrm{tw}}$.
+
+For $f\in\mathcal C$, we have
+$U_f\setminus D\subseteq B_{u_f}\setminus D$, so this bag covers
+$\binom{U_f\setminus D}{2}$.
+For $f\in\mathcal B$ and $x\in A_f\setminus D$,
+$y\in B_f\setminus D$, the choice of $D_f$ gives a node $u\in V(T)$
+with $\{x,y\}\subseteq B_u\setminus D$.
+If $xy\in E_0\cap\binom{V(H)\setminus D}{2}$,
+an original bag covering $xy\in E(J)$ still contains both endpoints
+after restriction. Equation~\eqref{eq:factor-edge-union} now shows
+that $(T,(B_u\setminus D)_{u\in V(T)})$ covers every edge of $H-D$.
+Each vertex outside $D$ occurs at the same nodes as before, so its
+bag occurrences remain nonempty and connected.
+
+Define $\widehat B_u=(B_u\setminus D)\cup D$ for every $u\in V(T)$.
+Every vertex of $D$ now occurs in every bag. The edges of $H-D$
+remain covered. If $xy\in E(H)$ with $x,y\in D$, every bag contains
+both endpoints. If $x\in D$ and $y\notin D$, any bag containing
+$y$ also contains $x$.
+Thus $(T,(\widehat B_u)_{u\in V(T)})$ is a decomposition of $H$.
+Since $|\widehat B_u|\le|B_u|+|D|$ for every $u$, its width
+increases by at most $|D|\le\Delta_{\mathrm{tw}}$.
 Choosing a minimum-width decomposition proves the upper comparison.
 The lower comparison follows from $J\subseteq H$.
 \end{proof}
@@ -671,7 +711,7 @@ $1\le|\pi^{-1}(\{u\})|\le\lceil M/n\rceil$ for every $u\in U$.
 
 Fix $k\ge1$ and use the following two constructions.
 \begin{enumerate}
- \item \emph{One prescribed set.}
+ \item\label{constr:one-set-replacement} \emph{One prescribed set.}
  Let $U$ have size $n\ge1$, put $M=\lceil\sqrt n\rceil^2$, and
  take the $M$-vertex graph $\mathcal E$ above. Choose an onto map
  $\pi:V(\mathcal E)\to U$ with the group sizes just specified.
@@ -679,7 +719,7 @@ Fix $k\ge1$ and use the following two constructions.
  are adjacent if and only if some step $xy$ of $\mathcal E$ has
  $\pi(x)=u$ and $\pi(y)=v$. Steps whose endpoints have the same
  image give no edge, and repeated images give a single edge.
- \item \emph{Two prescribed sides.}
+ \item\label{constr:two-side-replacement} \emph{Two prescribed sides.}
  Let $A,B$ be disjoint sets of sizes $n_A,n_B\ge1$, put
  $M=\lceil\sqrt{\max\{n_A,n_B\}}\rceil^2$, and take the
  $M$-vertex graph $\mathcal E$ above. Choose onto maps
@@ -696,9 +736,12 @@ Fix $k\ge1$ and use the following two constructions.
 
 \begin{lemma}[Sparse replacements on prescribed vertex sets]
 \label{lem:factor-expanders}
-For each fixed $k\ge1$, both constructions give connected simple
-graphs in deterministic polynomial time.
-The one-set replacement has maximum degree at most
+Fix an integer $k\ge1$. The graphs on $U$ and
+$A\mathbin{\dot\cup}B$ in constructions~\ref{constr:one-set-replacement}
+and~\ref{constr:two-side-replacement}, with the sizes $M,n,n_A,n_B$
+specified there, are connected and simple and are constructible in
+deterministic polynomial time.
+The graph on $U$ has maximum degree at most
 $8^k\lceil M/n\rceil$, and the bipartite replacement has maximum
 degree at most
 $8^k\max\{\lceil M/n_A\rceil,\lceil M/n_B\rceil\}$.
@@ -882,14 +925,14 @@ padding makes the total loop weight arbitrarily small.
 
 \begin{lemma}[Removing loops by alphabet padding]\label{lem:aks-loop-removal}
 For every fixed $\varepsilon_{\mathrm{loop}}>0$, a fixed alphabet padding followed by the
-AKS construction and deletion of all loops gives a graph $G^-$
+AKS construction and deletion of all loops gives a loopless graph $G^-$
 with vertex weights $a_v$ of total one, total edge weight at most
 one, and weighted degrees at most $2a_v$.
 Its YES independent-set weight is at least $p-\gamma$, and in the
 NO case
 \begin{equation}\label{eq:aks-loop-free-density}
  e_{G^-}(S)\ge\Gamma_\xi(a(S))-\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}
- \qquad\text{for every }S.
+ \qquad(S\subseteq V(G^-)).
 \end{equation}
 The reduction is deterministic and polynomial for fixed parameters.
 \end{lemma}
@@ -962,7 +1005,8 @@ The YES independent set becomes one of the same normalized size by
 selecting all its clone blocks.
 
 \begin{lemma}[Density after vertex unweighting]\label{lem:aks-clone-density}
-In the NO case, every $S'\subseteq V(G_1)$ satisfies
+If $G^-$ satisfies~\eqref{eq:aks-loop-free-density}, then its
+clone graph $G_1$ satisfies, for every $S'\subseteq V(G_1)$,
 \begin{equation}\label{eq:aks-clone-density}
  e_{G_1}(S')\ge\Gamma_\xi(|S'|/N_{\mathrm{cl}})
  -\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}.
@@ -1032,12 +1076,12 @@ once to both the volume and the cut.
 
 \begin{lemma}\label{lem:deterministic-density-sparsification}
 Fix positive constants $C_0,\zeta,\eta$. Let $G$ be a loopless
-$N$-vertex edge-weighted graph of total edge weight at most one
+edge-weighted graph on $N\ge1$ vertices of total edge weight at most one
 and weighted degree at most $C_0/N$ at every vertex. Suppose that
 every set of at least $\eta N$ vertices has internal edge weight
 at least $\zeta$. There is a deterministic polynomial-time
-construction of a simple unweighted graph $J$ on $V(G)$, using only
-edges of $G$, whose
+construction of a simple unweighted graph $J$ with
+$V(J)=V(G)$ and $E(J)\subseteq E(G)$, whose
 maximum degree is bounded by a constant depending only on
 $C_0,\zeta$, and whose independent sets all have size less than
 $\eta N$.
@@ -1078,16 +1122,22 @@ $7\theta/2\le\zeta/4$. Therefore, whenever $|S|\ge\eta N$,
  e_{G'}(S)&\ge e_G(S)-\tfrac{7\theta}{2}w(\cut_G(S))
  \ge\zeta-\tfrac{7\theta}{2}\ge3\zeta/4.
 \end{align*}
-Discard each edge of $G'$ whose weight is less than
-$\zeta/(4dN)$, and let $J$ be the simple unweighted graph formed by
-the remaining edges. There are at most $dN$ edges, so the total
-discarded weight is at most $\zeta/4$. Every set of at least
-$\eta N$ vertices retains internal edge weight at least
-$3\zeta/4-\zeta/4=\zeta/2>0$, and therefore contains an edge of $J$.
+Write $w'_e$ for the weight of $e\in E(G')$. Define the unweighted
+graph $J$ by $V(J)=V(G)$ and
+$E(J)=\{e\in E(G'):w'_e\ge\zeta/(4dN)\}$.
+The edges in $E(G')\setminus E(J)$ have total weight at most
+$|E(G')|\zeta/(4dN)\le\zeta/4$.
+Thus every $S\subseteq V(G)$ with $|S|\ge\eta N$ satisfies
+\[
+ \sum_{\substack{e\in E(J)\\e\subseteq S}}w'_e
+ \ge e_{G'}(S)-\sum_{e\in E(G')\setminus E(J)}w'_e
+ \ge\frac{3\zeta}{4}-\frac\zeta4=\frac\zeta2>0.
+\]
+Consequently $J[S]$ contains an edge.
 Thus every independent set of $J$ has size less than $\eta N$.
 
-Every retained edge incident with $v$ has weight at least
-$\zeta/(4dN)$. Hence
+For $v\in V(J)$, every $e\in E(J)$ incident with $v$ has
+$w'_e\ge\zeta/(4dN)$. Hence
 \[
  \deg_J(v)\le\frac{4dN}{\zeta}\deg_{G'}(v)
  \le\frac{4(1+7\theta)C_0d}{\zeta},
