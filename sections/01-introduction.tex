@@ -195,45 +195,42 @@ same parameter bounds rather than stated as separate results.
 \subsection{Proof overview}
 
 \paragraph{Treedepth and total depth under UGC.}
-We encode the Khot--Regev source~\cite{KhotRegev} in several clique
-layers: edges between layers record which source vertices are
-adjacent. A YES independent set gives a shallow forest: put the copies
-of its complement, a small vertex cover, on a common chain, then put
-each layer's copies of the independent set on a separate lower chain.
-No edge joins two lower chains because the chosen source vertices are
-independent. For the lower bound, follow the forest's initial chain to
-the first split into two or more child subtrees. Each child uses fewer
-layers, and source vertices represented in multiple children form an
-independent set. This limits the sum of the child cover numbers.
-Induction bounds the possible height savings at each split. For total
-depth, we also count how far each child is shifted
-below the shared chain and account for copies omitted from it. A
-quadratic inequality bounds the total saving over all children.
+We encode the Khot--Regev source~\cite{KhotRegev} in clique layers,
+with cross-layer edges recording source adjacencies. In YES, put
+copies of the complement of a large independent set (a small vertex
+cover) on one chain, then the independent-set copies from each layer
+on a separate lower chain. No edge joins these lower chains. For
+soundness, follow the forest to its first split.
+Each child uses fewer layers, and source vertices represented in
+multiple children form an independent set, bounding the sum of child
+cover numbers. Induction limits the height saved at each split. For
+total depth, we also charge each child's shift below the shared chain
+and its missing copies; a quadratic inequality bounds the combined
+saving.
 
 \paragraph{Treewidth under UGC.}
-A product of Khot--Regev instances gives a tripartite graph with three
-equal-sized parts and a balanced vertex-cover gap. We replicate this
-graph and complete each part to a clique. Bonnet's central-bag
-argument~\cite[Lemma~6]{BonnetTreewidth} forces one bag to meet every
-edge in every source copy, so it contains a vertex cover. In the YES
-case, a small cover forms the central bag, and one path per part
-processes the copies one at a time. This adds at most one part's size
-to the replicated cover term. Replication multiplies the cover gap by
-the number of copies but leaves this one-copy overhead unchanged.
+Taking a product of Khot--Regev instances gives an equal-part
+tripartite graph with a balanced vertex-cover gap. We replicate it and
+complete each part to a clique. Bonnet's central-bag
+argument~\cite[Lemma~6]{BonnetTreewidth} forces a bag to contain a
+vertex cover in every source copy. In YES, a small cover forms the
+central bag, and one path per part processes the copies one at a time.
+This adds at most one part's size to the replicated cover term.
+Replication multiplies the cover gap but leaves this one-copy overhead
+unchanged.
 
 \paragraph{Treedepth under SSEH.}
-For the Raghavendra--Steurer--Tulsiani source~\cite{RST}, YES
-instances partition into equal-volume classes with few crossing
-edges. Volume is the sum of degrees. In NO, every set with between
-$10\%$ and $90\%$ of total volume has many boundary edges. Its line
-graph has one vertex per source edge, adjacent when edges share an
+The Raghavendra--Steurer--Tulsiani source~\cite{RST} has a YES
+partition into equal-volume classes with few crossing edges and a NO
+condition that every set containing between $10\%$ and $90\%$ of the
+total volume has many boundary edges. Volume is total degree. In its
+line graph, vertices are source edges, and adjacency means sharing an
 endpoint. The YES crossing edges form a short chain above one chain per
-class. A NO balanced separator splits surviving edges into two large
-collections with disjoint endpoints. The endpoints of one
-collection give a balanced cut. Every edge crossing this cut lies in
-the separator.
-The NO expansion bound forces a large separator, giving
-lower bounds on treedepth and total depth.
+class. In NO, a balanced separator splits surviving edges into two
+large collections with disjoint endpoints. The endpoints of one
+collection give a balanced source cut, all of whose crossing edges lie
+in the separator. The NO expansion condition forces this separator to
+be large, giving lower bounds on treedepth and total depth.
 
 \paragraph{Treedepth under $\PP\ne\NP$.}
 We refine the truth-block and anchor construction
