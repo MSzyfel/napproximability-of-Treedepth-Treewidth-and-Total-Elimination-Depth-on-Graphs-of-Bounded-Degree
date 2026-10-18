@@ -1,19 +1,75 @@
 \Needspace{10\baselineskip}
 \subsection{Hardness consequences}
+\label{subsec:bounded-degree-consequences}
 
-The dense reductions give YES and NO bounds on the same scale:
-linear in the output order $N$ for treedepth and treewidth, and
-quadratic in $N$ for total depth. The sparsification theorems above
-preserve the YES bounds and decrease the NO bounds by at most
-$\tau N$ or $\tau N^2$, respectively. After division by the
-corresponding scale, the loss is at most $\tau$ and can be made
-arbitrarily small. Lemma~\ref{lem:gap-preservation} therefore
-preserves every factor below the dense hardness threshold, after
-choosing $\tau$ sufficiently small and the source sufficiently large.
-The resulting maximum degree is constant for this choice of
-parameters. This standard argument gives the following three
-corollaries. The factor checks and detailed calculations are in
-Appendix~\ref{app:bounded-degree-hardness}.
+The dense bounds are linear in the output order $N$ for treedepth
+and treewidth, and quadratic in $N$ for total depth. Sparsification
+loses at most $\tau N$ or $\tau N^2$, respectively.
+Lemma~\ref{lem:gap-preservation} preserves every factor below the
+dense hardness threshold when $\tau$ is sufficiently small.
+We verify the factor conditions using the following two observations.
+
+For every variable $x$ of $F$ and $a\in\{0,1\}$, let
+$W_x^a\subseteq V(G_F)$ consist of the witnesses for equations
+containing $x$ whose represented assignments set $x=a$.
+
+\begin{lemma}[Local factors of the parity graph]\label{lem:parity-local-factors}
+The edges of $G_F$ are the union of its witness-star edges and the
+bicliques $T_x^0\times T_x^1$, $T_x^0\times W_x^1$, and
+$T_x^1\times W_x^0$ over all variables $x$.
+The star edges have maximum degree three, every vertex belongs to
+at most three local factors, and their side-size ratios are at
+most $12/5$. Moreover, $W_x^0\subseteq A\cup C$ and
+$W_x^1\subseteq B\cup C$ for every variable $x$.
+\end{lemma}
+
+\begin{proof}
+These are the truth-block and inconsistency edges in the
+construction. A truth vertex belongs to two local bicliques. A
+witness belongs to one per variable of its equation, hence three.
+The sizes $|T_x^a|=5d_x/6$ and $|W_x^a|=2d_x$ give the ratio
+$12/5$. A witness setting $x=0$ lies in $A\cup C$, and one
+setting $x=1$ lies in $B\cup C$, by the placement of the special
+witnesses.
+\end{proof}
+
+\begin{lemma}[Clique factors of a line graph]\label{lem:linegraph-factors}
+Let $G$ be an unweighted host multigraph. Identify each edge
+occurrence $e\in E(G)$ with its vertex in $\mathcal L(G)$, and put
+$U_v=\{e\in E(G):v\text{ is an endpoint of }e\}$ for $v\in V(G)$.
+The nonempty sets
+$U_v$ give clique factors for $\mathcal L(G)$, and each line-graph
+vertex belongs to at most two factors.
+\end{lemma}
+
+\begin{proof}
+Two line-graph vertices are adjacent if and only if their host edges
+share an endpoint, so
+$E(\mathcal L(G))=\bigcup_v\binom{U_v}{2}$.
+An edge has at most two endpoints. A loop contributes one vertex
+to the factor at its endpoint.
+\end{proof}
+
+For each promise transfer, fix a target factor and a larger dense
+hardness factor, then choose $\tau$. We may require arbitrarily
+large sources: disjoint copies preserve the satisfiable fraction
+of a parity system and the independence fraction and maximum degree
+of an independent-set source. A relative independent-set
+approximation on the copies transfers to the original by choosing
+the copy with the largest selected set. For SSE, parallel copies
+of every host edge preserve normalized volumes and cuts and
+multiply the line-graph order.
+
+In all SSE cases, use Lemma~\ref{lem:sse-unweighted-gap} with source
+parameter $\eta$ and $q=\lceil2/\eta\rceil$, as in
+Theorem~\ref{thm:sse-hardness}. Write $N=|E(G^*)|$, counting
+multiplicity, and $\beta=(c/2)\sqrt\eta\le1/4$.
+The line graph has YES height bound $4\eta N$ and NO balanced-separator
+bound $\beta N$, the latter by
+Lemma~\ref{lem:linegraph-separators} with $\rho=1/2$.
+Lemma~\ref{lem:linegraph-factors} gives $d_1=2$, $d_0=0$, and no
+biclique factors. Since $\beta/\eta$ grows without bound as $\eta$
+decreases, any fixed target gap can be obtained before sparsification.
 
 \Needspace{7\baselineskip}
 \begin{corollary}[Bounded-degree treedepth hardness]
@@ -28,6 +84,39 @@ SSE-hard for every fixed $r$.
 The degree bound depends only on the excluded factor. All reductions
 are deterministic.
 \end{corollary}
+
+\begin{proof}
+Apply Theorem~\ref{thm:td-sparsification} and
+Lemma~\ref{lem:gap-preservation} in each case.
+
+\emph{NP-hardness.}
+Use the factors of Lemma~\ref{lem:parity-local-factors}, the three
+anchor cliques, and, after omitting $z_A,z_B,z_C$, the three
+anchor--part bicliques. Retain the witness-star edges.
+Each source vertex belongs to at most three local factors and one
+anchor--part biclique, while an anchor vertex belongs to its clique
+and one biclique. Thus $d_1=4$, $d_0=3$, and $\kappa=12/5$.
+The dense graph contains a clique of order $3m+1$.
+The loss $3+18\tau m$, including the omitted vertices, is an
+arbitrarily small fraction of this lower bound for small $\tau$
+and large $m$. The gap below $18/17$ from
+Theorem~\ref{thm:np-hardness} therefore persists.
+
+\emph{UGC hardness.}
+Use Theorem~\ref{thm:bounded-degree-kr-source} in $S_q(G)$.
+Its layer cliques give $d_1=1$, and the retained cross-layer edges
+have maximum degree $(q-1)d_\eta$. A layer clique gives
+$\td(S_q(G))\ge n$, while the loss is at most $\tau qn$.
+For fixed $q$, small $\tau$ preserves every factor below $4/3$
+from Theorem~\ref{thm:ugc-hardness}.
+
+\emph{SSE hardness.}
+Use the common line-graph factors above.
+Lemma~\ref{lem:balanced-by-td} converts the separator bound into
+NO treedepth bound $\beta N$. Choose $\eta$ for a dense gap larger
+than the target factor, then $\tau$ so that $\tau N$ is a
+sufficiently small fraction of $\beta N$.
+\end{proof}
 
 The NP-hardness assertion answers the bounded-degree conjecture of
 Schirrmacher, Siebertz, and
@@ -49,6 +138,45 @@ The degree bound depends only on the excluded factor. All reductions
 are deterministic.
 \end{corollary}
 
+\begin{proof}
+Apply Theorem~\ref{thm:tw-sparsification} and
+Lemma~\ref{lem:gap-preservation}.
+
+\emph{NP-hardness.}
+In $K_R(G_F)$, use the three global cliques and the local factors
+of Lemma~\ref{lem:parity-local-factors} in each copy, retaining
+the witness-star edges. Then $d_1=4$, $d_0=3$, and $\kappa=12/5$.
+Each truth block lies in one global clique, and each $W_x^a$
+meets at most two. The nonempty intersections of a biclique side
+with the global parts therefore partition it into at most two
+sets, each contained in its global clique. Thus $s=2$.
+The graph contains a clique of order $3Rm$, so its treewidth is
+at least $3Rm-1$. The loss $9\tau Rm$ can be made arbitrarily
+small relative to this bound, preserving the gap below $12/11$
+from Theorem~\ref{thm:tw-hardness}.
+
+\emph{UGC hardness.}
+Use Theorem~\ref{thm:bounded-degree-kr-source} in $K_R(P_3(G))$.
+Replace the three global cliques and retain the product edges.
+Thus $d_1=1$ and $d_0=2d_\eta$, with no biclique factors.
+Lemma~\ref{lem:multipartite-product} gives YES cover bound
+$(3/2+3\eta)n$ and NO cover bound $(2-2\eta)n$ for $P_3(G)$,
+as required for the dense gap in Theorem~\ref{thm:tw-ugc}.
+A global clique gives treewidth at least $Rn-1$, while the loss
+is at most $3\tau Rn$. Small $\tau$ preserves every factor
+below $4/3$.
+
+\emph{SSE hardness.}
+Use the common line-graph factors.
+Every finite nonempty graph $H$ satisfies
+$b(H)\le\operatorname{tw}(H)+1$~\cite[Lemma~5.3]{APW}.
+Thus the sparse NO width is at least $\beta N-1-\tau N$,
+while its YES width is at most $4\eta N$.
+After fixing $\eta$ for a larger dense gap, small $\tau$ and
+large $N$ make $1+\tau N$ a sufficiently small fraction of
+$\beta N$.
+\end{proof}
+
 The SSE treewidth hardness at every fixed factor on unrestricted
 graphs is due to Wu, Austrin, Pitassi, and Liu~\cite[Theorem~1.1]{APW}. The bounded-degree
 statement here follows by applying our treewidth sparsification
@@ -68,6 +196,56 @@ fixed factor $1\le r<8/7$, and SSE-hard to approximate within every
 fixed factor $r\ge1$. The degree bound depends only on the excluded
 factor. All reductions are deterministic.
 \end{corollary}
+
+\begin{proof}
+Apply Theorem~\ref{thm:total-depth-sparsification}.
+It loses at most $\tau N^2$ and completes sparse forests at the
+same additive cost.
+
+\emph{NP-hardness.}
+Use the dense family $H=H^\Sigma_M(G(J))$ from
+Theorem~\ref{thm:np-total-depth}, where the cubic source $J$ has
+$n$ vertices and $M=\Theta(n)$. Choose $0<\epsilon_0<1/2$ so that this
+family is hard within factor $1+2\epsilon_0$.
+The three part cliques and the three bicliques joining each part
+$X$ to $T_X$ give $d_1=2$. Retain $E(G(J))$, of maximum degree
+three. All biclique side-size ratios are bounded because the
+parts have sizes $2n,9n/2,9n/2$ and $|T_X|=M=\Theta(n)$.
+
+Here $N=11n+3M=\Theta(n)$. Equation~\eqref{eq:np-total-depth-added-vertices-bounds}
+and Lemma~\ref{lem:np-total-depth-cubic} give
+\[
+ \totd(H)\ge MW(G(J))
+ \ge M(37n/2+3)\ge Mn=\Omega(N^2).
+\]
+Choose $\tau$ so that $\tau N^2\le\epsilon_0 Mn$.
+Since the sparse graph $H'\subseteq H$
+has $\totd(H')\le\totd(H)$, the solution part of
+Lemma~\ref{lem:gap-preservation}, with $L(H)=Mn$, lifts a
+$(1+\epsilon_0)$-approximate sparse forest to a
+$(1+2\epsilon_0)$-approximate dense forest, a contradiction.
+Also $\totd(H')\ge\totd(H)-\tau N^2\ge(1-\epsilon_0)Mn
+=\Omega(N^2)$.
+
+\emph{UGC hardness.}
+Use the same layer factors and retained edges as in the treedepth
+proof, so $d_1=1$ and $d_0=(q-1)d_\eta$.
+Restriction to the $q$ layer cliques gives
+\[
+ \totd(S_q(G))\ge q\,\frac{n(n+1)}2
+ \ge\frac{qn^2}{2}=\frac{N^2}{2q},\qquad N=qn.
+\]
+For fixed $q$, the loss $\tau N^2$ is arbitrarily small relative
+to this lower bound. Lemma~\ref{lem:gap-preservation} transfers
+every factor below $8/7$ from Theorem~\ref{thm:total-depth-ugc}.
+
+\emph{SSE hardness.}
+The common line-graph construction has YES total depth at most
+$4\eta N^2$. Lemma~\ref{lem:balanced-by-td} gives NO total depth
+at least $\beta N^2/2$. Choose $\eta$ for the desired larger gap,
+then $\tau$ so that $\tau N^2$ is a sufficiently small fraction
+of $\beta N^2/2$. Lemma~\ref{lem:gap-preservation} preserves the gap.
+\end{proof}
 
 \subsection{Regular graphs and subdivisions}
 
@@ -155,7 +333,7 @@ $1<r<r'<1+\epsilon_0$.
 Choose an odd $d$ larger than the maximum degree of the
 bounded-degree source family. We may increase $d$ further, then
 require a sufficiently large source order $n$, using the
-enlargements in Appendix~\ref{app:bounded-degree-hardness}.
+enlargements described in Section~\ref{subsec:bounded-degree-consequences}.
 
 For treedepth and treewidth, Proposition~\ref{prop:regularization}
 changes the promise bounds by at most the fixed constant $d+2$.
@@ -176,7 +354,7 @@ Lemma~\ref{lem:gap-preservation} therefore applies.
 
 For the NP total-depth family, the optimum itself is bounded
 below by a fixed positive multiple of $n^2$, as shown in
-Appendix~\ref{app:bounded-degree-total-depth}. Together with the
+the proof of Corollary~\ref{cor:total-depth-bounded-degree}. Together with the
 chain upper bound $\totd(G)\le n(n+1)/2$, this makes the normalized
 error an arbitrarily small fraction of that lower bound for large
 $d$ and then large $n$.
@@ -283,8 +461,8 @@ bound at most $3sY+O(n)$ and NO bound at least $sZ$.
 Since $Y$ is quadratic in $n$, Lemma~\ref{lem:gap-preservation}
 absorbs the $O(n)$ term for sufficiently large instances and
 preserves the factor-$r$ gap. Such orders are obtained from
-parallel host-edge copies as in
-Appendix~\ref{app:bounded-degree-hardness}.
+parallel host-edge copies as described in
+Section~\ref{subsec:bounded-degree-consequences}.
 \end{proof}
 
 The total-depth conclusions of both corollaries also hold for average
