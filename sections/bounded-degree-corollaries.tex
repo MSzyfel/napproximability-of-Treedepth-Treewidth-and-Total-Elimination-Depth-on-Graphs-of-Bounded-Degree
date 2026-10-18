@@ -96,10 +96,12 @@ anchor--part bicliques. Retain the witness-star edges.
 Each source vertex belongs to at most three local factors and one
 anchor--part biclique, while an anchor vertex belongs to its clique
 and one biclique. Thus $d_1=4$, $d_0=3$, and $\kappa=12/5$.
-The dense graph contains a clique of order $3m+1$.
-The loss $3+18\tau m$, including the omitted vertices, is an
-arbitrarily small fraction of this lower bound for small $\tau$
-and large $m$. The gap below $18/17$ from
+Before omitting the three vertices $z_A,z_B,z_C$, each
+$K_X\cup\{z_X\}$ is a clique of order $3m+1$. Thus the original
+dense graph has treedepth at least $3m+1$. Omitting these vertices
+costs at most $3$, and sparsification costs at most $18\tau m$.
+Their total loss, $3+18\tau m$, is an arbitrarily small fraction
+of this lower bound for small $\tau$ and large $m$. The gap below $18/17$ from
 Theorem~\ref{thm:np-hardness} therefore persists.
 
 \emph{UGC hardness.}
