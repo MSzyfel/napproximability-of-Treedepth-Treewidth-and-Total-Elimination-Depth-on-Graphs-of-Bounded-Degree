@@ -56,16 +56,22 @@ degree depends only on the excluded factor, and the reductions are
 deterministic. The treedepth result resolves the conjecture that
 computing unweighted treedepth remains NP-hard at bounded degree.
 
-For NP-hardness of treedepth, we refine the tripartite witness and
-anchor construction of Bonnet, Neuen, and Soko\l owski. Under UGC,
-clique layers give the treedepth gap and a quadratic branching
-estimate gives the total-depth gap. A replication argument transfers
-tripartite vertex-cover gaps to treewidth. Under SSEH, a line graph
-converts source cuts into balanced-separator lower bounds. To obtain
-bounded degree, we prove separate sparsification theorems for the
-three parameters. Expander replacements preserve the NO bounds after
-deleting an arbitrarily small fixed fraction of the vertices, while
-edge deletion preserves the YES upper bounds.
+Our proofs use several structural ideas. For NP-hardness, we refine
+the truth-block and anchor construction of Bonnet, Neuen, and
+Soko\l owski using a parity source gap
+~\cite{BNS,HazanSafraSchwartz2003}. For treedepth under UGC, copies
+of the source graph form clique layers: a large independent set gives
+a shallow elimination forest, while the first branch of any forest
+limits how much height branching can save. For total depth, we also
+count the depth shifts of all branches, and a quadratic inequality
+bounds their total saving. For treewidth, replication balances the
+three parts of a vertex-cover gap so that any central bag must contain
+a large cover. Under SSEH, vertices of a line graph represent source
+edges; a small separator would yield a balanced cut with small
+boundary in the source graph. Finally, separate expander replacements
+lower the degrees while preserving the NO bounds after deleting an
+arbitrarily small fixed fraction of vertices. Since they delete edges,
+the YES constructions remain valid.
 
 These bounds also imply hardness for trivially perfect completion by
 number of added edges, vertex integrity, fracture number, starwidth,
