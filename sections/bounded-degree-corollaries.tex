@@ -400,12 +400,23 @@ tree decomposition proves the treewidth bound.
 
 For the total-depth lower bound, partition $R$ into connected sets
 $X_v=\{v\}\cup V(Q_t)$. In any elimination forest, the shallowest
-vertex $r_v$ of $X_v$ is an ancestor of all of $X_v$. Each edge between
-$X_u$ and $X_v$ makes $r_u,r_v$ comparable. Restricting to these
-representatives therefore gives an elimination forest of $G$, and
-every vertex of $X_v$ has depth at least the projected depth of $v$.
-Since $|X_v|\geq d+2$, this proves the lower bound and supplies a
-polynomial-time projection of forests.
+vertex $r_v$ of $X_v$ is an ancestor of every vertex in $X_v$.
+To see this, take a path in $X_v$ starting at $r_v$. If a next vertex
+is a descendant of the current one, it remains below $r_v$. If it is
+an ancestor of the current one, it lies on the path from the root to
+the current vertex and cannot be above $r_v$, by the choice of $r_v$.
+Thus every vertex of $X_v$ is below $r_v$. For every source edge $uv$,
+the endpoints $u,v$ are comparable in the forest. Since $r_u$ and
+$r_v$ are ancestors of $u$ and $v$, they are both ancestors of the
+deeper endpoint and are therefore comparable. Restrict the forest to
+the representatives $r_v$; the result $\overline F$ is an elimination
+forest of $G$. Every vertex of $X_v$ has depth in the original forest
+at least $\operatorname{depth}_{\overline F}(r_v)$, so
+\[
+ \totd(F)\geq\sum_v|X_v|\operatorname{depth}_{\overline F}(r_v)
+ \geq(d+2)\totd(\overline F)\geq(d+2)\totd(G).
+\]
+This argument also gives a polynomial-time projection of forests.
 \end{proof}
 
 \begin{corollary}\label{cor:regular-hardness}
