@@ -26,7 +26,7 @@ Counting incidences between vertices and factor supports gives
 \begin{lemma}[Common sparse factor replacements]
 \label{lem:factor-replacement}
 Let $H$ have the edge description~\eqref{eq:factor-edge-union},
-and let $d_0,d_{\mathrm{fac}},\kappa$ satisfy
+and let fixed constants $d_0\ge0$, $d_{\mathrm{fac}}\ge1$, $\kappa\ge1$ satisfy
 conditions~\ref{hyp:retained-degree}--\ref{hyp:biclique-ratio}.
 Fix $\zeta>0$ and set
 $t_f=\lceil\zeta|U_f|\rceil$ for every factor. There is a
@@ -62,7 +62,7 @@ is polynomial time.
 
 \begin{lemma}[Preservation of a dense hardness gap]
 \label{lem:factor-gap-transfer}
-Let $\varphi$ be a graph minimization parameter and fix $a>0$.
+Let $\varphi$ be a graph minimization parameter and fix $a>0$ and $r\ge1$.
 Suppose that, for every fixed $\tau>0$, a deterministic
 polynomial-time construction maps each $N$-vertex graph $H$ in
 a given family to a spanning subgraph $J$ of bounded maximum degree
@@ -94,7 +94,7 @@ $r\varphi(J)+\tau N^a\le r\varphi(H)+\tau N^a\le(r+\tau/c_{\min})\varphi(H)$.
 \begin{theorem}[Treedepth sparsification]
 \label{thm:td-sparsification}
 Let $H$ have the edge description~\eqref{eq:factor-edge-union},
-and let $d_0,d_{\mathrm{fac}},\kappa$ satisfy
+and let fixed constants $d_0\ge0$, $d_{\mathrm{fac}}\ge1$, $\kappa\ge1$ satisfy
 conditions~\ref{hyp:retained-degree}--\ref{hyp:biclique-ratio}.
 For every fixed $\varepsilon>0$
 one can construct deterministically in polynomial time a spanning
@@ -124,7 +124,7 @@ Lemma~\ref{lem:factor-sparsification} now gives both conclusions.
 \begin{theorem}[Treewidth sparsification]
 \label{thm:tw-sparsification}
 Let $H$ have the edge description~\eqref{eq:factor-edge-union},
-and let $d_0,d_{\mathrm{fac}},\kappa$ satisfy
+and let fixed constants $d_0\ge0$, $d_{\mathrm{fac}}\ge1$, $\kappa\ge1$ satisfy
 conditions~\ref{hyp:retained-degree}--\ref{hyp:biclique-ratio}.
 Suppose additionally that each side
 of every biclique can be partitioned into at most $s$ sets, each
@@ -177,7 +177,7 @@ bound obtained from the original factors.
 \begin{theorem}[Total-depth sparsification]
 \label{thm:total-depth-sparsification}
 Let $H$ have the edge description~\eqref{eq:factor-edge-union},
-and let $d_0,d_{\mathrm{fac}},\kappa$ satisfy
+and let fixed constants $d_0\ge0$, $d_{\mathrm{fac}}\ge1$, $\kappa\ge1$ satisfy
 conditions~\ref{hyp:retained-degree}--\ref{hyp:biclique-ratio}.
 For every fixed $\varepsilon>0$
 one can construct deterministically in polynomial time a spanning
