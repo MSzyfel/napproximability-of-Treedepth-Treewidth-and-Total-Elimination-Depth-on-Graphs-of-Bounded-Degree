@@ -45,8 +45,10 @@ to each component proves one inequality, and their disjoint union
 proves the other.
 
 A \emph{tree decomposition} of $H$ consists of a tree $T$ and bags
-$B_t\subseteq V(H)$ for $t\in V(T)$. For every graph vertex, the
-nodes whose bags contain it form a nonempty connected subtree. Every
-graph edge has both endpoints in some bag. Its width is
+$B_t\subseteq V(H)$ for $t\in V(T)$. For each $v\in V(H)$, write
+$T_v=\{t\in V(T):v\in B_t\}$ for the set of nodes whose bags contain
+$v$. We require each $T_v$ to be nonempty and to induce a connected
+subtree of $T$, and $T_u\cap T_v\ne\varnothing$ for every edge
+$uv\in E(H)$. Its width is
 $\max_t|B_t|-1$, and the \emph{treewidth} $\operatorname{tw}(H)$ is
 the minimum such width.

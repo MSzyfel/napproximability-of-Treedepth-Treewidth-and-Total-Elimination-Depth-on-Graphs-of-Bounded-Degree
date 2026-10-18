@@ -56,10 +56,9 @@ In particular, that bag has size at least $R\vc(G)$.
 We apply the cover argument from~\cite[proof of Lemma~6]{BonnetTreewidth}
 to the disjoint union of the $R$ source copies.
 Fix a tree decomposition with underlying tree $T$ and bags $B_u$.
-For each $X\in\{A,B,C\}$ with $X^*\ne\emptyset$, the bags
-containing each vertex form
-a connected subtree of $T$. Since $X^*$ is a clique, every two of
-these subtrees intersect. The Helly property for subtrees of a tree
+For each $X\in\{A,B,C\}$ with $X^*\ne\emptyset$, the sets
+$T_x$, $x\in X^*$, are nonempty and connected in $T$. Since $X^*$
+is a clique, these sets intersect pairwise. The Helly property for subtrees of a tree
 therefore gives a node $u_X$ whose bag contains all of $X^*$
 ~\cite[Lemma~4]{BonnetTreewidth}. If $X^*$ is empty, choose any node
 $u_X$. Let $u$ be the median of
@@ -70,11 +69,11 @@ Consider an edge $xy$ of one of the original copies, with $x\in X^*$
 and $y\in Y^*$ for different parts $X,Y$. If either $u_X$ or $u_Y$
 equals $u$, the bag at $u$ already contains the corresponding endpoint.
 Otherwise, $u_X$ and $u_Y$ lie in different components of $T-u$.
-If neither endpoint belonged to the bag at $u$, the connected set of
-bags containing $x$ would stay in the component containing $u_X$,
-and the analogous set for $y$ would stay in the component containing
-$u_Y$. These sets could not intersect, contrary to the existence of
-a bag covering $xy$. Thus $B_u$ contains an endpoint of every
+If neither endpoint belonged to $B_u$, then $u\notin T_x\cup T_y$.
+Since $T_x$ is connected and contains $u_X$, it would lie in the
+component containing $u_X$, and $T_y$ would lie in the component
+containing $u_Y$. Thus $T_x\cap T_y=\varnothing$, contrary to
+$xy\in E(K_R(G))$. Hence $B_u$ contains an endpoint of every
 original edge. The disjoint union of the $R$ copies has vertex-cover number
 $R\vc(G)$, so this bag has size at least $R\vc(G)$.
 \end{proof}
@@ -113,8 +112,8 @@ We verify the decomposition axioms. Every vertex is present in its
 part's final bag. A vertex in $S_j\cap X_j$ occurs at the center and
 throughout the $X$-path, and on each other path it is removed once.
 A vertex in $I_j\cap X_j$ occurs only on the $X$-path, from its
-addition to the end. Thus each vertex's bag occurrences form a
-connected subtree. Every edge within a global clique is covered at
+addition to the end. Thus each $T_v$ is nonempty and connected.
+Every edge within a global clique is covered at
 the corresponding final bag. Now consider an edge between two global
 parts. It comes from a single source copy, and its endpoints cannot
 both lie in that copy's independent set. If both endpoints lie in

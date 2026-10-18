@@ -365,18 +365,21 @@ to clone pairs and guard it by the pair edges. This gives each of
 the three widths an upper bound of $\operatorname{tw}(G)+1$.
 The guards are contained in the bag, so the special condition for
 ordinary hypertree width holds as well. For the lower bound, consider a
-fractional decomposition of width $w$. If $B_t$ is one of its bags
+fractional decomposition of width $w$ with decomposition tree $T$.
+If $B_t$ is one of its bags
 and $\gamma_t(e)$ is the weight on hyperedge $e$, then each vertex
 of $B_t$ receives total incident weight at least one. Since every
 hyperedge has size two,
 $|B_t|\leq\sum_e\gamma_t(e)|e\cap B_t|\leq2\sum_e\gamma_t(e)\leq2w$.
 Retain an original vertex in a bag if and only if both of its clones
 occur there. Each retained vertex accounts for two bag vertices, so
-each retained bag has size at most $2w/2=w$. The bags containing a
-retained vertex form a connected nonempty subtree: the two clone
-subtrees intersect, since the pair is an edge, and their intersection
-is connected. If $uv\in E(G)$, its four clones form a clique, so their
-bag subtrees intersect pairwise. Subtrees of a tree have the Helly
+each retained bag has size at most $2w/2=w$. For each $v\in V(G)$,
+the nodes whose retained bags contain $v$ form
+$T_{(v,1)}\cap T_{(v,2)}$. This intersection is nonempty because
+the clone pair is an edge, and it is connected because both sets
+are connected in $T$. If $uv\in E(G)$, its four clones form a clique,
+so their sets $T_{(u,1)},T_{(u,2)},T_{(v,1)},T_{(v,2)}$ intersect pairwise.
+Subtrees of a tree have the Helly
 property: any finite family that intersects pairwise has a common
 node. Hence one bag contains all four clones. The retained bags form
 a tree decomposition of $G$ with bag size at most $w$, so

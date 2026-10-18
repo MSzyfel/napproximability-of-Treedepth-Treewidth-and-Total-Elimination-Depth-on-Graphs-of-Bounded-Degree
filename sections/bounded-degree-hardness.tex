@@ -147,20 +147,18 @@ $B_u$ satisfies $|U\setminus B_u|\leq3(t-1)$.
 \end{lemma}
 
 \begin{proof}
-Let $(T,(B_u)_{u\in V(T)})$ be the supplied decomposition. For
-$v\in V(J)$, put $T_v=\{u\in V(T):v\in B_u\}$.
-Each $T_v$ is a nonempty connected set of tree nodes.
+Let $(T,(B_u)_{u\in V(T)})$ be the supplied decomposition.
 If $|U|<t$, choose any node $u$ of $T$; then
 $|U\setminus B_u|\leq|U|\leq t-1\leq3(t-1)$. Otherwise consider an edge of the
 decomposition tree. Its deletion leaves two sides. Call a side
-heavy if it contains the entire subtree $T_v$ for at least $t$ vertices $v\in U$.
+heavy if it contains $T_v$ for at least $t$ vertices $v\in U$.
 If both sides were heavy, choose a set $X\subseteq U$ of exactly $t$
-vertices whose subtrees lie entirely on one side, and a set
-$Y\subseteq U$ of exactly $t$ vertices whose subtrees lie entirely on
-the other side. The sets are disjoint, since a nonempty subtree cannot
-lie on both sides, so they contain $2t$ vertices in total. No bag
-can contain both a vertex of $X$ and a vertex of $Y$, since their bag
-subtrees lie on opposite sides. Thus $X$ and $Y$ are anticomplete,
+vertices with $T_v$ contained in one side, and a set
+$Y\subseteq U$ of exactly $t$ vertices with $T_v$ contained in
+the other side. The sets are disjoint, since no nonempty $T_v$ can
+lie on both sides, so they contain $2t$ vertices in total. For
+$x\in X$ and $y\in Y$, we have $T_x\cap T_y=\varnothing$, so no bag
+contains both $x$ and $y$. Thus $X$ and $Y$ are anticomplete,
 contrary to the hypothesis. Orient the edge toward its
 heavy side if one exists, and arbitrarily if neither is heavy.
 Following outgoing edges cannot revisit a node, since the underlying
@@ -171,16 +169,16 @@ $u$ be one.
 For each component $C$ of $T-u$, at most $t-1$ vertices $v\in U$
 have $T_v\subseteq V(C)$. Otherwise, the edge from $u$ into $C$ would be
 oriented away from the sink $u$. Let $W=U\setminus B_u$. Every
-vertex $v\in W$ has its entire subtree in one component of $T-u$;
+vertex $v\in W$ has $T_v$ contained in one component of $T-u$;
 write $W_C=\{v\in W:T_v\subseteq V(C)\}$. Thus $|W_C|\leq t-1$ for
 each component $C$. If $t=1$, this gives $W=\varnothing$. For
 $t\geq2$, suppose $|W|\geq3t-2$. Select components one at a time
 until the sum of their $|W_C|$ first reaches $t$, and let $W_1$ be
 the union of their $W_C$ sets. The last component added contributes at most $t-1$
 vertices, so $t\leq|W_1|\leq2t-2$. Let $W_2=W\setminus W_1$;
-then $|W_2|\geq(3t-2)-(2t-2)=t$. The subtrees of vertices in
-$W_1$ and $W_2$ lie in disjoint groups of components of $T-u$,
-so no bag contains a vertex from each set. Hence $W_1,W_2$ are anticomplete in
+then $|W_2|\geq(3t-2)-(2t-2)=t$. For $x\in W_1$ and $y\in W_2$,
+the sets $T_x,T_y$ lie in different components of $T-u$ and are
+therefore disjoint, so no bag contains both $x$ and $y$. Hence $W_1,W_2$ are anticomplete in
 $J$, contrary to the hypothesis. Therefore
 $|U\setminus B_u|=|W|\leq3t-3=3(t-1)$.
 \end{proof}
@@ -270,13 +268,12 @@ $z\in V(T)$ satisfies $\{u,v\}\subseteq B_z\setminus D$.
 \end{lemma}
 
 \begin{proof}
-For each $v\in V(J)$, put $T_v=\{z\in V(T):v\in B_z\}$.
 If $x=y$, take $D=\varnothing$. Otherwise let $P$ be the vertex
 set of the path from $x$ to $y$, ordered from $x$ toward $y$.
 For $u\in A$, the intersection $T_u\cap P$
 is a nonempty prefix of $P$, starting at $x$. For $v\in B$,
 $T_v\cap P$ is a suffix ending at $y$.
-The subtrees $T_u,T_v$ intersect if and only if these path
+The sets $T_u,T_v$ intersect if and only if these path
 intervals intersect. For the nontrivial direction, if both
 contain some node $z$, they both contain the median of $x,y,z$,
 which lies on $P$.
@@ -287,13 +284,13 @@ If it has a matching of size $m_0\ge2t-1$, write its edges
 $u_iv_i$, with $u_i\in A$ and $v_i\in B$, and order them so that the endpoint of the prefix
 $T_{u_i}\cap P$ is nondecreasing in $i$. The endpoint of each
 $u_i$-prefix precedes the start of its matched $v_i$-suffix, since
-the two subtrees are disjoint and the prefix starts at $x$ while the
+the two sets are disjoint and the prefix starts at $x$ while the
 suffix ends at $y$. Consequently, if $i\le t$ and
 $j\ge m_0-t+1$, then $i\le j$ and the prefix for $u_i$ ends before
 the suffix for $v_j$ starts. Thus the sets
 $X=\{u_1,\ldots,u_t\}$ and
-$Y=\{v_{m_0-t+1},\ldots,v_{m_0}\}$ each have size $t$, and their
-bag subtrees are disjoint across the two sets. The matching ensures
+$Y=\{v_{m_0-t+1},\ldots,v_{m_0}\}$ each have size $t$, and
+$T_u\cap T_v=\varnothing$ for every $u\in X$, $v\in Y$. The matching ensures
 that vertices within each set are distinct. An edge of $J$ requires
 its endpoints to occur together in a bag, so $X,Y$ are anticomplete,
 contrary to the hypothesis. Therefore the maximum matching size of
