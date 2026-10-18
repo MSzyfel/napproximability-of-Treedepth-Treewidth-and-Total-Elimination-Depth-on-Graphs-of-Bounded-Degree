@@ -2,18 +2,12 @@
 \label{sec:ugc}
 
 We prove ordinary-UGC hardness below $4/3$ for treedepth and
-treewidth, and below $8/7$ for total elimination depth. We begin
-with the treedepth construction. Its first-branch lemmas will also
-be used for total depth.
+treewidth, and below $8/7$ for total elimination depth. The reductions
+start from the same independent-set promise, which we state
+together with its bounded-degree form.
 
-\subsection{Treedepth}
-\label{subsec:ugc-treedepth}
-
-For a fixed integer $q$, the construction replaces the source graph by
-$q$ clique layers. A large independent set gives a shallow elimination forest: its copies
-can be placed in separate branches after the remaining vertices have
-been removed. For soundness, we prove that branching can save few
-levels when the source independence number is small.
+\subsection{Independent-set source}
+\label{subsec:ugc-source}
 
 We use the following normalized source promise.
 
@@ -25,7 +19,32 @@ $\alphaI(G)<\eta n$ \textup{(NO)}.
 \end{theorem}
 
 Appendix~\ref{app:kr-normalization} derives this unweighted form from
-the published weighted promise.
+the published weighted promise. The same gap can also be realized
+at bounded maximum degree.
+
+\begin{theorem}[Bounded-degree independent-set source]
+\label{thm:bounded-degree-kr-source}
+For every fixed rational $0<\eta<1/10$, there is a constant
+$D_\eta$ such that the promise of Theorem~\ref{thm:kr} remains
+Unique Games-hard on graphs of maximum degree at most $D_\eta$.
+The hardness reduction is deterministic and polynomial time.
+\end{theorem}
+
+We derive this bounded-degree form in
+Appendix~\ref{app:bounded-degree-ugc-source}, using the weighted
+density construction of Austrin, Khot, and
+Safra~\cite[Theorem~3.1]{AKS2011} and the spectral sparsification
+theorem of Batson, Spielman, and Srivastava~\cite[Theorem~1.1]{BSS2012}.
+
+\subsection{Treedepth}
+\label{subsec:ugc-treedepth}
+
+For a fixed integer $q$, the construction replaces the source graph by
+$q$ clique layers. A large independent set gives a shallow elimination forest: its copies
+can be placed in separate branches after the remaining vertices have
+been removed. For soundness, we prove that branching can save few
+levels when the source independence number is small. The first-branch
+lemmas will also be used for total depth.
 
 \subsubsection{The layered construction and first-branch notation}
 
