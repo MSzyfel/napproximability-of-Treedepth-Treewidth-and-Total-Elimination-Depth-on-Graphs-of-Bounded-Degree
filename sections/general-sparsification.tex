@@ -28,39 +28,35 @@ Counting incidences between vertices and factor supports gives
 Let $H$ have the edge description~\eqref{eq:factor-edge-union},
 and let fixed constants $d_0\ge0$, $d_{\mathrm{fac}}\ge1$, $\kappa\ge1$ satisfy
 conditions~\ref{hyp:retained-degree}--\ref{hyp:biclique-ratio}.
-Fix $\zeta>0$ and an integer $k\ge1$ with $\lambda_0^k<\zeta/4$. Set
+Fix $\zeta>0$ and set
 $t_f=\lceil\zeta|U_f|\rceil$ for every factor. There is a
 deterministic polynomial-time construction of a spanning subgraph
 $J\subseteq H$ with $E_0\subseteq E(J)$ that replaces each factor by a graph
 with no $(t_f,t_f)$ hole, and has maximum degree at most
-$d_0+d_{\mathrm{fac}}\lceil4\kappa\rceil8^k$.
+$d_0+d_{\mathrm{fac}}D_{\zeta,\kappa}$, where $D_{\zeta,\kappa}$
+is the constant in Lemma~\ref{lem:factor-expanders}.
 Moreover, $\sum_f(t_f-1)<\zeta d_{\mathrm{fac}}N$ whenever at least one factor
 is present.
 \end{lemma}
 
 \begin{proof}
-Replace each factor using Lemma~\ref{lem:factor-expanders} and
-take $E(J)$ to be $E_0$ together with the edges of these
-replacements. The construction uses an expander on $M$ vertices,
-where $M$ is at most four times the largest prescribed set size, so
-$M\le4|U_f|$ and $\lambda_0^kM<\zeta|U_f|\le t_f$,
-giving the required hole property.
-
-In a clique replacement at most four expander vertices map
-to each output vertex. In a biclique replacement that number is
-at most $\lceil4\kappa\rceil$ on either side, since the side
-sizes have ratio at most $\kappa$. Thus every factor contributes
-at most $\lceil4\kappa\rceil8^k$ to the degree of a vertex
-in $U_f$. For every $v\in V(H)$, the degree in the union therefore satisfies
+Apply Lemma~\ref{lem:factor-expanders} to each clique support and
+each pair of biclique sides, using $\zeta,\kappa$. Its thresholds
+are $t_f=\lceil\zeta|U_f|\rceil$ in both cases. Thus each
+replacement satisfies the required no-hole condition and has
+maximum degree at most $D_{\zeta,\kappa}$.
+Take $E(J)$ to be $E_0$ together with the replacement edges.
+For every $v\in V(H)$, the degree in the union satisfies
 \[
  \deg_J(v)\le\deg_{(V(H),E_0)}(v)
- +|\{f\in\mathcal C\cup\mathcal B:v\in U_f\}|\lceil4\kappa\rceil8^k
- \le d_0+d_{\mathrm{fac}}\lceil4\kappa\rceil8^k.
+ +|\{f\in\mathcal C\cup\mathcal B:v\in U_f\}|D_{\zeta,\kappa}
+ \le d_0+d_{\mathrm{fac}}D_{\zeta,\kappa}.
 \]
 Finally, $t_f-1<\zeta|U_f|$ for each factor. Summing and using
 \eqref{eq:general-factor-incidence} proves the last assertion.
-For fixed $\zeta$, the exponent $k$ is fixed, so the construction
-is polynomial time.
+Each factor has nonempty support, so there are at most
+$d_{\mathrm{fac}}N$ factors. The construction is therefore
+polynomial time for the fixed parameters.
 \end{proof}
 
 \begin{lemma}[Preservation of a dense hardness gap]

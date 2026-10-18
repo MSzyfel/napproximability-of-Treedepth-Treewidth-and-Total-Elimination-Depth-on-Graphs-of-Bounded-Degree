@@ -1,0 +1,203 @@
+\subsection{Sparse replacements on prescribed vertex sets}
+\label{app:factor-expanders}
+
+Fix $\zeta>0$ and $\kappa\ge1$ as in Lemma~\ref{lem:factor-expanders}.
+We first choose a walk power of an explicit expander family. We
+then map its vertices onto the prescribed sets and verify the
+degree, no-hole, and connectedness guarantees.
+
+We use the following explicit expander family.
+Here $\mathbb Z_\nu$ is the set of residues modulo $\nu$, so
+$\mathbb Z_\nu^2$ is the set of $\nu^2$ ordered pairs of residues.
+
+\begin{theorem}[Margulis--Gabber--Galil expanders
+ {\cite[Construction~8.1 and Theorem~8.2]{HLW2006}}]
+\label{thm:auxiliary-expander-family}
+For every integer $\nu\ge1$, there is a deterministically
+constructible eight-regular undirected multigraph on
+$\mathbb Z_\nu^2$ whose nonconstant eigenvalues have absolute value
+at most $5\sqrt2$. Its construction takes polynomial time in $\nu$.
+\end{theorem}
+
+Put $\lambda_0=5\sqrt2/8<1$. Fix an integer $k\ge1$ with
+$\lambda_0^k<\zeta/4$, and set
+$D_{\zeta,\kappa}=\lceil4\kappa\rceil8^k$. For each square order
+$M=\nu^2$, let $\mathcal E$ be the $k$th walk power of the graph
+in Theorem~\ref{thm:auxiliary-expander-family}, with degree $d=8^k$.
+Its nonconstant eigenvalue bound satisfies
+$(5\sqrt2)^k=8^k(5\sqrt2/8)^k=d\lambda_0^k$.
+Substituting this bound in Lemma~\ref{lem:expander-mixing} yields
+\begin{equation}\label{eq:factor-expander-mixing}
+ e_{\mathcal E}(S,T)\ge\frac{d|S||T|}{M}
+       -d\lambda_0^k\sqrt{|S||T|}
+ =d\sqrt{|S||T|}\left(\frac{\sqrt{|S||T|}}{M}-\lambda_0^k\right).
+\end{equation}
+If $|S|,|T|\ge t>\lambda_0^kM$, then
+$\sqrt{|S||T|}/M\ge t/M>\lambda_0^k$, so the right-hand side is
+positive. Hence a step joins $S$ to $T$.
+
+The auxiliary graphs have square orders. A clique support can have
+any size, and a biclique
+requires two prescribed sides. We accommodate these sizes by
+grouping auxiliary vertices and assigning each group to one
+prescribed vertex. Each auxiliary step whose assigned vertices
+differ gives an edge between them. The size of a group controls
+the degree of its image vertex.
+
+For a map $\pi:V(\mathcal E)\to U$ and a subset $X\subseteq U$,
+the \emph{preimage} is
+$\pi^{-1}(X)=\{x\in V(\mathcal E):\pi(x)\in X\}$.
+The map is \emph{onto} if every vertex of $U$ has at least one
+preimage. When $|U|=n\le M$, choose such a map by partitioning the
+$M$ auxiliary vertices into $n$ groups of sizes
+$\lfloor M/n\rfloor$ or $\lceil M/n\rceil$ and assigning one group
+to each vertex of $U$. This gives
+$1\le|\pi^{-1}(\{u\})|\le\lceil M/n\rceil$ for every $u\in U$.
+
+These maps preserve the required edge condition. For disjoint
+output sets, a step between their preimages gives an output edge.
+Since an onto map gives every output vertex a preimage, the
+preimages have at least as many vertices as the output sets. The
+mixing bound therefore applies at the same threshold. For a
+biclique, we use a separate map for each side.
+
+Use the following two constructions.
+\begin{enumerate}
+ \item\label{constr:one-set-replacement} \emph{One prescribed set.}
+ Let $U$ have size $n\ge1$, put $M=\lceil\sqrt n\rceil^2$, and
+ take the $M$-vertex graph $\mathcal E$ above. Choose an onto map
+ $\pi:V(\mathcal E)\to U$ with the group sizes just specified.
+ The replacement has vertex set $U$. Distinct vertices $u,v\in U$
+ are adjacent if and only if some step $xy$ of $\mathcal E$ has
+ $\pi(x)=u$ and $\pi(y)=v$. Steps whose endpoints have the same
+ image give no edge, and repeated images give a single edge.
+ \item\label{constr:two-side-replacement} \emph{Two prescribed sides.}
+ Let $A,B$ be disjoint sets of sizes $n_A,n_B\ge1$, put
+ $M=\lceil\sqrt{\max\{n_A,n_B\}}\rceil^2$, and take the
+ $M$-vertex graph $\mathcal E$ above. Choose onto maps
+ $\pi_A:V(\mathcal E)\to A$ and
+ $\pi_B:V(\mathcal E)\to B$, with preimage sizes
+ $\lfloor M/n_A\rfloor$ or $\lceil M/n_A\rceil$ for the first
+ map, and $\lfloor M/n_B\rfloor$ or $\lceil M/n_B\rceil$ for
+ the second. The replacement has vertex set $A\mathbin{\dot\cup}B$.
+ Its edges are the pairs $\pi_A(x)\pi_B(y)$ arising from steps
+ $xy$ of $\mathcal E$, keeping one edge for each distinct pair.
+ There are no edges within either side. The two maps have the same
+ domain, and their preimage groups may differ.
+\end{enumerate}
+
+A walk is \emph{closed} if its first and last vertices coincide.
+
+\begin{proof}[Proof of Lemma~\ref{lem:factor-expanders}]
+We first bound degrees. In the one-set construction, every neighbor
+of $u\in U$ is the image of a step starting at a vertex of
+$\pi^{-1}(\{u\})$. Each such auxiliary vertex starts $d=8^k$
+steps. Distinct steps may give the same output neighbor, so
+$\deg(u)\le d|\pi^{-1}(\{u\})|\le8^k\lceil M/n\rceil$.
+For $u\in A$ in the bipartite construction, the same argument uses
+outgoing steps from $\pi_A^{-1}(\{u\})$, giving
+$\deg(u)\le8^k\lceil M/n_A\rceil$.
+For $v\in B$, use incoming steps at
+$\pi_B^{-1}(\{v\})$. Each auxiliary vertex has $d$ incoming steps
+because its adjacency matrix is symmetric and has row sum $d$.
+Thus $\deg(v)\le8^k\lceil M/n_B\rceil$.
+
+For the one-set construction,
+$M=\lceil\sqrt n\rceil^2\le(\sqrt n+1)^2\le4n$, since $n\ge1$.
+Hence $\lceil M/n\rceil\le4$. For the bipartite construction, the
+same estimate gives $M\le4\max\{n_A,n_B\}$. The side-size ratio
+is at most $\kappa$, so
+$M/n_A,M/n_B\le4\kappa$. Thus both constructions have maximum
+degree at most $\lceil4\kappa\rceil8^k=D_{\zeta,\kappa}$.
+
+We next verify the no-hole conditions at the thresholds in the
+lemma. In the one-set case, put $t=\lceil\zeta n\rceil$. Then
+$\lambda_0^kM<(\zeta/4)M\le\zeta n\le t$.
+In the bipartite case, put $t=\lceil\zeta(n_A+n_B)\rceil$. Then
+$\lambda_0^kM<(\zeta/4)M\le\zeta\max\{n_A,n_B\}
+\le\zeta(n_A+n_B)\le t$.
+It therefore suffices in each case to apply the mixing bound to
+sets of size $t$. Larger sets contain such subsets.
+\begin{enumerate}
+ \item For the one-set construction, take disjoint sets
+ $X,Y\subseteq U$ with $|X|=|Y|=t$, and put
+ $S=\pi^{-1}(X)$ and $T=\pi^{-1}(Y)$.
+ Since $\pi$ is onto, each vertex of $X$ and $Y$ has a preimage,
+ so $|S|\ge|X|=t$ and $|T|\ge|Y|=t$.
+ The preimages are disjoint because $X,Y$ are disjoint and $\pi$
+ assigns only one image to each auxiliary vertex.
+ Equation~\eqref{eq:factor-expander-mixing} gives a step from $S$
+ to $T$. Its endpoints map to a vertex of $X$ and a vertex of
+ $Y$, which are distinct, so their pair is an output edge.
+ \item For the bipartite construction, take
+ $X\subseteq A$ and $Y\subseteq B$ with $|X|=|Y|=t$, and put
+ $S=\pi_A^{-1}(X)$ and $T=\pi_B^{-1}(Y)$.
+ Again, $|S|,|T|\ge t$ because both maps are onto, and
+ \eqref{eq:factor-expander-mixing} gives a step $xy$ with
+ $x\in S$ and $y\in T$. Its image
+ $\pi_A(x)\pi_B(y)$ is an edge between $X$ and $Y$.
+ Here $S,T$ may overlap, since they use different maps.
+ Even a loop step $x=y$ gives a valid output edge, because its
+ two images lie in the disjoint sets $A,B$.
+\end{enumerate}
+
+It remains to prove connectedness. In the one-set construction,
+an auxiliary walk maps to an output walk after consecutive
+repetitions are removed. In the bipartite construction, each step
+switches sides, so reaching both images of an auxiliary vertex
+requires walks of both parities. We obtain these walks by showing
+that $\mathcal E$ is connected and nonbipartite.
+Its nonconstant eigenvalue bound is
+$d\lambda_0^k<d$. If $\mathcal E$ were disconnected, let $S$ be a
+nonempty proper connected component. Regularity and the absence of
+steps crossing its boundary give
+$A_{\mathcal E}\mathbf1_S=d\mathbf1_S$.
+Put $x=\mathbf1_S-(|S|/M)\mathbf1$. Since $0<|S|<M$, this vector
+is nonzero, and its coordinate sum is $|S|-(|S|/M)M=0$. Moreover,
+\[
+ A_{\mathcal E}x
+ =d\mathbf1_S-\frac{|S|}{M}d\mathbf1
+ =d\left(\mathbf1_S-\frac{|S|}{M}\mathbf1\right)=dx.
+\]
+This contradicts the nonconstant eigenvalue bound, so
+$\mathcal E$ is connected.
+If it were bipartite, with parts $S,T$, regularity would give
+$d|S|=d|T|$ by counting the steps across the two sides.
+Let $x$ take value one on $S$ and minus one on $T$. It would
+therefore have zero sum. Every step goes to the opposite part, so
+each coordinate of $A_{\mathcal E}x$ would be $-d$ times the
+corresponding coordinate of $x$. The eigenvalue $-d$ would also
+contradict the bound.
+Thus $\mathcal E$ is nonbipartite and has an odd cycle, with a loop
+counted as a cycle of length one.
+
+In the one-set construction, take any two output vertices $u,v$
+and choose preimages $x,y$. A walk from $x$ to $y$ exists in
+$\mathcal E$. Apply $\pi$ to its vertex sequence. Consecutive
+images are equal or adjacent in the output. Omitting consecutive
+repetitions gives a walk from $u$ to $v$, proving connectedness.
+
+For the bipartite construction, fix an auxiliary vertex $x$.
+There is an odd closed walk from $x$ to itself: follow a path to
+an odd cycle, traverse that cycle, and return along the reverse
+path. The two path lengths add to an even number, so the total
+length is odd. For every auxiliary vertex $y$, start with any
+walk from $x$ to $y$. Prepending the odd closed walk changes its
+length parity. Hence there are both even-length and odd-length
+walks from $x$ to $y$.
+A walk $x=x_0,x_1,\ldots,x_\ell=y$ maps to the alternating sequence
+$\pi_A(x_0),\pi_B(x_1),\pi_A(x_2),\ldots$ in the output.
+Each consecutive pair is an edge by construction, using the
+reverse auxiliary step when the sequence goes from $B$ to $A$.
+An even-length walk reaches $\pi_A(y)$, and an odd-length walk
+reaches $\pi_B(y)$. Thus $\pi_A(x)$ is connected to both images of
+every $y$. Since both maps are onto, this reaches every output
+vertex, proving connectedness.
+
+Both outputs are simple by their edge definitions.
+The auxiliary order $M$ is at most four times the largest prescribed
+set size. The initial eight-regular graph is constructible in
+polynomial time, and its $k$th walk power has degree $8^k$. Since
+$k$ depends only on $\zeta$, constructing this power and mapping
+its steps takes polynomial time for the fixed parameters.
+\end{proof}
