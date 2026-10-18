@@ -17,6 +17,11 @@ pairwise disjoint endpoints. A matching is \emph{perfect} if it meets
 every vertex. A graph is \emph{cubic} if every
 vertex has degree three.
 
+For $S\subseteq V(G)$, the \emph{edge boundary} $\cut_G(S)$ consists
+of the edges with one endpoint in $S$ and the other in
+$V(G)\setminus S$. In a multigraph, it is a multiset, counting
+parallel edge occurrences separately.
+
 In a rooted forest, two vertices are \emph{comparable} if one is
 an ancestor of the other. We count a vertex as its own ancestor
 and descendant. A \emph{proper} ancestor is a different vertex.

@@ -212,9 +212,8 @@ Expanding the quadratic form gives
  x^{\mathsf T}L_Gx
  =\sum_{uv\in E(G)}w_{uv}(x_u-x_v)^2.
 \]
-For a vertex set $S$, let $\operatorname{vol}_G(S)$ be the sum of
-its vertices' weighted degrees, and let $w(\cut_G(S))$ be the
-weight of edges with one endpoint in $S$. Thus
+For $S\subseteq V(G)$, the quadratic form counts boundary edge
+weight, so
 $\mathbf1_S^{\mathsf T}L_G\mathbf1_S=w(\cut_G(S))$ and
 $\mathbf1_{\{v\}}^{\mathsf T}L_G\mathbf1_{\{v\}}=\deg_G(v)$.
 The notation $L_G\preceq L_H$ means that
@@ -222,7 +221,7 @@ $x^{\mathsf T}L_Gx\le x^{\mathsf T}L_Hx$ for every vector $x$.
 A \emph{spectral sparsifier} is a weighted subgraph with fewer
 edges whose Laplacian preserves these quadratic forms within
 multiplicative bounds. Finally,
-$2e_G(S)=\operatorname{vol}_G(S)-w(\cut_G(S))$: an internal edge
+$2e_G(S)=\vol_G(S)-w(\cut_G(S))$: an internal edge
 contributes twice to the volume, while a crossing edge contributes
 once to both the volume and the cut.
 
