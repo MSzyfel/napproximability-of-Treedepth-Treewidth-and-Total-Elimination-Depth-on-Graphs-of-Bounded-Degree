@@ -42,10 +42,10 @@ $1\le|\pi^{-1}(\{u\})|\le\lceil M/n\rceil$ for every $u\in U$.
 
 These maps preserve the required edge condition. For disjoint
 output sets, a step between their preimages gives an output edge.
-Since an onto map gives every output vertex a preimage, the
-preimages have at least as many vertices as the output sets. The
-mixing bound therefore applies at the same threshold. For a
-biclique, we use a separate map for each side.
+Since the maps are onto, $|\pi^{-1}(X)|\ge|X|$ and
+$|\pi^{-1}(Y)|\ge|Y|$. For a biclique, use the separate maps for
+its two sides. The mixing bound therefore applies at the same
+threshold.
 
 Use the following two constructions.
 \begin{enumerate}
@@ -103,7 +103,9 @@ In the bipartite case, put $t=\lceil\zeta(n_A+n_B)\rceil$. Then
 $\lambda_0^kM<(\zeta/4)M\le\zeta\max\{n_A,n_B\}
 \le\zeta(n_A+n_B)\le t$.
 It therefore suffices in each case to apply the mixing bound to
-sets of size $t$. Larger sets contain such subsets.
+sets of size $t$. If no such admissible sets exist, the corresponding
+no-hole condition is vacuous. Otherwise, any larger admissible sets
+contain admissible $t$-element subsets.
 \begin{enumerate}
  \item For the one-set construction, take disjoint sets
  $X,Y\subseteq U$ with $|X|=|Y|=t$, and put

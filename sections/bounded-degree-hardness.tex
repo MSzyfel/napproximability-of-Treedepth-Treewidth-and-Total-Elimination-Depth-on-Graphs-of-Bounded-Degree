@@ -607,9 +607,12 @@ controls these deviations and will give the error bound in the
 mixing lemma.
 
 \begin{definition}[Spectral expanders]
-The graph $\mathcal E$ has \emph{nonconstant eigenvalue bound}
-$\lambda\ge0$ if all eigenvalues belonging to the zero-sum
-eigenvectors have absolute value at most $\lambda$.
+Write $\mathbf1^\perp=\{x\in\mathbb R^M:
+\mathbf1^{\mathsf T}x=0\}$ for the zero-sum subspace. Since
+$A_{\mathcal E}$ maps this subspace into itself, the graph has
+\emph{nonconstant eigenvalue bound} $\lambda\ge0$ if every eigenvalue
+of the restriction of $A_{\mathcal E}$ to $\mathbf1^\perp$ has
+absolute value at most $\lambda$.
 We call it a \emph{spectral expander} when $\lambda<d$.
 A sequence of such graphs with orders tending to infinity is a
 \emph{bounded-degree spectral expander family} if $d$ is fixed and
@@ -661,12 +664,9 @@ determines the fraction of vertices above which holes are
 impossible. A smaller ratio gives a smaller threshold and hence a
 smaller completion loss.
 
-To reduce this ratio, we treat each fixed-length walk as a new
-step between its endpoints. A walk can reach beyond the immediate
-neighbors of its starting vertex, giving more possible endpoints
-in a second set. The calculations below show that this operation
-reduces the eigenvalue-to-degree ratio while keeping the degree
-bounded for any fixed walk length.
+To reduce this ratio, we use a graph whose steps represent sequences
+of a fixed number of steps in the original graph. We define this
+construction next and derive its eigenvalue bound.
 
 For an integer $k\ge0$, a \emph{walk of length $k$} consists of vertices
 $x_0,x_1,\ldots,x_k$ and a chosen step from $x_{i-1}$ to $x_i$
