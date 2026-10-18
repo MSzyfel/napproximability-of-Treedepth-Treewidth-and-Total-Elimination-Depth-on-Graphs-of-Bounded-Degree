@@ -67,10 +67,10 @@ three steps.
 
 For the maximum degree to be bounded, we also need bounded degree
 in $E_0$ and a bounded ratio between the two side sizes of every
-biclique. This ratio lets us choose a fixed walk power for which
-the thresholds above exceed $\lambda_0^kM$ in every factor. The
-expander construction then gives a constant degree contribution
-from each factor. Since each vertex lies in a bounded number of
+biclique. This ratio bounds the number of auxiliary vertices mapped
+to each prescribed vertex. The expander construction below then
+gives the required no-hole condition with a constant degree
+contribution from each factor. Since each vertex lies in a bounded number of
 factor supports, its total degree is bounded. These constants may
 depend on the desired approximation ratio, but not on $N$. For
 treewidth, each
@@ -416,189 +416,356 @@ We next construct bounded-degree graphs satisfying the no-hole
 condition. We first introduce the expander facts used in the
 construction, then map an expander onto each prescribed factor.
 
-\subsubsection{Expanders, walks, and the mixing lemma}
+\subsubsection{Edge expansion and adjacency matrices}
 
-To build replacements of bounded maximum degree, we start with regular
-expanders. Their adjacency-matrix eigenvalues control how evenly edge
-steps join vertex sets. A step traverses one edge in a chosen direction. A loop step
-stays at its vertex, and parallel edges give distinct steps. A real
-symmetric matrix has an orthonormal basis of eigenvectors. For an
-undirected multigraph $\mathcal E$ on $M$ vertices, write
-$A_{\mathcal E}$ for its symmetric adjacency matrix. The entry
-$(A_{\mathcal E})_{uv}$ counts steps from $u$ to $v$, including loops
-when $u=v$. Since $A_{\mathcal E}$ is symmetric, each step from $u$ to
-$v$ has a reverse step from $v$ to $u$. Let $\mathbf1$ be the all-ones vector.
-Here $d$-regular means that every row sum is $d$, so there are $d$
-possible next steps from each vertex. Hence $A_{\mathcal E}\mathbf1=d\mathbf1$.
-The subspace of zero-sum vectors is the orthogonal complement of
-$\mathbf1$ and is invariant under $A_{\mathcal E}$: if
-$\mathbf1^{\mathsf T}x=0$, then
-$\mathbf1^{\mathsf T}A_{\mathcal E}x=(A_{\mathcal E}\mathbf1)^{\mathsf T}x
-=d\mathbf1^{\mathsf T}x=0$.
-We call $\mathcal E$ a
-\emph{spectral expander with eigenvalue bound $\lambda<d$} if every
-eigenvalue on this subspace has absolute value at most $\lambda$.
-For a bounded-degree expander family, $d$ and a bound below one on
-$\lambda/d$ are fixed independently of $M$.
+We use families of bounded-degree graphs in which every vertex set
+of size at most half the graph has a boundary proportional to its
+size. We first define this expansion property, then introduce the
+eigenvalue condition used to obtain our replacements.
+The definitions and standard spectral facts below follow
+\cite[Section~2]{HLW2006}.
 
-For $S,T\subseteq V(\mathcal E)$, put
-$e_{\mathcal E}(S,T)=\sum_{u\in S,v\in T}(A_{\mathcal E})_{uv}$.
-This counts ordered steps with multiplicity, and the sets need not be
-disjoint.
+Let $\mathcal E$ be a finite undirected multigraph on $M\ge1$
+vertices, allowing loops and parallel edges. A \emph{step} traverses
+one edge occurrence in a specified direction. A nonloop edge gives
+one step in each direction, and a loop gives one step that stays at
+its vertex. Parallel edge occurrences give distinct steps. In this
+subsection, $d$-regular means that every vertex has $d$ possible
+outgoing steps, counting loop steps once.
+
+For vertex sets $S,T\subseteq V(\mathcal E)$, let
+$e_{\mathcal E}(S,T)$ be the number of steps that start in $S$ and
+end in $T$, counted with multiplicity. The sets may overlap. If
+$S=T$, each nonloop internal edge contributes two steps and each loop
+contributes one. If $S,T$ are disjoint, each edge between them
+contributes one step from $S$ to $T$.
+The \emph{edge boundary} $\cut_{\mathcal E}(S)$ is the multiset of
+edge occurrences with one endpoint in $S$ and the other outside $S$.
+Thus $|\cut_{\mathcal E}(S)|=e_{\mathcal E}(S,V(\mathcal E)\setminus S)$.
+
+\begin{definition}[Edge expanders]
+For an integer $d\ge1$ and a real $c>0$, a $d$-regular graph $\mathcal E$ is a
+\emph{$(d,c)$-edge expander} if
+\[
+ |\cut_{\mathcal E}(S)|\ge c|S|
+ \quad\text{whenever }0<|S|\le M/2.
+\]
+A sequence of graphs whose orders tend to infinity is a
+\emph{bounded-degree expander family} if the same constants $d,c$
+work for every graph in the sequence.
+\end{definition}
+
+The boundary condition says that separating $S$ from its complement
+requires deleting at least $c|S|$ edge occurrences. Bounded degree
+keeps the total number of edges linear in the number of vertices.
+For our construction we use a spectral condition, which also bounds
+the number of edges between any two specified vertex sets.
+
+Now assume that $\mathcal E$ is $d$-regular. Its \emph{adjacency
+matrix} $A_{\mathcal E}$ has rows and columns
+indexed by $V(\mathcal E)$, with $(A_{\mathcal E})_{uv}$ equal to the
+number of steps from $u$ to $v$. It is symmetric, meaning
+$(A_{\mathcal E})_{uv}=(A_{\mathcal E})_{vu}$, because every step
+between distinct vertices has a reverse step. Each row sum is $d$.
+A real vector $x=(x_v)_{v\in V(\mathcal E)}$ assigns a real number to
+each vertex, and matrix multiplication gives
+$(A_{\mathcal E}x)_u=\sum_v(A_{\mathcal E})_{uv}x_v$.
+Thus this coordinate is the sum of the values at the endpoints of
+the steps leaving $u$.
+
+Write $\mathbf1$ for the all-ones vector. For a set $S$, its
+\emph{indicator vector} $\mathbf1_S$ has coordinate one on $S$ and
+zero elsewhere. A superscript $\mathsf T$ denotes transpose, so
+$x^{\mathsf T}y=\sum_vx_vy_v$. The Euclidean length of $x$ is
+$\|x\|_2=(\sum_vx_v^2)^{1/2}$. Two vectors are
+\emph{orthogonal} if $x^{\mathsf T}y=0$. In particular,
+$x$ is orthogonal to $\mathbf1$ if and only if $\sum_vx_v=0$.
+The step count can now be written as
+$e_{\mathcal E}(S,T)=\mathbf1_S^{\mathsf T}A_{\mathcal E}\mathbf1_T$.
+
+A nonzero vector $x$ is an \emph{eigenvector} of $A_{\mathcal E}$
+with \emph{eigenvalue} $\mu$ if $A_{\mathcal E}x=\mu x$.
+Since each row sum is $d$, we have
+$A_{\mathcal E}\mathbf1=d\mathbf1$. The spectral theorem for real
+symmetric matrices states that there is a basis of eigenvectors
+that have length one and are pairwise orthogonal, and every vector
+is a unique linear combination of these basis vectors. We may take the
+first basis vector to be $\mathbf1/\sqrt M$, with eigenvalue $d$.
+All remaining basis vectors then have coordinate sum zero.
+Moreover, multiplication by $A_{\mathcal E}$ preserves zero sums:
+\[
+ \mathbf1^{\mathsf T}A_{\mathcal E}x
+ =(A_{\mathcal E}\mathbf1)^{\mathsf T}x
+ =d\mathbf1^{\mathsf T}x=0
+ \quad\text{if }\mathbf1^{\mathsf T}x=0.
+\]
+
+\begin{definition}[Spectral expanders]
+The graph $\mathcal E$ has \emph{nonconstant eigenvalue bound}
+$\lambda\ge0$ if all eigenvalues belonging to the zero-sum
+eigenvectors have absolute value at most $\lambda$.
+We call it a \emph{spectral expander} when $\lambda<d$.
+A sequence of such graphs with orders tending to infinity is a
+\emph{bounded-degree spectral expander family} if $d$ is fixed and
+$\lambda/d$ has a common upper bound below one, independent of $M$.
+\end{definition}
+
+The word nonconstant excludes the chosen all-ones eigenvector,
+not any further eigenvectors with the same eigenvalue $d$.
+The absolute-value bound controls both positive and negative
+eigenvalues, which will be needed when we take walk powers.
+The standard spectral lower bound on edge expansion
+\cite[Theorem~2.4]{HLW2006} states that a $d$-regular graph with
+nonconstant eigenvalue bound $\lambda<d$ satisfies
+$|\cut_{\mathcal E}(S)|\ge(d-\lambda)|S|/2$ whenever
+$0<|S|\le M/2$. Hence such a spectral family is an expander family
+under the preceding definition.
+
+\subsubsection{The mixing lemma and walk powers}
+
 If the $d|S|$ steps leaving $S$ had endpoints uniformly distributed
-over all $M$ vertices, then $d|S||T|/M$ of them would end in $T$.
-The lemma bounds the error in this expected-count heuristic.
+over the $M$ vertices, then $d|S||T|/M$ would end in $T$.
+The expander mixing lemma bounds the difference between this
+quantity and the actual step count. We use its standard form,
+including when $S,T$ overlap.
 
 \begin{lemma}[Expander mixing lemma {\cite[Lemma~2.5]{HLW2006}}]
 \label{lem:expander-mixing}
-For every $d$-regular $\mathcal E$ with eigenvalue bound $\lambda$,
-and all $S,T\subseteq V(\mathcal E)$,
+Let $\mathcal E$ be a $d$-regular graph on $M$ vertices with
+nonconstant eigenvalue bound $\lambda$. For all
+$S,T\subseteq V(\mathcal E)$,
 \[
  \left|e_{\mathcal E}(S,T)-\frac{d|S||T|}{M}\right|
  \le\lambda\sqrt{|S||T|}.
 \]
 \end{lemma}
 
-A \emph{walk of length $k$} consists of a starting vertex followed
-by $k$ consecutive edge steps. Vertices and edges may be repeated,
-and different choices among parallel edges count as different
-walks. The \emph{$k$th walk power} of $\mathcal E$ has the same
-vertices, with one step from $u$ to $v$ for each length-$k$ walk
-from $u$ to $v$ in $\mathcal E$. Matrix multiplication counts these
-walks, so its adjacency matrix is $A_{\mathcal E}^k$. Since
-$A_{\mathcal E}^k\mathbf1=d^k\mathbf1$, the walk power is $d^k$-regular.
-Each eigenvector of $A_{\mathcal E}$ is also an eigenvector of
-$A_{\mathcal E}^k$, with eigenvalue raised from $\mu$ to $\mu^k$.
-Hence the zero-sum
-eigenvalue bound becomes $\lambda^k$. Taking a fixed walk power
-therefore makes $(\lambda/d)^k$ as small as needed while keeping
-the degree independent of $M$.
+To guarantee a step between $S$ and $T$, it is enough that the
+main term exceed the error term. For nonempty $S,T$, the lemma gives
+\[
+ e_{\mathcal E}(S,T)
+ \ge\frac{d|S||T|}{M}-\lambda\sqrt{|S||T|}
+ =d\sqrt{|S||T|}\left(\frac{\sqrt{|S||T|}}{M}-\frac\lambda d\right).
+\]
+Thus $e_{\mathcal E}(S,T)>0$ if
+$\sqrt{|S||T|}/M>\lambda/d$. In particular, sets of at least $t$
+vertices are joined whenever $t>(\lambda/d)M$. Reducing
+$\lambda/d$ therefore lets us enforce the no-hole condition at
+smaller thresholds. We do this by replacing steps with walks.
 
-The Margulis--Gabber--Galil construction gives, for every integer
-$\nu\ge1$, a deterministically constructible eight-regular multigraph
-on $\mathbb Z_\nu^2$, where $\mathbb Z_\nu$ denotes the integers modulo
-$\nu$, with eigenvalue bound $5\sqrt2$
-\cite[Construction~8.1 and Theorem~8.2]{HLW2006}. The initial graph
-may have loops and parallel edges, which are allowed under the
-convention above.
-Put $\lambda_0=5\sqrt2/8<1$. Its $k$th walk power has
-$M=\nu^2$ vertices, degree $d=8^k$, and eigenvalue bound
-$d\lambda_0^k$. Lemma~\ref{lem:expander-mixing} therefore gives
+For an integer $k\ge0$, a \emph{walk of length $k$} consists of vertices
+$x_0,x_1,\ldots,x_k$ and a chosen step from $x_{i-1}$ to $x_i$
+for each $1\le i\le k$. Vertices and edges may be repeated.
+Different choices among parallel steps give different walks,
+even if their vertex sequences agree. A walk is \emph{closed} if
+$x_0=x_k$. Reversing the order and directions of its steps gives
+a walk of the same length in the opposite direction.
+
+For an integer $k\ge1$, the \emph{$k$th walk power} of
+$\mathcal E$ has the same vertex set and one step from $u$ to $v$
+for each length-$k$ walk from $u$ to $v$ in $\mathcal E$.
+Its adjacency matrix is $A_{\mathcal E}^k$. To see this, the
+$(u,v)$ entry of $A_{\mathcal E}$ counts length-one walks, and
+\[
+ (A_{\mathcal E}^{k+1})_{uv}
+ =\sum_z(A_{\mathcal E}^k)_{uz}(A_{\mathcal E})_{zv}
+\]
+counts a length-$k$ walk from $u$ to $z$, followed by a step from
+$z$ to $v$. Summing over the penultimate vertex $z$ counts every
+length-$(k+1)$ walk once. Reversing walks shows that the walk power
+is undirected.
+
+There are $d$ choices at each of the $k$ steps, so each vertex
+starts $d^k$ walks and the walk power is $d^k$-regular.
+If $A_{\mathcal E}x=\mu x$, then
+$A_{\mathcal E}^2x=A_{\mathcal E}(\mu x)=\mu A_{\mathcal E}x=\mu^2x$,
+and induction gives $A_{\mathcal E}^kx=\mu^kx$.
+The orthonormal eigenbasis of $A_{\mathcal E}$ remains an eigenbasis
+of $A_{\mathcal E}^k$. On each zero-sum basis vector, the new
+eigenvalue satisfies $|\mu^k|=|\mu|^k\le\lambda^k$.
+Consequently the walk power has nonconstant eigenvalue bound $\lambda^k$,
+and the ratio of this bound to its degree is
+$\lambda^k/d^k=(\lambda/d)^k$.
+When $\lambda/d<1$, a fixed sufficiently large $k$ makes this ratio
+smaller than any prescribed positive constant. The new degree
+$d^k$ still does not depend on the number of vertices.
+
+We use the following fixed family as the starting graph.
+Here $\mathbb Z_\nu$ is the set of residues modulo $\nu$, so
+$\mathbb Z_\nu^2$ is the set of $\nu^2$ ordered pairs of residues.
+
+\begin{theorem}[Margulis--Gabber--Galil expanders
+ {\cite[Construction~8.1 and Theorem~8.2]{HLW2006}}]
+\label{thm:auxiliary-expander-family}
+For every integer $\nu\ge1$, there is a deterministically
+constructible eight-regular undirected multigraph on
+$\mathbb Z_\nu^2$ whose nonconstant eigenvalues have absolute value
+at most $5\sqrt2$. Its construction takes polynomial time in $\nu$.
+\end{theorem}
+
+Put $\lambda_0=5\sqrt2/8<1$. In the rest of this subsection,
+$\mathcal E$ denotes the $k$th walk power of this graph, with
+$M=\nu^2$ vertices and degree $d=8^k$.
+Its nonconstant eigenvalue bound satisfies
+$(5\sqrt2)^k=8^k(5\sqrt2/8)^k=d\lambda_0^k$.
+Substituting this bound in Lemma~\ref{lem:expander-mixing} yields
 \begin{equation}\label{eq:factor-expander-mixing}
- e_{\mathcal E}(S,T)\ge d|S||T|/M-d\lambda_0^k\sqrt{|S||T|}
- \quad\text{for all }S,T,
+ e_{\mathcal E}(S,T)\ge\frac{d|S||T|}{M}
+       -d\lambda_0^k\sqrt{|S||T|}
+ =d\sqrt{|S||T|}\left(\frac{\sqrt{|S||T|}}{M}-\lambda_0^k\right).
 \end{equation}
-where $\mathcal E$ now denotes that walk power.
-In particular, any two sets of size at least $t$ have a step with
-one endpoint in each whenever $t>\lambda_0^kM$.
+If $|S|,|T|\ge t>\lambda_0^kM$, then
+$\sqrt{|S||T|}/M\ge t/M>\lambda_0^k$, so the right-hand side is
+positive. Hence a step joins $S$ to $T$.
 
 \subsubsection{Mapping to the prescribed vertex sets}
 
-\begin{lemma}[Sparse replacements on prescribed vertex sets]\label{lem:factor-expanders}
-For integers $n_A,n_B\ge1$, set
-$M=\lceil\sqrt{\max(n_A,n_B)}\rceil^2$.
-For each fixed integer $k\ge1$ there is a deterministic polynomial-time
-construction of a simple bipartite graph on prescribed disjoint
-sets of sizes $n_A,n_B$ with maximum degree at most
-$8^k\max\{\lceil M/n_A\rceil,\lceil M/n_B\rceil\}$,
-having no $(t,t)$ hole for every integer $t\ge1$ with
-$t>\lambda_0^kM$.
-For one prescribed set of size $n$, the same construction gives a
-simple graph of maximum degree at most $8^k\lceil M/n\rceil$,
-where $M=\lceil\sqrt n\rceil^2$, with no disjoint anticomplete
-$t$-subsets for every integer $t\ge1$ with $t>\lambda_0^kM$.
-Both constructed graphs are connected, and neither construction adds
-vertices.
+The auxiliary graph has a square number of vertices, whereas a
+factor can have any size. We map the auxiliary vertices onto the
+prescribed vertices and retain the images of its steps.
+For a map $\pi:V(\mathcal E)\to U$ and a subset $X\subseteq U$,
+the \emph{preimage} is
+$\pi^{-1}(X)=\{x\in V(\mathcal E):\pi(x)\in X\}$.
+The map is \emph{onto} if every vertex of $U$ has at least one
+preimage. When $|U|=n\le M$, choose such a map by partitioning the
+$M$ auxiliary vertices into $n$ groups of sizes
+$\lfloor M/n\rfloor$ or $\lceil M/n\rceil$ and assigning one group
+to each vertex of $U$. This gives
+$1\le|\pi^{-1}(\{u\})|\le\lceil M/n\rceil$ for every $u\in U$.
+
+Fix $k\ge1$ and use the following two constructions.
+\begin{enumerate}
+ \item \emph{One prescribed set.}
+ Let $U$ have size $n\ge1$, put $M=\lceil\sqrt n\rceil^2$, and
+ take the $M$-vertex graph $\mathcal E$ above. Choose an onto map
+ $\pi:V(\mathcal E)\to U$ with the group sizes just specified.
+ The replacement has vertex set $U$. Distinct vertices $u,v\in U$
+ are adjacent if and only if some step $xy$ of $\mathcal E$ has
+ $\pi(x)=u$ and $\pi(y)=v$. Steps whose endpoints have the same
+ image give no edge, and repeated images give a single edge.
+ \item \emph{Two prescribed sides.}
+ Let $A,B$ be disjoint sets of sizes $n_A,n_B\ge1$, put
+ $M=\lceil\sqrt{\max\{n_A,n_B\}}\rceil^2$, and take the
+ $M$-vertex graph $\mathcal E$ above. Choose onto maps
+ $\pi_A:V(\mathcal E)\to A$ and
+ $\pi_B:V(\mathcal E)\to B$, with preimage sizes
+ $\lfloor M/n_A\rfloor$ or $\lceil M/n_A\rceil$ for the first
+ map, and $\lfloor M/n_B\rfloor$ or $\lceil M/n_B\rceil$ for
+ the second. The replacement has vertex set $A\mathbin{\dot\cup}B$.
+ Its edges are the pairs $\pi_A(x)\pi_B(y)$ arising from steps
+ $xy$ of $\mathcal E$, keeping one edge for each distinct pair.
+ There are no edges within either side. The two maps have the same
+ domain, and their preimage groups may differ.
+\end{enumerate}
+
+\begin{lemma}[Sparse replacements on prescribed vertex sets]
+\label{lem:factor-expanders}
+For each fixed $k\ge1$, both constructions give connected simple
+graphs on the prescribed vertex sets in deterministic polynomial time.
+The one-set replacement has maximum degree at most
+$8^k\lceil M/n\rceil$, and the bipartite replacement has maximum
+degree at most
+$8^k\max\{\lceil M/n_A\rceil,\lceil M/n_B\rceil\}$.
+For every integer $t\ge1$ with $t>\lambda_0^kM$, the one-set
+replacement has no two disjoint anticomplete $t$-subsets, and the
+bipartite replacement has no anticomplete $t$-subsets on opposite
+sides.
 \end{lemma}
 
 \begin{proof}
-Let $A,B$ be the prescribed sides, and let $\mathcal E$ be the
-walk power on $M$ vertices just described. Map its vertices onto
-$A$ by an onto map $\pi_A$ so that each vertex of $A$ has either
-$\lfloor M/n_A\rfloor$ or $\lceil M/n_A\rceil$ preimages in
-$V(\mathcal E)$. Choose an onto map $\pi_B$ to $B$ in the same way,
-using the side size $n_B$. Such maps exist because
-$M\ge\max\{n_A,n_B\}$.
-Put an edge $uv$, with $u\in A$ and $v\in B$, in the output if
-and only if some step $xy$ of $\mathcal E$ satisfies
-$\pi_A(x)=u$ and $\pi_B(y)=v$.
-Repeated occurrences give a single output edge.
-In the bipartite construction, each vertex of $A$ has at most
-$\lceil M/n_A\rceil$ preimages under $\pi_A$, each with at most
-$8^k$ outgoing steps. Each vertex of $B$ has at most
-$\lceil M/n_B\rceil$ preimages under $\pi_B$, each with at most
-$8^k$ incoming steps. Thus the degrees satisfy the claimed bound.
+We first bound degrees. In the one-set construction, every neighbor
+of $u\in U$ is the image of a step starting at a vertex of
+$\pi^{-1}(\{u\})$. Each such auxiliary vertex starts $d=8^k$
+steps. Distinct steps may give the same output neighbor, so
+$\deg(u)\le d|\pi^{-1}(\{u\})|\le8^k\lceil M/n\rceil$.
+For $u\in A$ in the bipartite construction, the same argument uses
+outgoing steps from $\pi_A^{-1}(\{u\})$, giving
+$\deg(u)\le8^k\lceil M/n_A\rceil$.
+For $v\in B$, use incoming steps at
+$\pi_B^{-1}(\{v\})$. Each auxiliary vertex has $d$ incoming steps
+because its adjacency matrix is symmetric and has row sum $d$.
+Thus $\deg(v)\le8^k\lceil M/n_B\rceil$, proving both degree bounds.
 
-For subsets $S_A\subseteq A$ and $T_B\subseteq B$ of size $t$,
-let $S=\pi_A^{-1}(S_A)$ and $T=\pi_B^{-1}(T_B)$ be their preimages
-in $V(\mathcal E)$. Both maps are onto, so
-$|S|,|T|\ge t$. Equation~\eqref{eq:factor-expander-mixing}
-gives a positive number of steps between them when
-$t>\lambda_0^kM$:
+We next verify the no-hole conditions. Fix an integer $t\ge1$ with
+$t>\lambda_0^kM$.
+\begin{enumerate}
+ \item For the one-set construction, take disjoint sets
+ $X,Y\subseteq U$ with $|X|=|Y|=t$, and put
+ $S=\pi^{-1}(X)$ and $T=\pi^{-1}(Y)$.
+ Since $\pi$ is onto, each vertex of $X$ and $Y$ has a preimage,
+ so $|S|\ge|X|=t$ and $|T|\ge|Y|=t$.
+ The preimages are disjoint because $X,Y$ are disjoint and $\pi$
+ assigns only one image to each auxiliary vertex.
+ Equation~\eqref{eq:factor-expander-mixing} gives a step from $S$
+ to $T$. Its endpoints map to a vertex of $X$ and a vertex of
+ $Y$, which are distinct, so their pair is an output edge.
+ \item For the bipartite construction, take
+ $X\subseteq A$ and $Y\subseteq B$ with $|X|=|Y|=t$, and put
+ $S=\pi_A^{-1}(X)$ and $T=\pi_B^{-1}(Y)$.
+ Again, $|S|,|T|\ge t$ because both maps are onto, and
+ \eqref{eq:factor-expander-mixing} gives a step $xy$ with
+ $x\in S$ and $y\in T$. Its image
+ $\pi_A(x)\pi_B(y)$ is an edge between $X$ and $Y$.
+ Here $S,T$ may overlap, since they use different maps.
+ Even a loop step $x=y$ gives a valid output edge, because its
+ two images lie in the disjoint sets $A,B$.
+\end{enumerate}
+
+For connectedness, we first justify two properties of the
+auxiliary graph $\mathcal E$. Its nonconstant eigenvalue bound is
+$d\lambda_0^k<d$. If $\mathcal E$ were disconnected, let $S$ be a
+nonempty proper connected component. Regularity and the absence of
+steps crossing its boundary give
+$A_{\mathcal E}\mathbf1_S=d\mathbf1_S$.
+Put $x=\mathbf1_S-(|S|/M)\mathbf1$. Since $0<|S|<M$, this vector
+is nonzero, and its coordinate sum is $|S|-(|S|/M)M=0$. Moreover,
 \[
- e_{\mathcal E}(S,T)\ge
- d\sqrt{|S||T|}\left(\frac{\sqrt{|S||T|}}{M}-\lambda_0^k\right)>0,
+ A_{\mathcal E}x
+ =d\mathbf1_S-\frac{|S|}{M}d\mathbf1
+ =d\left(\mathbf1_S-\frac{|S|}{M}\mathbf1\right)=dx.
 \]
-since $\sqrt{|S||T|}/M\ge t/M>\lambda_0^k$.
-That step produces an output edge between $S_A$ and $T_B$.
-The sets $S,T$ may overlap. The mixing inequality still applies. A
-loop in $\mathcal E$ also gives a legitimate edge between the two
-disjoint output sides.
+This contradicts the nonconstant eigenvalue bound, so
+$\mathcal E$ is connected.
+If it were bipartite, with parts $S,T$, regularity would give
+$d|S|=d|T|$ by counting the steps across the two sides.
+Let $x$ take value one on $S$ and minus one on $T$. It would
+therefore have zero sum. Every step goes to the opposite part, so
+each coordinate of $A_{\mathcal E}x$ would be $-d$ times the
+corresponding coordinate of $x$. The eigenvalue $-d$ would also
+contradict the bound.
+Thus $\mathcal E$ is nonbipartite and has an odd cycle, with a loop
+counted as a cycle of length one.
 
-For the one-set construction, set $M=\lceil\sqrt n\rceil^2$ and
-take the corresponding $M$-vertex walk power $\mathcal E$. Map its
-vertices onto the prescribed set by $\pi$, with at most
-$\lceil M/n\rceil$ preimages at each output vertex. Include an edge
-$uv$ for distinct output vertices $u,v$ if and only if a step of
-$\mathcal E$ has endpoints mapped to $u,v$. The walk power is
-undirected, so every step has a reverse step. Consequently, each
-incident output edge is witnessed by an outgoing step from a
-preimage of that output vertex. Since each preimage has at most
-$8^k$ outgoing steps, the maximum degree is at most
-$8^k\lceil M/n\rceil$.
+In the one-set construction, take any two output vertices $u,v$
+and choose preimages $x,y$. A walk from $x$ to $y$ exists in
+$\mathcal E$. Apply $\pi$ to its vertex sequence. Consecutive
+images are equal or adjacent in the output. Omitting consecutive
+repetitions gives a walk from $u$ to $v$, proving connectedness.
 
-Take disjoint subsets $X,Y$ of the prescribed set, each of size $t$.
-Their preimages $S=\pi^{-1}(X)$ and $T=\pi^{-1}(Y)$ are disjoint
-and each has size at least $t$. The mixing bound
-in~\eqref{eq:factor-expander-mixing} gives
-$\sqrt{|S||T|}/M\ge t/M>\lambda_0^k$, and hence
-\[
- e_{\mathcal E}(S,T)\ge d\sqrt{|S||T|}
- \left(\frac{\sqrt{|S||T|}}{M}-\lambda_0^k\right)>0.
-\]
-Thus some step joins $S$ to $T$. Since $S$ and $T$ are disjoint,
-the step's endpoints map to distinct output vertices, so it gives
-an edge between $X$ and $Y$. Discard repeated edges. If $L$ is the
-largest prescribed set size, then in either construction
-$M=\lceil\sqrt L\rceil^2\le(\sqrt L+1)^2\le4L$, since $L\ge1$.
-Thus the construction has polynomial size for fixed $k$.
+For the bipartite construction, fix an auxiliary vertex $x$.
+There is an odd closed walk from $x$ to itself: follow a path to
+an odd cycle, traverse that cycle, and return along the reverse
+path. The two path lengths add to an even number, so the total
+length is odd. For every auxiliary vertex $y$, start with any
+walk from $x$ to $y$. Prepending the odd closed walk changes its
+length parity. Hence there are both even-length and odd-length
+walks from $x$ to $y$.
+A walk $x=x_0,x_1,\ldots,x_\ell=y$ maps to the alternating sequence
+$\pi_A(x_0),\pi_B(x_1),\pi_A(x_2),\ldots$ in the output.
+Each consecutive pair is an edge by construction, using the
+reverse auxiliary step when the sequence goes from $B$ to $A$.
+An even-length walk reaches $\pi_A(y)$, and an odd-length walk
+reaches $\pi_B(y)$. Thus $\pi_A(x)$ is connected to both images of
+every $y$. Since both maps are onto, this reaches every output
+vertex, proving connectedness.
 
-It remains to verify connectedness. Every nonconstant eigenvalue of
-$A_{\mathcal E}$ has absolute value at most $d\lambda_0^k<d$.
-Thus $\mathcal E$ is connected, since a disconnected $d$-regular
-graph has a nonconstant eigenvector with eigenvalue $d$. It is also
-nonbipartite, since a connected bipartite $d$-regular graph has an
-eigenvector with eigenvalue $-d$.
-
-For the one-set construction, an onto map from a connected graph
-gives a connected image: each source edge maps to an output edge or
-to a loop, and deleting loops and repeated edges preserves
-connectedness.
-
-For the bipartite construction, suppose its output had more than one
-component. For every $x\in V(\mathcal E)$, let $a(x)$ be the output
-component containing $\pi_A(x)$ and let $b(x)$ be the component
-containing $\pi_B(x)$. Each step $xy$ of $\mathcal E$ and its reverse
-give output edges $\pi_A(x)\pi_B(y)$ and
-$\pi_A(y)\pi_B(x)$. Hence $a(x)=b(y)$ and $a(y)=b(x)$. Moving
-along a cycle, these relations alternate the values of $a$ and $b$.
-Since the cycle has odd length, they imply $a(x)=b(x)$ at its
-starting vertex, so all component labels on the cycle are equal.
-From any cycle vertex, the same edge relations propagate this
-equality along every path in the connected graph $\mathcal E$.
-Thus every $a(x)$ and $b(x)$ is this same component. The maps are
-onto, so every output vertex lies in it,
-contrary to the supposition. Thus the bipartite output is connected.
+Both outputs are simple by their edge definitions and have only
+the prescribed vertices. If $L$ is the largest prescribed set size,
+then $M=\lceil\sqrt L\rceil^2\le(\sqrt L+1)^2\le4L$, since
+$L\ge1$. The initial eight-regular graph is constructible in
+polynomial time, and its $k$th walk power has degree $8^k$.
+For fixed $k$, taking this power and mapping its steps to the
+prescribed sets therefore takes polynomial time.
 \end{proof}
 
 \subsection{A bounded-degree independent-set source under UGC}
