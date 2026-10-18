@@ -208,9 +208,14 @@ replication lemma proves the treewidth gap.
 
 
 \begin{proof}[Proof of Theorem~\ref{thm:tw-ugc}]
-Fix $1\le r<4/3$. Since $2/3>r/2$, choose a fixed rational
+As the source error decreases and $R$ increases, the leading NO
+and YES coefficients approach $2/3$ and $1/2$, giving ratio $4/3$.
+Fix $1\le r<4/3$. The positive difference $2/3-r/2$ allows us to
+choose a fixed rational
 $0<\zeta<1/12$ and then a fixed integer $R\ge1$ such that
 $2/3-\zeta>r(1/2+\zeta+1/(3R))$.
+Here $\zeta$ controls the source error and $1/(3R)$ controls the
+additional YES cost of the replication construction.
 Take the $N$-vertex source from Theorem~\ref{thm:ugc-tripartite-cover}
 with $k=3$. Its parts have size $N/3$, so
 Lemma~\ref{lem:tw-replication} gives
@@ -230,8 +235,8 @@ The NO lower bound minus $r$ times the YES upper bound is
  &=R\bigl(2/3-\zeta-r(1/2+\zeta+1/(3R))\bigr)N+r-1>0,
 \end{aligned}
 \]
-because the parameter choice makes the coefficient of $N$ positive
-and $r-1\ge0$. Thus an $r$-approximation
+because the two error terms leave a positive part of
+$2/3-r/2$, and $r-1\ge0$. Thus an $r$-approximation
 distinguishes the source cases. The construction is polynomial,
 and its three specified cliques each have size $RN/3$. The same
 comparison, omitting the final $r-1$, gives the gap for maximum

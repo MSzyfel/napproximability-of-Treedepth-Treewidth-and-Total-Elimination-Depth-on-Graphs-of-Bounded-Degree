@@ -219,7 +219,13 @@ The corresponding output satisfies
  \textup{NO:}&\totd(S_q(G))\geq B^{\Sigma}_{q,\eta}n^2+qn/2.
  \end{array}
 \]
-Since $r<8/7$, $24-21r>0$, so we can choose a fixed integer
+At $\eta=0$, the ratio of the quadratic NO and YES coefficients
+is $24q/(7(3q+1))$, which approaches $8/7$ as $q$ increases.
+Thus every fixed $r<8/7$ leaves a positive separation for large
+enough $q$. A sufficiently small positive source error preserves
+that separation, and a large enough source order makes the
+quadratic terms dominate the linear terms.
+To verify these choices, take a fixed integer
 $q>7r/(24-21r)$. At $\eta=0$,
 \[
 \begin{aligned}
@@ -234,7 +240,8 @@ Indeed,
 $24q-7r(3q+1)=(24-21r)q-7r>0$ by the choice of $q$.
 The coefficients are continuous in $\eta$, so choose a fixed rational
 $\eta\in(0,1/10)$ with
-$B^{\Sigma}_{q,\eta}>rA^{\Sigma}_{q,\eta}$. Choose a fixed integer
+$B^{\Sigma}_{q,\eta}>rA^{\Sigma}_{q,\eta}$. To absorb the remaining
+linear term, choose a fixed integer
 $L_0\ge1$ with
 $L_0>(r-1)q/[2(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta})]$ and take
 $L_0$ disjoint copies of the source graph. Since its original order is

@@ -340,7 +340,12 @@ For a NO instance of Theorem~\ref{thm:kr}, the structural bound gives
 \subsubsection{The approximation gap}
 
 \begin{proof}[Proof of Theorem~\ref{thm:ugc-hardness}]
-Fix $1\leq r<4/3$ and choose an integer $q>3r/(4-3r)$.
+At zero source error, the ratio of the NO and YES coefficients is
+$B_{q,0}/A_{q,0}=4q/(3(q+1))$, which approaches $4/3$ as $q$
+increases. For any fixed $1\leq r<4/3$, we can therefore first
+choose $q$ so that this ratio exceeds $r$, and then choose a small
+positive source error $\eta$ without losing the strict inequality.
+Concretely, choose an integer $q>3r/(4-3r)$.
 For all sufficiently small rational $\eta\in(0,1/10)$,
 \[
 \begin{aligned}
@@ -351,8 +356,9 @@ For all sufficiently small rational $\eta\in(0,1/10)$,
    -\left(\frac{2q}{3}+r(q-1)\right)\eta>0.
 \end{aligned}
 \]
-The choice of $q$ makes the constant term positive, and then a
-sufficiently small fixed rational $\eta$ keeps the difference positive.
+The first term is the separation at zero error. It is positive by
+the choice of $q$, so $\eta$ can be chosen to make the subtracted
+error smaller than this term.
 Fix such an $\eta$. Equations~\eqref{eq:ugc-yes} and~\eqref{eq:ugc-no}
 give a gap greater than $r$. Since $q$ and $\eta$ depend only
 on $r$, this is a polynomial reduction.

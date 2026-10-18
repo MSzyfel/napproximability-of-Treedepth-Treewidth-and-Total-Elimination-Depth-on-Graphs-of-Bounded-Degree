@@ -13,9 +13,15 @@ have a specified partition into three equal cliques.
 \end{theorem}
 
 \begin{proof}
-Fix $1\le r<12/11$. Choose a fixed $0<\epsilon<1/4$ such that
+The leading NO and YES coefficients below approach $6$ and $11/2$
+as the source error decreases and $R$ increases, giving ratio
+$12/11$. Fix $1\le r<12/11$. Since $6-r(11/2)>0$, we can choose
+a fixed $0<\epsilon<1/4$ such that
 $6-\epsilon>r(11/2+\epsilon)$, then a fixed integer $R\ge1$ with
 $R(6-\epsilon-r(11/2+\epsilon))>3r$.
+The first choice preserves the separation after the source error,
+and the second makes the additional YES cost $3m$ small relative
+to the terms multiplied by $R$.
 Apply the witness construction of Section~\ref{subsec:np-treedepth} to
 the normalized source of Theorem~\ref{thm:xor-source}. The resulting
 graph $G_F$ has $9m$ vertices, three independent parts of size $3m$, and
