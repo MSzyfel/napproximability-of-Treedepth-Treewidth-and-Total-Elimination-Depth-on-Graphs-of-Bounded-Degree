@@ -359,3 +359,92 @@ $\beta>16r\eta$.
 Therefore the sparse NO bound exceeds $r$ times the YES bound.
 
 \end{proof}
+
+\subsection{Regular graphs and subdivisions}
+
+\begin{proposition}\label{prop:regularization}
+For every graph $G$ of order $n$ and fixed odd $d\geq3$ with
+$d>\Delta(G)$, one can construct in polynomial time a simple
+$d$-regular graph $R$ containing $G$ as an induced subgraph, with
+$(d+2)n\leq |V(R)|\leq(d+3)n$ and
+\[
+\begin{aligned}
+ \td(G)&\leq\td(R)\leq\td(G)+d+2,\\
+ \operatorname{tw}(G)&\leq\operatorname{tw}(R)
+ \leq\max\{\operatorname{tw}(G),d+2\},\\
+ (d+2)\totd(G)&\leq\totd(R)
+ \leq(d+3)\totd(G)+\tfrac12(d+2)(d+3)n.
+\end{aligned}
+\]
+\end{proposition}
+
+\begin{proof}
+For each $v$, set $t=d-\deg_G(v)$ and attach a fresh gadget $Q_t$
+by joining $v$ to its $t$ ports. If $t$ is even, take $K_{d+1}$
+minus a perfect matching on the ports. If $t\geq3$ is odd, take $K_{d+2}$
+minus a cycle on the ports and a perfect matching on the other vertices.
+For $t=1$, delete from $K_{d+2}$ a two-edge path centered at the port
+and a perfect matching on the remaining vertices. Each port has degree
+$d-1$ and each other vertex degree $d$; the gadgets are connected.
+Appending each gadget as a chain below $v$ proves the upper bounds
+for height and total depth. Adding a bag $\{v\}\cup V(Q_t)$ to a
+tree decomposition proves the treewidth bound.
+
+For the total-depth lower bound, partition $R$ into connected sets
+$X_v=\{v\}\cup V(Q_t)$. In any elimination forest, the shallowest
+vertex $r_v$ of $X_v$ is an ancestor of all of $X_v$. Each edge between
+$X_u$ and $X_v$ makes $r_u,r_v$ comparable. Restricting to these
+representatives therefore gives an elimination forest of $G$, and
+every vertex of $X_v$ has depth at least the projected depth of $v$.
+Since $|X_v|\geq d+2$, this proves the lower bound and supplies a
+polynomial-time projection of forests.
+\end{proof}
+
+\begin{corollary}\label{cor:regular-hardness}
+The hardness ranges in Corollaries~\ref{cor:td-bounded-degree},
+\ref{cor:tw-bounded-degree}, and~\ref{cor:total-depth-bounded-degree}
+also hold on $d$-regular graphs for a suitable fixed odd degree $d$
+depending only on the excluded factor.
+\end{corollary}
+
+\begin{proof}
+Apply Proposition~\ref{prop:regularization} to a strict source gap.
+For total depth choose $d$ sufficiently large that $(d+3)/(d+2)$
+fits within this gap; the forest projection also preserves the NP
+extraction argument. The additive errors are negligible compared with
+the linear height and width gaps and quadratic total-depth bounds.
+\end{proof}
+
+\begin{corollary}\label{cor:subdivision-hardness}
+For every fixed $g\geq3$, the treedepth and treewidth hardness ranges above
+hold on bounded-degree graphs that are bipartite, $2$-degenerate, and
+have girth at least $g$. On the same class, total depth is SSE-hard
+to approximate within every fixed factor.
+\end{corollary}
+
+\begin{proof}
+Replace every edge of $G$ by a path of fixed even length
+$\ell\geq\max\{2,g/3\}$, obtaining $G_\ell$. This gives the claimed
+graph class and preserves treewidth. Minor-monotonicity and appending
+an elimination tree for each internal path below its deeper endpoint give
+\[
+ \td(G)\leq\td(G_\ell)\leq\td(G)+h,\qquad h=\lceil\log_2\ell\rceil.
+\]
+Thus the linear gaps persist. For total depth start with a $d$-regular
+instance from Corollary~\ref{cor:regular-hardness}. Orient its edges
+with outdegree at least $(d-1)/2$, using an Euler tour after pairing
+odd-degree vertices. Group each vertex with the internal vertices
+of its outgoing paths. These connected groups have size at least
+$M=1+(\ell-1)(d-1)/2$, so the projection argument above and the
+path-forest construction give
+\[
+ M\totd(G)\leq\totd(G_\ell)
+ \leq[1+d(\ell-1)]\totd(G)+h(\ell-1)|E(G)|.
+\]
+Since $1+d(\ell-1)\leq3M$, an SSE gap greater than $3r$ yields
+a gap greater than $r$, absorbing the linear error.
+\end{proof}
+
+The total-depth conclusions of both corollaries also hold for average
+depth, by division by the graph order, and for trivially perfect
+completion, by~\eqref{eq:tp-adjusted-cost}.

@@ -105,164 +105,52 @@ For a positive integer $\nu$ and nonnegative reals $W_1,\ldots,W_\nu$,
 Its proof, by expansion into nonnegative terms, is given in
 Appendix~\ref{app:total-depth-branching}.
 
-Define constants $K_q$ by
-\begin{equation}\label{eq:total-depth-K}
- K_1=0,\qquad
- K_q=qK_{q-1}+\frac{q^2(q^2-1)}{14}\quad(q\geq2).
-\end{equation}
-The recurrence gives $K_q\geq qK_{q-1}\geq K_{q-1}\geq0$, so the
-sequence is nonnegative and nondecreasing.
-
 \begin{theorem}[Structural total-depth lower bound]
 \label{thm:total-depth-structural}
 For every finite simple graph $G$ on $n$ vertices and every integer
 $q\geq1$,
 \begin{equation}\label{eq:total-depth-structural}
  \totd(S_q(G))\geq
- \frac37q^2n^2+\frac{qn}{2}-K_q\alphaI(G)n.
+ \frac37q^2\vc(G)^2+\frac{qn}{2}.
 \end{equation}
 \end{theorem}
 
 \begin{proof}
-We induct on $q$, with the induction hypothesis asserted for every
-source graph. An empty source graph
-gives zero on both sides. If $q=1$, then $S_1(G)$ is a clique, so
-$\totd(S_1(G))=n(n+1)/2$, and
-$n(n+1)/2-(3n^2/7+n/2)=n^2/14\geq0$.
-This proves the base case since $K_1=0$.
+We induct on $q$. The empty graph, $q=1$, and single-chain forests
+satisfy the bound immediately. Otherwise use the first-branch notation
+from Section~\ref{subsec:ugc-branch-notation}, and put
+$c=\vc(G)$, $c_j=\vc(G[U_j])$, $W_j=q_jc_j$, $L_j=q_jn_j$,
+$S=\sum_jW_j$, $A=q\alphaI(G)$, and $N=qn=qc+A$.
+Lemmas~\ref{lem:ugc-layer-usage} and~\ref{lem:ugc-source-supports} give
+$\sum_jq_j\leq q$, $\sum_jc_j\leq c$, and $n_j\leq c_j+\alphaI(G)$;
+hence $S\leq qc$ and $\sum_jL_j\leq S+A$.
 
-Now let $q\geq2$ and fix an elimination forest $F$ of $S_q(G)$.
-A single chain has total depth $qn(qn+1)/2$, and
-$qn(qn+1)/2-qn/2=q^2n^2/2$. Its difference from the claimed
-lower bound is
-\[
- \frac{q^2n^2}{2}-\frac37q^2n^2+K_q\alphaI(G)n
- =\frac{q^2n^2}{14}+K_q\alphaI(G)n\geq0.
-\]
-Assume henceforth that $F$ is not a single chain.
-
-\emph{The shared first-branch decomposition.}
-Use the notation from Section~\ref{subsec:ugc-branch-notation}.
-Thus $P$ is the prefix and $F_j$ is child $j$, with
-$N_j$ vertices and root depth one. The same layer sets $I_j$,
-sets $U_j$ of represented source vertices, and numbers $q_j,n_j,M_j$ as in the
-height proof satisfy, by Lemmas~\ref{lem:ugc-layer-usage},
-\ref{lem:ugc-child-restriction}, and~\ref{lem:ugc-forest-accounting},
-$|P|+\sum_jN_j=qn$, $1\leq q_j<q$, $\sum_jq_j\leq q$, and
-$M_j=q_jn_j-N_j\geq0$.
-We also use the count of source vertices in~\eqref{eq:ugc-support-count}.
-
-\emph{Restoring the missing vertices in a child.}
-By Lemma~\ref{lem:ugc-child-restriction}, the graph of $F_j$ is
-obtained from $S_{q_j}(G[U_j])$ by deleting
-$M_j$ vertices. Its full order is $q_jn_j$, and its surviving
-order is $N_j$, so $F_j$ is an elimination forest of this surviving
-graph. Lemma~\ref{lem:restore-total-depth} therefore gives
-\[
- \totd(S_{q_j}(G[U_j]))
- \leq\totd(F_j)+M_jN_j+\frac{M_j(M_j+1)}2.
-\]
-Since $q_j<q$, induction applies to the full child graph. Using
-$\alphaI(G[U_j])\leq\alphaI(G)$ and $K_{q_j}\geq0$, we obtain
-\begin{equation}\label{eq:total-depth-child-before-simplification}
- \totd(F_j)\geq\frac37(q_jn_j)^2+\frac{q_jn_j}{2}
- -K_{q_j}\alphaI(G)n_j-M_jN_j-\frac{M_j(M_j+1)}2.
-\end{equation}
-To simplify the restoration cost, use $N_j+M_j=q_jn_j$:
-\[
- \begin{aligned}
- M_jN_j+\frac{M_j(M_j+1)}2
- &=\frac{2M_jN_j+M_j^2+M_j}{2}
- =\frac{(N_j+M_j)^2+(N_j+M_j)-N_j^2-N_j}{2}\\
- &=\frac{q_jn_j(q_jn_j+1)-N_j(N_j+1)}2.
- \end{aligned}
-\]
-Substituting into~\eqref{eq:total-depth-child-before-simplification}
-cancels $q_jn_j/2$ against $-q_jn_j/2$ and changes the coefficient
-of $(q_jn_j)^2$ from $3/7$ to $3/7-1/2=-1/14$. Hence
+Since $q_j<q$, induction and Lemma~\ref{lem:restore-total-depth} give
 \begin{equation}\label{eq:total-depth-child-bound}
- \totd(F_j)\geq
- \frac{N_j^2}{2}+\frac{N_j}{2}
- -\frac{(q_jn_j)^2}{14}-K_{q_j}\alphaI(G)n_j.
+ \totd(F_j)\geq\frac37W_j^2+\frac{L_j}{2}
+ -\frac{L_j(L_j+1)-N_j(N_j+1)}2
+ =\frac{N_j^2+N_j-L_j^2}{2}+\frac37W_j^2.
 \end{equation}
-
-\emph{Adding the prefix and the child costs.}
-Insert~\eqref{eq:total-depth-child-bound} into
-Lemma~\ref{lem:ugc-total-depth-accounting} to obtain
-\[
- \begin{aligned}
- \totd(F)
- &=\frac{|P|(|P|+1)}2+|P|\sum_jN_j+\sum_j\totd(F_j)\\
- &\ge\frac{|P|(|P|+1)}2+|P|\sum_jN_j
-       +\frac12\sum_j(N_j^2+N_j)
-       -\frac1{14}\sum_j(q_jn_j)^2
-       -\alphaI(G)\sum_jK_{q_j}n_j.
- \end{aligned}
-\]
-We collect the first three terms using
-$(\sum_jN_j)^2=\sum_jN_j^2+2\sum_{i<j}N_iN_j$ and
-$|P|+\sum_jN_j=qn$:
-\[
- \begin{aligned}
- &\frac{|P|(|P|+1)}2+|P|\sum_jN_j+\frac12\sum_j(N_j^2+N_j)\\
- &=\frac12\left(|P|^2+2|P|\sum_jN_j+\sum_jN_j^2\right)
-   +\frac12\left(|P|+\sum_jN_j\right)\\
- &=\frac12\left(\left(|P|+\sum_jN_j\right)^2
-                 -2\sum_{i<j}N_iN_j\right)
-   +\frac12\left(|P|+\sum_jN_j\right)
- =\frac{q^2n^2}{2}+\frac{qn}{2}-\sum_{i<j}N_iN_j.
- \end{aligned}
-\]
-Substituting this identity into the preceding inequality gives
+By Lemma~\ref{lem:ugc-total-depth-accounting} and $N_j\leq L_j$,
 \begin{equation}\label{eq:total-depth-combined-children}
- \totd(F)\geq\frac{q^2n^2}{2}+\frac{qn}2-\sum_{i<j}N_iN_j
- -\frac1{14}\sum_j(q_jn_j)^2-\alphaI(G)\sum_jK_{q_j}n_j.
+\begin{aligned}
+ \totd(F)&\geq\frac{N^2+N}{2}-\sum_{i<j}N_iN_j
+             -\frac12\sum_jL_j^2+\frac37\sum_jW_j^2\\
+ &\geq\frac{N^2+N}{2}-\frac{(S+A)^2}{2}+\frac37\sum_jW_j^2.
+\end{aligned}
 \end{equation}
-
-\emph{Bounding the two error terms.}
-Set $T_j=q_jn_j$. Since $N_j\leq T_j$, Lemma~\ref{lem:quadratic-branching}
-applied with $W_j=T_j$ gives the first bound below. Cauchy--Schwarz,
-$\sum_jq_j\le q$, and~\eqref{eq:ugc-support-count} then give
+Lemma~\ref{lem:quadratic-branching} and Cauchy--Schwarz yield
 \[
- \begin{aligned}
- \sum_{i<j}N_iN_j+\frac1{14}\sum_jT_j^2
- &\le\frac1{14}\left(\sum_j\sqrt{T_j}\right)^4\\
- &=\frac1{14}\left(\left(\sum_j\sqrt{T_j}\right)^2\right)^2
- \leq\frac1{14}\left(\sum_jq_j\right)^2
-          \left(\sum_jn_j\right)^2\\
- &\le\frac{q^2}{14}\bigl(n+(q-1)\alphaI(G)\bigr)^2.
- \end{aligned}
+ \frac{S^2}{2}-\frac37\sum_jW_j^2
+ \leq\frac1{14}\left(\sum_j\sqrt{W_j}\right)^4
+ \leq\frac1{14}\left(\sum_jq_j\right)^2\left(\sum_jc_j\right)^2
+ \leq\frac{q^2c^2}{14}.
 \]
-Since $\alphaI(G)^2\le\alphaI(G)n$, expansion gives
+Using $S\leq qc$ in~\eqref{eq:total-depth-combined-children}, we obtain
 \[
- \begin{aligned}
- \bigl(n+(q-1)\alphaI(G)\bigr)^2
- &=n^2+2(q-1)n\alphaI(G)+(q-1)^2\alphaI(G)^2\\
- &\le n^2+(q^2-1)\alphaI(G)n.
- \end{aligned}
+ \totd(F)\geq\frac{N^2+N}{2}-\frac{q^2c^2}{14}-Aqc-\frac{A^2}{2}
+ =\frac37q^2c^2+\frac N2.
 \]
-For the remaining error, monotonicity of $K_q$ and
-$\sum_jn_j\le qn$ give
-\[
- \alphaI(G)\sum_jK_{q_j}n_j
- \le K_{q-1}\alphaI(G)\sum_jn_j
- \le qK_{q-1}\alphaI(G)n.
-\]
-Insert the two error bounds into~\eqref{eq:total-depth-combined-children}.
-The expansion of the square and the coefficient calculation give
-\[
- \begin{aligned}
- \totd(F)&\geq\frac{q^2n^2}{2}+\frac{qn}{2}
- -\frac{q^2}{14}\bigl(n^2+(q^2-1)\alphaI(G)n\bigr)
- -qK_{q-1}\alphaI(G)n\\
- &=\left(\frac12-\frac1{14}\right)q^2n^2+\frac{qn}{2}
- -\left(\frac{q^2(q^2-1)}{14}+qK_{q-1}\right)\alphaI(G)n\\
- &=\frac37q^2n^2+\frac{qn}{2}
- -\left(\frac{q^2(q^2-1)}{14}+qK_{q-1}\right)\alphaI(G)n.
- \end{aligned}
-\]
-The parenthesized coefficient is $K_q$ by~\eqref{eq:total-depth-K},
-proving the bound for every $F$ and completing the induction.
 \end{proof}
 
 \subsubsection{The approximation gap}
@@ -272,7 +160,7 @@ Fix $1\leq r<8/7$. For the source promise of Theorem~\ref{thm:kr},
 Lemma~\ref{lem:total-depth-completeness} and
 Theorem~\ref{thm:total-depth-structural} give the coefficients
 $A^{\Sigma}_{q,\eta}=(q^2-q(q-1)(1/2-\eta)^2)/2$ and
-$B^{\Sigma}_{q,\eta}=3q^2/7-K_q\eta$.
+$B^{\Sigma}_{q,\eta}=(3/7)q^2(1-\eta)^2$.
 The corresponding output satisfies
 \[
  \begin{array}{ll}
@@ -315,3 +203,17 @@ All parameters and the number of copies are fixed, so the reduction
 is polynomial.
 \end{proof}
 
+\begin{remark}[Asymptotic sharpness of the structural constants]
+Let $q=2^s$ and let $G$ be the disjoint union of $q$ cliques of order
+$b$. View $S_q(G)$ as a $q\times q$ array of $b$-vertex cells,
+indexed by layers and source cliques. Put the two off-diagonal
+quadrants on a common chain and recurse on the two diagonal quadrants,
+ending with a chain in each cell. For $N=q^2b$, the resulting forest has
+\[
+ h(F)=\frac23N+\frac b3,\qquad
+ \totd(F)=\frac37N^2+\frac N2+\frac{qb^2}{14}.
+\]
+Together with Theorems~\ref{thm:ugc-structural} and~\ref{thm:total-depth-structural},
+this gives $\td(S_q(G))/N\to2/3$ and $\totd(S_q(G))/N^2\to3/7$
+as $q,b\to\infty$, although $\alphaI(G)/|V(G)|=1/b\to0$.
+\end{remark}
