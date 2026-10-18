@@ -165,11 +165,10 @@ $\operatorname{sw}(J)\leq4\varepsilon N$ and
 $\operatorname{sw}(J)\geq\beta N/2-1$, respectively, where
 $N=|V(J)|$. Since $\beta/(8\varepsilon)=c/(16\sqrt\varepsilon)$
 can be made arbitrarily large, choose $\varepsilon$ for the desired
-factor. Replacing every edge of the host $G^*$ by the same fixed
-number of parallel copies preserves its normalized partition and
-expansion bounds. This multiplies $N=|V(J)|$ and both linear bounds
-by that number. Since $N>0$, a sufficiently large fixed number of
-copies absorbs the additive $1$. These comparisons
+factor. Parallel copies of each host edge preserve the normalized
+source promises and make $N$ arbitrarily large. Thus
+Lemma~\ref{lem:gap-preservation} absorbs the additive $1$.
+These comparisons
 and an $O(\log\OPT)$ approximation
 for vertex integrity are recorded in~\cite[Section 1.3 and Theorem 5.1]{GimaEtAlIntegrity}.
 Earlier NP-hardness includes vertex integrity on connected line
@@ -391,12 +390,9 @@ decompositions also impose the special condition. Together with the
 common upper bound, this proves the three equalities.
 Thus the NP $r<12/11$, UGC $r<4/3$, and established SSE treewidth
 hardness at every fixed factor transfer even to rank-two hypergraphs.
-The transfer compares the width value $\operatorname{tw}(G)+1$, which
-is the size of a largest bag. Suppose an output graph has order $N$,
-YES treewidth at most $aN$, and NO treewidth at least $bN$, where
-$b/a>r$. After adding one, the ratio is at least
-$(bN+1)/(aN+1)\to b/a>r$. Thus the factor-$r$ gap remains for
-sufficiently large $N$.
+The transfer compares $\operatorname{tw}(G)+1$, the size of a largest
+bag. Lemma~\ref{lem:gap-preservation} absorbs this additive $1$
+in the linear promise bounds.
 In the usual query representation, vertices are variables and
 each hyperedge supplies one relation atom. Their conjunction is
 a conjunctive query, and size-two hyperedges give binary atoms.

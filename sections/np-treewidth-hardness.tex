@@ -48,16 +48,10 @@ Lemma~\ref{lem:tw-replication} yields respectively
        \geq R(6-\epsilon)m-1.
  \end{array}
 \]
-The NO bound minus $r$ times the YES bound equals
-\[
-\begin{aligned}
- &[R(6-\epsilon)m-1]
-   -r[R(11/2+\epsilon)m+3m-1]\\
- &=\bigl(R(6-\epsilon-r(11/2+\epsilon))-3r\bigr)m+r-1>0,
-\end{aligned}
-\]
-by the choice of $R$, which makes the coefficient of $m$ positive,
-and $r\ge1$, which gives $r-1\ge0$. This proves the gap.
+The choices of $\epsilon,R$ make the ratio of the linear
+coefficients larger than $r$. Taking disjoint copies of $F$
+preserves the source promise and makes $m$ arbitrarily large.
+Lemma~\ref{lem:gap-preservation} then absorbs the constants $-1$.
 The output has $9Rm$ vertices, and its three global cliques have
 equal size $3Rm$. 
 \end{proof}

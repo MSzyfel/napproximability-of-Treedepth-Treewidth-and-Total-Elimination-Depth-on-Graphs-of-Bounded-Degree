@@ -227,18 +227,11 @@ Lemma~\ref{lem:tw-replication} gives
        \ge R(2/3-\zeta)N-1.
  \end{array}
 \]
-The NO lower bound minus $r$ times the YES upper bound is
-\[
-\begin{aligned}
- &[R(2/3-\zeta)N-1]
-   -r[R(1/2+\zeta)N+N/3-1]\\
- &=R\bigl(2/3-\zeta-r(1/2+\zeta+1/(3R))\bigr)N+r-1>0,
-\end{aligned}
-\]
-because the two error terms leave a positive part of
-$2/3-r/2$, and $r-1\ge0$. Thus an $r$-approximation
-distinguishes the source cases. The construction is polynomial,
-and its three specified cliques each have size $RN/3$. The same
-comparison, omitting the final $r-1$, gives the gap for maximum
-bag size.
+The choices of $\zeta,R$ make the ratio of the linear coefficients
+larger than $r$. Disjoint copies of $G$ preserve the part balance
+and vertex-cover fraction, allowing $N$ to be arbitrarily large.
+Lemma~\ref{lem:gap-preservation} absorbs the constants $-1$ and
+gives the gap for both treewidth and maximum bag size.
+The construction is polynomial, and its three specified cliques
+each have size $RN/3$.
 \end{proof}

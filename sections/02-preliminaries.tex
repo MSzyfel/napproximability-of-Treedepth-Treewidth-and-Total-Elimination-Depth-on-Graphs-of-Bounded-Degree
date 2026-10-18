@@ -57,3 +57,66 @@ subtree of $T$, and $T_u\cap T_v\ne\varnothing$ for every edge
 $uv\in E(H)$. Its width is
 $\max_t|B_t|-1$, and the \emph{treewidth} $\operatorname{tw}(H)$ is
 the minimum such width.
+
+\Needspace{12\baselineskip}
+\subsection{Additive errors in hardness reductions}
+
+The following observation lets us absorb small transformation errors
+without repeating the gap comparison. Here $\OPT(I)$ denotes the
+optimum of a minimization instance $I$.
+
+\begin{lemma}[Preservation of approximation gaps]
+\label{lem:gap-preservation}
+Let $I\mapsto I'$ be a polynomial-time transformation between
+minimization problems. Suppose that, for fixed $a>0$ and
+$0\le\epsilon<1$, it satisfies
+\[
+ |\OPT(I')-a\OPT(I)|\le\epsilon aL(I),
+ \qquad 0<L(I)\le\OPT(I).
+\]
+A promise with YES upper bound $Y>0$ and NO lower bound $r'Y$,
+where $r'>1$ and $Y$ may depend on the input size, then has
+transformed bounds $a(1+\epsilon)Y$ and $a(1-\epsilon)r'Y$.
+Thus every fixed $1\le r<r'$ is preserved when
+$\epsilon<(r'-r)/(r'+r)$. The gap conclusion also applies when
+these two transformed bounds are verified directly.
+
+If, in addition, every solution of $I'$ of cost $z$ can be converted
+in polynomial time into one of $I$ of cost at most
+$z/a+\epsilon L(I)$, then an $r$-approximation for $I'$ gives an
+$(r+(r+1)\epsilon)$-approximation for $I$. If
+$\OPT(I')\le a\OPT(I)$, the latter factor improves to $r+\epsilon$.
+\end{lemma}
+
+\begin{proof}
+The additive bound and $L(I)\le\OPT(I)$ give
+\[
+ \begin{aligned}
+ \OPT(I')&\ge a\OPT(I)-\epsilon aL(I)\ge a(1-\epsilon)\OPT(I),\\
+ \OPT(I')&\le a\OPT(I)+\epsilon aL(I)\le a(1+\epsilon)\OPT(I).
+ \end{aligned}
+\]
+These inequalities give the stated YES and NO bounds. Their ratio is
+$r'(1-\epsilon)/(1+\epsilon)$. It exceeds $r$ if and only if
+$r(1+\epsilon)<r'(1-\epsilon)$, or
+$\epsilon<(r'-r)/(r'+r)$. This comparison also proves the claim
+when the two bounds are given directly. For the solution claim,
+an $r$-approximate solution has $z\le r\OPT(I')$, so its conversion
+has cost at most
+\[
+ \frac za+\epsilon L(I)
+ \le\frac{r\OPT(I')}{a}+\epsilon L(I)
+ \le r\OPT(I)+(r+1)\epsilon L(I)
+ \le\bigl(r+(r+1)\epsilon\bigr)\OPT(I).
+\]
+When $\OPT(I')\le a\OPT(I)$, use $z/a\le r\OPT(I)$ to bound the
+conversion cost by
+$r\OPT(I)+\epsilon L(I)\le(r+\epsilon)\OPT(I)$.
+\end{proof}
+
+An additive error of order $o(L(I))$ is at most
+$\epsilon aL(I)$ on all sufficiently large instances, for any
+fixed $a,\epsilon>0$. Thus the lemma also applies when its
+hypotheses hold only above a fixed
+size, provided the source promise remains hard under that
+restriction. Each application below verifies this condition.

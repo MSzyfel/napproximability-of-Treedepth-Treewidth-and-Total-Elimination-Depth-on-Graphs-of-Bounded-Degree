@@ -240,23 +240,11 @@ Indeed,
 $24q-7r(3q+1)=(24-21r)q-7r>0$ by the choice of $q$.
 The coefficients are continuous in $\eta$, so choose a fixed rational
 $\eta\in(0,1/10)$ with
-$B^{\Sigma}_{q,\eta}>rA^{\Sigma}_{q,\eta}$. To absorb the remaining
-linear term, choose a fixed integer
-$L_0\ge1$ with
-$L_0>(r-1)q/[2(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta})]$ and take
-$L_0$ disjoint copies of the source graph. Since its original order is
-at least one, the new order satisfies
-$n\ge L_0>(r-1)q/[2(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta})]$.
-This preserves its independence fraction and gives
-$(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta})n^2>(r-1)qn/2$.
-Subtracting $r$ times the YES upper bound from the NO lower bound gives
-\[
- (B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta})n^2
- +\frac{qn}{2}-r\frac{qn}{2}
- =(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta})n^2
-  -\frac{(r-1)qn}{2}>0.
-\]
-Thus the NO lower bound exceeds $r$ times the YES upper bound.
+$B^{\Sigma}_{q,\eta}>rA^{\Sigma}_{q,\eta}$. The common linear term
+$qn/2$ is lower order than the quadratic bounds.
+Taking a fixed number of disjoint copies of the source graph
+preserves its independence fraction and makes $n$ large enough for
+Lemma~\ref{lem:gap-preservation} to absorb this term.
 All parameters and the number of copies are fixed, so the reduction
 is polynomial.
 \end{proof}

@@ -7,11 +7,9 @@ quadratic in $N$ for total depth. The sparsification theorems above
 preserve the YES bounds and decrease the NO bounds by at most
 $\tau N$ or $\tau N^2$, respectively. After division by the
 corresponding scale, the loss is at most $\tau$ and can be made
-arbitrarily small. For any fixed factor below a stated hardness
-threshold, first choose the dense reduction with a slightly larger
-gap, then fix $\tau>0$ small enough to preserve the separation.
-Taking a sufficiently large source instance also absorbs the
-lower-order additive terms.
+arbitrarily small. Lemma~\ref{lem:gap-preservation} therefore
+preserves every factor below the dense hardness threshold, after
+choosing $\tau$ sufficiently small and the source sufficiently large.
 The resulting maximum degree is constant for this choice of
 parameters. This standard argument gives the following three
 corollaries. The factor checks and detailed calculations are in
@@ -151,45 +149,43 @@ total depth may decrease.
 \end{corollary}
 
 \begin{proof}
-Fix a target factor $r$ in one of the stated hardness ranges, and
-choose a larger factor $r'$ that is still in the same range. For the
-NP total-depth result, take the target factor below $1+\epsilon_0$;
-the preceding result then also excludes approximation within any
-larger factor $r'<1+\epsilon_0$.
-Choose an odd $d$ larger than the maximum degree of the bounded-degree
-instances and large enough that
-\[
- r\frac{d+3}{d+2}<r'.
-\]
-Such a $d$ exists because $(d+3)/(d+2)$ tends to $1$.
+Fix a target factor $r$ and a larger factor $r'$ in the same
+hardness range. For NP-hardness of total depth, take
+$1<r<r'<1+\epsilon_0$.
+Choose an odd $d$ larger than the maximum degree of the
+bounded-degree source family. We may increase $d$ further, then
+require a sufficiently large source order $n$, using the
+enlargements in Appendix~\ref{app:bounded-degree-hardness}.
 
-Write $Y$ and $Z$ for the YES upper bound and NO lower bound on a
-source instance, so $Z>r'Y$. The strict inequality $r<r'$ leaves
-room for the regularization error. As detailed in
-Appendix~\ref{app:bounded-degree-hardness}, taking disjoint copies
-of the source formula or graph, or
-parallel copies of every host edge in the SSE construction, makes
-the output order arbitrarily large while preserving the source
-promise. For treedepth, the YES bound $Y$ grows linearly with this
-order. We can therefore make the fixed additive error $r(d+2)$
-smaller than $(r'-r)Y$, giving
-$r(Y+d+2)<r'Y<Z$. Proposition~\ref{prop:regularization}
-then preserves the factor-$r$ gap. For treewidth, enlarge the source
-until its YES width is at least $d+2$. The proposition then leaves the
-YES upper bound unchanged and cannot decrease the NO lower bound.
+For treedepth and treewidth, Proposition~\ref{prop:regularization}
+changes the promise bounds by at most the fixed constant $d+2$.
+Their linear scale therefore allows
+Lemma~\ref{lem:gap-preservation} to preserve the factor-$r$ gap.
 
-For total depth, let $n$ be the source order and write
-$C_d=(d+2)(d+3)/2$. The proposition gives regularized YES and NO
-bounds of $(d+3)Y+C_dn$ and $(d+2)Z$, respectively. The difference
-between the NO bound and $r$ times the YES bound is greater than
+For total depth, divide the regularized cost by $d+2$.
+Proposition~\ref{prop:regularization} gives
 \[
- \bigl((d+2)r'-r(d+3)\bigr)Y-rC_dn.
+ \totd(G)\le\frac{\totd(R)}{d+2}
+ \le\left(1+\frac1{d+2}\right)\totd(G)+\frac{d+3}{2}n.
 \]
-The coefficient of $Y$ is positive by the choice of $d$. Here $Y$
-grows quadratically with $n$, whereas the subtracted term grows only
-linearly. The same source enlargements therefore make the displayed
-difference positive. The resulting degree $d$ depends only on the
-target factor.
+In the promise reductions, the YES bound is quadratic in $n$.
+First increasing $d$ makes the multiplicative error small, and
+then increasing $n$ makes the additional linear term small relative
+to that bound. The NO bound does not decrease. The gap part of
+Lemma~\ref{lem:gap-preservation} therefore applies.
+
+For the NP total-depth family, the optimum itself is bounded
+below by a fixed positive multiple of $n^2$, as shown in
+Appendix~\ref{app:bounded-degree-total-depth}. Together with the
+chain upper bound $\totd(G)\le n(n+1)/2$, this makes the normalized
+error an arbitrarily small fraction of that lower bound for large
+$d$ and then large $n$.
+The projection in Proposition~\ref{prop:regularization}
+converts every forest of $R$ of cost $z$ into one of $G$ of cost
+at most $z/(d+2)$. Hence the solution part of
+Lemma~\ref{lem:gap-preservation} converts an $r$-approximation
+on regular graphs into an approximation within the excluded
+factor $r'$ on the source family.
 \end{proof}
 
 \begin{corollary}\label{cor:subdivision-hardness}
@@ -233,7 +229,8 @@ minor-monotonicity, this gives
 \[
  \td(G)\leq\td(G_\ell)\leq\td(G)+h,\qquad h=\lceil\log_2\ell\rceil.
 \]
-Thus the linear gaps persist. For total depth, start with a
+Lemma~\ref{lem:gap-preservation} absorbs the fixed height increase
+$h$ in the linear promise bounds. For total depth, start with a
 $d$-regular instance $G$ on $n$ vertices from
 Corollary~\ref{cor:regular-hardness}.
 Since $d$ is odd, add a perfect matching to make every degree even,
@@ -279,16 +276,15 @@ most $d$ edges, so summing the original and new depths gives
 \]
 Here $1+d(\ell-1)\leq3s$, since
 $3s-[1+d(\ell-1)]=2+(\ell-1)(d-3)/2\geq0$. The last term is
-$O(n)$ because $d$ and $\ell$ are fixed. Choose the source SSE gap
-with NO bound $Z>3rY$, where $Y$ is its YES upper bound. The
-subdivided instance then has YES bound at most $3sY+O(n)$ and NO
-bound at least $sZ$. The SSE gaps in
-Appendix~\ref{app:bounded-degree-total-depth} leave a positive
-multiple of $n^2$ between $Z$ and $3rY$. Taking more parallel copies
-of each host edge before forming its line graph makes the order $n$
-of the resulting regular graph arbitrarily large. Thus the quadratic
-difference eventually exceeds the additional $O(n)$ cost, giving
-$sZ-r(3sY+O(n))>0$ and preserving the factor-$r$ gap.
+$O(n)$ because $d$ and $\ell$ are fixed. For a target factor $r$,
+choose a fixed $r'>r$ and a source SSE gap with NO bound $Z>3r'Y$,
+where $Y$ is its YES upper bound. The subdivided instance has YES
+bound at most $3sY+O(n)$ and NO bound at least $sZ$.
+Since $Y$ is quadratic in $n$, Lemma~\ref{lem:gap-preservation}
+absorbs the $O(n)$ term for sufficiently large instances and
+preserves the factor-$r$ gap. Such orders are obtained from
+parallel host-edge copies as in
+Appendix~\ref{app:bounded-degree-hardness}.
 \end{proof}
 
 The total-depth conclusions of both corollaries also hold for average

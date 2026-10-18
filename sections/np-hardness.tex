@@ -262,8 +262,7 @@ The remaining additive constants can be absorbed by increasing $m$.
 To do so, take a fixed number of disjoint copies of $F$ on disjoint
 variable sets. This multiplies $m$ and $\OPT(F)$ by the same
 integer, preserving the source promise
-and~\eqref{eq:xor-normalization}. Choose enough copies to ensure
-$(9-\epsilon-r(17/2+\epsilon))m>r-1$.
+and~\eqref{eq:xor-normalization}.
 By Proposition~\ref{prop:xor-treedepth-identity} and the source
 promise, the two cases satisfy
 \[
@@ -276,10 +275,7 @@ promise, the two cases satisfy
    =(9-\epsilon)m+1.
 \end{aligned}
 \]
-Subtracting $r$ times the YES upper bound from the NO lower bound gives
-\[
- \bigl((9-\epsilon)-r(17/2+\epsilon)\bigr)m-(r-1)>0,
-\]
-by the choice of the number of copies. Thus the NO bound exceeds $r$
-times the YES bound.
+The ratio of the linear coefficients exceeds $r$ by the choice of
+$\epsilon$. Lemma~\ref{lem:gap-preservation} absorbs the additive
+$1$ for sufficiently many source copies, proving the gap.
 \end{proof}
