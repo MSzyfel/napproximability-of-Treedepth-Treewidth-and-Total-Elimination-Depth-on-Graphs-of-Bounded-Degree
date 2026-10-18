@@ -146,16 +146,22 @@ $B_u$ satisfies $|U\setminus B_u|\leq3(t-1)$.
 Let $T$ be the decomposition tree. For each graph vertex $v$, let
 $T_v$ be the nonempty connected subtree of nodes whose bags contain
 $v$.
-If $|U|<t$, any bag suffices. Otherwise consider an edge of the
+If $|U|<t$, choose any node $u$ of $T$; then
+$|U\setminus B_u|\leq|U|\leq t-1\leq3(t-1)$. Otherwise consider an edge of the
 decomposition tree. Its deletion leaves two sides. Call a side
-heavy if it contains the entire subtree $T_v$ for at least $t$
-vertices $v\in U$. If both sides were heavy, choose $t$ vertices whose subtrees lie
-entirely on each side. No bag could contain one vertex from each
-set, so no edge could join the sets. They would be anticomplete,
+heavy if it contains the entire subtree $T_v$ for at least $t$ vertices $v\in U$.
+If both sides were heavy, choose a set $X\subseteq U$ of exactly $t$
+vertices whose subtrees lie entirely on one side, and a set
+$Y\subseteq U$ of exactly $t$ vertices whose subtrees lie entirely on
+the other side. The sets are disjoint, since a nonempty subtree cannot
+lie on both sides, so they contain $2t$ vertices in total. No bag
+can contain both a vertex of $X$ and a vertex of $Y$, since their bag
+subtrees lie on opposite sides. Thus $X$ and $Y$ are anticomplete,
 contrary to the hypothesis. Orient the edge toward its
 heavy side if one exists, and arbitrarily if neither is heavy.
-Following outgoing edges in a finite tree eventually reaches a
-node with no outgoing edge. Call such a node a \emph{sink}, and let
+Following outgoing edges cannot revisit a node, since the underlying
+tree has no cycles. The walk therefore ends at a node with no outgoing
+edge. Call such a node a \emph{sink}, and let
 $u$ be one.
 
 For each component $C$ of $T-u$, at most $t-1$ vertices $v\in U$
@@ -164,14 +170,13 @@ oriented away from the sink $u$. Let $W=U\setminus B_u$. Every
 vertex $v\in W$ has its entire subtree in one component of $T-u$;
 write $W_C=\{v\in W:T_v\subseteq C\}$. Thus $|W_C|\leq t-1$ for
 each component $C$. If $t=1$, this gives $W=\varnothing$. For
-$t\geq2$, suppose $|W|\geq3t-2$. Add components one at a time until
-the total number of their assigned vertices first reaches $t$. The
-selected components contain a set $W_1$ with
-$t\leq|W_1|\leq2t-2$, since each component contributes at most
-$t-1$ vertices. The other components contain a set $W_2=W\setminus
-W_1$ with $|W_2|\geq(3t-2)-(2t-2)=t$. The subtrees of vertices in
-$W_1$ and $W_2$ lie in different components of $T-u$, so no bag
-contains a vertex from each set. Hence $W_1,W_2$ are anticomplete in
+$t\geq2$, suppose $|W|\geq3t-2$. Select components one at a time
+until the sum of their $|W_C|$ first reaches $t$, and let $W_1$ be
+the union of their $W_C$ sets. The last component added contributes at most $t-1$
+vertices, so $t\leq|W_1|\leq2t-2$. Let $W_2=W\setminus W_1$;
+then $|W_2|\geq(3t-2)-(2t-2)=t$. The subtrees of vertices in
+$W_1$ and $W_2$ lie in disjoint groups of components of $T-u$,
+so no bag contains a vertex from each set. Hence $W_1,W_2$ are anticomplete in
 $J$, contrary to the hypothesis. Therefore
 $|U\setminus B_u|=|W|\leq3t-3=3(t-1)$.
 \end{proof}
@@ -209,14 +214,22 @@ are disjoint. Let $K$ be the bipartite graph on $A,B$ whose edges
 are the incomparable pairs. Partition its edges according to
 $t_{\mathrm{out}}(u)<t_{\mathrm{in}}(v)$ or $t_{\mathrm{out}}(v)<t_{\mathrm{in}}(u)$.
 If $K$ has a matching of size at least $4t-3$, one type contains
-at least $2t-1$ edges of that matching. For the first type, write
-these edges as $u_iv_i$, $1\le i\le m_0$, with $m_0\ge2t-1$ and
-$t_{\mathrm{out}}(u_1)\le\cdots\le t_{\mathrm{out}}(u_{m_0})$. If $i\le t$ and $j\ge m_0-t+1$,
-then $i\le j$, and hence $t_{\mathrm{out}}(u_i)\le t_{\mathrm{out}}(u_j)<t_{\mathrm{in}}(v_j)$.
-The first $t$ vertices $u_i$ and the last $t$ vertices $v_j$ are
-therefore pairwise incomparable across the two sets. They are
-anticomplete in $J$, since every edge of $J$ has comparable endpoints
-in $F$, a contradiction. The second type is symmetric.
+at least $2t-1$ matching edges. Consider first the type satisfying
+$t_{\mathrm{out}}(u)<t_{\mathrm{in}}(v)$. Write its matching edges
+as $u_iv_i$, for $1\le i\le m_0$, where $m_0\ge2t-1$, and order
+them so that $t_{\mathrm{out}}(u_1)\le\cdots\le
+t_{\mathrm{out}}(u_{m_0})$. For $i\le t$ and
+$j\ge m_0-t+1$, we have $i\le j$ and therefore
+$t_{\mathrm{out}}(u_i)\le t_{\mathrm{out}}(u_j)<
+t_{\mathrm{in}}(v_j)$. Hence the sets
+$X=\{u_1,\ldots,u_t\}$ and
+$Y=\{v_{m_0-t+1},\ldots,v_{m_0}\}$ each have size $t$, and every
+vertex of $X$ is incomparable with every vertex of $Y$. The matching
+ensures that the vertices within each set are distinct. Since every
+edge of $J$ has comparable endpoints in $F$, the sets are
+anticomplete, a contradiction. For the other type, interchange the
+roles of $A$ and $B$ and order by the forgetting times of the
+vertices in $B$; the same argument gives a contradiction.
 It follows that the maximum matching size of $K$ is at most $4t-4$.
 K\"onig's theorem supplies a vertex cover $D$ of $K$ of that size.
 All surviving cross-pairs are comparable.
@@ -261,19 +274,26 @@ which lies on $P$.
 Let $K$ be the bipartite graph on $A,B$ in which $uv$ is an edge
 if and only if $T_u$ and $T_v$ are disjoint.
 If it has a matching of size $m_0\ge2t-1$, write its edges
-$u_iv_i$ in increasing order of the endpoint of the prefix for
-$u_i$. The endpoint of each $u_i$-prefix precedes the start
-of its matched $v_i$-suffix. Consequently every one of the first
-$t$ prefixes is disjoint from every one of the last $t$ matched
-suffixes: if $i\le t$ and $j\ge m_0-t+1$, then $i\le j$.
-Their corresponding $t$-subsets of $A$ and $B$ are anticomplete
-in $J$, because an edge requires the two vertices to occur together
-in a bag. This contradicts the hypothesis. Thus the maximum matching size
-of $K$ is at most $2t-2$.
+$u_iv_i$ and order them so that the endpoint of the prefix
+$T_{u_i}\cap P$ is nondecreasing in $i$. The endpoint of each
+$u_i$-prefix precedes the start of its matched $v_i$-suffix, since
+the two subtrees are disjoint and the prefix starts at $x$ while the
+suffix ends at $y$. Consequently, if $i\le t$ and
+$j\ge m_0-t+1$, then $i\le j$ and the prefix for $u_i$ ends before
+the suffix for $v_j$ starts. Thus the sets
+$X=\{u_1,\ldots,u_t\}$ and
+$Y=\{v_{m_0-t+1},\ldots,v_{m_0}\}$ each have size $t$, and their
+bag subtrees are disjoint across the two sets. The matching ensures
+that vertices within each set are distinct. An edge of $J$ requires
+its endpoints to occur together in a bag, so $X,Y$ are anticomplete,
+contrary to the hypothesis. Therefore the maximum matching size of
+$K$ is at most $2t-2$.
 
 K\"onig's theorem gives a vertex cover of $K$ of size at most
-$2t-2$. Delete these vertices. Every surviving cross-pair has
-intersecting bag subtrees, so its completed edge is covered.
+$2t-2$. Delete these vertices. Every surviving cross-pair is not an
+edge of $K$, so its two bag subtrees intersect. A node in their
+intersection has a bag containing both endpoints, and therefore
+covers the completed edge.
 \end{proof}
 
 \subsubsection{Comparison bounds}
@@ -377,8 +397,11 @@ Apply Lemma~\ref{lem:tw-biclique-completion} to choose at most
 $2(t_f-1)$ further exceptions for each factor. Let $D$ be the
 union of all exception sets. Deleting other factors' exceptions
 does not remove a bag intersection between surviving vertices.
-Thus the restricted decomposition covers every edge of $H-D$,
-including all completed factors and all retained edges.
+The restricted bags still cover each edge whose endpoints survive:
+deleting other exceptional vertices removes neither endpoint from
+those bags nor the bag intersection that covers the edge. Thus the
+restricted decomposition covers every edge of $H-D$, including all
+completed factors and all retained edges.
 Add every vertex of $D$ to every bag. The resulting bags form a
 decomposition of $H$: every edge with an endpoint in $D$ is covered,
 and the bags containing each vertex remain connected. Its width exceeds
@@ -527,7 +550,8 @@ take the corresponding $M$-vertex walk power $\mathcal E$. Map its
 vertices onto the prescribed set by $\pi$, with at most
 $\lceil M/n\rceil$ preimages at each output vertex. Include an edge
 $uv$ for distinct output vertices $u,v$ if and only if a step of
-$\mathcal E$ has endpoints mapped to $u,v$. By symmetry, each
+$\mathcal E$ has endpoints mapped to $u,v$. The walk power is
+undirected, so every step has a reverse step. Consequently, each
 incident output edge is witnessed by an outgoing step from a
 preimage of that output vertex. Since each preimage has at most
 $8^k$ outgoing steps, the maximum degree is at most
@@ -566,11 +590,14 @@ component. For every $x\in V(\mathcal E)$, let $a(x)$ be the output
 component containing $\pi_A(x)$ and let $b(x)$ be the component
 containing $\pi_B(x)$. Each step $xy$ of $\mathcal E$ and its reverse
 give output edges $\pi_A(x)\pi_B(y)$ and
-$\pi_A(y)\pi_B(x)$. Hence $a(x)=b(y)$ and $a(y)=b(x)$.
-Along an odd cycle these equalities imply $a(x)=b(x)$ at a cycle
-vertex. Since $\mathcal E$ is connected, propagating the equalities
-along paths shows that every $a(x)$ and $b(x)$ is this same
-component. The maps are onto, so every output vertex lies in it,
+$\pi_A(y)\pi_B(x)$. Hence $a(x)=b(y)$ and $a(y)=b(x)$. Moving
+along a cycle, these relations alternate the values of $a$ and $b$.
+Since the cycle has odd length, they imply $a(x)=b(x)$ at its
+starting vertex, so all component labels on the cycle are equal.
+From any cycle vertex, the same edge relations propagate this
+equality along every path in the connected graph $\mathcal E$.
+Thus every $a(x)$ and $b(x)$ is this same component. The maps are
+onto, so every output vertex lies in it,
 contrary to the supposition. Thus the bipartite output is connected.
 \end{proof}
 
