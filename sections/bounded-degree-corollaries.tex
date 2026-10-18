@@ -58,8 +58,8 @@ are deterministic.
 \begin{proof}
 We apply Theorem~\ref{thm:td-sparsification} separately to the three
 dense constructions. Denote its error parameter by $\tau>0$.
-The gap transfers use Lemma~\ref{lem:factor-gap-transfer} with
-exponent $a=1$.
+For an output of order $N$, sparsification preserves the YES
+height bound and lowers the NO treedepth bound by at most $\tau N$.
 
 \emph{NP-hardness.}
 Use the local factors of Lemma~\ref{lem:parity-local-factors},
@@ -159,7 +159,8 @@ are deterministic.
 \begin{proof}
 We verify the hypotheses of Theorem~\ref{thm:tw-sparsification}
 for each construction and denote its error parameter by $\tau$.
-We use Lemma~\ref{lem:factor-gap-transfer} with exponent $a=1$.
+For an output of order $N$, sparsification preserves the YES
+width bound and lowers the NO treewidth bound by at most $\tau N$.
 
 \emph{NP-hardness.}
 Use the three global cliques of $K_R(G_F)$ and, within each
@@ -257,8 +258,10 @@ factor. All reductions are deterministic.
 \begin{proof}
 Apply Theorem~\ref{thm:total-depth-sparsification}, with error
 parameter $\tau>0$.
-The corresponding exponent in Lemma~\ref{lem:factor-gap-transfer}
-is $a=2$.
+For an output of order $N$, sparsification preserves the YES
+total-depth bound and lowers the NO bound by at most $\tau N^2$.
+Completing a sparse elimination forest increases its total depth
+by at most the same amount.
 
 \emph{NP-hardness.}
 Let $\delta_0>0$ be the relative-loss hardness constant for

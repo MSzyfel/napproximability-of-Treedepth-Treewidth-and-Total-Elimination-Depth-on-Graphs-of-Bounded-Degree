@@ -59,41 +59,6 @@ $d_1N$ factors. The construction is therefore
 polynomial time for the fixed parameters.
 \end{proof}
 
-\begin{lemma}[Preservation of a dense hardness gap]
-\label{lem:factor-gap-transfer}
-Let $\varphi$ be a graph minimization parameter and fix $a>0$ and $r\ge1$.
-Suppose that, for every fixed $\tau>0$, a deterministic
-polynomial-time construction maps each $N$-vertex graph $H$ in
-a given family to a spanning subgraph $J$ of bounded maximum degree
-with $\varphi(H)-\tau N^a\le\varphi(J)\le\varphi(H)$.
-The degree bound may depend on $\tau$ and the family's fixed
-parameters. Suppose a hardness reduction to this family has, for
-fixed $B>rA\ge0$, YES bound $\varphi(H)\le AN^a+e(N)$ and
-NO bound $\varphi(H)\ge BN^a-e(N)$, where $e(N)\ge0$ and
-$e(N)/N^a\to0$ as $N\to\infty$.
-For every fixed $N_0$, assume the source promise remains hard when
-restricted to instances mapped to graphs of order $N\ge N_0$.
-Then factor-$r$ hardness holds at bounded maximum degree under the
-same assumption and reduction type.
-
-If, in addition, every feasible solution for $J$ can be completed
-to one for $H$ at an additive cost of at most $\tau N^a$, and
-$\varphi(H)\ge c_{\min}N^a$ for a fixed $c_{\min}>0$, then an $r$-approximate
-solution for $J$ completes to a solution for $H$ within factor
-$r+\tau/c_{\min}$.
-\end{lemma}
-
-\begin{proof}
-Choose fixed $0<\tau<B-rA$. The sparse YES upper bound is
-$AN^a+e(N)$, and the sparse NO lower bound is
-$(B-\tau)N^a-e(N)$. Their difference after multiplying the YES
-bound by $r$ is $(B-\tau-rA)N^a-(r+1)e(N)>0$ for every
-sufficiently large $N$, since $e(N)/N^a\to0$.
-For the solution statement, the assumption gives
-$\varphi(J)\le\varphi(H)$. Thus completion gives cost at most
-$r\varphi(J)+\tau N^a\le r\varphi(H)+\tau N^a\le(r+\tau/c_{\min})\varphi(H)$.
-\end{proof}
-
 \begin{theorem}[Treedepth sparsification]
 \label{thm:td-sparsification}
 Let $H$ have the edge description~\eqref{eq:factor-edge-union},
