@@ -302,8 +302,16 @@ Every connected component therefore has at least $d$ vertices,
 so $Q_v$ is connected because
 $2d>d+2$ for $d\geq3$. The resulting graph $R$ is simple.
 
-Appending $V(Q_v)$ as a chain below $v$ proves the upper bounds
-for height and total depth. Attach a bag $\{v\}\cup V(Q_v)$ to an
+Appending $V(Q_v)$ as a chain below $v$ increases the height by at
+most $d+2$. If the chain has $|V(Q_v)|$ vertices, their total depth is
+at most
+\[
+ |V(Q_v)|\operatorname{depth}_F(v)
+ +\frac{|V(Q_v)|(|V(Q_v)|+1)}2
+ \leq(d+2)\operatorname{depth}_F(v)+\frac{(d+2)(d+3)}2.
+\]
+Summing over $v$ and including the original vertices gives the stated
+total-depth upper bound. Attach a bag $\{v\}\cup V(Q_v)$ to an
 existing bag containing $v$ in a tree decomposition of $G$.
 Doing this for every $v$ proves the treewidth bound.
 
