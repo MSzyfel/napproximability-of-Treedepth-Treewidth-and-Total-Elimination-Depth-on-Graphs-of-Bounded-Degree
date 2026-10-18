@@ -81,7 +81,7 @@ transformed bounds $a(1+\epsilon)Y$ and $a(1-\epsilon)r'Y$.
 Thus every fixed $1\le r<r'$ is preserved when
 $\epsilon<(r'-r)/(r'+r)$.
 
-More generally, suppose the transformation is known to have additive
+Alternatively, suppose the transformation is known to have additive
 error at most $\epsilon aY$ on both promise cases, without a lower
 bound $L(I)\le\OPT(I)$. Then the transformed YES and NO bounds are
 $a(1+\epsilon)Y$ and $a(r'-\epsilon)Y$. Their gap has factor greater
@@ -112,7 +112,10 @@ The additive bound and $L(I)\le\OPT(I)$ give
 These inequalities give the stated YES and NO bounds. Their ratio is
 $r'(1-\epsilon)/(1+\epsilon)$. It exceeds $r$ if and only if
 $r(1+\epsilon)<r'(1-\epsilon)$, or
-$\epsilon<(r'-r)/(r'+r)$. For the solution claim,
+$\epsilon<(r'-r)/(r'+r)$. Under the alternative additive-error
+hypothesis, YES values increase by at most $\epsilon aY$ and NO
+values decrease by at most the same amount, giving the displayed
+transformed bounds and gap condition. For the solution claim,
 an $r$-approximate solution has $z\le r\OPT(I')$, so its conversion
 has cost at most
 \[
@@ -124,9 +127,6 @@ has cost at most
 When $\OPT(I')\le a\OPT(I)$, use $z/a\le r\OPT(I)$ to bound the
 conversion cost by
 $r\OPT(I)+\epsilon L(I)\le(r+\epsilon)\OPT(I)$.
-Under the alternative additive-error hypothesis, YES values increase
-by at most $\epsilon aY$ and NO values decrease by at most the same
-amount, giving the displayed transformed bounds and gap condition.
 \end{proof}
 
 An additive error of order $o(L(I))$ is at most
