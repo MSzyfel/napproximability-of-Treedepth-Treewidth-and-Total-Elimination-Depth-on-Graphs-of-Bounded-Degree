@@ -486,9 +486,11 @@ $\{u,v,x_1\},\{v,x_1,x_2\},\ldots,
 $u,v$. These bags cover the replacement path and preserve the
 connectedness condition for each vertex, so
 $\operatorname{tw}(G_\ell)\leq\max\{\operatorname{tw}(G),2\}$.
-For graphs with an edge, $\operatorname{tw}(G)\geq1$, while an
-edgeless graph remains edgeless. Thus subdivision preserves
-treewidth. A path on $s$ vertices has an
+If $\operatorname{tw}(G)\ge2$, the two bounds give equality.
+If $G$ is a forest with an edge, subdivision preserves acyclicity,
+so both graphs have treewidth one. An edgeless graph is unchanged.
+Thus subdivision preserves treewidth in every case.
+A path on $s$ vertices has an
 elimination tree of height at most $\lceil\log_2(s+1)\rceil$: choose
 a middle vertex as root and recurse on the two remaining subpaths.
 Thus the $\ell-1$ internal vertices on each replaced edge have such
@@ -504,8 +506,10 @@ Thus the linear gaps persist. For total depth, start with a
 $d$-regular instance from Corollary~\ref{cor:regular-hardness}.
 Since $d$ is odd, add a perfect matching to make every degree even,
 using auxiliary matching edges that may be parallel to original edges.
-Orient the augmented multigraph along an Euler tour in each connected
-component, then delete the matching edges. Each vertex has outdegree
+Each connected component of the augmented multigraph has even
+degrees and therefore has an Euler tour, a closed walk traversing
+every edge once. Orient its edges along this tour, then delete the
+matching edges. Each vertex has outdegree
 $(d+1)/2$ before deletion, so its outdegree in the original graph is
 at least $(d-1)/2$.
 
@@ -518,9 +522,13 @@ $r_v$ be the shallowest vertex of $X_v$. Since $X_v$ is connected
 and the endpoints of each graph edge are comparable, $r_v$ is an
 ancestor of every vertex in $X_v$. Each original edge $uv$ has a
 replacement path whose last edge joins $X_u$ to $X_v$, so $r_u$ and
-$r_v$ are comparable. Therefore the representatives $r_v$ form an
-elimination forest of $G$. Every vertex in $X_v$ has depth at least
-$\operatorname{depth}_{F}(r_v)$, giving the lower bound below.
+$r_v$ are comparable. Restrict the forest to the representatives
+$r_v$ and identify each $r_v$ with $v$. The resulting forest
+$\overline F$ is an elimination forest of $G$. Restriction never
+increases depth, and every vertex of $X_v$ was below $r_v$. Hence
+the original depth sum is at least
+$\sum_v|X_v|\operatorname{depth}_{\overline F}(v)
+\ge s\totd(\overline F)\ge s\totd(G)$.
 
 For the upper bound, take an optimal elimination forest of $G$ and,
 for each original edge, attach a midpoint-recursive elimination tree
