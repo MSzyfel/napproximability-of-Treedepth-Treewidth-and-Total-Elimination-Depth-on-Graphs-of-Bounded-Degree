@@ -206,15 +206,15 @@ below the shared chain and account for copies omitted from it. A
 quadratic inequality bounds the total saving over all children.
 
 \paragraph{Treewidth under UGC.}
-A product of source instances gives a tripartite graph whose three
-parts have equal size and whose vertex-cover gap is balanced across
-the parts. We replicate this graph and complete each part to a clique.
-Bonnet's central-bag argument~\cite[Lemma~6]{BonnetTreewidth} then
-finds a central bag meeting every source edge, so it contains a
-vertex cover. In the YES case, a small cover gives a decomposition:
-it forms the central bag, and three paths process the replicated
-copies. Replication makes the cover contribution dominate the
-temporary increase from one source part.
+A product of Khot--Regev instances gives a tripartite graph with three
+equal-sized parts and a balanced vertex-cover gap. We replicate this
+graph and complete each part to a clique. Bonnet's central-bag
+argument~\cite[Lemma~6]{BonnetTreewidth} forces one bag to meet every
+edge in every source copy, so it contains a vertex cover. In the YES
+case, a small cover forms the central bag, and one path per part
+processes the copies one at a time. This adds at most one part's size
+to the replicated cover term. Replication multiplies the cover gap by
+the number of copies but leaves this one-copy overhead unchanged.
 
 \paragraph{Treedepth under SSEH.}
 For the Raghavendra--Steurer--Tulsiani host~\cite{RST}, YES
