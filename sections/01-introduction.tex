@@ -63,8 +63,17 @@ degree at most a constant depending only on $r$. The reductions are
 deterministic.
 \end{theorem}
 
-The dense gaps transfer to bounded degree by the sparsification
-theorems in Section~\ref{sec:bounded-degree-hardness}. The resulting
+Most reductions first build graphs with clique or complete-bipartite
+pieces, which can have large degree. In Section~\ref{sec:bounded-degree-hardness},
+we replace these pieces by sparse expanders on the same vertex sets.
+Within a clique factor, every two disjoint sets above a chosen size
+threshold still have an edge between them; for a biclique factor, this
+holds for sets on opposite sides. This gives the NO-case arguments the
+connectivity they need after deleting a small set of vertices. Since
+each replacement deletes edges, every YES-case elimination forest and
+tree decomposition remains valid. Choosing the threshold small enough
+preserves each fixed approximation gap and gives a degree bound
+depending only on the target factor. The resulting
 bounds are collected in Corollaries~\ref{cor:td-bounded-degree}
 and~\ref{cor:tw-bounded-degree}. Wu, Austrin, Pitassi, and
 Liu~\cite[Theorem~1.1]{APW} proved SSE hardness for treewidth at
