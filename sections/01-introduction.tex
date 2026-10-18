@@ -143,7 +143,9 @@ Our main application is to \emph{Trivially Perfect Completion},
 where edges are added until the graph is a forest closure. Two
 distinct vertices are adjacent if and only if one is an ancestor of
 the other in a rooted forest. The objective is the number of added
-edges. Every fixed constant approximation factor is SSE-hard, even at bounded degree
+edges. For every fixed $C\ge1$, approximating this objective within
+factor $C$ is SSE-hard on graphs of maximum degree bounded by a
+constant depending only on $C$
 (Theorem~\ref{thm:tp-completion-sse}). The SSE proof uses the same
 line graph as our SSE treedepth reduction, but needs a bound on the \emph{sum} of
 elimination depths. A balanced separator, whose deletion leaves every
