@@ -8,9 +8,12 @@ of a rooted forest in which, for every graph edge, one endpoint is
 an ancestor of the other. Such a forest is an \emph{elimination forest}.
 This formulation connects treedepth to graph search,
 vertex ranking, and symbolic elimination
-\cite{Reidl2014,BodlaenderRankings}. Treewidth is the minimum, over
-tree decompositions, of one less than the largest bag size. It has a
-central role in algorithms based on dynamic programming. The two
+\cite{Reidl2014,BodlaenderRankings}. A tree decomposition arranges
+vertex sets, called bags, in a tree so that every edge has both
+endpoints in some bag and the bags containing each vertex form a
+connected subtree. Treewidth is the minimum possible size of the
+largest bag, minus one. It has a central role in algorithms based on
+dynamic programming. The two
 parameters constrain different features of a decomposition: treedepth
 controls its depth, whereas treewidth controls its largest bag. We
 write $\td(G)$ for treedepth and $\operatorname{tw}(G)$ for treewidth.
@@ -71,11 +74,11 @@ threshold still have an edge between them; for a biclique factor, this
 holds for sets on opposite sides. This gives the NO-case arguments the
 connectivity they need after deleting a small set of vertices. Since
 each replacement deletes edges, every YES-case elimination forest and
-tree decomposition remains valid. Choosing the threshold small enough
-preserves each fixed approximation gap and gives a degree bound
-depending only on the target factor. The resulting
-bounds are collected in Corollaries~\ref{cor:td-bounded-degree}
-and~\ref{cor:tw-bounded-degree}. Wu, Austrin, Pitassi, and
+tree decomposition remains valid. A sufficiently small threshold
+preserves each fixed gap and yields a degree bound in terms of the
+target factor. Corollaries~\ref{cor:td-bounded-degree}
+and~\ref{cor:tw-bounded-degree} give the bounded-degree results.
+Wu, Austrin, Pitassi, and
 Liu~\cite[Theorem~1.1]{APW} proved SSE hardness for treewidth at
 every fixed factor on general graphs. Our line-graph reduction gives
 SSE hardness for both treewidth and treedepth at every fixed factor.
