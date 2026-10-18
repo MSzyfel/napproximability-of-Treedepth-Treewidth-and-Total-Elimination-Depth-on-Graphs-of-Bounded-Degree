@@ -13,11 +13,11 @@ tree decompositions, of one less than the largest bag size. It has a
 central role in algorithms based on dynamic programming. The two
 parameters constrain different features of a decomposition: treedepth
 controls its depth, whereas treewidth controls its largest bag. We
-write $\td(G)$ for treedepth
-and $\operatorname{tw}(G)$ for treewidth. Although
-$\operatorname{tw}(G)+1\leq\td(G)$, a NO-case lower bound on treedepth
-does not lower-bound treewidth. A treewidth hardness gap needs a
-separate NO-case width bound and a suitably small YES-case decomposition.
+write $\td(G)$ for treedepth and $\operatorname{tw}(G)$ for treewidth.
+A path has treewidth one but treedepth grows with its length, so a
+NO-case lower bound on treedepth gives no lower bound on treewidth. Our
+treewidth hardness proof therefore needs a separate NO-case width
+bound and a suitably small YES-case decomposition.
 
 Bonnet, Neuen, and Soko\l owski proved that approximating treedepth
 within factor $1.0003$ is NP-hard~\cite{BNS}. Bonnet proved the
