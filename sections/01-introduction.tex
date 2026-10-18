@@ -94,9 +94,13 @@ We also consider \emph{total elimination depth}: the minimum sum
 of vertex depths in an elimination forest, with roots at depth one.
 This objective, denoted by $\totd(G)$, is the vertex-partition-tree
 sum (VPT-sum) studied in~\cite{HogemoEtAl2021}.
-A separate analysis of the layered
-construction and a reduction from cubic Independent Set give the
-following bounds.
+It also measures the cost of vertex-query search on a connected graph:
+querying a vertex either finds the hidden target or identifies the
+component containing it after that vertex is removed. The resulting
+search tree is an elimination tree, and with a uniform target and
+unit query costs its expected cost is $\totd(G)/|V(G)|$
+~\cite{HogemoEtAl2021,Szyfelbein2025GraphSearch}.
+We prove separate hardness bounds under NP, UGC, and SSE.
 
 \Needspace{10\baselineskip}
 \begin{theorem}[Total elimination depth]\label{thm:total-depth-main}
@@ -174,37 +178,42 @@ same parameter bounds rather than stated as separate results.
 \subsection{Proof overview}
 
 \paragraph{Treedepth and total depth under UGC.}
-We replace the Khot--Regev source~\cite{KhotRegev} by clique layers,
-with cross-layer edges encoding source adjacency. A YES vertex cover
-forms a common chain, below which independent-set copies occupy
-separate layer chains. For soundness, analyze the first branch:
-each child uses fewer layers, and source vertices repeated across
-children form an independent set. The child cover numbers sum to
-at most the source cover number. Induction and a branching inequality
-then force a long prefix or a deep child. For total depth, we also
-count the prefix's depth shifts and restore missing child copies.
-A quadratic branching inequality bounds the combined savings across
-all children.
+We encode the Khot--Regev source~\cite{KhotRegev} in several clique
+layers: edges between layers record which source vertices are
+adjacent. In a YES instance, a small vertex cover can be placed on a
+common chain, while independent sets from different layers lie below
+separate branches. For the lower bound, follow the forest's initial
+chain to the first split into two or more child subtrees. Each child
+uses fewer layers, and source vertices represented in multiple
+children form an independent set. This limits the sum of the child
+cover numbers. Induction bounds the possible height savings at each
+split. For total depth, we also count how far each child is shifted
+below the shared chain and account for copies omitted from it; a
+quadratic inequality bounds the total saving over all children.
 
 \paragraph{Treewidth under UGC.}
-A multipartite product gives a balanced tripartite cover gap.
-We replicate this source, then complete its global parts to cliques.
-Bonnet's central-bag argument~\cite[Lemma~6]{BonnetTreewidth} forces
-a bag covering every source edge. Conversely, a cover supplies the
-center of a decomposition whose three paths process copies one at
-a time. The temporary bag increase depends on one source part,
-while the cover contribution grows with replication.
+A product of source instances gives a tripartite graph whose three
+parts have equal size and whose vertex-cover gap is balanced across
+the parts. We replicate this graph and complete each part to a clique.
+Bonnet's central-bag argument~\cite[Lemma~6]{BonnetTreewidth} then
+finds a central bag meeting every source edge, so it contains a
+vertex cover. In the YES case, a small cover gives a decomposition:
+it forms the central bag, and three paths process the replicated
+copies. Replication makes the cover contribution dominate the
+temporary increase from one source part.
 
 \paragraph{Treedepth under SSEH.}
-The Raghavendra--Steurer--Tulsiani host~\cite{RST} has a YES
-partition into equal-volume classes with few crossing edges, whereas
-NO sets of medium degree volume have large boundaries. In its line
-graph, crossing host edges form a short chain above separate class
-chains. Conversely, an output separator splits surviving host edges
-into two large collections with disjoint endpoint sets. These sets
-define a host cut contained in the deleted edges. The boundary bound
-therefore forces a large separator, which lower-bounds both height
-and total depth.
+For the Raghavendra--Steurer--Tulsiani host~\cite{RST}, YES
+instances have a partition into equal-volume classes with few
+crossing edges; in NO instances every set of intermediate degree
+volume has a large boundary. We pass to the line graph, whose vertices
+are the host edges. In the YES case, the crossing edges form a short
+chain above separate chains for the classes. Conversely, a small
+separator in the line graph splits the surviving host edges into two
+large collections with no shared endpoint. The endpoints define a
+host cut, and every edge crossing that cut must have been deleted.
+The NO boundary bound therefore forces a large separator, giving
+lower bounds on both treedepth and total depth.
 
 \paragraph{Parity witnesses for NP-hardness.}
 We refine the truth-block and anchor construction
@@ -220,15 +229,16 @@ Replicating the same source and completing its global parts transfers
 it to treewidth.
 
 \paragraph{Total depth under $\PP\ne\NP$.}
-Complete three parts to cliques and give each part many independent
-neighbors. Moving these neighbors below their deepest clique vertex
-never increases total depth. They amplify the sum of the depths
-where the three clique parts end. Shared portions of the three
-ancestor paths encode successive cover costs. A construction from
-cubic Independent Set~\cite{AlimontiKann2000} uses an added matching
-to force one designated part to separate first. Its cover cost
-encodes the source optimum, allowing a good total-depth approximation
-to recover a nearly optimal independent set.
+Complete the three parts to cliques and attach many independent
+neighbors to each part. These added vertices can be placed below the
+deepest vertex of their part without increasing the cost, so they
+increase the contribution of the three clique depths to total depth.
+The shared portions of the cliques' ancestor paths then record the
+costs of successive vertex covers. Starting from cubic Independent
+Set~\cite{AlimontiKann2000}, an added matching forces the designated
+part to be the first to separate. The resulting cover cost records
+the independent-set optimum, so an approximation for total depth
+would recover a near-optimal independent set.
 
 \paragraph{Preserving gaps at bounded degree.}
 Replace each clique or biclique factor by a sparse graph obtained
@@ -278,15 +288,11 @@ bounded-degree result, Section~\ref{sec:bounded-degree-hardness} also
 derives the degree bound from the weighted source by the same
 factor-completion tools used for NP and UGC hardness.
 
-H\o gemo, Bergougnoux, Brandes, Paul, and Telle~\cite{HogemoEtAl2021} introduce VPT-sum,
-identify its relation to trivially perfect completion, and prove
-NP-hardness. In vertex-query graph search, a query at $v$ either finds
-the hidden target or identifies the component of $G-v$ containing it.
-Thus, on a connected graph, a search decision tree is an elimination
-tree whose child subtrees correspond to those components. With uniform
-target probabilities and unit query costs, the expected search cost
-is the mean vertex depth, so its optimum is $\totd(G)/|V(G)|$
-~\cite{HogemoEtAl2021,Szyfelbein2025GraphSearch}.
+H\o gemo, Bergougnoux, Brandes, Paul, and Telle~\cite{HogemoEtAl2021}
+study VPT-sum, relate it to trivially perfect completion, and prove
+NP-hardness. The vertex-query interpretation described above gives
+the same objective as expected search cost up to the factor
+$|V(G)|$.
 Szyfelbein~\cite{Szyfelbein2025GraphSearch} gives an
 $O(\sqrt{\log n})$-approximation for the more general search
 problem with nonuniform target weights and query costs. A subsequent
