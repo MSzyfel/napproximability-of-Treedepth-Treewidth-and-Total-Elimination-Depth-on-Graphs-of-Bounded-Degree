@@ -115,12 +115,17 @@ $m>2(2+r)/\gamma$. Then
 so the gap survives both losses.
 
 \emph{UGC hardness.}
-Use Theorem~\ref{thm:bounded-degree-kr-source} in $S_q(G)$.
-Its layer cliques give $d_1=1$, and the retained cross-layer edges
-have maximum degree $(q-1)d_\eta$. A layer clique gives
-$\td(S_q(G))\ge n$, while the loss is at most $\tau qn$.
-For fixed $q$, small $\tau$ preserves every factor below $4/3$
-from Theorem~\ref{thm:ugc-hardness}.
+Fix a target factor $r<4/3$, and choose $r'$ with
+$r<r'<4/3$. Take $q,\eta$ from the proof of
+Theorem~\ref{thm:ugc-hardness} for factor $r'$, and apply
+Theorem~\ref{thm:bounded-degree-kr-source} with this $\eta$ in
+$S_q(G)$. The layer cliques give $d_1=1$, and the retained
+cross-layer edges have maximum degree $(q-1)d_\eta$. A layer clique
+gives the lower bound $L:=n\le\td(S_q(G))$, while the sparsification
+loss is at most $\tau qn=\tau qL$. Choose
+$\tau<(r'-r)/(q(r'+r))$. Lemma~\ref{lem:gap-preservation}, with
+$a=1$ and $\epsilon=\tau q$, transfers the dense factor-$r'$
+gap to factor $r$.
 
 \emph{SSE hardness.}
 Use the common line-graph factors above.
