@@ -305,7 +305,13 @@ $h(F)+d\ge L+\vc(G)+1$, and thus
 $h(F)\ge L+\vc(G)+1-d=\ell+\vc(G)+1$.
 \end{proof}
 
-These lemmas give bounds at every anchor length.
+The lower bound depends on how the three anchor vertices are
+arranged in the forest. Pairwise incomparable anchors force a cover
+of the whole source graph. A comparable pair forces two anchor
+cliques onto one path, together with a cover between two source
+parts. If all three anchors are comparable, all three anchor cliques
+contribute to one path. Taking the smallest of these three bounds
+gives a bound valid for every forest.
 
 \begin{lemma}[Bounds for arbitrary anchor length]
 \label{lem:arbitrary-anchor}

@@ -120,12 +120,15 @@ Theorem~\ref{thm:kr}, Lemma~\ref{lem:ugc-completeness} gives
 
 \paragraph{The structural lower bound.}
 
-The clique layers force all surviving vertices of a layer into a
-single child subtree at every branch. Moreover, source vertices that
-occur in more than one child form an independent set. These two
-observations allow induction on the number of layers. The following
-inequality combines the resulting child bounds without assuming that
-the children have equal sizes.
+At the first branch, a clique layer cannot occur in two child
+subtrees, since vertices in different children are incomparable.
+Every child therefore uses fewer layers, allowing induction on $q$.
+To combine the child bounds, we also need to control how much of the
+source graph they share. Source vertices repeated across children
+will be isolated in the union of their supports. Consequently, the
+child vertex-cover numbers sum to at most $\vc(G)$. The following
+inequality will convert this bound into a bound on the height of the
+whole forest, whose longest path enters only one child.
 
 \begin{lemma}[Branching inequality]\label{lem:branching-ineq}
 For a positive integer $\nu$, positive reals $q_1,\ldots,q_\nu$, and nonnegative reals
@@ -247,7 +250,7 @@ hypothesis asserted for every finite simple source graph.
 \emph{Base cases and the first branch.}
 If $n=0$, then $S_q(G)$ has no vertices and
 both sides of~\eqref{eq:ugc-structural} are zero. For $q=1$,
-$S_1(G)$ is a clique, so $\td(S_1(G))=n\geq2n/3$.
+$S_1(G)$ is a clique, so $\td(S_1(G))=n\geq2\vc(G)/3$.
 
 Now fix $q\geq2$, assume the statement for every smaller number of
 layers, and take an arbitrary elimination forest $F$ of $S_q(G)$. We
@@ -280,14 +283,27 @@ Induction therefore gives
 \]
 
 \emph{Combining the child bounds.}
-Choose an index $k$ maximizing $q_jc_j$. The height identity in
-Lemma~\ref{lem:ugc-forest-accounting} and $N_j=q_jn_j-M_j$
-leave a nonnegative contribution $\sum_jM_j-M_k$. Since
-$\sum_jq_j\leq q$ and $n=c+\alphaI(G)$, Lemma~\ref{lem:branching-ineq} gives
+Choose an index $k$ maximizing $q_jc_j$. A path through this child
+contains the prefix as well as a longest path in $F_k$. Hence
+Lemma~\ref{lem:ugc-forest-accounting} and $N_j=q_jn_j-M_j$ give
+\[
+ h(F)\geq qn-\sum_jN_j+h(F_k)
+ \geq qn-\sum_jq_jn_j+\frac23q_kc_k+\sum_jM_j-M_k
+ \geq qn-\sum_jq_jn_j+\frac23q_kc_k.
+\]
+The prefix is long when few source vertices fit in the children.
+Using $n_j\leq c_j+\alphaI(G)$, $n=c+\alphaI(G)$, and
+$\sum_jq_j\leq q$, we obtain
+\[
+ qn-\sum_jq_jn_j
+ \geq qc-\sum_jq_jc_j+\alphaI(G)\Bigl(q-\sum_jq_j\Bigr)
+ \geq qc-\sum_jq_jc_j.
+\]
+Combining these estimates and applying Lemma~\ref{lem:branching-ineq}
+to $q_j,c_j$ yields
 \[
 \begin{aligned}
- h(F)&\geq qn-\sum_jq_jn_j+\frac23\max_j(q_jc_j)\\
- &\geq qc-\frac13\left(3\sum_jq_jc_j-2\max_j(q_jc_j)\right)\\
+ h(F)&\geq qc-\frac13\left(3\sum_jq_jc_j-2\max_j(q_jc_j)\right)\\
  &\geq qc-\frac13\left(\sum_jq_j\right)\left(\sum_jc_j\right)
  \geq\frac23qc.
 \end{aligned}

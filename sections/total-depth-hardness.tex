@@ -2,8 +2,10 @@
 \label{sec:total-depth}
 
 The same layered graph $S_q(G)$ gives a gap for total elimination
-depth, also called VPT-sum~\cite{HogemoEtAl2021}. A quadratic
-branching inequality accounts for the contributions of all children.
+depth, also called VPT-sum~\cite{HogemoEtAl2021}. Here every child
+contributes to the objective, and each vertex of the common prefix
+increases the depth of every vertex below it. We reuse the
+first-branch structure and bound these contributions together.
 
 \begin{theorem}\label{thm:total-depth-ugc}
 For every fixed real $1\leq r<8/7$, approximating $\totd(G)$ within
@@ -47,10 +49,11 @@ which gives the claimed upper bound, also when the common prefix is empty.
 
 \subsubsection{A structural lower bound for total depth}
 
-We use the notation from Section~\ref{subsec:ugc-branch-notation},
-together with the lemmas counting layers and source vertices in the
-treedepth proof. We first record the total-depth contributions of
-the prefix and of restored vertices.
+Use the notation from Section~\ref{subsec:ugc-branch-notation}.
+The prefix contributes its own depth sum and shifts every child
+depth by $|P|$. Within a child, we restore the missing pairs in
+$U_j\times I_j$ so that induction applies to a full layered graph.
+The next two lemmas compute these two costs.
 
 \begin{lemma}[Prefix and child total depths]
 \label{lem:ugc-total-depth-accounting}
@@ -91,7 +94,11 @@ and the new vertices have depths $1,\ldots,d$. Thus
 Minimizing over $F$ gives the inequality.
 \end{proof}
 
-The following numerical estimate combines the child costs.
+When we combine the child bounds, pairs of vertices in different
+children contribute cross terms $W_iW_j$. The following inequality
+bounds these terms and the individual squares $W_j^2$ by one fourth
+power. Cauchy--Schwarz will then bound this fourth power using the
+total number of layers and the sum of the child vertex-cover numbers.
 
 \begin{lemma}[Quadratic branching inequality]
 \label{lem:quadratic-branching}

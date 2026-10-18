@@ -298,13 +298,20 @@ covers the completed edge.
 
 \subsubsection{Comparison bounds}
 
-We now sum the exceptions over all factors. If one vertex is deleted
-for several factors, it appears only once in the union of the deletion
-sets. The treedepth and total-depth bounds apply to
-arbitrary factors. The treewidth bound additionally uses a containing clique
-for each side of a biclique, providing the two bags required above.
+Each preceding completion lemma starts with a solution for $J$ and
+deletes a small set of vertices so that the same solution also covers
+the edges of one completed factor. To cover all edges of $H$, take
+the union $D$ of these deletion sets. Further deletions preserve each
+completion, so the restricted solution is valid for $H-D$. We can
+then restore $D$ above the roots of an elimination forest, or add
+$D$ to every bag of a tree decomposition. Thus the number of deleted
+vertices controls the increase in height or width. For total depth,
+each restored vertex increases the cost by at most $N=|V(H)|$.
 
-The exception budgets for the two comparisons are
+For treewidth, we complete the clique factors first, placing each
+surviving support in a bag. If every biclique side lies in a clique
+support, these bags provide the two bags required by the biclique
+completion lemma. Summing the deletion bounds gives
 \[
  \Delta_{\mathrm{td}}=2\sum_{f\in\mathcal C}(t_f-1)+4\sum_{f\in\mathcal B}(t_f-1),
  \qquad
@@ -408,9 +415,12 @@ The lower comparison follows from $J\subseteq H$.
 
 \subsection{Sparse replacements at arbitrary sizes}
 
-We next construct bounded-degree graphs satisfying the no-hole
-condition. We first introduce the expander facts used in the
-construction, then map an expander onto each prescribed factor.
+The comparison lemmas only require an edge between any two disjoint
+sets of $t_f$ vertices in a factor, or between sets of $t_f$ vertices
+on opposite sides of a biclique. An expander can force these edges
+while giving each vertex only a bounded number of neighbors. We
+introduce the required expansion and eigenvalue bounds, then use
+them to construct replacements on the prescribed vertex sets.
 
 \subsubsection{Edge expansion and adjacency matrices}
 
@@ -961,8 +971,15 @@ after the loop removal of Lemma~\ref{lem:aks-loop-removal}.
 
 \subsubsection{Deterministic sparsification of a dense-set promise}
 
-The next lemma converts this weighted density promise into the
-required bounded-degree graph. For a loopless weighted graph $G$,
+To obtain bounded ordinary degree, we sparsify the weighted graph
+and discard edges of very small weight. There will be few enough
+edges that discarding them loses little total weight. Every remaining
+edge then has a lower weight bound, so a bound on weighted degree
+limits the number of incident edges. We use spectral sparsification
+to preserve the internal weight of large vertex sets throughout this
+process.
+
+For a loopless weighted graph $G$,
 let $w_{uv}$ be the total weight of edges between distinct vertices
 $u,v$. Its \emph{Laplacian} is the symmetric matrix with
 $L_G(u,u)=\deg_G(u)$ and $L_G(u,v)=-w_{uv}$ for $u\ne v$.
@@ -1052,8 +1069,12 @@ deterministic and polynomial time by the
 cited theorem.
 \end{proof}
 
-Combining the three steps gives the source promise used in the
-UGC applications.
+Choose the errors in loop removal and sparsification smaller than
+the positive density bound $\Gamma_\xi(\eta)$. Then every set of at
+least $\eta N$ vertices still contains an edge in the NO case. In
+the YES case, deleting edges preserves the independent set obtained
+after vertex unweighting. These choices yield the following source
+promise for the UGC applications.
 
 \begin{theorem}[Bounded-degree independent-set source]
 \label{thm:bounded-degree-kr-source}

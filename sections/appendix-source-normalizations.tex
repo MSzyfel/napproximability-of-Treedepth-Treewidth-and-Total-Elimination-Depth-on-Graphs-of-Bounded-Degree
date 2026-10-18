@@ -51,7 +51,10 @@ $18/17$.
 \subsection{The Khot--Regev independent-set promise}
 \label{app:kr-normalization}
 
-We first record the unweighting step used below.
+We replace rational vertex weights by numbers of independent copies.
+Joining the copy sets completely along source edges ensures that an
+independent set can use copies only of pairwise nonadjacent source
+vertices. Thus its size records the corresponding source weight.
 
 \begin{lemma}[Unweighting by copies]\label{lem:copy-unweighting}
 Let $G$ be a simple graph with positive rational vertex weights $w_v$,

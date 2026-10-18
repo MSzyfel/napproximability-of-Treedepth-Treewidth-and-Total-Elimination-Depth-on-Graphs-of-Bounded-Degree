@@ -1,8 +1,16 @@
 \subsection{General sparsification theorems}
 \label{subsec:general-sparsification}
 
-Use the edge decomposition in~\eqref{eq:factor-edge-union} and the replacement graph $J$ defined in Section~\ref{sec:bounded-degree-hardness}.
-For these sparsification theorems, fix constants $d_0\ge0$,
+The comparison lemmas reduce sparsification to choosing thresholds
+whose deletion bounds have a small sum. We take each threshold
+proportional to its factor's size. To bound the sum by a multiple of
+$N=|V(H)|$, we limit how many factors contain each vertex. Together
+with a bound on the degree of the retained edges, this also bounds
+the degree after replacement.
+
+Use the edge decomposition in~\eqref{eq:factor-edge-union} and the
+replacement graph $J$ from Section~\ref{sec:bounded-degree-hardness}.
+Fix constants $d_0\ge0$,
 $d_{\mathrm{fac}}\ge1$, and $\kappa\ge1$, and assume:
 \begin{enumerate}
 \item the retained graph $(V(H),E_0)$ has maximum degree at most $d_0$.
