@@ -95,10 +95,13 @@ Let $H$ have the edge description~\eqref{eq:factor-edge-union},
 and let fixed constants $d_0\ge0$, $d_1\ge1$, $\kappa\ge1$ satisfy
 conditions~\ref{hyp:retained-degree}--\ref{hyp:biclique-ratio}.
 Fix an integer $s\ge1$. Suppose that for every $f\in\mathcal B$
-and each $X\in\{A_f,B_f\}$ there exist an integer $1\le\ell\le s$,
-a partition $X=X_1\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}X_\ell$
-into nonempty sets, and indices $g_1,\ldots,g_\ell\in\mathcal C$
-such that $X_i\subseteq U_{g_i}$ for every $i\in[\ell]$.
+there are integers $1\le\ell_f,m_f\le s$ and partitions
+$A_f=A_{f,1}\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}A_{f,\ell_f}$
+and $B_f=B_{f,1}\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}B_{f,m_f}$
+into nonempty sets, together with indices
+$g_{f,i},h_{f,j}\in\mathcal C$ such that
+$A_{f,i}\subseteq U_{g_{f,i}}$ and $B_{f,j}\subseteq U_{h_{f,j}}$
+for every $i\in[\ell_f]$ and $j\in[m_f]$.
 For every fixed $\varepsilon>0$, one can construct deterministically
 in polynomial time a spanning subgraph $J\subseteq H$ whose maximum
 degree depends only on $d_0,d_1,\kappa,s,\varepsilon$ and such that
@@ -109,40 +112,51 @@ $H$ whose width increases by at most $\varepsilon N$.
 \end{theorem}
 
 \begin{proof}
-Apply Lemma~\ref{lem:factor-replacement} with
-$\zeta=\varepsilon/(d_1\max\{3,2s^2\})$. This constructs $J$ by replacing
-each original factor once.
+Apply Lemma~\ref{lem:factor-replacement} to the original factors
+with $\zeta=\varepsilon/(d_1\max\{3,2s^2\})$. It constructs $J$
+with maximum degree depending only on the stated constants and
+thresholds $t_f=\lceil\zeta|U_f|\rceil$.
 
-For each $f\in\mathcal B$, choose the two partitions from the
-hypothesis. In the factor description, replace $A_f\times B_f$
-by the bicliques on sides $X,Y$, one for every set $X$ in the
-partition of $A_f$ and every set $Y$ in the partition of $B_f$.
-There are at most $s^2$ such bicliques, and their edge sets partition
-$A_f\times B_f$. The hypothesis gives $g,h\in\mathcal C$ with
-$X\subseteq U_g$ and $Y\subseteq U_h$, as required by
-Lemma~\ref{lem:tw-factor-sparsification}.
-Keep the threshold $t_f$ for each such biclique. The sparse
-replacement restricted to $X\times Y$ has no $(t_f,t_f)$ hole,
-since every $t_f$-subset of $X$ is contained in $A_f$ and every
-$t_f$-subset of $Y$ is contained in $B_f$. If $|X|<t_f$ or
-$|Y|<t_f$, this condition holds vacuously.
-
-Apply Lemma~\ref{lem:tw-factor-sparsification} to this factor
-description of the same graphs $H,J$. There is one clique term
-for each original clique, and at most $s^2$ biclique terms, each
-with threshold $t_f$, for each original biclique. Bounding both
-coefficients by $\max\{3,2s^2\}$ and using
-$\sum_f(t_f-1)\le\zeta d_1N$ bounds the error by
+For each $f\in\mathcal B$, fix the partitions and indices in the
+hypothesis. They give the disjoint union
 \[
- 3\sum_{f\in\mathcal C}(t_f-1)
-       +2s^2\sum_{f\in\mathcal B}(t_f-1)
- \le\max\{3,2s^2\}\zeta d_1N=\varepsilon N.
+ A_f\times B_f=\mathop{\dot\bigcup}_{i\in[\ell_f],\,j\in[m_f]}
+ (A_{f,i}\times B_{f,j}).
 \]
-Consequently, every tree decomposition of $J$ completes to one
-of $H$ with width increase at most $\varepsilon N$, and the
-same lemma gives the parameter inequalities. The partition is used
-only for this comparison, so it changes neither $J$ nor the degree
-bound obtained from the original factors.
+Describe the same graph $H$ by keeping $E_0$ and its clique
+factors and replacing the biclique indexed by $f$ with the
+$\ell_fm_f$ bicliques indexed by $(f,i,j)$, on sides
+$A_{f,i},B_{f,j}$. Give each of these bicliques threshold $t_f$.
+Each has its sides contained in the clique supports $U_{g_{f,i}}$
+and $U_{h_{f,j}}$.
+
+We verify the replacement conditions for this factor description
+and the same graph $J$. The clique conditions already hold by
+Lemma~\ref{lem:factor-replacement}. For a new biclique, take
+$X\subseteq A_{f,i}$ and $Y\subseteq B_{f,j}$ with
+$|X|=|Y|=t_f$. Since $X\subseteq A_f$ and $Y\subseteq B_f$,
+the original replacement supplies an edge of $J$ between $X$ and
+$Y$. If $|A_{f,i}|<t_f$ or $|B_{f,j}|<t_f$, there are no such
+sets, so the condition holds vacuously.
+
+Lemma~\ref{lem:tw-factor-sparsification} now completes every tree
+decomposition of $J$ to one of $H$ with width increase at most
+\[
+\begin{aligned}
+ 3\sum_{f\in\mathcal C}(t_f-1)
+ +2\sum_{f\in\mathcal B}\ell_fm_f(t_f-1)
+ &\le3\sum_{f\in\mathcal C}(t_f-1)
+       +2s^2\sum_{f\in\mathcal B}(t_f-1)\\
+ &\le\max\{3,2s^2\}\sum_{f\in\mathcal C\cup\mathcal B}(t_f-1)
+ \le\max\{3,2s^2\}\zeta d_1N=\varepsilon N.
+\end{aligned}
+\]
+Here we used $\ell_fm_f\le s^2$ and the sum bound in
+Lemma~\ref{lem:factor-replacement}. Applying completion to a
+minimum-width decomposition of $J$ gives
+$\operatorname{tw}(H)\le\operatorname{tw}(J)+\varepsilon N$.
+Also, $J\subseteq H$ gives $\operatorname{tw}(J)\le\operatorname{tw}(H)$,
+proving the parameter inequalities.
 \end{proof}
 
 \Needspace{9\baselineskip}
