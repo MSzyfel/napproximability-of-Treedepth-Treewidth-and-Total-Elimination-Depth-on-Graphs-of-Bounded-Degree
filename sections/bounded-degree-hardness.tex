@@ -61,10 +61,13 @@ three steps.
    $|D|\le\varepsilon N$ for any prescribed fixed
    $\varepsilon>0$, by choosing those fractions sufficiently small.
    The resulting losses are at most $\varepsilon N$ for treedepth
-   and treewidth, and $\varepsilon N^2$ for total depth. The dense
-   gaps have these scales. Lemma~\ref{lem:gap-preservation} therefore
-   preserves every factor below the dense hardness threshold when
-   $\varepsilon$ is sufficiently small.
+   and treewidth, and $\varepsilon N^2$ for total depth. Given a
+   target factor $r$ below the dense threshold, choose a dense factor
+   $r'>r$. The YES bound $Y$ has the same linear or quadratic scale
+   as the corresponding loss, so the threshold fractions can make
+   the loss at most $\delta Y$ for any fixed $\delta>0$. Taking
+   $\delta<(r'-r)/(r+1)$ lets the additive-slack form of
+   Lemma~\ref{lem:gap-preservation} preserve factor $r$.
 \end{enumerate}
 
 For the maximum degree to be bounded, we also need bounded degree
