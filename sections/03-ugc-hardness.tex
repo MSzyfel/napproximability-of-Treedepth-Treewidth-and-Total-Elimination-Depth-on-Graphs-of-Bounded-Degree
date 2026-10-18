@@ -324,11 +324,18 @@ Induction therefore gives
 \emph{Combining the child bounds.}
 Choose an index $k$ maximizing $q_jc_j$. A path through this child
 contains the prefix as well as a longest path in $F_k$. Hence
-Lemma~\ref{lem:ugc-forest-accounting} and $N_j=q_jn_j-M_j$ give
+Lemma~\ref{lem:ugc-forest-accounting} gives
+$h(F)\geq qn-\sum_jN_j+h(F_k)$. Substituting
+$N_j=q_jn_j-M_j$ and
+$h(F_k)\geq\frac23q_kc_k-M_k$ leaves the nonnegative sum
+$\sum_{j\ne k}M_j$. Therefore,
 \[
- h(F)\geq qn-\sum_jN_j+h(F_k)
- \geq qn-\sum_jq_jn_j+\frac23q_kc_k+\sum_jM_j-M_k
- \geq qn-\sum_jq_jn_j+\frac23q_kc_k.
+\begin{aligned}
+ h(F)&\geq qn-\sum_jN_j+h(F_k)\\
+     &\geq qn-\sum_jq_jn_j+\frac23q_kc_k\\
+     &\qquad+\sum_{j\ne k}M_j\\
+     &\geq qn-\sum_jq_jn_j+\frac23q_kc_k.
+\end{aligned}
 \]
 The prefix is long when few source vertices fit in the children.
 Using $n_j\leq c_j+\alphaI(G)$, $n=c+\alphaI(G)$ from
