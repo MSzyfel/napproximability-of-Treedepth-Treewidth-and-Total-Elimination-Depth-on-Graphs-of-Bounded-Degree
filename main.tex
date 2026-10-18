@@ -64,9 +64,10 @@ of the source graph form clique layers: a large independent set gives
 a shallow elimination forest, while the first branch of any forest
 limits how much height branching can save. For total depth, we also
 count the depth shifts of all branches, and a quadratic inequality
-bounds their total saving. For treewidth, replication balances the
-three parts of a vertex-cover gap so that any central bag must contain
-a large cover. Under SSEH, vertices of a line graph represent source
+bounds their total saving. For treewidth, replication of an equal-part
+tripartite graph forces a large vertex cover into one bag of every
+tree decomposition, while leaving the YES-case overhead unamplified.
+Under SSEH, vertices of a line graph represent source
 edges; a small separator would yield a balanced cut with small
 boundary in the source graph. Finally, separate expander replacements
 lower the degrees while preserving the NO bounds after deleting an
