@@ -89,7 +89,8 @@ vertices and never increases their depths.
 
 The following lemmas identify a small exceptional set whose deletion
 allows a sparse factor to be completed. For a clique, the surviving
-vertices must lie on one ancestor path or in one bag. For a biclique,
+vertices must lie on one path from a root to a vertex, or in one bag.
+For a biclique,
 it is enough that every surviving cross-pair is comparable or appears
 together in a bag.
 
@@ -97,16 +98,20 @@ together in a bag.
 
 \begin{lemma}[Clique completion in an elimination forest]\label{lem:sparse-clique-completion}
 Let $F$ be an elimination forest of a graph $J$. Suppose $J[U]$ has
-no two disjoint anticomplete sets of size $t\ge1$. An ancestor path
-of $F$ contains all but at most $2(t-1)$ vertices of $U$.
+no two disjoint anticomplete sets of size $t\ge1$. There is a path
+from a root of $F$ to one of its descendants containing at least
+$|U|-2(t-1)$ vertices of $U$. If $F$ is empty, allow the empty path.
 \end{lemma}
 
 \begin{proof}
-If $|U|<t$, the empty path suffices. Otherwise traverse $F$ in
+If $|U|<t$, the required number is nonpositive, so any root-to-vertex
+path works (or the empty path if $F$ is empty). Otherwise traverse $F$ in
 depth-first order, traversing its rooted trees successively.
 Introduce a vertex before visiting its descendants, and forget it
-after traversing its entire subtree. The introduced but unforgotten
-vertices form an ancestor path at every time. Every forgotten vertex
+after traversing its entire subtree. At any time within one tree,
+the introduced but unforgotten vertices form the path from that tree's
+root to its deepest active vertex; between trees this set is empty.
+Every forgotten vertex
 is incomparable with every unintroduced vertex: all its ancestors
 were introduced earlier, and its whole subtree has already been
 traversed. Thus the two groups are anticomplete in $J$.
@@ -116,7 +121,7 @@ $t-1$ vertices of $U$ are unintroduced: otherwise they and the
 $t$ forgotten vertices would form a forbidden anticomplete pair.
 Immediately before that forgetting operation, $t-1$
 vertices of $U$ had been forgotten, and the unintroduced set was
-the same. All other vertices of $U$ lay on the current ancestor
+the same. All other vertices of $U$ lay on the current root-to-vertex
 path. That path therefore contains at least $|U|-2(t-1)$ vertices
 of $U$.
 \end{proof}
