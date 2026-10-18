@@ -116,6 +116,14 @@ sizes over all bags.
 \input{sections/05-conclusion}
 
 \clearpage
+\bibliographystyle{alpha}
+\begingroup
+\phantomsection
+\addcontentsline{toc}{section}{References}
+\bibliography{references}
+\endgroup
+
+\clearpage
 \appendix
 \input{sections/appendix-source-normalizations}
 \input{sections/appendix-auxiliary-proofs}
@@ -129,11 +137,4 @@ citation checks and exposition revisions throughout the manuscript. The
 author reviewed the arguments and is responsible for all claims and
 references.
 
-\clearpage
-\bibliographystyle{alpha}
-\begingroup
-\phantomsection
-\addcontentsline{toc}{section}{References}
-\bibliography{references}
-\endgroup
 \end{document}
