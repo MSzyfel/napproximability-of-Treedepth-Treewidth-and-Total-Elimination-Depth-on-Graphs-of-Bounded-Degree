@@ -180,9 +180,13 @@ Every finite nonempty graph $H$ satisfies
 $b(H)\le\operatorname{tw}(H)+1$~\cite[Lemma~5.3]{APW}.
 Thus the sparse NO width is at least $\beta N-1-\tau N$,
 while its YES width is at most $4\eta N$.
-After fixing $\eta$ for a larger dense gap, small $\tau$ and
-large $N$ make $1+\tau N$ a sufficiently small fraction of
-$\beta N$.
+Fix $\eta$ so that $\gamma:=\beta-4r\eta>0$, which is possible
+because $\beta=(c/2)\sqrt\eta$. Choose $\tau<\gamma/2$ and take
+sufficiently many parallel copies so that $N>2/\gamma$. Then
+\[
+ \beta N-1-\tau N>(\beta-\gamma)N=4r\eta N,
+\]
+so the sparse NO width exceeds $r$ times the YES bound.
 \end{proof}
 
 The SSE treewidth hardness at every fixed factor on unrestricted
