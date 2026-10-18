@@ -264,16 +264,20 @@ $(1+\epsilon_0)$-approximate sparse forest to a
 $(1+2\epsilon_0)$-approximate dense forest, a contradiction.
 
 \emph{UGC hardness.}
-Use the same layer factors and retained edges as in the treedepth
-proof, so $d_1=1$ and $d_0=(q-1)d_\eta$.
+Fix a target factor $r<8/7$, and choose $r'$ with
+$r<r'<8/7$. Use the parameters $q,\eta$ from the proof of
+Theorem~\ref{thm:total-depth-ugc} for factor $r'$, with the same
+layer factors and retained edges as in the treedepth proof. Thus
+$d_1=1$ and $d_0=(q-1)d_\eta$.
 Restriction to the $q$ layer cliques gives
 \[
- \totd(S_q(G))\ge q\,\frac{n(n+1)}2
- \ge\frac{qn^2}{2}=\frac{N^2}{2q},\qquad N=qn.
+ L:=q\,\frac{n(n+1)}2\le\totd(S_q(G)),\qquad
+ L\ge\frac{qn^2}{2}=\frac{N^2}{2q},\quad N=qn.
 \]
-For fixed $q$, the loss $\tau N^2$ is arbitrarily small relative
-to this lower bound. Lemma~\ref{lem:gap-preservation} transfers
-every factor below $8/7$ from Theorem~\ref{thm:total-depth-ugc}.
+The sparsification loss $\tau N^2$ is at most $2q\tau L$.
+Choose $\tau<(r'-r)/(2q(r'+r))$. Lemma~\ref{lem:gap-preservation},
+with $a=1$, lower bound $L$, and $\epsilon=2q\tau$, transfers the
+dense factor-$r'$ gap to factor $r$.
 
 \emph{SSE hardness.}
 The common line-graph construction has YES total depth at most
