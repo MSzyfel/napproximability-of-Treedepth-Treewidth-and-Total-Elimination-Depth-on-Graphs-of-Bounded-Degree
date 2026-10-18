@@ -217,18 +217,18 @@ to the replicated cover term. Replication multiplies the cover gap by
 the number of copies but leaves this one-copy overhead unchanged.
 
 \paragraph{Treedepth under SSEH.}
-For the Raghavendra--Steurer--Tulsiani host~\cite{RST}, YES
-instances have a partition into equal-volume classes with few
-crossing edges. In NO instances, every vertex set with normalized
-degree volume between $1/10$ and $9/10$ has a large boundary. We pass
-to the line graph, whose vertices
-are the host edges. In the YES case, the crossing edges form a short
-chain above separate chains for the classes. Conversely, a small
-separator in the line graph splits the surviving host edges into two
-large collections with no shared endpoint. The endpoints define a
-host cut, and every edge crossing that cut must have been deleted.
-The NO boundary bound therefore forces a large separator, giving
-lower bounds on both treedepth and total depth.
+For the Raghavendra--Steurer--Tulsiani source~\cite{RST}, YES
+instances partition into equal-volume classes with few crossing
+edges. Volume is the sum of degrees. In NO, every set with between
+$10\%$ and $90\%$ of total volume has many boundary edges. Its line
+graph has one vertex per source edge, adjacent when edges share an
+endpoint. The YES crossing edges form a short chain above one chain per
+class. A NO balanced separator splits surviving edges into two large
+collections with disjoint endpoints. The endpoints of one
+collection give a balanced cut. Every edge crossing this cut lies in
+the separator.
+The NO expansion bound forces a large separator, giving
+lower bounds on treedepth and total depth.
 
 \paragraph{Parity witnesses for NP-hardness.}
 We refine the truth-block and anchor construction
