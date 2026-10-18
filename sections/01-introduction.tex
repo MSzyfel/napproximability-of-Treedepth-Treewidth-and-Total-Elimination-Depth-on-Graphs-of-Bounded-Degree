@@ -230,18 +230,23 @@ the separator.
 The NO expansion bound forces a large separator, giving
 lower bounds on treedepth and total depth.
 
-\paragraph{Parity witnesses for NP-hardness.}
+\paragraph{Treedepth under $\PP\ne\NP$.}
 We refine the truth-block and anchor construction
 of~\cite{BNS}, using the parity gap
 of~\cite[Theorem~10]{HazanSafraSchwartz2003}. Truth blocks encode
-variable values, and four witnesses per equation represent its
-satisfying assignments. A star on the witnesses limits the gain from
-leaving variables unassigned. Randomly completing a partial assignment
-lets us choose block sizes that pay for this gain, so the independence
-number records the optimum number of satisfied equations. Balanced
-parts and shorter anchor cliques transfer this gap to treedepth.
-Replicating the same source and completing its global parts transfers
-it to treewidth.
+variable values, while four assignment vertices represent the
+satisfying assignments of each equation. Edges to inconsistent truth
+blocks rule out incompatible choices. We join one assignment vertex
+to the other three, limiting the gain from leaving variables
+unassigned. We
+complete unassigned variables uniformly at random and compare the
+expected number of satisfied equations with the selected assignment
+vertices. The truth-block sizes make the loss in block vertices pay
+for any extra assignment vertices, so the maximum independent-set
+size equals a fixed baseline plus the maximum number of satisfiable
+equations. Balanced parts and shorter anchor cliques transfer this
+gap to treedepth. Replication and clique completion transfer it to
+treewidth.
 
 \paragraph{Total depth under $\PP\ne\NP$.}
 Complete the three parts to cliques and attach many independent
