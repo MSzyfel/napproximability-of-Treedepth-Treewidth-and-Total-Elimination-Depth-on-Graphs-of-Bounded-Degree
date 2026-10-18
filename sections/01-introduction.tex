@@ -199,7 +199,8 @@ We encode the Khot--Regev source~\cite{KhotRegev} in clique layers,
 with cross-layer edges recording source adjacencies. In YES, put
 copies of the complement of a large independent set (a small vertex
 cover) on one chain, then the independent-set copies from each layer
-on a separate lower chain. No edge joins these lower chains. For
+on a separate lower chain. No edge joins different lower chains
+because the chosen source vertices are independent. For
 soundness, follow the forest to its first split.
 Each child uses fewer layers, and source vertices represented in
 multiple children form an independent set, bounding the sum of child
