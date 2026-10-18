@@ -459,7 +459,8 @@ For one prescribed set of size $n$, the same construction gives a
 simple graph of maximum degree at most $8^k\lceil M/n\rceil$,
 where $M=\lceil\sqrt n\rceil^2$, with no disjoint anticomplete
 $t$-subsets for every integer $t\ge1$ with $t>\lambda_0^kM$.
-Neither construction adds vertices.
+Both constructed graphs are connected, and neither construction adds
+vertices.
 \end{lemma}
 
 \begin{proof}
@@ -522,6 +523,30 @@ an edge between $X$ and $Y$. Discard repeated edges. If $L$ is the
 largest prescribed set size, then in either construction
 $M=\lceil\sqrt L\rceil^2\le(\sqrt L+1)^2\le4L$, since $L\ge1$.
 Thus the construction has polynomial size for fixed $k$.
+
+It remains to verify connectedness. Every nonconstant eigenvalue of
+$A_{\mathcal E}$ has absolute value at most $d\lambda_0^k<d$.
+Thus $\mathcal E$ is connected, since a disconnected $d$-regular
+graph has a nonconstant eigenvector with eigenvalue $d$. It is also
+nonbipartite, since a connected bipartite $d$-regular graph has an
+eigenvector with eigenvalue $-d$.
+
+For the one-set construction, an onto map from a connected graph
+gives a connected image: each source edge maps to an output edge or
+to a loop, and deleting loops and repeated edges preserves
+connectedness.
+
+For the bipartite construction, suppose its output had more than one
+component. For every $x\in V(\mathcal E)$, let $a(x)$ be the output
+component containing $\pi_A(x)$ and let $b(x)$ be the component
+containing $\pi_B(x)$. Each step $xy$ of $\mathcal E$ and its reverse
+give output edges $\pi_A(x)\pi_B(y)$ and
+$\pi_A(y)\pi_B(x)$. Hence $a(x)=b(y)$ and $a(y)=b(x)$.
+Along an odd cycle these equalities imply $a(x)=b(x)$ at a cycle
+vertex. Since $\mathcal E$ is connected, propagating the equalities
+along paths shows that every $a(x)$ and $b(x)$ is this same
+component. The maps are onto, so every output vertex lies in it,
+contrary to the supposition. Thus the bipartite output is connected.
 \end{proof}
 
 \subsection{A bounded-degree independent-set source under UGC}
