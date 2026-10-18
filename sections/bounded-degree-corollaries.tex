@@ -125,9 +125,11 @@ from Theorem~\ref{thm:ugc-hardness}.
 \emph{SSE hardness.}
 Use the common line-graph factors above.
 Lemma~\ref{lem:balanced-by-td} converts the separator bound into
-NO treedepth bound $\beta N$. Choose $\eta$ for a dense gap larger
-than the target factor, then $\tau$ so that $\tau N$ is a
-sufficiently small fraction of $\beta N$.
+NO treedepth bound $\beta N$. For a target factor $r$, choose $\eta$
+small enough that $\gamma:=\beta-4r\eta>0$, which is possible
+since $\beta=(c/2)\sqrt{\eta}$. Choose $\tau<\gamma$. After
+sparsification, the NO lower bound minus $r$ times the YES upper
+bound is at least $(\gamma-\tau)N>0$.
 \end{proof}
 
 The NP-hardness assertion answers the bounded-degree conjecture of
