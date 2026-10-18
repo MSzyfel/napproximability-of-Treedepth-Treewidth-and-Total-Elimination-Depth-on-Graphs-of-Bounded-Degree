@@ -162,10 +162,23 @@ Each truth block lies in one global clique, and each $W_x^a$
 meets at most two. The nonempty intersections of a biclique side
 with the global parts therefore partition it into at most two
 sets, each contained in its global clique. Thus $s=2$.
-The dense graph contains a clique of order $3Rm$, so its treewidth is
-at least $3Rm-1$. The loss $9\tau Rm$ can be made arbitrarily
-small relative to this bound, preserving the gap below $12/11$
-from Theorem~\ref{thm:tw-hardness}.
+Fix a target factor $r<12/11$. The proof of
+Theorem~\ref{thm:tw-hardness} chooses $\epsilon,R$ so that
+\[
+ \gamma=R(6-\epsilon)-r\bigl(R(11/2+\epsilon)+3\bigr)>0.
+\]
+The dense YES and NO bounds are respectively
+$R(11/2+\epsilon)m+3m-1$ and $R(6-\epsilon)m-1$.
+Since the output order is $9Rm$, sparsification preserves the YES
+upper bound and lowers the NO bound by at most $9\tau Rm$. Choose
+$\tau<\gamma/(18R)$. The sparse NO lower bound minus $r$ times the
+sparse YES upper bound is
+\[
+ \bigl(R(6-\epsilon)m-1-9\tau Rm\bigr)
+ -r\bigl(R(11/2+\epsilon)m+3m-1\bigr)
+ =(\gamma-9\tau R)m+(r-1)
+ >\frac{\gamma m}{2}+r-1>0.
+\]
 
 \emph{UGC hardness.}
 Fix the $\zeta,R$ chosen in the proof of
