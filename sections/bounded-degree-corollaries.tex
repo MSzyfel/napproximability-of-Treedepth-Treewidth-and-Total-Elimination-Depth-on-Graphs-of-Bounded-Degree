@@ -100,9 +100,19 @@ Before omitting the three vertices $z_A,z_B,z_C$, each
 $K_X\cup\{z_X\}$ is a clique of order $3m+1$. Thus the original
 dense graph has treedepth at least $3m+1$. Omitting these vertices
 costs at most $3$, and sparsification costs at most $18\tau m$.
-Their total loss, $3+18\tau m$, is an arbitrarily small fraction
-of this lower bound for small $\tau$ and large $m$. The gap below $18/17$ from
-Theorem~\ref{thm:np-hardness} therefore persists.
+The resulting YES bound is $(17/2+\epsilon)m+1$, and the NO lower
+bound is $(9-\epsilon)m-2-18\tau m$. Fix a target factor
+$r<18/17$ and let
+$\gamma=9-\epsilon-r(17/2+\epsilon)>0$, using the choice of
+$\epsilon$ in Theorem~\ref{thm:np-hardness}. Choose
+$\tau<\gamma/36$ and take enough source copies that
+$m>2(2+r)/\gamma$. Then
+\[
+ (9-\epsilon)m-2-18\tau m
+ -r\bigl((17/2+\epsilon)m+1\bigr)
+ \ge \frac{\gamma m}{2}-(2+r)>0,
+\]
+so the gap survives both losses.
 
 \emph{UGC hardness.}
 Use Theorem~\ref{thm:bounded-degree-kr-source} in $S_q(G)$.
