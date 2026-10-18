@@ -272,20 +272,30 @@ chosen below.
 
 \emph{YES case.}
 In the YES case the source theorem gives $q$ disjoint classes of
-normalized volume $1/q$ and expansion
-$\varepsilon'+o(\varepsilon')$. The sum of their normalized
+normalized volume $1/q$. The proof of RST Theorem~3.5~\cite{RST} uses
+$\rho^2=1-\varepsilon'/2$ and, by its Lemma~6.2, bounds every class
+expansion by
+\[
+ 2(1-\rho^2+\eta+2\varepsilon_V)
+  +(1-\rho^2+\eta+2\varepsilon_V)^2
+  +\frac{(1-\rho^2)\beta}{\rho^2}+2^{-\Omega(k)}.
+\]
+Their parameter choices satisfy
+$\varepsilon_V=\varepsilon'^2$, with their small-set source parameter
+$\eta\leq\varepsilon'^2$, $\beta\leq\varepsilon'$, and
+$2^{-\Omega(k)}=O(\varepsilon'^2)$. Hence this bound is
+$\varepsilon'+O(\varepsilon'^2)$, with an absolute error bound
+independent of $q$. The sum of the classes' normalized
 volumes is $q\cdot(1/q)=1$. Since normalized volume is additive
 on disjoint sets and the whole graph has normalized volume one,
 the vertices outside these classes have total volume zero.
 Such vertices have degree zero and can be assigned to any class
 without changing its volume or its boundary. We therefore obtain
 a partition of the entire vertex set with the required
-class volumes. In the source NO bound, the Gaussian correlation is
-$\rho^2=1-\varepsilon'/2$. Use the rational-parameter version of
-the finite RST reduction. Its output graph has rational edge weights.
-The YES expansion is $\varepsilon'+o(\varepsilon')$.
-For all sufficiently small fixed $\varepsilon'$, the error term is
-at most $\varepsilon'$, so every class has expansion at most
+class volumes. Use the rational-parameter version of the finite RST
+reduction; its output graph has rational edge weights. For
+sufficiently small $\varepsilon'$, the absolute error above is at
+most $\varepsilon'$, so every class has expansion at most
 $2\varepsilon'\leq2\varepsilon$.
 
 \emph{NO case.}

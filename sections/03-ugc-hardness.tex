@@ -188,13 +188,28 @@ Moreover,
 \end{lemma}
 
 \begin{proof}
-Take distinct $u,v\in D$. Choose a copy of $u$ in one child. Since
-$v$ occurs in at least two children, some copy of $v$ occurs in a
-different child. The two copies have different layer indices by
-Lemma~\ref{lem:ugc-layer-usage}. If $uv$ were an edge of $G$, the
-definition of $S_q(G)$ would make these copies adjacent. This
-contradicts their incomparability. Hence $uv\notin E(G)$, proving
-that $D$ is independent and $|D|\leq\alphaI(G)$.
+Let $i\ne j$, and let distinct $u\in U_i$ and $v\in U_j$ be source
+vertices. Choose copies $u_a\in F_i$ and $v_b\in F_j$. Since the
+layer sets $I_i$ and $I_j$ are disjoint, $a\ne b$. If $uv$ were an
+edge of $G$, then $u_av_b$ would be an edge of $S_q(G)$, contrary to
+the fact that vertices in different child trees are incomparable.
+Thus no source edge joins distinct vertices represented in different
+children.
+
+Fix $u\in D$ and $v\in\bigcup_jU_j$ with $v\ne u$. Choose $i$ with
+$v\in U_i$. Since $u$ occurs in at least two supports, it belongs to
+some $U_j$ with $j\ne i$. The preceding argument shows that $uv$ is
+not an edge. Thus $D$ is isolated in $G[\bigcup_jU_j]$, and in
+particular is independent, with $|D|\leq\alphaI(G)$.
+
+The sets $U_j\setminus D$ are pairwise disjoint and have no edges
+between them. Removing isolated vertices does not change a
+vertex-cover number, and vertex-cover numbers add over disjoint
+components. Therefore
+\[
+ \sum_j\vc(G[U_j])
+ =\vc\Bigl(G\bigl[\bigcup_jU_j\bigr]\Bigr).
+\]
 
 The first occurrence of every source vertex contributes at most one
 to $\sum_jn_j$. Only vertices in $D$ contribute further occurrences,
@@ -207,9 +222,6 @@ and each contributes at most $\nu-1$ of them. Thus,
 \]
 The remaining inequalities in~\eqref{eq:ugc-support-count} follow
 from $\nu\leq q$ and $\alphaI(G)\leq n$.
-More generally, distinct vertices belonging to different supports cannot
-be adjacent. Thus $D$ is isolated in $G[\bigcup_jU_j]$, and the
-remaining supports are disjoint and anticomplete, proving the cover identity.
 \end{proof}
 
 \begin{lemma}[The full graph associated with a child]
@@ -238,6 +250,13 @@ partition $V(F)$, proving the first identity. A longest path in $F$
 consists of $P$ followed by a longest path in one child, proving
 the second.
 \end{proof}
+
+For every graph $H$, the complement of a vertex cover is an
+independent set, and the complement of an independent set is a
+vertex cover. Thus
+\begin{equation}\label{eq:cover-independent-complement}
+ \vc(H)=|V(H)|-\alphaI(H).
+\end{equation}
 
 \begin{lemma}[Restoring deleted vertices: height]\label{lem:restore-vertices}
 Let $H$ be a graph on $N$ vertices, let $X\subseteq V(H)$ have size
@@ -283,7 +302,8 @@ Lemmas~\ref{lem:ugc-layer-usage}, \ref{lem:ugc-source-supports},
 and~\ref{lem:ugc-forest-accounting}, we have
 $|P|=qn-\sum_jN_j$ and $1\leq q_j<q$.
 Put $c=\vc(G)$ and $c_j=\vc(G[U_j])$. Then
-$\sum_jc_j\leq c$ and $n_j\leq c_j+\alphaI(G)$.
+$\sum_jc_j\leq c$. By~\eqref{eq:cover-independent-complement},
+$n_j=c_j+\alphaI(G[U_j])\leq c_j+\alphaI(G)$.
 
 \emph{Induction within each child.}
 By Lemma~\ref{lem:ugc-child-restriction}, the graph induced by
@@ -311,8 +331,9 @@ Lemma~\ref{lem:ugc-forest-accounting} and $N_j=q_jn_j-M_j$ give
  \geq qn-\sum_jq_jn_j+\frac23q_kc_k.
 \]
 The prefix is long when few source vertices fit in the children.
-Using $n_j\leq c_j+\alphaI(G)$, $n=c+\alphaI(G)$, and
-$\sum_jq_j\leq q$, we obtain
+Using $n_j\leq c_j+\alphaI(G)$, $n=c+\alphaI(G)$ from
+\eqref{eq:cover-independent-complement}, and $\sum_jq_j\leq q$, we
+obtain
 \[
  qn-\sum_jq_jn_j
  \geq qc-\sum_jq_jc_j+\alphaI(G)\Bigl(q-\sum_jq_j\Bigr)
