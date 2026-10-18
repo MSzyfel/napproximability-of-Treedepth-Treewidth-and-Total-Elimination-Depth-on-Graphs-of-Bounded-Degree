@@ -256,10 +256,19 @@ $n$ vertices and $M=\Theta(n)$. Choose $0<\epsilon_0<1/2$ so that this
 family is hard within factor $1+2\epsilon_0$.
 The three part cliques and the three bicliques joining each part
 $X$ to $T_X$ give $d_1=2$. Retain $E(G(J))$, of maximum degree
-three. All biclique side-size ratios are bounded because the
-parts have sizes $2n,9n/2,9n/2$ and $|T_X|=M=\Theta(n)$.
+three. Here $N=11n$ and
+$M=\lceil N(N+1)/(2\epsilon_0n)\rceil$. Since $n\ge4$ and
+$\epsilon_0<1$,
+\[
+ \frac{121n}{2\epsilon_0}\le M
+ \le\frac{121n}{2\epsilon_0}+\frac{11}{2\epsilon_0}+1
+ \le\frac{64n}{\epsilon_0}.
+\]
+The parts have sizes $2n,9n/2,9n/2$, so $M>9n/2$ and each
+biclique $X\times T_X$ has side-size ratio
+$M/|X|\le32/\epsilon_0$. Thus $\kappa=32/\epsilon_0$ suffices.
 
-Here $N=11n+3M=\Theta(n)$. Equation~\eqref{eq:np-total-depth-added-vertices-bounds}
+The output order is $11n+3M=\Theta(n)$. Equation~\eqref{eq:np-total-depth-added-vertices-bounds}
 and Lemma~\ref{lem:np-total-depth-cubic} give
 \[
  \totd(H)\ge MW(G(J))
