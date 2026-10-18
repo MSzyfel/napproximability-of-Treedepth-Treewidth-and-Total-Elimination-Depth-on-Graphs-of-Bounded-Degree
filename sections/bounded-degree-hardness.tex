@@ -89,8 +89,7 @@ vertices and never increases their depths.
 
 The following lemmas identify a small exceptional set whose deletion
 allows a sparse factor to be completed. For a clique, the surviving
-vertices must lie on one path from a root to a vertex, or in one bag.
-For a biclique,
+vertices must lie on one ancestor path or in one bag. For a biclique,
 it is enough that every surviving cross-pair is comparable or appears
 together in a bag.
 
@@ -98,32 +97,38 @@ together in a bag.
 
 \begin{lemma}[Clique completion in an elimination forest]\label{lem:sparse-clique-completion}
 Let $F$ be an elimination forest of a graph $J$. Suppose $J[U]$ has
-no two disjoint anticomplete sets of size $t\ge1$. There is a path
-from a root of $F$ to one of its descendants containing at least
-$|U|-2(t-1)$ vertices of $U$. If $F$ is empty, allow the empty path.
+no two disjoint anticomplete sets of size $t\ge1$. There is an
+ancestor path $P$ of $F$ such that
+$|U\setminus V(P)|\leq2(t-1)$.
 \end{lemma}
 
 \begin{proof}
-If $|U|<t$, the required number is nonpositive, so any root-to-vertex
-path works (or the empty path if $F$ is empty). Otherwise traverse $F$ in
-depth-first order, traversing its rooted trees successively.
-Introduce a vertex before visiting its descendants, and forget it
-after traversing its entire subtree. At any time within one tree,
-the introduced but unforgotten vertices form the path from that tree's
-root to its deepest active vertex; between trees this set is empty.
-Every forgotten vertex
-is incomparable with every unintroduced vertex: all its ancestors
-were introduced earlier, and its whole subtree has already been
-traversed. Thus the two groups are anticomplete in $J$.
+If $|U|<t$, then $|U|\leq t-1\leq2(t-1)$, so the empty path
+satisfies the claim. Now assume $|U|\geq t$. Traverse each rooted
+tree in depth-first order, introducing a vertex when it is first
+reached and forgetting it after its entire subtree has been
+traversed. The introduced but not forgotten vertices form the
+current ancestor path, or the empty path between trees.
 
-Immediately after the $t$th vertex of $U$ is forgotten, at most
-$t-1$ vertices of $U$ are unintroduced: otherwise they and the
-$t$ forgotten vertices would form a forbidden anticomplete pair.
-Immediately before that forgetting operation, $t-1$
-vertices of $U$ had been forgotten, and the unintroduced set was
-the same. All other vertices of $U$ lay on the current root-to-vertex
-path. That path therefore contains at least $|U|-2(t-1)$ vertices
-of $U$.
+Let $L$ be the vertices of $U$ already forgotten, and let $R$ be
+the vertices of $U$ not yet introduced. A vertex $x\in L$ and a
+vertex $y\in R$ are incomparable: $y$ cannot be an ancestor of $x$
+because ancestors are introduced first, and $x$ cannot be an
+ancestor of $y$ because the traversal of $x$'s subtree is complete.
+Since $F$ is an elimination forest of $J$, no edge joins $L$ to $R$.
+
+Consider the moment immediately after the $t$th vertex of $U$ is
+forgotten. Then $|L|=t$. If $|R|\geq t$, choosing $t$ vertices
+from each of $L$ and $R$ gives two disjoint anticomplete sets of
+size $t$, a contradiction. Hence $|R|\leq t-1$. Immediately
+before that forgetting operation, $t-1$ vertices of $U$ had been
+forgotten, and $R$ was unchanged. Every other vertex of $U$ was
+then introduced but not forgotten, so it lay on the current ancestor
+path $P$. Therefore
+\[
+ |U\setminus V(P)|\leq(t-1)+(t-1)=2(t-1),
+\]
+as required.
 \end{proof}
 
 \begin{lemma}[Clique completion in a tree decomposition]
