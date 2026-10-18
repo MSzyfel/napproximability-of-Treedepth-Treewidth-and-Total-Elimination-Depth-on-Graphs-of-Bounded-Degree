@@ -1,10 +1,110 @@
-﻿\section{Auxiliary proofs}
+\section{Auxiliary proofs}
 \label{sec:auxiliary-proofs}
 
-The subsections follow the order of the technical arguments in the
-main body: the branching inequalities for the UGC reductions, the
-earlier incidence argument for the SSE reduction, and the anchor-length
-corollary for the NP-hardness construction.
+The subsections follow their first references in the text: the
+incidence construction mentioned in the introduction, the two
+branching inequalities, and the anchor-length corollary.
+
+\subsection{The earlier incidence construction}
+\label{app:incidence-proof}
+
+We explain how the incidence construction of Wu, Austrin, Pitassi, and
+Liu~\cite[Sections~4.3 and~5]{APW} already implies the qualitative
+treedepth conclusion of Theorem~\ref{thm:sse-hardness}. The inherited
+part is the source reduction and its separator soundness analysis.
+The additional argument is a treedepth upper bound in the YES case.
+
+\emph{The output graph.}
+Let $G$ be their regular source host, with $m>0$ edges, and let
+$R_{\mathrm{inc}}\geq |V(G)|m$ be an integer. Denote its incidence output by
+$G'$. Its vertex set is the disjoint union of $V(G)\times[R_{\mathrm{inc}}]$ and
+$E(G)$: $(v,s)$ is the $s$th copy of the host vertex $v$, whereas
+the output vertex indexed by $e\in E(G)$ represents a host edge.
+The adjacency rule is
+\[
+ \{e,(v,s)\}\in E(G')
+ \quad\Longleftrightarrow\quad
+ e\in E(G),\ v\in e,\ s\in[R_{\mathrm{inc}}].
+\]
+There are no edges within either $V(G)\times[R_{\mathrm{inc}}]$ or $E(G)$, and
+no other edges. In particular, $G'$ is simple and bipartite.
+
+\emph{The YES forest.}
+The source YES partition $V_1,\ldots,V_q$ has equal class volumes
+$\vol_G(V_i)=2m/q$ and $\Phi_G(V_i)\leq2\varepsilon$.
+Let $D$ be the multiset of crossing host edges and
+$E_i=E(G[V_i])$ the multiset of internal host edges in class $i$.
+Each crossing edge belongs to the cuts of both endpoint classes. Therefore
+\[
+ 2|D|=\sum_{i=1}^q|\cut_G(V_i)|
+ =\sum_{i=1}^q\Phi_G(V_i)\vol_G(V_i)
+ \leq4\varepsilon m.
+\]
+Each internal edge contributes two incidences to its class volume,
+so $2|E_i|\leq\vol_G(V_i)=2m/q$. Consequently
+$|D|\leq2\varepsilon m$ and $|E_i|\leq m/q$ for every $i$.
+These are also the unweighted bounds of
+Lemma~\ref{lem:sse-yes-edge-counts}.
+
+First make a top chain from the output vertices indexed by $D$.
+For each $i$, make a chain from the output vertices indexed by
+$E_i$ and place it below the last vertex of the top chain. Attach
+all vertices $(v,s)$ with $v\in V_i$ as leaves below the last
+vertex of this class chain. Empty chains are omitted: if $E_i$ is
+empty, these leaves go directly below the top chain. If $D$ is
+empty, the class chains and any unattached leaves are separate
+rooted trees. This describes a rooted forest on every vertex of
+$G'$, including copies of isolated host vertices.
+
+To verify that it is an elimination forest, consider an arbitrary
+output edge $\{e,(v,s)\}$. If $e\in D$, its output vertex lies on
+the top chain and is an ancestor of $(v,s)$. Otherwise $e\in E_i$
+for some $i$, both host endpoints of $e$ lie in $V_i$, and the
+output vertex indexed by $e$ is on the class chain above $(v,s)$.
+Thus the endpoints of every output edge are comparable. A
+root-to-leaf path uses at most $|D|$ vertices of the top chain,
+at most $\max_i|E_i|$ vertices of one class chain, and one host
+vertex copy. Consequently
+\[
+ \td(G')\leq |D|+\max_i|E_i|+1
+ \leq 2\varepsilon m+\frac{m}{q}+1.
+\]
+The same bound covers empty top or class chains.
+
+\emph{The NO bound and the gap.}
+On a NO source instance, every set $A\subseteq V(G)$ with
+$|A|\in[|V(G)|/10,9|V(G)|/10]$ has at least
+$c_0\sqrt{\varepsilon}\,m$ crossing host edges, for an absolute
+constant $c_0>0$. Since the host is regular, this is the same as the
+corresponding volume condition. Wu, Austrin, Pitassi, and Liu~\cite[Lemma~5.1]{APW}
+apply this source property to the entire replicated incidence graph
+$G'$ and prove that its minimum balanced-separator size satisfies
+$b(G')\geq c_1\sqrt{\varepsilon}\,m$ for an absolute constant
+$c_1>0$. Set $c=\min\{c_0,c_1\}$. Thus the bound is on separators
+of all output vertices, not just the host-edge vertices.
+Lemma~\ref{lem:balanced-by-td} therefore gives
+$\td(G')\geq c\sqrt{\varepsilon}\,m$.
+
+For completeness, fix any desired approximation factor $C\geq1$.
+Choose a sufficiently small fixed $0<\varepsilon\leq1/2$ for which
+the source promise applies and $\sqrt{\varepsilon}<c/(4C)$, and
+put $q=\lceil1/\varepsilon^2\rceil$. In the YES case, all $q$
+partition classes have positive volume and are therefore nonempty.
+The regular host has positive integer degree, so
+$2m\geq|V(G)|\geq q\geq1/\varepsilon^2$.
+Since $\varepsilon\leq1/2$, this implies
+$m\geq1/(2\varepsilon^2)\geq1/\varepsilon$. The YES upper bound thus satisfies
+\[
+ 2\varepsilon m+\frac{m}{q}+1
+ \leq(2\varepsilon+\varepsilon^2+\varepsilon)m
+ \leq4\varepsilon m,
+\]
+whereas the NO lower bound is
+$c\sqrt{\varepsilon}\,m>4C\varepsilon m$. Thus a factor-$C$
+approximation distinguishes the two cases. Finally, taking
+$R_{\mathrm{inc}}=|V(G)|m$ makes the incidence output polynomial in the source
+size. This proves SSE hardness for treedepth at every fixed factor
+on bipartite outputs from the cited construction.
 
 \subsection{The branching inequality}
 \label{app:branching-proof}
@@ -117,107 +217,6 @@ The identity also covers fewer than three or four indices by
 interpreting the corresponding sums as empty. Substituting
 $x_j=\sqrt{W_j}$ proves the lemma.
 \end{proof}
-
-\subsection{The earlier incidence construction}
-\label{app:incidence-proof}
-
-We explain how the incidence construction of Wu, Austrin, Pitassi, and
-Liu~\cite[Sections~4.3 and~5]{APW} already implies the qualitative
-treedepth conclusion of Theorem~\ref{thm:sse-hardness}. The inherited
-part is the source reduction and its separator soundness analysis.
-The additional argument is a treedepth upper bound in the YES case.
-
-\emph{The output graph.}
-Let $G$ be their regular source host, with $m>0$ edges, and let
-$R_{\mathrm{inc}}\geq |V(G)|m$ be an integer. Denote its incidence output by
-$G'$. Its vertex set is the disjoint union of $V(G)\times[R_{\mathrm{inc}}]$ and
-$E(G)$: $(v,s)$ is the $s$th copy of the host vertex $v$, whereas
-the output vertex indexed by $e\in E(G)$ represents a host edge.
-The adjacency rule is
-\[
- \{e,(v,s)\}\in E(G')
- \quad\Longleftrightarrow\quad
- e\in E(G),\ v\in e,\ s\in[R_{\mathrm{inc}}].
-\]
-There are no edges within either $V(G)\times[R_{\mathrm{inc}}]$ or $E(G)$, and
-no other edges. In particular, $G'$ is simple and bipartite.
-
-\emph{The YES forest.}
-The source YES partition $V_1,\ldots,V_q$ has equal class volumes
-$\vol_G(V_i)=2m/q$ and $\Phi_G(V_i)\leq2\varepsilon$.
-Let $D$ be the multiset of crossing host edges and
-$E_i=E(G[V_i])$ the multiset of internal host edges in class $i$.
-Each crossing edge belongs to the cuts of both endpoint classes. Therefore
-\[
- 2|D|=\sum_{i=1}^q|\cut_G(V_i)|
- =\sum_{i=1}^q\Phi_G(V_i)\vol_G(V_i)
- \leq4\varepsilon m.
-\]
-Each internal edge contributes two incidences to its class volume,
-so $2|E_i|\leq\vol_G(V_i)=2m/q$. Consequently
-$|D|\leq2\varepsilon m$ and $|E_i|\leq m/q$ for every $i$.
-These are also the unweighted bounds of
-Lemma~\ref{lem:sse-yes-edge-counts}.
-
-First make a top chain from the output vertices indexed by $D$.
-For each $i$, make a chain from the output vertices indexed by
-$E_i$ and place it below the last vertex of the top chain. Attach
-all vertices $(v,s)$ with $v\in V_i$ as leaves below the last
-vertex of this class chain. Empty chains are omitted: if $E_i$ is
-empty, these leaves go directly below the top chain. If $D$ is
-empty, the class chains and any unattached leaves are separate
-rooted trees. This describes a rooted forest on every vertex of
-$G'$, including copies of isolated host vertices.
-
-To verify that it is an elimination forest, consider an arbitrary
-output edge $\{e,(v,s)\}$. If $e\in D$, its output vertex lies on
-the top chain and is an ancestor of $(v,s)$. Otherwise $e\in E_i$
-for some $i$, both host endpoints of $e$ lie in $V_i$, and the
-output vertex indexed by $e$ is on the class chain above $(v,s)$.
-Thus the endpoints of every output edge are comparable. A
-root-to-leaf path uses at most $|D|$ vertices of the top chain,
-at most $\max_i|E_i|$ vertices of one class chain, and one host
-vertex copy. Consequently
-\[
- \td(G')\leq |D|+\max_i|E_i|+1
- \leq 2\varepsilon m+\frac{m}{q}+1.
-\]
-The same bound covers empty top or class chains.
-
-\emph{The NO bound and the gap.}
-On a NO source instance, every set $A\subseteq V(G)$ with
-$|A|\in[|V(G)|/10,9|V(G)|/10]$ has at least
-$c_0\sqrt{\varepsilon}\,m$ crossing host edges, for an absolute
-constant $c_0>0$. Since the host is regular, this is the same as the
-corresponding volume condition. Wu, Austrin, Pitassi, and Liu~\cite[Lemma~5.1]{APW}
-apply this source property to the entire replicated incidence graph
-$G'$ and prove that its minimum balanced-separator size satisfies
-$b(G')\geq c_1\sqrt{\varepsilon}\,m$ for an absolute constant
-$c_1>0$. Set $c=\min\{c_0,c_1\}$. Thus the bound is on separators
-of all output vertices, not just the host-edge vertices.
-Lemma~\ref{lem:balanced-by-td} therefore gives
-$\td(G')\geq c\sqrt{\varepsilon}\,m$.
-
-For completeness, fix any desired approximation factor $C\geq1$.
-Choose a sufficiently small fixed $0<\varepsilon\leq1/2$ for which
-the source promise applies and $\sqrt{\varepsilon}<c/(4C)$, and
-put $q=\lceil1/\varepsilon^2\rceil$. In the YES case, all $q$
-partition classes have positive volume and are therefore nonempty.
-The regular host has positive integer degree, so
-$2m\geq|V(G)|\geq q\geq1/\varepsilon^2$.
-Since $\varepsilon\leq1/2$, this implies
-$m\geq1/(2\varepsilon^2)\geq1/\varepsilon$. The YES upper bound thus satisfies
-\[
- 2\varepsilon m+\frac{m}{q}+1
- \leq(2\varepsilon+\varepsilon^2+\varepsilon)m
- \leq4\varepsilon m,
-\]
-whereas the NO lower bound is
-$c\sqrt{\varepsilon}\,m>4C\varepsilon m$. Thus a factor-$C$
-approximation distinguishes the two cases. Finally, taking
-$R_{\mathrm{inc}}=|V(G)|m$ makes the incidence output polynomial in the source
-size. This proves SSE hardness for treedepth at every fixed factor
-on bipartite outputs from the cited construction.
 
 \subsection{Derivation of the anchor-length corollary}
 \label{app:anchor-proof}

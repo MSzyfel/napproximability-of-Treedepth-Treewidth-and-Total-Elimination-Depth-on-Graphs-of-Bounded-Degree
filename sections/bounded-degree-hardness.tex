@@ -96,8 +96,9 @@ together in a bag.
 \subsubsection{Clique factors}
 
 \begin{lemma}[Clique completion in an elimination forest]\label{lem:sparse-clique-completion}
-Let $F$ be an elimination forest of a graph $J$. Suppose $J[U]$ has
-no two disjoint anticomplete sets of size $t\ge1$. There is an
+Let $J$ be a finite simple graph, let $U\subseteq V(J)$, and let
+$t\ge1$ be an integer. Suppose $J[U]$ has no two disjoint
+anticomplete sets of size $t$. Every elimination forest $F$ of $J$ has an
 ancestor path $P$ of $F$ such that
 $|U\setminus V(P)|\leq2(t-1)$.
 \end{lemma}
@@ -137,8 +138,9 @@ partition $U$, and every vertex in the third set lies on $P$. Hence
 
 \begin{lemma}[Clique completion in a tree decomposition]
 \label{lem:tw-clique-completion}
-Suppose $J[U]$ has no two disjoint anticomplete sets of size
-$t\ge1$. Every tree decomposition of $J$ has a node $u$ whose bag
+Let $J$ be a finite simple graph, let $U\subseteq V(J)$, and let
+$t\ge1$ be an integer. Suppose $J[U]$ has no two disjoint
+anticomplete sets of size $t$. Every tree decomposition of $J$ has a node $u$ whose bag
 $B_u$ satisfies $|U\setminus B_u|\leq3(t-1)$.
 \end{lemma}
 
@@ -188,9 +190,10 @@ bipartite graph, the maximum matching size equals the minimum
 vertex-cover size.
 
 \begin{lemma}[Biclique completion in an elimination forest]\label{lem:sparse-biclique-completion}
-Let $F$ be an elimination forest of a graph $J$. Suppose $A,B$ are
-disjoint and the bipartite graph of $J$ between them has no $(t,t)$
-hole, where $t\ge1$. There is a set $D\subseteq A\cup B$ such that
+Let $F$ be an elimination forest of a finite simple graph $J$,
+let $A,B\subseteq V(J)$ be disjoint, and let $t\ge1$ be an integer.
+Suppose the bipartite graph of $J$ between $A$ and $B$ has no
+$(t,t)$ hole. There is a set $D\subseteq A\cup B$ such that
 $|D|\leq4(t-1)$ and each pair in
 $(A\setminus D)\times(B\setminus D)$ is comparable in $F$.
 \end{lemma}
@@ -251,8 +254,10 @@ decomposition by removing them from every bag.
 
 \begin{lemma}[Biclique completion between two bags]
 \label{lem:tw-biclique-completion}
-Fix a tree decomposition of $J$. Suppose disjoint sets $A,B$
-are contained in bags at nodes $x,y$, respectively, and the
+Let $J$ be a finite simple graph and let $t\ge1$ be an integer.
+Fix a tree decomposition $(T,(B_u)_{u\in V(T)})$ of $J$.
+Suppose $A,B\subseteq V(J)$ are disjoint, $A\subseteq B_x$ and
+$B\subseteq B_y$ for some $x,y\in V(T)$, and the
 bipartite graph of $J$ between $A$ and $B$ has no $(t,t)$ hole.
 There is a set $D\subseteq A\cup B$ with $|D|\leq2(t-1)$ such that
 after deleting $D$ from every bag, each pair
