@@ -173,151 +173,76 @@ same parameter bounds rather than stated as separate results.
 
 \subsection{Proof overview}
 
-\paragraph{Treedepth under UGC.}
-Write $\alphaI(G)$ for the maximum independent-set size.
-The Khot--Regev independent-set gap~\cite{KhotRegev} distinguishes
-graphs with $\alphaI(G)\geq(1/2-\eta)n$ from graphs with
-$\alphaI(G)<\eta n$, for each fixed rational $0<\eta<1/10$. We replace a source
-graph $G$ on $n$ vertices by $q$ clique layers, with cross-layer
-edges encoding adjacency in $G$.
-A vertex cover gives a common top chain in an elimination forest.
-The independent-set copies then occupy separate layer chains.
-For the NO lower bound, we analyze the first branch of an arbitrary forest.
-Each clique layer continues into at most one child, and source
-vertices represented in several children form an independent set.
-Induction on the number of layers, combined with a branching
-inequality, bounds the height without any expansion assumption on
-$G$. A fixed choice of $q$ yields each factor below $4/3$.
-
-\paragraph{Total depth under UGC.}
-For the same layered graph on $qn$ vertices, the YES forest
-has total depth at most
-$\bigl(qn(qn+1)-q(q-1)\alphaI(G)^2\bigr)/2$.
-For the NO lower bound, we add the depth costs of all child subtrees at
-the first branch, keeping track of the missing copies in each
-child. A quadratic branching inequality gives
-$\totd(S_q(G))\geq(3/7)q^2\vc(G)^2+qn/2$.
-Under the independent-set promise,
-the leading YES and NO coefficients can be made arbitrarily close
-to $3/8$ and $3/7$, respectively, relative to $q^2n^2$.
-Their ratio gives the factor $8/7$.
+\paragraph{Treedepth and total depth under UGC.}
+We replace the Khot--Regev source~\cite{KhotRegev} by clique layers,
+with cross-layer edges encoding source adjacency. A YES vertex cover
+forms a common chain, below which independent-set copies occupy
+separate layer chains. For soundness, analyze the first branch:
+each child uses fewer layers, and source vertices repeated across
+children form an independent set. The child cover numbers sum to
+at most the source cover number. Induction and a branching inequality
+then force a long prefix or a deep child. For total depth, we also
+count the prefix's depth shifts and restore missing child copies.
+A quadratic branching inequality bounds the combined savings across
+all children.
 
 \paragraph{Treewidth under UGC.}
-We derive an equal-part, unweighted tripartite Vertex Cover gap from
-Khot--Regev using a multipartite product. B\'erczi, Chandrasekaran,
-Kir\'aly, Lee, and Xu~\cite{BCKLX2017} prove a related weighted $k$-partite gap whose
-ratio approaches $2(k-1)/k$. We transfer our unweighted gap by taking
-several disjoint source copies and completing their three global parts
-to cliques. Bonnet's central-bag argument~\cite[Lemma~6]{BonnetTreewidth} gives the lower bound.
-For the upper bound, each of three paths attached to a central bag processes
-one source copy at a time. Its additive overhead is bounded by one
-source part, while the cover contribution grows with the number of
-copies. Replication makes this overhead negligible, giving the
-factor $4/3$.
+A multipartite product gives a balanced tripartite cover gap.
+We replicate this source, then complete its global parts to cliques.
+Bonnet's central-bag argument~\cite[Lemma~6]{BonnetTreewidth} forces
+a bag covering every source edge. Conversely, a cover supplies the
+center of a decomposition whose three paths process copies one at
+a time. The temporary bag increase depends on one source part,
+while the cover contribution grows with replication.
 
 \paragraph{Treedepth under SSEH.}
-The partition gap of Raghavendra, Steurer, and
-Tulsiani~\cite{RST} gives a weighted host with a partition into $q$
-classes, each with $1/q$ of the total degree volume and boundary
-weight at most $2\varepsilon$ times its volume in the YES case. In
-the NO case, every vertex set with between $1/10$ and $9/10$ of the
-total degree volume has boundary weight at least
-$c\sqrt{\varepsilon}$ times the total edge weight, for fixed source
-parameters $c,\varepsilon>0$. We take its line graph: each source edge
-becomes one output vertex, and two output vertices are adjacent
-when their source edges share an endpoint.
-In the YES case, the crossing edges form a short top chain and
-the internal edges of each partition class form a branch below it.
-In the NO case, a balanced separator leaves two collections of
-surviving source edges with disjoint sets of endpoints.
-Their endpoint sets have normalized volume in $[1/4,3/4]$.
-Every source edge leaving one endpoint set belongs to the separator.
-This converts the source cut bound into a lower bound on every output
-separator and hence on treedepth. A weight-rounding lemma preserves
-the volume and cut estimates when the source graph is weighted.
+The Raghavendra--Steurer--Tulsiani host~\cite{RST} has a YES
+partition into equal-volume classes with few crossing edges, whereas
+NO sets of medium degree volume have large boundaries. In its line
+graph, crossing host edges form a short chain above separate class
+chains. Conversely, an output separator splits surviving host edges
+into two large collections with disjoint endpoint sets. These sets
+define a host cut contained in the deleted edges. The boundary bound
+therefore forces a large separator, which lower-bounds both height
+and total depth.
 
-\paragraph{Parity witnesses and treewidth.}
-For NP-hardness we refine the construction of Bonnet, Neuen, and
-Soko\l owski~\cite{BNS}. A \emph{truth block} is an independent
-set of vertices representing one value of a source variable. An
-\emph{assignment witness} is a vertex representing a satisfying
-assignment to the variables of one equation. Starting from
-the bounded-occurrence Max-3-LIN-2 problem, which asks for the maximum
-number of simultaneously satisfiable three-variable Boolean parity
-equations, we use the distinct-variable hardness gap stated by Hazan,
-Safra, and Schwartz~\cite[Theorem~10]{HazanSafraSchwartz2003}. For a system $F$
-of $m$ equations, write $\OPT(F)$ for the maximum number of equations
-simultaneously satisfiable. We create four
-assignment witnesses per equation, joined as a star. For soundness,
-we complete each equation's selected partial assignment uniformly at
-random and bound its selected witnesses in terms of its unassigned
-variables. This gives
-$\alphaI(G_F)=5m/2+\OPT(F)$. Pairing equations with a complemented
-copy gives three parts of size $3m$. A lower-bound analysis of the
-cliques attached to those parts, called \emph{anchor cliques}, then
-gives the treedepth identity
-$\td(H)=19m/2-\OPT(F)+1$
-on $18m+3$ vertices. For treewidth, we instead replicate the
-tripartite witness graph and complete its three global parts to
-cliques. Replication makes the additive cost of the YES
-decomposition negligible. The replication lemma from the UGC proof
-then transfers the parity gap to factor $12/11$.
+\paragraph{Parity witnesses for NP-hardness.}
+We refine the truth-block and anchor construction
+of~\cite{BNS}, using the parity gap
+of~\cite[Theorem~10]{HazanSafraSchwartz2003}. Truth blocks encode
+variable values, and four witnesses per equation represent its
+satisfying assignments. A star on the witnesses limits the gain from
+leaving variables unassigned. Randomly completing a partial assignment
+lets us choose block sizes that pay for this gain, so the independence
+number records the optimum number of satisfied equations. Balanced
+parts and shorter anchor cliques transfer this gap to treedepth.
+Replicating the same source and completing its global parts transfers
+it to treewidth.
 
 \paragraph{Total depth under $\PP\ne\NP$.}
-We complete three parts of a tripartite graph to cliques and add an
-independent set of $M$ vertices to each part, adjacent to every vertex
-of that part and no others. An exchange argument moves each added
-vertex immediately below the deepest original vertex of its part without
-increasing total depth. All $M$ vertices associated with a part then
-have the same depth, so their total contribution is $M$ times the
-sum of these three depths. Vertices on all three paths cover the edges
-incident to one part and are counted three times, two counts beyond
-their baseline count of one. After removing them, vertices on the
-other two paths cover the remaining edges between those parts and are
-counted twice, one count beyond baseline. In the construction
-from cubic Independent Set, an added matching makes
-the cover cost associated with $A$ smaller than those associated with
-$B$ and $C$. The minimum three-path cost, denoted by $W(G(J))$,
-is $39n/2-\alphaI(J)+3$. Its contribution to total depth is
-multiplied by $M$, while the original vertices contribute at most
-a quadratic term in $n$. Taking $M$ sufficiently large makes a
-relative error in total depth give a small additive error in $W$.
-Every cubic graph on $n$ vertices has an independent set of size at
-least $n/4$. Thus the additive loss in recovering an independent set
-is a relative loss in $\alphaI(J)$. Choosing the reduction error
-below the source APX-hardness gap preserves the contradiction after
-bounded-degree sparsification.
+Complete three parts to cliques and give each part many independent
+neighbors. Moving these neighbors below their deepest clique vertex
+never increases total depth. They amplify the sum of the depths
+where the three clique parts end. Shared portions of the three
+ancestor paths encode successive cover costs. A construction from
+cubic Independent Set~\cite{AlimontiKann2000} uses an added matching
+to force one designated part to separate first. Its cover cost
+encodes the source optimum, allowing a good total-depth approximation
+to recover a nearly optimal independent set.
 
-\paragraph{Preserving the gaps at bounded degree.}
-The dense constructions are unions of specified cliques and
-complete bipartite graphs, called \emph{factors}, together with a
-retained edge set whose degree at every vertex is bounded. We replace each factor by a
-bounded-degree graph that has an edge between every two sets meeting
-the factor's chosen size threshold. For a clique factor the sets are
-disjoint, while for a biclique they lie on opposite sides. We obtain
-these replacements from expanders. Section~\ref{sec:bounded-degree-hardness}
-defines the expanders, states the expander mixing lemma, and derives
-the no-hole condition used in the construction.
-Every YES upper bound survives edge deletion.
-For the NO bounds, we show that deleting at most $\varepsilon N$
-vertices from an arbitrary elimination forest or tree decomposition
-lets us complete every dense factor. Restoring these vertices costs
-at most $\varepsilon N$ in height or width, and at most
-$\varepsilon N^2$ in total depth.
-Theorems~\ref{thm:td-sparsification}, \ref{thm:tw-sparsification},
-and~\ref{thm:total-depth-sparsification} state the transfers for
-graph families with a bounded number of factors containing each
-vertex, bounded complete-bipartite
-side-size ratios, and bounded degree among retained edges. The
-treewidth theorem additionally requires each biclique side to
-lie in a bounded number of clique factors.
-The number of factors containing any vertex is bounded, so these
-replacements give bounded maximum degree. The UGC applications also
-need a bounded-degree independent-set source with YES density close
-to $1/2$ and arbitrarily small constant NO density. We derive this
-promise from the weighted density theorem of Austrin, Khot, and
-Safra~\cite{AKS2011}, spectral sparsification~\cite{BSS2012}, and
-a threshold that removes edges whose weights are too small.
+\paragraph{Preserving gaps at bounded degree.}
+Replace each clique or biclique factor by a sparse graph obtained
+from an expander, preserving an edge between every two sufficiently
+large sets in the relevant parts. Edge deletion preserves YES solutions. For soundness, the
+remaining edges force a sparse forest or decomposition to represent
+the dense factors after a small vertex deletion. Restore the deleted
+vertices above the forest roots or in every bag. Bounded factor
+incidence controls both the total loss and the replacement degree.
+For treewidth, clique-factor bags provide the bags needed to complete
+bicliques. The UGC reductions also need bounded-degree source graphs.
+We obtain them from the weighted density promise
+of~\cite{AKS2011}, using spectral sparsification~\cite{BSS2012} and
+removing light edges while preserving an edge in every large NO set.
 
 \subsection{Related work and attribution}
 

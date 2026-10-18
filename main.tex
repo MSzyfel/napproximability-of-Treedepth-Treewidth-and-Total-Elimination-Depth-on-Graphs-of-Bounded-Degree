@@ -33,7 +33,7 @@
 \title{Inapproximability of Treedepth, Treewidth, and\\
 Total Elimination Depth on Graphs of Bounded Degree}
 \author{Micha\l{} Szyfelbein\\
-\small Gda\'nsk University of Technology}
+Gda\'nsk University of Technology}
 \date{}
 
 \begin{document}
@@ -78,14 +78,14 @@ sizes over all bags.
 
 \clearpage
 \setcounter{tocdepth}{2}
-% Keep the contents on one page while leaving the main text at 11pt.
+% Use compact section spacing in the contents.
 \begingroup
-\small
+\setlength{\baselineskip}{12pt}
 \makeatletter
 \renewcommand*\l@section[2]{%
   \ifnum \c@tocdepth >\z@
     \addpenalty\@secpenalty
-    \addvspace{.4em \@plus\p@}%
+    \addvspace{.15em \@plus\p@}%
     \setlength\@tempdima{1.5em}%
     \begingroup
       \parindent \z@ \rightskip \@pnumwidth
@@ -132,7 +132,6 @@ references.
 \clearpage
 \bibliographystyle{alpha}
 \begingroup
-\small
 \phantomsection
 \addcontentsline{toc}{section}{References}
 \bibliography{references}
