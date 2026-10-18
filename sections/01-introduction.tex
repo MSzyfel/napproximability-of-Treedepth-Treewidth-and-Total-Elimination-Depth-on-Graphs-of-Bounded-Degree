@@ -66,18 +66,19 @@ degree at most a constant depending only on $r$. The reductions are
 deterministic.
 \end{theorem}
 
-Most reductions first build graphs with clique or complete-bipartite
-pieces, which can have large degree. In Section~\ref{sec:bounded-degree-hardness},
-we replace these pieces by sparse expanders on the same vertex sets.
-Within a clique factor, every two disjoint sets above a chosen size
-threshold still have an edge between them; for a biclique factor, this
-holds for sets on opposite sides. This gives the NO-case arguments the
+Most reductions use high-degree cliques and complete bipartite graphs.
+Section~\ref{sec:bounded-degree-hardness} replaces these pieces with
+sparse graphs on the same vertices. A clique replacement still
+connects any two disjoint subsets above a chosen size threshold. A
+complete bipartite replacement still connects sufficiently large
+subsets on its opposite sides. This gives the NO-case arguments the
 connectivity they need after deleting a small set of vertices. Since
 each replacement deletes edges, every YES-case elimination forest and
 tree decomposition remains valid. A sufficiently small threshold
 preserves each fixed gap and yields a degree bound in terms of the
-target factor. Corollaries~\ref{cor:td-bounded-degree}
-and~\ref{cor:tw-bounded-degree} give the bounded-degree results.
+target factor.
+
+\Needspace{3\baselineskip}
 Wu, Austrin, Pitassi, and
 Liu~\cite[Theorem~1.1]{APW} proved SSE hardness for treewidth at
 every fixed factor on general graphs. Our line-graph reduction gives
@@ -265,9 +266,9 @@ this term determine the total-depth gap, so an approximation would
 recover a near-optimal independent set.
 
 \paragraph{Preserving gaps at bounded degree.}
-Section~\ref{sec:bounded-degree-hardness} applies the expander
-replacements described above. The completion lemmas isolate an
-exception set for each factor. Restoring these vertices above the
+Section~\ref{sec:bounded-degree-hardness} constructs these sparse
+replacements from expanders. The completion lemmas isolate an
+exception set for each dense piece. Restoring these vertices above the
 forest roots or in every tree-decomposition bag has small total cost
 because each vertex belongs to only a bounded number of factors.
 Treewidth also needs clique-factor bags to anchor biclique sides. For
