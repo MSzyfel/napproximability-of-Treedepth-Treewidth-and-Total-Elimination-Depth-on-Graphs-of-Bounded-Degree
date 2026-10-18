@@ -277,8 +277,11 @@ other two paths cover the remaining edges between those parts and are
 counted twice, one count beyond baseline. In the construction
 from cubic Independent Set, an added matching makes
 the cover cost associated with $A$ smaller than those associated with
-$B$ and $C$. For the constructed graph, the minimum total depth is
-$\totd(G(J))=39n/2-\alphaI(J)+3$.
+$B$ and $C$. The minimum three-path cost, denoted by $W(G(J))$,
+is $39n/2-\alphaI(J)+3$. Its contribution to total depth is
+multiplied by $M$, while the original vertices contribute at most
+a quadratic term in $n$. Taking $M$ sufficiently large makes a
+relative error in total depth give a small additive error in $W$.
 Every cubic graph on $n$ vertices has an independent set of size at
 least $n/4$. Thus the additive loss in recovering an independent set
 is a relative loss in $\alphaI(J)$. Choosing the reduction error
