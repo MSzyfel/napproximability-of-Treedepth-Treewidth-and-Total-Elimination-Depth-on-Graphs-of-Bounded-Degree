@@ -446,14 +446,31 @@ target factor.
 \begin{corollary}\label{cor:subdivision-hardness}
 For every fixed $g\geq3$, the treedepth and treewidth hardness ranges above
 hold on bounded-degree graphs that are bipartite, $2$-degenerate, and
-have girth at least $g$. On the same class, total depth is SSE-hard
-to approximate within every fixed factor.
+have girth at least $g$. Here $2$-degenerate means that every
+nonempty subgraph has a vertex of degree at most two, and girth is the
+length of a shortest cycle (infinite for an acyclic graph). On the same class, total depth is
+SSE-hard to approximate within every fixed factor.
 \end{corollary}
 
 \begin{proof}
 Replace every edge of $G$ by a path of fixed even length
-$\ell\geq\max\{2,g/3\}$, obtaining $G_\ell$. This gives the claimed
-graph class and preserves treewidth. A path on $s$ vertices has an
+$\ell\geq\max\{2,g/3\}$, obtaining $G_\ell$. All original vertices
+lie in one side of a bipartition, since every replacement path has
+even length. Each internal vertex has degree two, and deleting all
+internal vertices leaves the original vertices isolated, so
+$G_\ell$ is $2$-degenerate. Every cycle uses at least three
+replacement paths and therefore has length at least $3\ell\geq g$.
+Contracting each replacement path shows $\operatorname{tw}(G)
+\leq\operatorname{tw}(G_\ell)$. Conversely, for each path
+$u=x_0,x_1,\ldots,x_\ell=v$, attach the bags
+$\{u,v,x_1\},\{v,x_1,x_2\},\ldots,
+\{v,x_{\ell-2},x_{\ell-1}\}$ along a path to an old bag containing
+$u,v$. These bags cover the replacement path and preserve the
+connectedness condition for each vertex, so
+$\operatorname{tw}(G_\ell)\leq\max\{\operatorname{tw}(G),2\}$.
+For graphs with an edge, $\operatorname{tw}(G)\geq1$, while an
+edgeless graph remains edgeless. Thus subdivision preserves
+treewidth. A path on $s$ vertices has an
 elimination tree of height at most $\lceil\log_2(s+1)\rceil$: choose
 a middle vertex as root and recurse on the two remaining subpaths.
 Thus the $\ell-1$ internal vertices on each replaced edge have such
@@ -468,9 +485,11 @@ minor-monotonicity, this gives
 Thus the linear gaps persist. For total depth, start with a
 $d$-regular instance from Corollary~\ref{cor:regular-hardness}.
 Since $d$ is odd, add a perfect matching to make every degree even,
-orient the augmented graph along an Euler tour, and then delete the
-added matching. Every vertex initially has outdegree $(d+1)/2$, so
-after deleting the matching its outdegree is at least $(d-1)/2$.
+using auxiliary matching edges that may be parallel to original edges.
+Orient the augmented multigraph along an Euler tour in each connected
+component, then delete the matching edges. Each vertex has outdegree
+$(d+1)/2$ before deletion, so its outdegree in the original graph is
+at least $(d-1)/2$.
 
 Assign the internal vertices of each replacement path to the tail
 of its oriented edge. For each vertex $v$, let $X_v$ consist of $v$
