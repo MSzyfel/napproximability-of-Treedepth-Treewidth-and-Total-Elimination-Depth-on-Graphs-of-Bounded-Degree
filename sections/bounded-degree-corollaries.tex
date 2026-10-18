@@ -158,12 +158,17 @@ small relative to this bound, preserving the gap below $12/11$
 from Theorem~\ref{thm:tw-hardness}.
 
 \emph{UGC hardness.}
-Use Theorem~\ref{thm:bounded-degree-kr-source} in $K_R(P_3(G))$.
+Fix the $\zeta,R$ chosen in the proof of
+Theorem~\ref{thm:tw-ugc}, and use
+Theorem~\ref{thm:bounded-degree-kr-source} with $\eta=\zeta$;
+this is admissible since $\zeta<1/12<1/10$. Apply it in
+$K_R(P_3(G))$.
 Replace the three global cliques and retain the product edges.
 Thus $d_1=1$ and $d_0=2d_\eta$, with no biclique factors.
 Lemma~\ref{lem:multipartite-product} gives YES cover bound
-$(3/2+3\eta)n$ and NO cover bound $(2-2\eta)n$ for $P_3(G)$,
-as required for the dense gap in Theorem~\ref{thm:tw-ugc}.
+$(3/2+3\zeta)n$ and NO cover bound
+$(2-2\zeta)n\geq(2-3\zeta)n$ for $P_3(G)$, as required by
+Theorem~\ref{thm:tw-ugc}.
 The dense graph has global cliques of size $Rn$, so its treewidth is
 at least $Rn-1$. The sparsification loss is at most $3\tau Rn$.
 Small $\tau$ preserves every factor
