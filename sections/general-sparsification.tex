@@ -97,8 +97,9 @@ Lemma~\ref{lem:factor-sparsification} now gives both conclusions.
 Let $H$ have the edge description~\eqref{eq:factor-edge-union},
 and let fixed constants $d_0\ge0$, $d_1\ge1$, $\kappa\ge1$ satisfy
 conditions~\ref{hyp:retained-degree}--\ref{hyp:biclique-ratio}.
-Fix an integer $s\ge1$. Suppose that for every $f\in\mathcal B$
-there are integers $1\le\ell_f,m_f\le s$ and partitions
+Fix an integer $s\ge1$. Suppose the supplied factor description also
+includes, for every $f\in\mathcal B$, integers
+$1\le\ell_f,m_f\le s$ and partitions
 $A_f=A_{f,1}\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}A_{f,\ell_f}$
 and $B_f=B_{f,1}\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}B_{f,m_f}$
 into nonempty sets, together with indices
@@ -120,8 +121,8 @@ with $\zeta=\varepsilon/(d_1\max\{3,2s^2\})$. It constructs $J$
 with maximum degree depending only on the stated constants and
 thresholds $t_f=\lceil\zeta|U_f|\rceil$.
 
-For each $f\in\mathcal B$, fix the partitions and indices in the
-hypothesis. They give the disjoint union
+For each $f\in\mathcal B$, use its supplied partitions and indices.
+They give the disjoint union
 \[
  A_f\times B_f=\mathop{\dot\bigcup}_{i\in[\ell_f],\,j\in[m_f]}
  (A_{f,i}\times B_{f,j}).
