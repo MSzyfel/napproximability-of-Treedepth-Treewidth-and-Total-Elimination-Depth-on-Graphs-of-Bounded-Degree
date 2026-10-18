@@ -249,16 +249,20 @@ gap to treedepth. Replication and clique completion transfer it to
 treewidth.
 
 \paragraph{Total depth under $\PP\ne\NP$.}
-Complete the three parts to cliques and attach many independent
-neighbors to each part. These added vertices can be placed below the
-deepest vertex of their part without increasing the cost, so they
-increase the contribution of the three clique depths to total depth.
-The shared portions of the cliques' ancestor paths then record the
-costs of successive vertex covers. Starting from cubic Independent
-Set~\cite{AlimontiKann2000}, an added matching forces the designated
-part to be the first to separate. The resulting cover cost records
-the independent-set optimum, so an approximation for total depth
-would recover a near-optimal independent set.
+Start from cubic Independent Set~\cite{AlimontiKann2000} and complete
+the three source parts to cliques. For each clique, add many pairwise
+nonadjacent vertices, each adjacent to the whole clique. They can be
+placed as leaves below the deepest clique vertex without deepening any
+original vertex, so their total depth heavily weights the three
+deepest-vertex depths. The common prefix of the three ancestor paths
+covers edges between one part and the other two. The portion shared
+only by the other two paths covers the remaining edges. A large matching
+between $B$ and $C$ makes the alternatives that separate $B$ or $C$
+first more expensive, so the cheapest configuration separates $A$
+from the $B,C$ pair. This cover cost is a fixed baseline minus the
+source independent-set size. Choosing enough added vertices makes
+this term determine the total-depth gap, so an approximation would
+recover a near-optimal independent set.
 
 \paragraph{Preserving gaps at bounded degree.}
 Replace each clique or biclique factor by a sparse graph obtained
