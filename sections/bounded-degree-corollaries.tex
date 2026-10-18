@@ -269,6 +269,9 @@ has $\totd(H')\le\totd(H)$, the solution part of
 Lemma~\ref{lem:gap-preservation}, with $L(H)=Mn$, lifts a
 $(1+\epsilon_0)$-approximate sparse forest to a
 $(1+2\epsilon_0)$-approximate dense forest, a contradiction.
+Also $\totd(H')\ge\totd(H)-\tau N^2\ge(1-\epsilon_0)Mn
+=\Omega(N^2)$; we use this lower bound in the regular-graph
+transfer below.
 
 \emph{UGC hardness.}
 Fix a target factor $r<8/7$, and choose $r'$ with
@@ -394,27 +397,32 @@ enlargements described in Section~\ref{subsec:bounded-degree-consequences}.
 
 For treedepth and treewidth, Proposition~\ref{prop:regularization}
 changes the promise bounds by at most the fixed constant $d+2$.
-Their linear scale therefore allows
-Lemma~\ref{lem:gap-preservation} to preserve the factor-$r$ gap.
+Their YES bounds have linear scale, so this is $o(Y)$ as the source
+order grows. The additive-slack form of
+Lemma~\ref{lem:gap-preservation} preserves the factor-$r$ gap.
 
 For total depth, divide the regularized cost by $d+2$.
 Proposition~\ref{prop:regularization} gives
 \[
- \totd(G)\le\frac{\totd(R)}{d+2}
- \le\left(1+\frac1{d+2}\right)\totd(G)+\frac{d+3}{2}n.
+ 0\le\frac{\totd(R)}{d+2}-\totd(G)
+ \le\frac{\totd(G)}{d+2}+\frac{d+3}{2}n
+ \le\frac{n(n+1)}{2(d+2)}+\frac{d+3}{2}n.
 \]
-In the promise reductions, the YES bound is quadratic in $n$.
-First increasing $d$ makes the multiplicative error small, and
-then increasing $n$ makes the additional linear term small relative
-to that bound. The NO bound does not decrease. The gap part of
-Lemma~\ref{lem:gap-preservation} therefore applies.
+Let $Y=\Theta(n^2)$ be the YES upper bound. For any fixed
+$\epsilon>0$, choose $d$ large enough that the first term in the
+last bound is at most $\epsilon Y/2$ for all sufficiently large $n$,
+then choose $n$ large enough that the second term is at most
+$\epsilon Y/2$. The normalized error is then at most $\epsilon Y$,
+and the NO bound does not decrease. Choosing
+$\epsilon<(r'-r)/(r+1)$, the additive-slack form of
+Lemma~\ref{lem:gap-preservation} preserves the factor-$r$ gap.
 
 For the NP total-depth family, the optimum itself is bounded
 below by a fixed positive multiple of $n^2$, as shown in
-the proof of Corollary~\ref{cor:total-depth-bounded-degree}. Together with the
-chain upper bound $\totd(G)\le n(n+1)/2$, this makes the normalized
-error an arbitrarily small fraction of that lower bound for large
-$d$ and then large $n$.
+the proof of Corollary~\ref{cor:total-depth-bounded-degree}.
+The last bound above and the lower bound $L=\Omega(n^2)$ let us
+choose $d,n$ so the normalized error is at most $\epsilon L$, with
+$r+(r+1)\epsilon<r'$.
 The projection in Proposition~\ref{prop:regularization}
 converts every forest of $R$ of cost $z$ into one of $G$ of cost
 at most $z/(d+2)$. Hence the solution part of
@@ -464,8 +472,9 @@ minor-monotonicity, this gives
 \[
  \td(G)\leq\td(G_\ell)\leq\td(G)+h,\qquad h=\lceil\log_2\ell\rceil.
 \]
-Lemma~\ref{lem:gap-preservation} absorbs the fixed height increase
-$h$ in the linear promise bounds. For total depth, start with a
+The additive-slack form of Lemma~\ref{lem:gap-preservation} absorbs
+the fixed height increase $h$, since the YES bounds grow linearly
+with the source order. For total depth, start with a
 $d$-regular instance $G$ on $n$ vertices from
 Corollary~\ref{cor:regular-hardness}.
 Since $d$ is odd, add a perfect matching to make every degree even,
@@ -513,11 +522,15 @@ Here $1+d(\ell-1)\leq3s$, since
 $3s-[1+d(\ell-1)]=2+(\ell-1)(d-3)/2\geq0$. The last term is
 $O(n)$ because $d$ and $\ell$ are fixed. For a target factor $r$,
 choose a fixed $r'>r$ and a source SSE gap with NO bound $Z>3r'Y$,
-where $Y$ is its YES upper bound. The subdivided instance has YES
-bound at most $3sY+O(n)$ and NO bound at least $sZ$.
-Since $Y$ is quadratic in $n$, Lemma~\ref{lem:gap-preservation}
-absorbs the $O(n)$ term for sufficiently large instances and
-preserves the factor-$r$ gap. Such orders are obtained from
+where $Y$ is its YES upper bound. For a fixed $C$, the subdivided
+instance has YES bound at most $3sY+Cn$ and NO bound at least $sZ$.
+Therefore the NO lower bound minus $r$ times the YES upper bound is
+at least
+\[
+ sZ-r(3sY+Cn)>3s(r'-r)Y-rCn>0
+\]
+for sufficiently large instances, since $Y$ is quadratic in $n$.
+Such orders are obtained from
 parallel host-edge copies as described in
 Section~\ref{subsec:bounded-degree-consequences}.
 \end{proof}

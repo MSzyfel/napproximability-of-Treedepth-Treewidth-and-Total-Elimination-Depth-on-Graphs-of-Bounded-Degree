@@ -81,6 +81,19 @@ transformed bounds $a(1+\epsilon)Y$ and $a(1-\epsilon)r'Y$.
 Thus every fixed $1\le r<r'$ is preserved when
 $\epsilon<(r'-r)/(r'+r)$.
 
+More generally, suppose the transformation is known to have additive
+error at most $\epsilon aY$ on both promise cases, without a lower
+bound $L(I)\le\OPT(I)$. Then the transformed YES and NO bounds are
+$a(1+\epsilon)Y$ and $a(r'-\epsilon)Y$. Their gap has factor greater
+than $r$ whenever
+\[
+ \epsilon<\frac{r'-r}{r+1},\qquad
+ a(r'-\epsilon)Y-r a(1+\epsilon)Y
+ =aY\bigl(r'-r-(r+1)\epsilon\bigr)>0.
+\]
+In particular, an additive error $o(aY)$ is harmless on all
+sufficiently large promised instances.
+
 If, in addition, every solution of $I'$ of cost $z$ can be converted
 in polynomial time into one of $I$ of cost at most
 $z/a+\epsilon L(I)$, then an $r$-approximation for $I'$ gives an
@@ -111,6 +124,9 @@ has cost at most
 When $\OPT(I')\le a\OPT(I)$, use $z/a\le r\OPT(I)$ to bound the
 conversion cost by
 $r\OPT(I)+\epsilon L(I)\le(r+\epsilon)\OPT(I)$.
+Under the alternative additive-error hypothesis, YES values increase
+by at most $\epsilon aY$ and NO values decrease by at most the same
+amount, giving the displayed transformed bounds and gap condition.
 \end{proof}
 
 An additive error of order $o(L(I))$ is at most
