@@ -2,11 +2,13 @@
 \subsection{Hardness consequences}
 \label{subsec:bounded-degree-consequences}
 
-The dense bounds are linear in the output order $N$ for treedepth
-and treewidth, and quadratic in $N$ for total depth. Sparsification
-loses at most $\tau N$ or $\tau N^2$, respectively.
-Lemma~\ref{lem:gap-preservation} preserves every factor below the
-dense hardness threshold when $\tau$ is sufficiently small.
+Fix a target factor $r$ below a dense hardness threshold, and choose
+a dense factor $r'>r$. The YES bound $Y$ is linear in $N$ for
+treedepth and treewidth and quadratic for total depth. The
+sparsification losses $\tau N$ and $\tau N^2$ can therefore be made
+at most $\delta Y$ by choosing $\tau$ small. Taking
+$\delta<(r'-r)/(r+1)$, the additive-slack form of
+Lemma~\ref{lem:gap-preservation} transfers the factor-$r$ hardness.
 We verify the factor conditions using the following two observations.
 
 For every variable $x$ of $F$ and $a\in\{0,1\}$, let
