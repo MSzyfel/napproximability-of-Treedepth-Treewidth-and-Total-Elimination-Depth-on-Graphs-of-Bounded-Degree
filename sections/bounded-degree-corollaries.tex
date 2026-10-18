@@ -181,8 +181,9 @@ sparse YES upper bound is
 \]
 
 \emph{UGC hardness.}
-Fix the $\zeta,R$ chosen in the proof of
-Theorem~\ref{thm:tw-ugc}, and use
+Fix a target factor $r<4/3$, and choose $r'$ with
+$r<r'<4/3$. Take $\zeta,R$ from the proof of
+Theorem~\ref{thm:tw-ugc} for factor $r'$, and use
 Theorem~\ref{thm:bounded-degree-kr-source} with $\eta=\zeta$;
 this is admissible since $\zeta<1/12<1/10$. Apply it in
 $K_R(P_3(G))$.
@@ -193,9 +194,11 @@ $(3/2+3\zeta)n$ and NO cover bound
 $(2-2\zeta)n\geq(2-3\zeta)n$ for $P_3(G)$, as required by
 Theorem~\ref{thm:tw-ugc}.
 The dense graph has global cliques of size $Rn$, so its treewidth is
-at least $Rn-1$. The sparsification loss is at most $3\tau Rn$.
-Small $\tau$ preserves every factor
-below $4/3$.
+at least $Rn-1$. Since its order is $3Rn$, the sparsification loss
+$3\tau Rn$ is at most $6\tau(Rn-1)$ when $Rn\ge2$. Choose
+$\tau<(r'-r)/(6(r'+r))$. Lemma~\ref{lem:gap-preservation}, with
+$a=1$ and $L(H)=Rn-1$, transfers the dense factor-$r'$ gap to
+factor $r$.
 
 \emph{SSE hardness.}
 Use the common line-graph factors.
