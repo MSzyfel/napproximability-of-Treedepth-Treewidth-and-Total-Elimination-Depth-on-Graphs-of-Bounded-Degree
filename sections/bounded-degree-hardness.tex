@@ -117,8 +117,8 @@ traverse all its child subtrees, and forget it after those subtrees
 have been traversed. Throughout the traversal maintain two subsets
 of $U$: $L$ is the set of vertices already forgotten, and $R$ is the
 set of vertices not yet introduced. Initially $L=\varnothing$ and
-$R=U$. When a vertex of $U$ is introduced, remove it from $R$; when
-it is forgotten, add it to $L$. The vertices in $U\setminus(L\cup R)$
+$R=U$. When a vertex of $U$ is introduced, remove it from $R$.
+When it is forgotten, add it to $L$. The vertices in $U\setminus(L\cup R)$
 have been introduced but not forgotten, so they lie on the current
 ancestor path. We traverse the rooted trees one after another, with
 this path empty between trees.
@@ -152,7 +152,7 @@ $B_u$ satisfies $|U\setminus B_u|\leq3(t-1)$.
 
 \begin{proof}
 Let $(T,(B_u)_{u\in V(T)})$ be the supplied decomposition.
-If $|U|<t$, choose any node $u$ of $T$; then
+If $|U|<t$, choose any node $u$ of $T$. Then
 $|U\setminus B_u|\leq|U|\leq t-1\leq3(t-1)$. Otherwise consider an edge of the
 decomposition tree. Its deletion leaves two sides. Call a side
 heavy if it contains $T_v$ for at least $t$ vertices $v\in U$.
@@ -173,14 +173,14 @@ $u$ be one.
 For each component $C$ of $T-u$, at most $t-1$ vertices $v\in U$
 have $T_v\subseteq V(C)$. Otherwise, the edge from $u$ into $C$ would be
 oriented away from the sink $u$. Let $W=U\setminus B_u$. Every
-vertex $v\in W$ has $T_v$ contained in one component of $T-u$;
-write $W_C=\{v\in W:T_v\subseteq V(C)\}$. Thus $|W_C|\leq t-1$ for
+vertex $v\in W$ has $T_v$ contained in one component of $T-u$.
+Write $W_C=\{v\in W:T_v\subseteq V(C)\}$. Thus $|W_C|\leq t-1$ for
 each component $C$. If $t=1$, this gives $W=\varnothing$. For
 $t\geq2$, suppose $|W|\geq3t-2$. Select components one at a time
 until the sum of their $|W_C|$ first reaches $t$, and let $W_1$ be
 the union of their $W_C$ sets. The last component added contributes at most $t-1$
-vertices, so $t\leq|W_1|\leq2t-2$. Let $W_2=W\setminus W_1$;
-then $|W_2|\geq(3t-2)-(2t-2)=t$. For $x\in W_1$ and $y\in W_2$,
+vertices, so $t\leq|W_1|\leq2t-2$. Let $W_2=W\setminus W_1$.
+Then $|W_2|\geq(3t-2)-(2t-2)=t$. For $x\in W_1$ and $y\in W_2$,
 the sets $T_x,T_y$ lie in different components of $T-u$ and are
 therefore disjoint, so no bag contains both $x$ and $y$. Hence $W_1,W_2$ are anticomplete in
 $J$, contrary to the hypothesis. Therefore
@@ -208,7 +208,7 @@ a vertex when first reached, traverse its child subtrees, and forget
 it after they are complete. Maintain the sets $L$ of vertices in $W$
 already forgotten and $R$ of vertices in $W$ not yet introduced,
 starting with $L=\varnothing$ and $R=W$. When a vertex of $W$ is
-introduced, remove it from $R$; when it is forgotten, add it to $L$.
+introduced, remove it from $R$. When it is forgotten, add it to $L$.
 Thus $W\setminus(L\cup R)$ consists of the introduced, unforgotten
 vertices on the current ancestor path. Assign a distinct time to
 each introduction and forgetting event, traversing different rooted
@@ -237,7 +237,7 @@ ensures that the vertices within each set are distinct. Since every
 edge of $J$ has comparable endpoints in $F$, the sets are
 anticomplete, a contradiction. For the other type, interchange the
 roles of $A$ and $B$ and order by the forgetting times of the
-vertices in $B$; the same argument gives a contradiction.
+vertices in $B$. The same argument gives a contradiction.
 It follows that the maximum matching size of $K$ is at most $4t-4$.
 K\"onig's theorem supplies a vertex cover $D$ of $K$ of that size.
 For $u\in A\setminus D$ and $v\in B\setminus D$, we have
