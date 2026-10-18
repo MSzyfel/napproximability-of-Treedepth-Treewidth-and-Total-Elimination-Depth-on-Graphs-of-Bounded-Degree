@@ -265,17 +265,14 @@ this term determine the total-depth gap, so an approximation would
 recover a near-optimal independent set.
 
 \paragraph{Preserving gaps at bounded degree.}
-Replace each clique or biclique factor by a sparse graph obtained
-from an expander, preserving an edge between every two sufficiently
-large sets in the relevant parts. Edge deletion preserves YES solutions. For soundness, the
-remaining edges force a sparse forest or decomposition to represent
-the dense factors after a small vertex deletion. Restore the deleted
-vertices above the forest roots or in every bag. Bounded factor
-incidence controls both the total loss and the replacement degree.
-For treewidth, clique-factor bags provide the bags needed to complete
-bicliques. The UGC reductions use the bounded-degree independent-set
-promise of Theorem~\ref{thm:bounded-degree-kr-source} to bound the
-degree of the retained source edges.
+Section~\ref{sec:bounded-degree-hardness} applies the expander
+replacements described above. The completion lemmas isolate an
+exception set for each factor. Restoring these vertices above the
+forest roots or in every tree-decomposition bag has small total cost
+because each vertex belongs to only a bounded number of factors.
+Treewidth also needs clique-factor bags to anchor biclique sides. For
+UGC, a bounded-degree independent-set source keeps the retained source
+edges from spoiling the output degree bound.
 
 OpenAI Codex assisted with exploratory proof development and
 derivation checks for the reductions and sparsification arguments.
