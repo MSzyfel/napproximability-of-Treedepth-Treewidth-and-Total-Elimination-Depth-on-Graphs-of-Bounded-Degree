@@ -94,9 +94,11 @@ Lemma~\ref{lem:factor-sparsification} now gives both conclusions.
 Let $H$ have the edge description~\eqref{eq:factor-edge-union},
 and let fixed constants $d_0\ge0$, $d_1\ge1$, $\kappa\ge1$ satisfy
 conditions~\ref{hyp:retained-degree}--\ref{hyp:biclique-ratio}.
-Suppose additionally that each side
-of every biclique can be partitioned into at most $s$ sets, each
-contained in a supplied clique factor, where $s\ge1$ is fixed.
+Fix an integer $s\ge1$. Suppose that for every $f\in\mathcal B$
+and each $X\in\{A_f,B_f\}$ there exist an integer $1\le\ell\le s$,
+a partition $X=X_1\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}X_\ell$
+into nonempty sets, and indices $g_1,\ldots,g_\ell\in\mathcal C$
+such that $X_i\subseteq U_{g_i}$ for every $i\in[\ell]$.
 For every fixed $\varepsilon>0$, one can construct deterministically
 in polynomial time a spanning subgraph $J\subseteq H$ whose maximum
 degree depends only on $d_0,d_1,\kappa,s,\varepsilon$ and such that
@@ -111,17 +113,19 @@ Apply Lemma~\ref{lem:factor-replacement} with
 $\zeta=\varepsilon/(d_1\max\{3,2s^2\})$. This constructs $J$ by replacing
 each original factor once.
 
-For the comparison argument, partition each biclique factor
-$A_f\times B_f$ into the at most $s^2$ bicliques between pairs
-of its supplied pieces. Their union is the original biclique.
-Each side of every resulting biclique is contained in a supplied
-clique factor, as required by
-Lemma~\ref{lem:tw-factor-sparsification}. Use the original
-threshold $t_f$ for every piece pair. The restriction of the sparse
-replacement to that pair has no $(t_f,t_f)$ hole: any two
-$t_f$-subsets of the pieces are also subsets of the original sides.
-If a piece has fewer than $t_f$ vertices, this condition holds
-vacuously.
+For each $f\in\mathcal B$, choose the two partitions from the
+hypothesis. In the factor description, replace $A_f\times B_f$
+by the bicliques on sides $X,Y$, one for every set $X$ in the
+partition of $A_f$ and every set $Y$ in the partition of $B_f$.
+There are at most $s^2$ such bicliques, and their edge sets partition
+$A_f\times B_f$. The hypothesis gives $g,h\in\mathcal C$ with
+$X\subseteq U_g$ and $Y\subseteq U_h$, as required by
+Lemma~\ref{lem:tw-factor-sparsification}.
+Keep the threshold $t_f$ for each such biclique. The sparse
+replacement restricted to $X\times Y$ has no $(t_f,t_f)$ hole,
+since every $t_f$-subset of $X$ is contained in $A_f$ and every
+$t_f$-subset of $Y$ is contained in $B_f$. If $|X|<t_f$ or
+$|Y|<t_f$, this condition holds vacuously.
 
 Apply Lemma~\ref{lem:tw-factor-sparsification} to this factor
 description of the same graphs $H,J$. There is one clique term
