@@ -326,7 +326,7 @@ outside the path given by Lemma~\ref{lem:sparse-clique-completion}.
 For each biclique factor use the deletion set in
 Lemma~\ref{lem:sparse-biclique-completion}. Let $D$ be their union.
 Each vertex of this union is counted at least once in the sum
-defining $\Delta_{\mathrm{td}}$, so $|D|\le\Delta_{\mathrm{td}}$, even when factors overlap.
+defining $\Delta_{\mathrm{td}}$, so $|D|\le\Delta_{\mathrm{td}}$.
 In the restriction of $F$ to $V(H)\setminus D$,
 every surviving edge of every completed factor has comparable
 endpoints. Every retained edge also has comparable endpoints.
@@ -371,10 +371,7 @@ comparison. The lower comparison follows from $J\subseteq H$.
 
 \begin{lemma}[Treewidth comparison]
 \label{lem:tw-factor-sparsification}
-Suppose $H$ and its spanning subgraph $J$ have factor descriptions
-as in~\eqref{eq:factor-edge-union}, with $J$ retaining $E_0$ and
-replacing every factor by edges from its specified edge set. The
-factor supports may overlap. Suppose each replacement has no hole at
+Under the factor setup above, suppose each replacement has no hole at
 its threshold $t_f$, and each side of every biclique factor is
 contained in the support of some clique factor. Every tree
 decomposition of $J$ can be completed to one of $H$ whose width
@@ -395,8 +392,7 @@ and its sides are contained in the chosen bags of their containing
 clique factors.
 Apply Lemma~\ref{lem:tw-biclique-completion} to choose at most
 $2(t_f-1)$ further exceptions for each factor. Let $D$ be the
-union of all exception sets. Deleting other factors' exceptions
-does not remove a bag intersection between surviving vertices.
+union of all exception sets.
 The restricted bags still cover each edge whose endpoints survive:
 deleting other exceptional vertices removes neither endpoint from
 those bags nor the bag intersection that covers the edge. Thus the
@@ -661,7 +657,7 @@ Fix $k\ge1$ and use the following two constructions.
 \begin{lemma}[Sparse replacements on prescribed vertex sets]
 \label{lem:factor-expanders}
 For each fixed $k\ge1$, both constructions give connected simple
-graphs on the prescribed vertex sets in deterministic polynomial time.
+graphs in deterministic polynomial time.
 The one-set replacement has maximum degree at most
 $8^k\lceil M/n\rceil$, and the bipartite replacement has maximum
 degree at most
@@ -759,8 +755,8 @@ reaches $\pi_B(y)$. Thus $\pi_A(x)$ is connected to both images of
 every $y$. Since both maps are onto, this reaches every output
 vertex, proving connectedness.
 
-Both outputs are simple by their edge definitions and have only
-the prescribed vertices. If $L$ is the largest prescribed set size,
+Both outputs are simple by their edge definitions.
+If $L$ is the largest prescribed set size,
 then $M=\lceil\sqrt L\rceil^2\le(\sqrt L+1)^2\le4L$, since
 $L\ge1$. The initial eight-regular graph is constructible in
 polynomial time, and its $k$th walk power has degree $8^k$.
@@ -799,7 +795,7 @@ Let $\Psi$ be the cumulative distribution function of a standard
 normal variable, with mean zero and variance one. The value $\Psi^{-1}(s)$
 is its $s$-quantile. For $-1<\xi<1$, take jointly normal variables
 $X,Y$ of mean zero, variance one, and covariance $\xi$, and define
-$\Gamma_\xi(s)=\Pr(X\le\Psi^{-1}(s),\,Y\le\Psi^{-1}(s))$.
+$\Gamma_\xi(s)=\Pr[X\le\Psi^{-1}(s),\,Y\le\Psi^{-1}(s)]$.
 Set $\Gamma_\xi(0)=0$ and $\Gamma_\xi(1)=1$.
 This function is positive for $0<s<1$, nondecreasing, and convex.
 Indeed, differentiating the joint distribution gives
@@ -862,7 +858,9 @@ The reduction is deterministic and polynomial for fixed parameters.
 The edge distribution in~\cite[proof of Theorem~3.1]{AKS2011} first chooses two
 constraints incident with the same left vertex, then samples
 independent coordinate pairs $(x_j,y_j)$ with probabilities
-$\Pr(0,0)=1-2p$, $\Pr(0,1)=\Pr(1,0)=p$, and $\Pr(1,1)=0$.
+$\Pr[x_j=0,y_j=0]=1-2p$,
+$\Pr[x_j=0,y_j=1]=\Pr[x_j=1,y_j=0]=p$, and
+$\Pr[x_j=1,y_j=1]=0$.
 The endpoint strings are then permuted by the two constraints.
 To control possible loops even when the Unique Games instance has
 parallel constraints with different permutations, we first pad its
@@ -997,7 +995,7 @@ construction of a simple unweighted graph $J$ on $V(G)$, using only
 edges of $G$, whose
 maximum degree is bounded by a constant depending only on
 $C_0,\zeta$, and whose independent sets all have size less than
-$\eta N$. Every independent set of $G$ remains independent in $J$.
+$\eta N$.
 \end{lemma}
 
 \begin{proof}
@@ -1011,7 +1009,7 @@ $\lceil q(N-1)\rceil\le dN$ edges and
  L_G\preceq L_{G'}\preceq
  \frac{q+1+2\sqrt q}{q+1-2\sqrt q}L_G.
 \]
-The theorem gives this Laplacian sandwich directly. Substituting $q=\theta^{-2}$ gives
+Substituting $q=\theta^{-2}$ gives
 \[
  \frac{q+1+2\sqrt q}{q+1-2\sqrt q}
  =\left(\frac{1+\theta}{1-\theta}\right)^2
@@ -1049,9 +1047,8 @@ $\zeta/(4dN)$. Hence
  \deg_J(v)\le\frac{4dN}{\zeta}\deg_{G'}(v)
  \le\frac{4(1+7\theta)C_0d}{\zeta},
 \]
-a constant depending only on $C_0,\zeta$. Since $J$ uses only
-edges of $G$, every independent set of $G$ remains independent in
-$J$. The construction is deterministic and polynomial time by the
+a constant depending only on $C_0,\zeta$. The construction is
+deterministic and polynomial time by the
 cited theorem.
 \end{proof}
 

@@ -59,8 +59,6 @@ weighted graphs is SSE-hard:
   $\mu_G(A)\in[1/10,9/10]$ satisfies
   $w(\cut_G(A))\geq c\sqrt{\varepsilon}\,W$.
 \end{description}
-The source reduction has polynomial size for each fixed pair
-$(q,\varepsilon)$.
 \end{theorem}
 
 Appendix~\ref{app:sse-normalization} derives this formulation from the
@@ -144,8 +142,7 @@ separator, and we abbreviate $b_{1/2}(H)$ to $b(H)$.
 \begin{lemma}[From host cuts to line-graph separators]
 \label{lem:linegraph-separators}
 Let $G$ be an unweighted host multigraph with $m>0$ edges, counting
-parallel edges separately. The vertices of $\mathcal{L}(G)$ are
-indexed by these host edges, so $|V(\mathcal{L}(G))|=m$.
+parallel edges separately.
 Suppose that, for some $\beta>0$, every set $A$ with
 $\mu_G(A)\in[1/4,3/4]$ satisfies $|\cut_G(A)|\geq\beta m$.
 Then $b_\rho(\mathcal{L}(G))\geq\min\{(3/4-\rho)m,\beta m\}$
