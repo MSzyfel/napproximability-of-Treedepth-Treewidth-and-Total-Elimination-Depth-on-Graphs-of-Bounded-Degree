@@ -246,8 +246,7 @@ bags to anchor the two sides of each biclique. We use the
 path-projection observation from the proof of Bonnet's
 Lemma~5~\cite{BonnetTreewidth}: if two subtrees contain opposite
 endpoints of a path, they intersect if and only if their
-intersections with that path intersect. The proof below recalls this
-fact using the median of the two endpoints and an intersection node.
+intersections with that path intersect.
 The path traces are prefixes and suffixes. The no-hole condition
 then bounds a matching of uncovered pairs, and a vertex cover of
 those pairs gives the deletion set.
@@ -277,10 +276,8 @@ $T_u\cap V(P)=\{z_0,\ldots,z_a\}$ for some $0\leq a\leq\ell$,
 the vertex set of a nonempty prefix of $P$. Similarly, for $v\in B$,
 $T_v\cap V(P)=\{z_c,\ldots,z_\ell\}$ for some $0\leq c\leq\ell$,
 the vertex set of a suffix ending at $y$.
-The sets $T_u,T_v$ intersect if and only if these path
-intervals intersect. For the nontrivial direction, if both
-contain some node $z$, they both contain the median of $x,y,z$,
-which lies in $V(P)$.
+By the observation above, $T_u,T_v$ intersect if and only if these
+path intervals intersect.
 
 Define the bipartite graph $K$ by
 $E(K)=\{uv:u\in A,\ v\in B,\ T_u\cap T_v=\varnothing\}$.
