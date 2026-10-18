@@ -202,7 +202,8 @@ $t_{\mathrm{out}}(u_1)\le\cdots\le t_{\mathrm{out}}(u_{m_0})$. If $i\le t$ and $
 then $i\le j$, and hence $t_{\mathrm{out}}(u_i)\le t_{\mathrm{out}}(u_j)<t_{\mathrm{in}}(v_j)$.
 The first $t$ vertices $u_i$ and the last $t$ vertices $v_j$ are
 therefore pairwise incomparable across the two sets. They are
-anticomplete in $J$, a contradiction. The second type is symmetric.
+anticomplete in $J$, since every edge of $J$ has comparable endpoints
+in $F$, a contradiction. The second type is symmetric.
 It follows that the maximum matching size of $K$ is at most $4t-4$.
 K\"onig's theorem supplies a vertex cover $D$ of $K$ of that size.
 All surviving cross-pairs are comparable.
@@ -253,7 +254,8 @@ of its matched $v_i$-suffix. Consequently every one of the first
 $t$ prefixes is disjoint from every one of the last $t$ matched
 suffixes: if $i\le t$ and $j\ge m_0-t+1$, then $i\le j$.
 Their corresponding $t$-subsets of $A$ and $B$ are anticomplete
-in $J$, contradicting the hypothesis. Thus the maximum matching size
+in $J$, because an edge requires the two vertices to occur together
+in a bag. This contradicts the hypothesis. Thus the maximum matching size
 of $K$ is at most $2t-2$.
 
 K\"onig's theorem gives a vertex cover of $K$ of size at most
