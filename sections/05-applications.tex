@@ -296,7 +296,10 @@ vertex, keeping parallel edge occurrences distinct. This preserves
 the line graph: each loop is replaced by one edge incident with its
 original endpoint, and the new pendant vertices have no other
 incident edges. Then subdivide each edge occurrence once, using a
-fresh vertex $x_e$. Call the resulting graph $B$. It is bipartite,
+fresh vertex $x_e$. Call the resulting graph $B$. Each new edge joins
+an old vertex to $x_e$, so it is not a loop. Different occurrences
+use different subdivision vertices, so their new edges cannot be
+parallel. Thus $B$ is simple. It is bipartite,
 with the old and pendant vertices on one side and the subdivision
 vertices on the other.
 
