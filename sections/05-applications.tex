@@ -80,8 +80,9 @@ is already known~\cite[Theorem~1.2]{APW}. Restricting the
 target class to trivially perfect graphs changes the optimum, so
 that theorem alone does not prove the statement here.
 The incidence construction of Wu, Austrin, Pitassi, and Liu
-~\cite[Sections~4.3 and~5]{APW} also gives this hardness on bipartite
-inputs. Let $n=|V(G)|$ and take $R_{\mathrm{inc}}=nm$, as in
+~\cite[Sections~4.3 and~5]{APW} yields a bipartite input construction;
+we derive the trivially perfect completion hardness for these inputs
+below. Let $n=|V(G)|$ and take $R_{\mathrm{inc}}=nm$, as in
 Appendix~\ref{app:incidence-proof}. Then $N'=|V(G')|=R_{\mathrm{inc}}n+m
 =m(n^2+1)$, and the output has at most
 $2R_{\mathrm{inc}}m=2nm^2$ edges. Its YES total depth is at most
@@ -166,7 +167,11 @@ $\operatorname{sw}(J)\geq\beta N/2-1$, respectively, where
 $N=|V(J)|$. Since $\beta/(8\varepsilon)=c/(16\sqrt\varepsilon)$
 can be made arbitrarily large, choose $\varepsilon$ for the desired
 factor. Parallel copies of each host edge preserve the normalized
-source promises and make $N$ arbitrarily large. Thus
+source promises and make $N$ arbitrarily large. Indeed, replacing each
+host edge by $t$ parallel copies multiplies the edge count, every host
+degree, every set volume, and every cut size by $t$. Hence normalized
+volumes and cut sizes are unchanged, while the line graph order grows
+by $t$. Thus
 Lemma~\ref{lem:gap-preservation} absorbs the additive $1$.
 These comparisons
 and an $O(\log\OPT)$ approximation
