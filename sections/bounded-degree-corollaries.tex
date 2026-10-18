@@ -60,15 +60,16 @@ exponent $a=1$.
 
 \emph{NP-hardness.}
 Use the local factors of Lemma~\ref{lem:parity-local-factors},
-together with the three anchor cliques and the three anchor--part
-bicliques, and retain the witness-star edges.
-Each source vertex belongs to at most three local factors and one
-anchor--part factor. Each anchor vertex belongs to its clique and
-one biclique. Thus $d_{\mathrm{fac}}=4$, $d_0=3$, and $\kappa=12/5$, including
-the balanced global bicliques. The occurrence counts $d_x$ may be
-unbounded.
+the three anchor cliques, and, after omitting $z_A,z_B,z_C$, the
+three anchor--part bicliques. Retain the witness-star edges.
+Each vertex of $G_F$ belongs to at most three local factors and one
+anchor--part biclique. Each anchor vertex belongs to its clique and
+one anchor--part biclique. These bicliques have equal side sizes, so
+the largest side-size ratio is $12/5$, attained by the local factors.
+Thus $d_{\mathrm{fac}}=4$, $d_0=3$, and $\kappa=12/5$. The occurrence
+counts $d_x$ may be unbounded.
 
-Omit the three added vertices before sparsifying. Deleting them
+Deleting the three added vertices
 changes treedepth by at most three. The resulting dense graph has
 order $18m$, YES upper bound $(17/2+\eta)m+1$, and NO lower bound
 $(9-\eta)m-2$. For a fixed $r<18/17$, choose positive $\eta,\tau$
