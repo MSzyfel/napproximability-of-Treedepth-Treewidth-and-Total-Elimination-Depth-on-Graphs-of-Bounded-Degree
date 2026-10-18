@@ -70,7 +70,7 @@ Each vertex of $G_F$ belongs to at most three local factors and one
 anchor--part biclique. Each anchor vertex belongs to its clique and
 one anchor--part biclique. These bicliques have equal side sizes, so
 the largest side-size ratio is $12/5$, attained by the local factors.
-Thus $d_{\mathrm{fac}}=4$, $d_0=3$, and $\kappa=12/5$. The occurrence
+Thus $d_1=4$, $d_0=3$, and $\kappa=12/5$. The occurrence
 counts $d_x$ may be unbounded.
 
 Deleting the three added vertices
@@ -93,7 +93,7 @@ Use the source in Theorem~\ref{thm:bounded-degree-kr-source}. In
 $S_q(G)$, replace its $q$ layer cliques and let $E_0$ be its
 cross-layer edges. Each vertex belongs to one factor, and its degree in $(V(S_q(G)),E_0)$
 is at most $(q-1)d_\eta$. There are no biclique factors, so the
-theorem applies with $d_{\mathrm{fac}}=1$ and $\kappa=1$. For $r<4/3$, choose
+theorem applies with $d_1=1$ and $\kappa=1$. For $r<4/3$, choose
 $q,\eta$ as in Theorem~\ref{thm:ugc-hardness}. The dense YES
 height is at most $A_{q,\eta}n$, the NO height is greater than
 $B_{q,\eta}n$, and $B_{q,\eta}>rA_{q,\eta}$. The graph order is
@@ -109,7 +109,7 @@ The sparse YES height is at most the dense YES bound $A_{q,\eta}n$.
 Apply Lemma~\ref{lem:sse-unweighted-gap} with its source parameter
 $\varepsilon=\eta$, and let $G^*$ be the resulting host, with $N$
 edges counted with multiplicity. Lemma~\ref{lem:linegraph-factors}
-verifies the factor hypotheses for $\mathcal L(G^*)$ with $d_{\mathrm{fac}}=2$,
+verifies the factor hypotheses for $\mathcal L(G^*)$ with $d_1=2$,
 $d_0=0$, and no biclique factors.
 
 The dense YES height is at most $4\eta N$. Put
@@ -166,7 +166,7 @@ Use the three global cliques of $K_R(G_F)$ and, within each
 replicated copy, the local factors of
 Lemma~\ref{lem:parity-local-factors}. Let $E_0$ consist of the
 witness-star edges in all replicated copies.
-Thus $d_{\mathrm{fac}}=4$, $d_0=3$, and $\kappa=12/5$.
+Thus $d_1=4$, $d_0=3$, and $\kappa=12/5$.
 Each truth block lies in one global clique, while each $W_x^a$
 meets at most two. Thus every biclique side partitions into at
 most two sets contained in supplied clique factors, giving $s=2$.
@@ -193,7 +193,7 @@ $Q=P_3(G)$, using the product defined in
 Lemma~\ref{lem:multipartite-product}. In $K_R(Q)$, replace its three global cliques
 and let $E_0$ consist of the edges within the replicated copies of $Q$.
 Each vertex belongs to one clique factor and has degree in $(V(K_R(Q)),E_0)$
-at most $2d_\eta$. Thus $d_{\mathrm{fac}}=1$, and the biclique hypotheses are
+at most $2d_\eta$. Thus $d_1=1$, and the biclique hypotheses are
 vacuous. The independent-set bounds in that lemma and the source
 promises give $\vc(Q)\le(3/2+3\eta)n$ in the YES case and
 $\vc(Q)\ge(2-2\eta)n$ in the NO case.
@@ -214,7 +214,7 @@ Apply Lemma~\ref{lem:sse-unweighted-gap} with source parameter
 $\varepsilon=\eta$, and let $G^*$ be the resulting host, with $N$
 edges counted with multiplicity. Use $\mathcal L(G^*)$, of order $N$,
 with the clique factors of Lemma~\ref{lem:linegraph-factors}:
-$d_{\mathrm{fac}}=2$, $d_0=0$, and no biclique factors.
+$d_1=2$, $d_0=0$, and no biclique factors.
 
 The dense YES width is at most its height bound $4\eta N$.
 The NO separator bound $\beta N$, where
@@ -277,7 +277,7 @@ $\Lambda\ge5$,
 the largest biclique side-size ratio is $\Lambda/2$.
 Set $E_0=E(G(J))$, so $(V(H),E_0)$ has maximum degree at most three.
 Thus the theorem applies
-with $d_{\mathrm{fac}}=2$, $\kappa=\Lambda/2$, and $d_0=3$.
+with $d_1=2$, $\kappa=\Lambda/2$, and $d_0=3$.
 
 Write $N_G=|V(G(J))|=11n$ for the base graph order and
 $N_H=|V(H)|=N_G+3\Lambda n=(11+3\Lambda)n$ for the output graph order. The size condition of
@@ -319,7 +319,7 @@ Use Theorem~\ref{thm:bounded-degree-kr-source} and the graph
 $S_q(G)$. Its layer cliques are the only factors. Each vertex
 belongs to one. Let $E_0$ consist of its cross-layer edges, so its
 degree in $(V(S_q(G)),E_0)$ is at most
-$(q-1)d_\eta$. Hence $d_{\mathrm{fac}}=1$, with no biclique condition. For
+$(q-1)d_\eta$. Hence $d_1=1$, with no biclique condition. For
 $r<8/7$, choose $q,\eta$ as in
 Theorem~\ref{thm:total-depth-ugc}. Its YES bound is
 $\totd(S_q(G))\le A^\Sigma_{q,\eta}n^2+qn/2$, and its NO bound is
@@ -350,7 +350,7 @@ Apply Lemma~\ref{lem:sse-unweighted-gap} with source parameter
 $\varepsilon=\eta$, and let $G^*$ be the resulting host, with $N$
 edges counted with multiplicity. Use $\mathcal L(G^*)$, of order $N$,
 with the clique factors of Lemma~\ref{lem:linegraph-factors}:
-$d_{\mathrm{fac}}=2$, $d_0=0$, and no biclique factors. The dense YES height is at most
+$d_1=2$, $d_0=0$, and no biclique factors. The dense YES height is at most
 $4\eta N$, so its total depth is at most $4\eta N^2$.
 For $\beta=(c/2)\sqrt\eta\le1/4$,
 Lemma~\ref{lem:linegraph-separators} at $\rho=1/2$ gives a NO
