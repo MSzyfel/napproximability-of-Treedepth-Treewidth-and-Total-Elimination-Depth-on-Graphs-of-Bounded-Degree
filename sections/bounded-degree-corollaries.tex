@@ -404,15 +404,43 @@ polynomial-time projection of forests.
 The hardness ranges in Corollaries~\ref{cor:td-bounded-degree},
 \ref{cor:tw-bounded-degree}, and~\ref{cor:total-depth-bounded-degree}
 also hold on $d$-regular graphs for a suitable fixed odd degree $d$
-depending only on the excluded factor.
+depending only on the excluded factor. The NP-hardness constant for
+total depth may decrease.
 \end{corollary}
 
 \begin{proof}
-Apply Proposition~\ref{prop:regularization} to a strict source gap.
-For total depth choose $d$ sufficiently large that $(d+3)/(d+2)$
-fits within this gap; the forest projection also preserves the NP
-extraction argument. The additive errors are negligible compared with
-the linear height and width gaps and quadratic total-depth bounds.
+Fix a target factor $r$ in one of the stated hardness ranges, and
+choose a larger factor $r'$ that is still in the same range. For the
+NP total-depth result, take the target factor below $1+\epsilon_0$;
+the preceding result then also excludes approximation within any
+larger factor $r'<1+\epsilon_0$.
+Choose an odd $d$ larger than the maximum degree of the bounded-degree
+instances and large enough that
+\[
+ r\frac{d+3}{d+2}<r'.
+\]
+Such a $d$ exists because $(d+3)/(d+2)$ tends to $1$.
+
+Write $Y$ and $Z$ for the YES upper bound and NO lower bound on a
+source instance, so $Z>r'Y$. The reductions have unbounded scaling
+parameters. For treedepth, the YES bound grows linearly with the
+source size, so we can make $r(Y+d+2)<Z$; Proposition~\ref{prop:regularization}
+then preserves the factor-$r$ gap. For treewidth, enlarge the source
+until its YES width is at least $d+2$. The proposition then leaves the
+YES upper bound unchanged and cannot decrease the NO lower bound.
+
+For total depth, let $n$ be the source order and write
+$C_d=(d+2)(d+3)/2$. The proposition gives regularized YES and NO
+bounds of $(d+3)Y+C_dn$ and $(d+2)Z$, respectively. The difference
+between the NO bound and $r$ times the YES bound is greater than
+\[
+ \bigl((d+2)r'-r(d+3)\bigr)Y-rC_dn.
+\]
+Its quadratic coefficient is positive by the choice of $d$, and the
+total-depth YES bounds in these reductions grow quadratically with
+$n$. Increasing their scaling parameters therefore makes this
+difference positive. The resulting degree $d$ depends only on the
+target factor.
 \end{proof}
 
 \begin{corollary}\label{cor:subdivision-hardness}
