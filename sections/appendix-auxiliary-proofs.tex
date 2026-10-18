@@ -81,14 +81,14 @@ corresponding volume condition. Wu, Austrin, Pitassi, and Liu~\cite[Lemma~5.1]{A
 apply this source property to the entire replicated incidence graph
 $G'$ and prove that its minimum balanced-separator size satisfies
 $b(G')\geq c_1\sqrt{\varepsilon}\,m$ for an absolute constant
-$c_1>0$. Set $c=\min\{c_0,c_1\}$. Thus the bound is on separators
+$c_1>0$. Set $c_{\mathrm{inc}}=\min\{c_0,c_1\}$. Thus the bound is on separators
 of all output vertices, not just the host-edge vertices.
 Lemma~\ref{lem:balanced-by-td} therefore gives
-$\td(G')\geq c\sqrt{\varepsilon}\,m$.
+$\td(G')\geq c_{\mathrm{inc}}\sqrt{\varepsilon}\,m$.
 
 For completeness, fix any desired approximation factor $C\geq1$.
 Choose a sufficiently small fixed $0<\varepsilon\leq1/2$ for which
-the source promise applies and $\sqrt{\varepsilon}<c/(4C)$, and
+the source promise applies and $\sqrt{\varepsilon}<c_{\mathrm{inc}}/(4C)$, and
 put $q=\lceil1/\varepsilon^2\rceil$. In the YES case, all $q$
 partition classes have positive volume and are therefore nonempty.
 The regular host has positive integer degree, so
@@ -101,7 +101,7 @@ $m\geq1/(2\varepsilon^2)\geq1/\varepsilon$. The YES upper bound thus satisfies
  \leq4\varepsilon m,
 \]
 whereas the NO lower bound is
-$c\sqrt{\varepsilon}\,m>4C\varepsilon m$. Thus a factor-$C$
+$c_{\mathrm{inc}}\sqrt{\varepsilon}\,m>4C\varepsilon m$. Thus a factor-$C$
 approximation distinguishes the two cases. Finally, taking
 $R_{\mathrm{inc}}=|V(G)|m$ makes the incidence output polynomial in the source
 size. This proves SSE hardness for treedepth at every fixed factor
