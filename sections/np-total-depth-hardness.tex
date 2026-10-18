@@ -7,15 +7,22 @@ $\totd(G)$ within factor $1+\epsilon_0$ on simple unweighted graphs is
 NP-hard.
 \end{theorem}
 
-Alimonti and Kann's APX-hardness theorem, together with their
-extension to cubic graphs, gives the following source gap
+Alimonti and Kann prove that Maximum Independent Set is APX-hard on
+graphs of maximum degree three, and state that their hardness results
+also hold when every vertex has degree exactly three
 \cite[Theorem~3.2 and the final paragraph of Section~3]{AlimontiKann2000}.
+Since APX-hardness rules out a PTAS unless $\PP=\NP$, this gives a
+constant approximation gap on simple cubic graphs.
 \begin{theorem}[Source gap for cubic Independent Set]
 \label{thm:source-cubic-independent-set}
 There is a constant $\delta_0\in(0,1)$ such that no polynomial-time
 algorithm, unless $\PP=\NP$, always finds an independent set of size
 at least $(1-\delta_0)\alphaI(J)$ in a given simple cubic graph $J$.
 \end{theorem}
+
+We need exact degree three below: each source vertex has three
+incident edges, so it receives three auxiliary neighbors and
+$|E(J)|=3|V(J)|/2$.
 
 Our reduction starts from this source theorem. Completing the three
 parts to cliques follows Bonnet's co-tripartite construction~\cite[Section~3.1]{BonnetTreewidth}.

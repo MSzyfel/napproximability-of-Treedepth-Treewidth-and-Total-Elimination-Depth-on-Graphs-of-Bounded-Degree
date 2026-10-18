@@ -240,11 +240,19 @@ Indeed,
 $24q-7r(3q+1)=(24-21r)q-7r>0$ by the choice of $q$.
 The coefficients are continuous in $\eta$, so choose a fixed rational
 $\eta\in(0,1/10)$ with
-$B^{\Sigma}_{q,\eta}>rA^{\Sigma}_{q,\eta}$. The common linear term
-$qn/2$ is lower order than the quadratic bounds.
-Taking a fixed number of disjoint copies of the source graph
-preserves its independence fraction and makes $n$ large enough for
-Lemma~\ref{lem:gap-preservation} to absorb this term.
+$B^{\Sigma}_{q,\eta}>rA^{\Sigma}_{q,\eta}$. For these choices the
+YES and NO bounds have gap
+\[
+ \left(B^{\Sigma}_{q,\eta}n^2+\frac{qn}{2}\right)
+ -r\left(A^{\Sigma}_{q,\eta}n^2+\frac{qn}{2}\right)
+ =\left(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta}\right)n^2
+   -\frac{(r-1)qn}{2}>0
+\]
+whenever
+$n>q(r-1)/(2(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta}))$.
+Taking a fixed number of disjoint copies preserves the independence
+fraction and ensures this size bound, so the source promise has gap
+greater than $r$.
 All parameters and the number of copies are fixed, so the reduction
 is polynomial.
 \end{proof}
