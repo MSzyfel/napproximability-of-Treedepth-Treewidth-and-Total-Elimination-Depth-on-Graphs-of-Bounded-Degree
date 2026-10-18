@@ -105,37 +105,41 @@ $|U\setminus V(P)|\leq2(t-1)$.
 \begin{proof}
 If $|U|<t$, then $|U|\leq t-1\leq2(t-1)$, so the empty path
 satisfies the claim. Now assume $|U|\geq t$. Traverse each rooted
-tree in depth-first order, introducing a vertex when it is first
-reached and forgetting it after its entire subtree has been
-traversed. The introduced but not forgotten vertices form the
-current ancestor path, or the empty path between trees.
+tree in depth-first order. Introduce a vertex when first reached,
+traverse all its child subtrees, and forget it after those subtrees
+have been traversed. Throughout the traversal maintain two subsets
+of $U$: $L$ is the set of vertices already forgotten, and $R$ is the
+set of vertices not yet introduced. Initially $L=\varnothing$ and
+$R=U$. When a vertex of $U$ is introduced, remove it from $R$; when
+it is forgotten, add it to $L$. The vertices in $U\setminus(L\cup R)$
+have been introduced but not forgotten, so they lie on the current
+ancestor path. We traverse the rooted trees one after another, with
+this path empty between trees.
 
-Let $L$ be the vertices of $U$ already forgotten, and let $R$ be
-the vertices of $U$ not yet introduced. A vertex $x\in L$ and a
-vertex $y\in R$ are incomparable: $y$ cannot be an ancestor of $x$
-because ancestors are introduced first, and $x$ cannot be an
-ancestor of $y$ because the traversal of $x$'s subtree is complete.
-Since $F$ is an elimination forest of $J$, no edge joins $L$ to $R$.
+At every point, no edge joins $L$ to $R$. Indeed, if $x\in L$ and
+$y\in R$, then $y$ cannot be an ancestor of $x$, since ancestors are
+introduced first. Also, $x$ cannot be an ancestor of $y$, since the
+traversal finishes the subtree of $x$ before forgetting $x$. Thus
+$x$ and $y$ are incomparable, and the elimination-forest property
+rules out the edge $xy$.
 
-Consider the moment immediately after the $t$th vertex of $U$ is
-forgotten. Then $|L|=t$. If $|R|\geq t$, choosing $t$ vertices
-from each of $L$ and $R$ gives two disjoint anticomplete sets of
-size $t$, a contradiction. Hence $|R|\leq t-1$. Immediately
-before that forgetting operation, $t-1$ vertices of $U$ had been
-forgotten, and $R$ was unchanged. Every other vertex of $U$ was
-then introduced but not forgotten, so it lay on the current ancestor
-path $P$. Therefore
+Consider the instant immediately after the $t$th vertex of $U$ is
+forgotten. Then $|L|=t$. If $|R|\geq t$, then $L$ and $R$ contain
+disjoint anticomplete subsets of size $t$, contrary to the
+hypothesis. Hence $|R|\leq t-1$. Immediately before this forgetting
+event, $|L|=t-1$ and $R$ is unchanged. Let $P$ be the current
+ancestor path then. The sets $L$, $R$, and $U\setminus(L\cup R)$
+partition $U$, and every vertex in the third set lies on $P$. Hence
 \[
- |U\setminus V(P)|\leq(t-1)+(t-1)=2(t-1),
+ |U\setminus V(P)|\leq |L|+|R|\leq(t-1)+(t-1)=2(t-1).
 \]
-as required.
 \end{proof}
 
 \begin{lemma}[Clique completion in a tree decomposition]
 \label{lem:tw-clique-completion}
 Suppose $J[U]$ has no two disjoint anticomplete sets of size
-$t\ge1$. Every tree decomposition of $J$ has a bag containing
-all but at most $3(t-1)$ vertices of $U$.
+$t\ge1$. Every tree decomposition of $J$ has a node $u$ whose bag
+$B_u$ satisfies $|U\setminus B_u|\leq3(t-1)$.
 \end{lemma}
 
 \begin{proof}
@@ -156,17 +160,20 @@ $u$ be one.
 
 For each component $C$ of $T-u$, at most $t-1$ vertices $v\in U$
 have $T_v\subseteq C$. Otherwise, the edge from $u$ into $C$ would be
-oriented away from the sink $u$. Every vertex of $U$ absent from the
-bag at $u$ has its entire subtree in one of these components.
-For $t=1$ there are no such vertices. For $t\ge2$, suppose their
-total were at least $3t-2$. Collect components until the number of
-vertices of $U$ assigned to them first reaches $t$. This count is at most
-$2t-2$, since each component contributes at most $t-1$. At least
-$t$ vertices remain in the other components. The two groups lie in
-different components of $T-u$, so no bag contains a vertex from each
-group. The decomposition therefore has no edge between the groups,
-contrary to the no-hole condition. Thus at most $3t-3$ vertices of $U$
-are absent from the bag at $u$.
+oriented away from the sink $u$. Let $W=U\setminus B_u$. Every
+vertex $v\in W$ has its entire subtree in one component of $T-u$;
+write $W_C=\{v\in W:T_v\subseteq C\}$. Thus $|W_C|\leq t-1$ for
+each component $C$. If $t=1$, this gives $W=\varnothing$. For
+$t\geq2$, suppose $|W|\geq3t-2$. Add components one at a time until
+the total number of their assigned vertices first reaches $t$. The
+selected components contain a set $W_1$ with
+$t\leq|W_1|\leq2t-2$, since each component contributes at most
+$t-1$ vertices. The other components contain a set $W_2=W\setminus
+W_1$ with $|W_2|\geq(3t-2)-(2t-2)=t$. The subtrees of vertices in
+$W_1$ and $W_2$ lie in different components of $T-u$, so no bag
+contains a vertex from each set. Hence $W_1,W_2$ are anticomplete in
+$J$, contrary to the hypothesis. Therefore
+$|U\setminus B_u|=|W|\leq3t-3=3(t-1)$.
 \end{proof}
 
 \subsubsection{Biclique factors}
@@ -178,18 +185,24 @@ vertex-cover size.
 \begin{lemma}[Biclique completion in an elimination forest]\label{lem:sparse-biclique-completion}
 Let $F$ be an elimination forest of a graph $J$. Suppose $A,B$ are
 disjoint and the bipartite graph of $J$ between them has no $(t,t)$
-hole, where $t\ge1$. There is a set $D\subseteq A\cup B$ with
-$|D|\le4(t-1)$ such that every pair in
+hole, where $t\ge1$. There is a set $D\subseteq A\cup B$ such that
+$|D|\leq4(t-1)$ and each pair in
 $(A\setminus D)\times(B\setminus D)$ is comparable in $F$.
 \end{lemma}
 
 \begin{proof}
-A depth-first traversal introduces a vertex, traverses each of its
-child subtrees completely, and then forgets it. Assign a distinct
-time to each introduction and forgetting event, traversing different
-rooted trees consecutively. Let $t_{\mathrm{in}}(v)$ and $t_{\mathrm{out}}(v)$ be the
-introduction and forgetting times of $v$. The vertices in the
-subtree rooted at $v$ are those visited during
+Put $W=A\cup B$ and traverse each rooted tree depth-first: introduce
+a vertex when first reached, traverse its child subtrees, and forget
+it after they are complete. Maintain the sets $L$ of vertices in $W$
+already forgotten and $R$ of vertices in $W$ not yet introduced,
+starting with $L=\varnothing$ and $R=W$. When a vertex of $W$ is
+introduced, remove it from $R$; when it is forgotten, add it to $L$.
+Thus $W\setminus(L\cup R)$ consists of the introduced, unforgotten
+vertices on the current ancestor path. Assign a distinct time to
+each introduction and forgetting event, traversing different rooted
+trees consecutively. Let $t_{\mathrm{in}}(v)$ and
+$t_{\mathrm{out}}(v)$ be the introduction and forgetting times of
+$v$. The vertices in the subtree rooted at $v$ are visited during
 $[t_{\mathrm{in}}(v),t_{\mathrm{out}}(v)]$.
 Two vertices are incomparable if and only if these intervals
 are disjoint. Let $K$ be the bipartite graph on $A,B$ whose edges
@@ -228,9 +241,9 @@ decomposition by removing them from every bag.
 Fix a tree decomposition of $J$. Suppose disjoint sets $A,B$
 are contained in bags at nodes $x,y$, respectively, and the
 bipartite graph of $J$ between $A$ and $B$ has no $(t,t)$ hole.
-One can delete at most $2(t-1)$ vertices of $A\cup B$ so that
-every edge of the complete bipartite graph between the surviving
-sets is already covered by a bag of the restricted decomposition.
+There is a set $D\subseteq A\cup B$ with $|D|\leq2(t-1)$ such that
+after deleting $D$ from every bag, each pair
+$u\in A\setminus D$, $v\in B\setminus D$ occurs together in a bag.
 \end{lemma}
 
 \begin{proof}
