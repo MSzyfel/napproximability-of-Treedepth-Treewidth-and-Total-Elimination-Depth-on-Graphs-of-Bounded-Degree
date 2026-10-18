@@ -270,8 +270,15 @@ encoding~\cite[Theorems 20 and 23]{Gruber2008} transfer our three
 treedepth gaps to star height for languages represented by trim binary
 bideterministic partial DFAs. For the value-preserving graph step,
 add to $G$ a universal vertex $a$, replace each edge by its two
-oriented arcs, label every arc with a distinct letter, and take $a$
-as the initial and sole accepting state. Then
+oriented arcs, and use the vertices as states. Give each arc its own
+letter as a transition label, and take $a$ as the initial and sole
+accepting state. The resulting partial DFA accepts the label sequences
+of directed walks from $a$ back to $a$. It is trim because the digraph
+is strongly connected, and it is bideterministic because each letter
+labels only one arc. It is also minimal: for distinct states $x,y$,
+choose a directed path from $x$ to $a$. Its first arc has a label that
+is unavailable at $y$, so the label sequence of the path is accepted
+from $x$ and not from $y$. Then
 $\td(G+a)=\td(G)+1$ and
 $\operatorname{cr}(\overleftrightarrow{G+a})=\td(G)$
 ~\cite[proof of Theorem~12]{Gruber2008}. The binary encoding
