@@ -350,7 +350,7 @@ Lemma~\ref{lem:cubic-cover-normalization}. That lemma therefore gives
        =7n+m-\alphaI(J)
        =\frac{17}{2}n-\alphaI(J),
 \]
-To justify the last equality, delete an endpoint of each internal
+To justify the minimization identity, delete an endpoint of each internal
 edge of $J[S]$. At most $|E(J[S])|$ vertices are deleted, so $S$
 contains an independent set of size at least $|S|-|E(J[S])|$. Hence
 $|S|-|E(J[S])|\le\alphaI(J)$, and a maximum independent set attains
@@ -385,7 +385,8 @@ needed for the bounded-degree extension.
 
 \begin{lemma}[Independent sets from elimination forests]
 \label{lem:independent-set-from-forest}
-For $G=G(J)$, let $F_G$ be an elimination forest of $\widehat G$ with
+Let $J$ be a nonempty simple cubic graph on $n$ vertices, put
+$G=G(J)$, and let $F_G$ be an elimination forest of $\widehat G$ with
 $W(F_G)<W(G)+n/2$. An independent set of $J$ of size at least
 $39n/2+3-W(F_G)$ can be obtained in polynomial time.
 \end{lemma}
@@ -421,7 +422,7 @@ operations are polynomial.
 \begin{lemma}[Extraction from a total-depth approximation]
 \label{lem:np-total-depth-extraction}
 Fix $0<\epsilon\le1/100$. Let $J$ be a nonempty simple cubic
-graph, let $G=G(J)$, and choose an integer $M$ satisfying
+graph on $n$ vertices, put $G=G(J)$ and $N=|V(G)|$, and choose an integer $M$ satisfying
 \begin{equation}\label{eq:np-total-depth-added-vertices-size}
  \frac{N(N+1)}{2M}\le\epsilon n.
 \end{equation}
@@ -447,7 +448,7 @@ By definition, this minimum is $\totd(H^{\Sigma}_M(G))$. Thus
  \totd(F)&\le\totd(F_0)
  \le(1+\epsilon)\min_{F'}\totd(F')\\
  &=(1+\epsilon)\totd(H^{\Sigma}_M(G)),
- \end{aligned}
+\end{aligned}
 \]
 Using this bound, followed by~\eqref{eq:np-total-depth-added-vertices-bounds}
 and~\eqref{eq:np-total-depth-added-vertices-size}, gives
@@ -455,7 +456,7 @@ and~\eqref{eq:np-total-depth-added-vertices-size}, gives
 \begin{aligned}
  W(F_G)&\le\frac{\totd(F)}M
        \le(1+\epsilon)\frac{\totd(H^{\Sigma}_M(G))}M
-       \le(1+\epsilon)\left(W(G)+\frac{N(N+1)}{2M}\right),\\
+       \le(1+\epsilon)\left(W(G)+\frac{N(N+1)}{2M}\right)\\
        &\le(1+\epsilon)\bigl(W(G)+\epsilon n\bigr).
 \end{aligned}
 \]
