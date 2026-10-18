@@ -268,21 +268,26 @@ $z\in V(T)$ satisfies $\{u,v\}\subseteq B_z\setminus D$.
 \end{lemma}
 
 \begin{proof}
-If $x=y$, take $D=\varnothing$. Otherwise let $P$ be the vertex
-set of the path from $x$ to $y$, ordered from $x$ toward $y$.
-For $u\in A$, the intersection $T_u\cap P$
-is a nonempty prefix of $P$, starting at $x$. For $v\in B$,
-$T_v\cap P$ is a suffix ending at $y$.
+If $x=y$, take $D=\varnothing$. Otherwise let $P$ be the unique
+path from $x$ to $y$ in $T$, and list its vertices as
+$z_0=x,z_1,\ldots,z_\ell=y$ in their order along the path.
+Give $V(P)$ the linear order induced by this list. For $u\in A$,
+we have $x\in T_u$, and $T_u$ is connected. Thus
+$T_u\cap V(P)=\{z_0,\ldots,z_a\}$ for some $0\leq a\leq\ell$,
+the vertex set of a nonempty prefix of $P$. Similarly, for $v\in B$,
+$T_v\cap V(P)=\{z_c,\ldots,z_\ell\}$ for some $0\leq c\leq\ell$,
+the vertex set of a suffix ending at $y$.
 The sets $T_u,T_v$ intersect if and only if these path
 intervals intersect. For the nontrivial direction, if both
 contain some node $z$, they both contain the median of $x,y,z$,
-which lies on $P$.
+which lies in $V(P)$.
 
 Define the bipartite graph $K$ by
 $E(K)=\{uv:u\in A,\ v\in B,\ T_u\cap T_v=\varnothing\}$.
 If it has a matching of size $m_0\ge2t-1$, write its edges
-$u_iv_i$, with $u_i\in A$ and $v_i\in B$, and order them so that the endpoint of the prefix
-$T_{u_i}\cap P$ is nondecreasing in $i$. The endpoint of each
+$u_iv_i$, with $u_i\in A$ and $v_i\in B$, and order them so that
+the last vertex of $T_{u_i}\cap V(P)$ has nondecreasing index.
+The endpoint of each
 $u_i$-prefix precedes the start of its matched $v_i$-suffix, since
 the two sets are disjoint and the prefix starts at $x$ while the
 suffix ends at $y$. Consequently, if $i\le t$ and
