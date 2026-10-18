@@ -700,10 +700,26 @@ When $\lambda/d<1$, a fixed sufficiently large $k$ makes this ratio
 smaller than any prescribed positive constant. The new degree
 $d^k$ still does not depend on the number of vertices.
 
-Walk powering and a standard grouping step applied to the
-Margulis--Gabber--Galil expanders~\cite[Construction~8.1 and Theorem~8.2]{HLW2006}
-give the following replacements. The mapping definitions and proof
-are in Appendix~\ref{app:factor-expanders}.
+We use the following explicit starting family.
+
+\begin{theorem}[Margulis--Gabber--Galil expanders
+ {\cite[Construction~8.1 and Theorem~8.2]{HLW2006}}]
+\label{thm:auxiliary-expander-family}
+For every integer $\nu\ge1$, there is a deterministically
+constructible eight-regular undirected multigraph on $\nu^2$
+vertices whose nonconstant eigenvalues have absolute value
+at most $5\sqrt2$. Its construction takes polynomial time in $\nu$.
+\end{theorem}
+
+The eigenvalue-to-degree ratio is at most $5\sqrt2/8<1$. Thus, for
+any fixed positive threshold fraction, a sufficiently large fixed
+walk power gives the required no-hole bound. These graphs are
+available on $\nu^2$ vertices. Our remaining task is to obtain the
+same type of guarantee on arbitrary prescribed vertex sets and,
+for biclique factors, on two prescribed sides with all edges
+between them. This is a standard adaptation by grouping auxiliary
+vertices. We state the resulting lemma below and give the mapping
+definitions and proof in Appendix~\ref{app:factor-expanders}.
 
 \begin{lemma}[Mapping to prescribed vertex sets]
 \label{lem:factor-expanders}
