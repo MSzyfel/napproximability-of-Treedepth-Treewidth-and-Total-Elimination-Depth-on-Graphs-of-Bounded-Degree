@@ -37,14 +37,12 @@ show that they persist on graphs of bounded maximum degree, addressing the
 conjecture of Schirrmacher, Siebertz, and Vigny
 ~\cite[Conjecture~1]{SchirrmacherSiebertzVigny2025}.
 
-\subsection{Results}
+\subsection{Our results and techniques}
+\label{subsec:results-techniques}
 
-We strengthen the approximation lower bounds for both parameters
-and preserve them on graphs of bounded maximum degree. UGC denotes
-the ordinary Unique Games Conjecture, and SSEH denotes the Small Set
-Expansion Hypothesis.
-Each row states a promise-hardness result under its named assumption.
-NP-hardness means unless $\mathrm{P}=\mathrm{NP}$.
+UGC denotes the ordinary Unique Games Conjecture, and SSEH the Small Set
+Expansion Hypothesis. NP-hardness means unless $\mathrm{P}=\mathrm{NP}$.
+Each row gives a promise-hardness result on simple unweighted graphs.
 
 \Needspace{12\baselineskip}
 \begin{theorem}[Treedepth and treewidth approximation bounds]
@@ -69,54 +67,13 @@ degree at most a constant depending only on $r$. The reductions are
 deterministic.
 \end{theorem}
 
-Most reductions use high-degree cliques and complete bipartite graphs.
-Section~\ref{sec:bounded-degree-hardness} replaces these pieces with
-sparse graphs on the same vertices. A clique replacement still
-connects any two disjoint subsets above a chosen size threshold. A
-complete bipartite replacement still connects sufficiently large
-subsets on its opposite sides. This gives the NO-case arguments the
-connectivity they need after deleting a small set of vertices. Since
-each replacement deletes edges, every YES-case elimination forest and
-tree decomposition remains valid. A sufficiently small threshold
-preserves each fixed gap and yields a degree bound in terms of the
-target factor.
-
-\Needspace{3\baselineskip}
-Wu, Austrin, Pitassi, and
-Liu~\cite[Theorem~1.1]{APW} proved SSE hardness for treewidth at
-every fixed factor on general graphs. Our line-graph reduction gives
-SSE hardness for both treewidth and treedepth at every fixed factor.
-Our sparsification theorems give the bounded-degree versions.
-
-The bounded-degree treedepth result answers the conjecture of
-Schirrmacher, Siebertz, and Vigny~\cite[Conjecture~1]{SchirrmacherSiebertzVigny2025}
-and strengthens it to approximation hardness. Dirks, Schirrmacher,
-Siebertz, and Vigny prove
-NP-completeness of weighted treedepth on graphs of maximum degree
-ten~\cite{DirksEtAl2025Weighted}. Our instances are unweighted.
-For treewidth, NP-completeness is already known on cubic
-graphs~\cite{BodlaenderEtAl2023Cubic}. The degree bounds in our
-approximation results depend on the target ratio.
-
-Wu, Austrin, Pitassi, and Liu's earlier incidence construction also
-implies SSE hardness for treedepth at every fixed factor after an
-additional elimination-forest argument. We give that derivation in
-Appendix~\ref{app:incidence-proof}.
-The line-graph proof in Section~\ref{sec:sseh} gives balanced-separator
-bounds proportional to the output order, which we use in several
-applications.
-
-We also consider \emph{total elimination depth}: the minimum sum
-of vertex depths in an elimination forest, with roots at depth one.
-This objective, denoted by $\totd(G)$, is the vertex-partition-tree
-sum (VPT-sum) studied in~\cite{HogemoEtAl2021}.
-It also measures the cost of vertex-query search on a connected graph:
-querying a vertex either finds the hidden target or identifies the
-component containing it after that vertex is removed. The resulting
-search tree is an elimination tree, and with a uniform target and
-unit query costs its expected cost is $\totd(G)/|V(G)|$
-~\cite{HogemoEtAl2021,Szyfelbein2025GraphSearch}.
-We prove separate hardness bounds under NP, UGC, and SSE.
+The bounded-degree treedepth result resolves the conjecture of
+Schirrmacher, Siebertz, and Vigny~\cite[Conjecture~1]{SchirrmacherSiebertzVigny2025}.
+We also study \emph{total elimination depth}, $\totd(G)$, the minimum sum
+of vertex depths in an elimination forest (roots have depth one). This is
+the vertex-partition-tree sum of~\cite{HogemoEtAl2021}. On a connected graph,
+$\totd(G)/|V(G)|$ is the expected cost of vertex-query search with a uniform
+target and unit query costs~\cite{HogemoEtAl2021,Szyfelbein2025GraphSearch}.
 
 \Needspace{10\baselineskip}
 \begin{theorem}[Total elimination depth]\label{thm:total-depth-main}
@@ -130,12 +87,34 @@ factor $r\ge1$ is hard on graphs of maximum degree bounded by a
 constant depending only on $r$. All reductions are deterministic.
 \end{theorem}
 
-The dense NP and UGC bounds are
-Theorems~\ref{thm:np-total-depth} and~\ref{thm:total-depth-ugc}.
-Their bounded-degree forms, together with the SSE statement, follow
-from Corollary~\ref{cor:total-depth-bounded-degree}.
-The same statements apply to average elimination depth, since
-the graph order is fixed in each instance.
+The same bounds hold for average elimination depth, since the graph order
+is fixed in each reduction.
+
+Under UGC, Khot--Regev independent sets are encoded in clique layers.
+Completeness places a small cover on one chain and independent-set copies
+on separate lower chains. At the first split, source vertices represented
+in multiple children form an independent set, limiting the height saved.
+For treewidth, a multipartite product gives an equal-part vertex-cover gap;
+replication with clique completion forces a large cover into one bag.
+
+For NP-hardness, we refine the truth-block and anchor construction of
+Bonnet, Neuen, and Soko\l owski~\cite{BNS}, using the parity gap of
+Hazan, Safra, and Schwartz~\cite[Theorem~10]{HazanSafraSchwartz2003}.
+Truth blocks encode variable values, and star edges among the four
+satisfying-assignment vertices limit the gain from leaving variables
+unassigned. A partial-assignment count gives the independent-set gap;
+balanced parts and anchor cliques transfer it to treedepth, while
+replication with clique completion transfers it to treewidth. For total
+depth, a cubic Independent Set reduction completes source parts to cliques.
+Attached leaves weight their deepest vertices, while a matching makes the
+cheapest split order reflect the source independent-set size.
+
+Under SSEH, the line graph turns source edges into vertices. A small balanced
+separator induces a balanced source cut whose boundary lies in the separator,
+contrary to the Raghavendra--Steurer--Tulsiani expansion promise~\cite{RST}.
+Sparse expander replacements give bounded degree while preserving the needed
+connectivity after small exceptional sets are removed. They delete edges, so
+YES-case solutions remain feasible.
 
 \subsection{Applications}
 
@@ -195,99 +174,6 @@ Established equivalent formulations of treedepth, including vertex
 ranking and minimum symbolic elimination height, are covered by the
 same parameter bounds rather than stated as separate results.
 
-\subsection{Proof overview}
-
-\paragraph{Treedepth and total depth under UGC.}
-We encode the Khot--Regev source~\cite{KhotRegev} in clique layers,
-with cross-layer edges recording source adjacencies. In YES, put
-copies of the complement of a large independent set (a small vertex
-cover) on one chain, then the independent-set copies from each layer
-on a separate lower chain. No edge joins different lower chains
-because the chosen source vertices are independent. For
-soundness, follow the forest to its first split.
-Each child uses fewer layers, and source vertices represented in
-multiple children form an independent set, bounding the sum of child
-cover numbers. Induction limits the height saved at each split. For
-total depth, we also charge each child's shift below the shared chain
-and its missing copies. A quadratic inequality bounds the combined
-saving.
-
-\paragraph{Treewidth under UGC.}
-Taking a product of Khot--Regev instances gives an equal-part
-tripartite graph with a constant-factor gap in minimum vertex-cover
-size. We replicate it and
-complete each part to a clique. Bonnet's central-bag
-argument~\cite[Lemma~6]{BonnetTreewidth} forces a bag to contain a
-vertex cover in every source copy. In YES, a small cover forms the
-central bag, and one path per part processes the copies one at a time.
-This adds at most one part's size to the replicated cover term.
-Replication multiplies the cover gap but leaves this one-copy overhead
-unchanged.
-
-\paragraph{Treedepth under SSEH.}
-The Raghavendra--Steurer--Tulsiani source~\cite{RST} has a YES
-partition into equal-volume classes with few crossing edges and a NO
-condition that every set containing between $10\%$ and $90\%$ of the
-total volume has many boundary edges. Volume is total degree. In its
-line graph, vertices are source edges, and adjacency means sharing an
-endpoint. The YES crossing edges form a short chain above one chain per
-class. In NO, a balanced separator splits surviving edges into two
-large collections with disjoint endpoints. The endpoints of one
-collection give a balanced source cut, all of whose crossing edges lie
-in the separator. The NO expansion condition forces this separator to
-be large, giving lower bounds on treedepth and total depth.
-
-\paragraph{Treedepth under $\PP\ne\NP$.}
-We refine the truth-block and anchor construction
-of~\cite{BNS}, using the parity gap
-of~\cite[Theorem~10]{HazanSafraSchwartz2003}. Truth blocks encode
-variable values, while four assignment vertices represent the
-satisfying assignments of each equation. Edges to inconsistent truth
-blocks rule out incompatible choices. We join one assignment vertex
-to the other three, limiting the gain from leaving variables
-unassigned. We
-complete unassigned variables uniformly at random and compare the
-expected number of satisfied equations with the selected assignment
-vertices. The truth-block sizes make the loss in block vertices pay
-for any extra assignment vertices, so the maximum independent-set
-size equals a fixed baseline plus the maximum number of satisfiable
-equations. Balanced parts and shorter anchor cliques transfer this
-gap to treedepth. Replication and clique completion transfer it to
-treewidth.
-
-\paragraph{Total depth under $\PP\ne\NP$.}
-Start from cubic Independent Set~\cite{AlimontiKann2000} and complete
-the three source parts to cliques. For each clique, add many pairwise
-nonadjacent vertices, each adjacent to the whole clique. They can be
-placed as leaves below the deepest clique vertex without deepening any
-original vertex, so their total depth heavily weights the three
-deepest-vertex depths. The common prefix of the three ancestor paths
-covers edges between one part and the other two. The portion shared
-only by the other two paths covers the remaining edges. A large matching
-between $B$ and $C$ makes the alternatives that separate $B$ or $C$
-first more expensive, so the cheapest configuration separates $A$
-from the $B,C$ pair. This cover cost is a fixed baseline minus the
-source independent-set size. Choosing enough added vertices makes
-this term determine the total-depth gap, so an approximation would
-recover a near-optimal independent set.
-
-\paragraph{Preserving gaps at bounded degree.}
-Section~\ref{sec:bounded-degree-hardness} constructs these sparse
-replacements from expanders. The completion lemmas isolate an
-exception set for each dense piece. Restoring these vertices above the
-forest roots or in every tree-decomposition bag has small total cost
-because each vertex lies in only a bounded number of replaced pieces.
-For treewidth, each side of a replaced complete bipartite graph must
-be covered by a bounded number of sets inside completed cliques. The
-corresponding bags let the completion argument recover every cross
-edge after exceptions are removed. For UGC, a bounded-degree
-independent-set source keeps retained source edges from spoiling the
-output degree bound.
-
-OpenAI Codex assisted with exploratory proof development and
-derivation checks for the reductions and sparsification arguments.
-The author verified the arguments presented in the paper.
-
 \subsection{Related work and attribution}
 
 Bonnet's treewidth reduction~\cite{BonnetTreewidth} introduced the
@@ -318,6 +204,9 @@ in~\cite[Construction~8.1 and Theorem~8.2]{HLW2006}.
 Wu, Austrin, Pitassi, and Liu~\cite{APW} use the expansion reductions
 of Raghavendra, Steurer, and Tulsiani~\cite{RST} to prove SSE hardness
 for treewidth, pathwidth, and related objectives at every fixed factor.
+Their incidence-graph reduction also yields SSE treedepth hardness after a
+separator-to-forest argument; we give that derivation in
+Appendix~\ref{app:incidence-proof}.
 For our
 bounded-degree result, Section~\ref{sec:bounded-degree-hardness} also
 derives the degree bound from the weighted source by the same
