@@ -1,0 +1,43 @@
+\begin{abstract}
+We provide approximation lower bounds for treedepth, treewidth, and
+total elimination depth on simple unweighted graphs of bounded
+maximum degree. Treedepth is NP-hard to approximate within every
+fixed factor below $18/17$, and treewidth within every fixed factor
+below $12/11$. Under the ordinary Unique Games Conjecture (UGC), both
+parameters are hard within every fixed factor below $4/3$. For total
+elimination depth, the corresponding UGC threshold is $8/7$, and we
+also prove NP-hardness within some absolute factor greater than one.
+Under the Small Set Expansion Hypothesis (SSEH), every fixed constant factor
+is hard for treedepth and total elimination depth. Our line-graph
+construction also gives bounded-degree treewidth instances for the
+known SSE hardness at every fixed factor. In each result, the maximum
+degree depends only on the excluded factor, and the reductions are
+deterministic. The treedepth result resolves the conjecture that
+computing unweighted treedepth remains NP-hard at bounded degree.
+
+Our proofs use several structural ideas. For NP-hardness, we refine
+the truth-block and anchor construction of Bonnet, Neuen, and
+Soko\l owski using a parity source gap
+~\cite{BNS,HazanSafraSchwartz2003}. For treedepth under UGC, copies
+of the source graph form clique layers: a large independent set gives
+a shallow elimination forest, while the first branch of any forest
+limits how much height branching can save. For total depth, we also
+count the depth shifts of all branches, and a quadratic inequality
+bounds their total saving. For treewidth, replication of an equal-part
+tripartite graph forces a large vertex cover into one bag of every
+tree decomposition, while leaving the YES-case overhead unamplified.
+Under SSEH, vertices of a line graph represent source
+edges. A small separator would yield a balanced cut with small
+boundary in the source graph. Finally, separate expander replacements
+lower the degrees while preserving the NO bounds after deleting an
+arbitrarily small fixed fraction of vertices. Since they delete edges,
+the YES constructions remain valid.
+
+These bounds also imply hardness for trivially perfect completion by
+number of added edges, vertex integrity, fracture number, starwidth,
+average and maximum general customizable-label size, and average
+hierarchical customizable-label size. The linear treewidth gaps
+give explicit exponential approximation lower bounds for the total
+state space of binary junction trees, measured by the sum of the table
+sizes over all bags.
+\end{abstract}
