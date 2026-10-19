@@ -211,8 +211,11 @@ $2/3-\zeta>r(1/2+\zeta+1/(3R))$.
 Here $\zeta$ controls the source error and $1/(3R)$ controls the
 additional YES cost of the replication construction.
 Take the $N$-vertex source from Theorem~\ref{thm:ugc-tripartite-cover}
-with $k=3$. Its parts have size $N/3$, so
-Lemma~\ref{lem:tw-replication} gives
+with $k=3$. Its parts have size $N/3$. Since $\zeta<1/12$, both
+cover thresholds, $(1/2+\zeta)N$ and $(2/3-\zeta)N$, exceed $N/3$.
+Thus the $n_{\max}=N/3$ term in the maximum of
+Lemma~\ref{lem:tw-replication} does not weaken either case, and the
+lemma gives
 \[
  \begin{array}{ll}
  \textup{YES:}&\operatorname{tw}(K_R(G))
