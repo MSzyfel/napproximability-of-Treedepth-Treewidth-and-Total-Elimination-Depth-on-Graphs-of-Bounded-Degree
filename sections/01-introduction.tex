@@ -7,32 +7,23 @@ ancestor order. For connected graphs, every elimination forest is a tree.
 Recursively querying its root and then searching each remaining component gives
 a graph-search strategy. Treedepth is also characterized by vertex ranking and
 symbolic elimination~\cite{BodlaenderRankings}, and it is studied directly in
-parameterized algorithms~\cite{Reidl2014}. It is also a basic tool in
-structural graph theory. Every class of bounded expansion, a standard formal
-notion of sparse graph class, has the following property: for each fixed $p$,
-its graphs can be colored with a number of colors bounded in terms of $p$ and
-the class, so that the subgraph induced by any $i$ color classes has treedepth
-at most $i$, for all $i\le p$. This is called a low-treedepth coloring. It
-lets us analyze a sparse graph through these bounded-treedepth pieces and
-supports results on coloring and homomorphism bounds. Nešetřil and Ossona de
-Mendez survey this framework and its applications, and their earlier work
-develops these connections
-~\cite{LowTreeDepthSurvey,TreeDepthColoring}.
+parameterized algorithms~\cite{Reidl2014}. Low-treedepth decompositions are
+used in the structural theory of sparse graphs. Nešetřil and Ossona de Mendez
+survey these methods, and their earlier work connects them to subgraph coloring
+and homomorphism bounds~\cite{LowTreeDepthSurvey,TreeDepthColoring}.
 
-Treewidth captures a different form of tree-like structure. A \emph{tree
-decomposition} arranges vertex sets, called bags, in a tree so that every graph
-edge has both endpoints in some bag and the bags containing any fixed vertex
-form a connected subtree. Treewidth is the minimum possible largest bag size
-minus one. Bounded-width decompositions support dynamic programming for many
-graph problems and connect to graph-minor theory. Surveys describe these
-algorithmic uses and applications~\cite{BodlaenderTouristGuide,
-BodlaenderApplications}. The parameters control different features: treedepth
-bounds elimination-forest height, while treewidth bounds bag size. For example,
-paths have treewidth one but unbounded treedepth. We write $\td(G)$ and
-$\operatorname{tw}(G)$ for these parameters.
+A \emph{tree decomposition} consists of a tree of vertex sets, called bags,
+such that every graph edge has both endpoints in some bag and the bags
+containing any fixed vertex form a connected subtree. Treewidth is the minimum
+possible largest bag size minus one. Decompositions of small width support
+dynamic programming for many graph problems and have uses in graph-minor
+theory. For surveys of these applications, see~\cite{BodlaenderTouristGuide,
+BodlaenderApplications}. A path has treewidth one, whereas its treedepth grows
+with its length. We write $\td(G)$ and $\operatorname{tw}(G)$ for these
+parameters.
 
-Despite their established roles, the approximation complexity of both parameters is
-not well understood. Bonnet, Neuen, and Soko\l owski proved that approximating
+The approximation complexity of these parameters remains poorly understood.
+Bonnet, Neuen, and Soko\l owski proved that approximating
 treedepth within factor $1.0003$ is NP-hard~\cite{BNS}. Bonnet proved the
 corresponding $1.00005$ hardness bound for treewidth~\cite{BonnetTreewidth}.
 Under the Small Set Expansion Hypothesis (SSEH), treewidth is hard to
