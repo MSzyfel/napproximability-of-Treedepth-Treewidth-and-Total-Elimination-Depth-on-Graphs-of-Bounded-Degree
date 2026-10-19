@@ -7,7 +7,8 @@ Margulis--Gabber--Galil construction gives the following family
 \begin{restatedtheorem}{Margulis--Gabber--Galil expander family}
 For every integer $\nu\ge1$, there is a deterministically
 constructible eight-regular undirected multigraph on $\nu^2$
-vertices whose nonconstant eigenvalues have absolute value at most
+vertices such that every eigenvalue of its adjacency matrix on the
+subspace orthogonal to the all-ones vector has absolute value at most
 $5\sqrt2$. Its construction takes polynomial time in $\nu$.
 \end{restatedtheorem}
 
@@ -37,7 +38,8 @@ $\lambda_0^k<\zeta/4$, and set
 $d_{\zeta,\kappa}=\lceil4\kappa\rceil8^k$. For each square order
 $M=\nu^2$, let $\mathcal E$ be the $k$th walk power of the graph
 in the restated Margulis--Gabber--Galil family, with degree $d=8^k$.
-Its nonconstant eigenvalue bound satisfies
+Every eigenvalue on the all-ones orthogonal subspace is raised to the
+$k$th power, so its absolute value is at most
 $(5\sqrt2)^k=8^k(5\sqrt2/8)^k=d\lambda_0^k$.
 Substituting this bound in the expander mixing lemma yields
 \begin{equation}\label{eq:factor-expander-mixing}
@@ -181,9 +183,10 @@ multiplicity equal to the number of connected components, and
 $-d$ is an eigenvalue if and only if some component is bipartite
 \cite[Section~2.3]{HLW2006}. These criteria also apply to our
 multigraph adjacency matrix, which counts parallel edges and loops
-as steps. The nonconstant eigenvalue bound $d\lambda_0^k<d$
-therefore makes $d$ simple and excludes $-d$, so $\mathcal E$ is
-connected and nonbipartite.
+as steps. Every eigenvalue on the all-ones orthogonal subspace has
+absolute value at most $d\lambda_0^k<d$. Thus $d$ is a simple
+eigenvalue and $-d$ is absent, so $\mathcal E$ is connected and
+nonbipartite.
 
 In the one-set construction, applying $\pi$ to an auxiliary walk
 gives a sequence of equal or adjacent output vertices. Deleting
