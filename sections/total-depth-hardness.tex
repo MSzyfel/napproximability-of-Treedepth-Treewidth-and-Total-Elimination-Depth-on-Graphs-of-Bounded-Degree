@@ -134,7 +134,12 @@ $n=c+\alphaI(G)$ and therefore $N=qc+A$.
 Lemmas~\ref{lem:ugc-layer-usage} and~\ref{lem:ugc-source-supports} give
 $\sum_jq_j\leq q$, $\sum_jc_j\leq c$, and
 $n_j=c_j+\alphaI(G[U_j])\leq c_j+\alphaI(G)$, so
-$S\leq qc$ and $\sum_jL_j\leq S+A$.
+\[
+ S=\sum_jq_jc_j\leq\Bigl(\sum_jq_j\Bigr)\Bigl(\sum_jc_j\Bigr)
+ \leq qc,\qquad
+ \sum_jL_j=\sum_jq_jn_j\leq\sum_jq_jc_j
+      +\alphaI(G)\sum_jq_j\leq S+A.
+\]
 
 To use induction in child $j$, restore its $M_j=L_j-N_j$ missing
 vertices above its roots. By Lemma~\ref{lem:restore-total-depth},
@@ -187,10 +192,14 @@ then Cauchy--Schwarz to $\sqrt{q_j},\sqrt{c_j}$, gives
  \frac{S^2}{2}-\frac37\sum_jW_j^2
  &=\frac1{14}\left(\sum_jW_j^2+14\sum_{i<j}W_iW_j\right)
  \leq\frac1{14}\left(\sum_j\sqrt{W_j}\right)^4\\
- &\leq\frac1{14}\left(\sum_jq_j\right)^2\left(\sum_jc_j\right)^2
+ &\leq\frac1{14}\left(\sum_j\sqrt{q_j}\sqrt{c_j}\right)^4
+ \leq\frac1{14}\left(\sum_jq_j\right)^2\left(\sum_jc_j\right)^2
  \leq\frac{q^2c^2}{14}.
 \end{aligned}
 \]
+The second inequality uses $W_j=q_jc_j$; the third is
+Cauchy--Schwarz applied to the sequences $(\sqrt{q_j})_j$ and
+$(\sqrt{c_j})_j$.
 Expand $(S+A)^2$ in~\eqref{eq:total-depth-combined-children}, apply
 this estimate, and use $AS\le Aqc$. Finally, substitute $N=qc+A$:
 \[
@@ -250,9 +259,11 @@ YES and NO bounds have gap
 \]
 whenever
 $n>q(r-1)/(2(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta}))$.
-Taking a fixed number of disjoint copies preserves the independence
-fraction and ensures this size bound, so the source promise has gap
-greater than $r$.
+Take a fixed number of disjoint copies of the source graph before
+applying $S_q$, large enough that the new source order satisfies this
+size bound. Both the independence number and the order scale by the
+same factor, so the source promise remains unchanged. The resulting
+reduction has gap greater than $r$.
 All parameters and the number of copies are fixed, so the reduction
 is polynomial.
 \end{proof}
