@@ -466,17 +466,34 @@ and the NO bound does not decrease. Choosing
 $\epsilon<(r'-r)/(r+1)$, Lemma~\ref{lem:gap-preservation}
 preserves the factor-$r$ gap.
 
-For the NP total-depth family, the optimum itself is bounded
-below by a fixed positive multiple of $n^2$, as shown in
-the proof of Corollary~\ref{cor:total-depth-bounded-degree}.
-The last bound above and the lower bound $L=\Omega(n^2)$ let us
-choose $d,n$ so the normalized error is at most $\epsilon L$, with
-$r+(r+1)\epsilon<r'$.
-The projection in Proposition~\ref{prop:regularization}
-converts every forest of $R$ of cost $z$ into one of $G$ of cost
-at most $z/(d+2)$. Hence Lemma~\ref{lem:solution-lifting} converts
-an $r$-approximation on regular graphs into an approximation within
-the excluded factor $r'$ on the source family.
+For the NP total-depth family, let $G=H'$ be the sparse instance
+from the preceding proof, and write $s=|V(G)|=11n+3M$, with $n$
+and $M$ as defined there. That proof gives
+$\OPT(G)=\totd(H')\geq(1-\epsilon_0)Mn=:L$. Since $M=\Theta(n)$,
+we have $s=\Theta(n)$ and $L=\Omega(s^2)$. Choose $\epsilon>0$
+such that $r+(r+1)\epsilon<r'$. Applying
+Proposition~\ref{prop:regularization} to a graph of order $s$ gives
+\[
+ 0\leq\frac{\totd(R)}{d+2}-\totd(G)
+ \leq\frac{s(s+1)}{2(d+2)}+\frac{d+3}{2}s.
+\]
+Fix $c>0$ such that $L\geq cs^2$ throughout this family. For
+$s\geq1$, the first term is at most $s^2/(d+2)\leq
+L/(c(d+2))$. Choose an odd $d$, also larger than the maximum degree
+of $G$, so that $1/(c(d+2))\leq\epsilon/2$. For this fixed $d$,
+the second term is at most $\epsilon L/2$ whenever
+$s\geq(d+3)/(c\epsilon)$. Therefore
+\[
+ \frac{\totd(R)}{d+2}-\totd(G)\leq\epsilon L,
+ \qquad
+ \OPT(R)\leq(d+2)\OPT(G)+(d+2)\epsilon L.
+\]
+The projection in Proposition~\ref{prop:regularization} converts
+every forest of $R$ of cost $z$ into one of $G$ of cost at most
+$z/(d+2)$. Lemma~\ref{lem:solution-lifting}, with $a=d+2$ and
+$\eta=\epsilon$, therefore turns an $r$-approximation on regular
+graphs into an approximation of factor at most
+$r+(r+1)\epsilon<r'$ on the source family.
 \end{proof}
 
 \begin{corollary}\label{cor:subdivision-hardness}
