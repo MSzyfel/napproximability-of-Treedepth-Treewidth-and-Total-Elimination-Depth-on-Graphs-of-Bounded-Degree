@@ -108,9 +108,10 @@ the NO completion cost is at least
 $(c_{\mathrm{inc}}/4)\sqrt{\varepsilon}\,mN'$, whereas the YES cost
 is at most $4\varepsilon mN'$. Their ratio is at least
 $c_{\mathrm{inc}}/(16\sqrt{\varepsilon})$, which exceeds any fixed
-constant for a sufficiently small fixed $\varepsilon$. Hence the completion problem
-is SSE-hard to approximate within every fixed constant on bipartite
-inputs as well.
+constant for a sufficiently small fixed $\varepsilon$ in the allowed
+range of the source promise and incidence construction. Hence the
+completion problem is SSE-hard to approximate within every fixed
+constant on bipartite inputs as well.
 
 \subsection{Deletion and labeling objectives}
 
@@ -145,7 +146,9 @@ lemma with $\rho=2/3$ gives $b_{2/3}(J)\geq\beta |V(J)|$, where
 $b_{2/3}(J)$ is the minimum size of a set whose deletion leaves every
 component of order at most $2|V(J)|/3$, and
 $\beta=(c/2)\sqrt\varepsilon$. Choose $\varepsilon$ small enough
-that $\beta\leq1/12$ and $\varepsilon\leq1$. For any
+that the source construction in the proof of
+Theorem~\ref{thm:sse-hardness} applies, $\beta\leq1/12$, and
+$\varepsilon\leq1$. For any
 $S\subseteq V(J)$, if
 $c_J(S)>|V(J)|/2$, then $|S|+c_J(S)>|V(J)|/2\geq\beta|V(J)|$.
 Otherwise every component of $J-S$ has at most $|V(J)|/2$ vertices,
@@ -153,8 +156,8 @@ so $S$ is a $2/3$-balanced separator and
 $|S|\geq b_{2/3}(J)\geq\beta|V(J)|$. Thus
 $\operatorname{vi}(J)\geq\beta|V(J)|$.
 The ratio of the NO lower bound to the YES upper bound grows as
-$1/\sqrt\varepsilon$. Thus, for every fixed factor, a sufficiently
-small fixed $\varepsilon$ separates the two cases. Hence vertex integrity has no constant-factor
+$1/\sqrt\varepsilon$, so it exceeds any fixed factor for sufficiently
+small $\varepsilon$. Hence vertex integrity has no constant-factor
 approximation under SSEH.
 
 The \emph{fracture number} is
@@ -195,7 +198,8 @@ $\sum_v|L(v)|/|V(J)|$, $\max_v|L(v)|$, and $\sum_v|L(v)|$.
 Blum and Storandt prove
 $\sum_v|L(v)|/|V(J)|\geq b_{2/3}(J)/4$
 \cite[Corollary~10, full version]{BlumStorandt2023}.
-Choose a fixed rational $\varepsilon>0$ so that
+Choose a fixed rational $\varepsilon>0$ small enough that the source
+construction in Theorem~\ref{thm:sse-hardness} applies and
 $\beta=(c/2)\sqrt\varepsilon\leq1/12$ and
 $\sqrt\varepsilon<c/(32C)$, where $C\ge1$ is the desired factor.
 Blum and Storandt show that the upward search spaces of a
