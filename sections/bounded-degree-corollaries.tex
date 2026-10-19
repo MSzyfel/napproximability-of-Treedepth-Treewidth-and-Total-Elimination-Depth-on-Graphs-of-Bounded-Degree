@@ -302,13 +302,19 @@ The parts have sizes $2n,9n/2,9n/2$, so $M>9n/2$ and each
 biclique $X\times T_X$ has side-size ratio
 $M/|X|\le32/\epsilon_0$. Thus $\kappa=32/\epsilon_0$ suffices.
 
-The output order is $11n+3M=\Theta(n)$. Equation~\eqref{eq:np-total-depth-added-vertices-bounds}
-and Lemma~\ref{lem:np-total-depth-cubic} give
+The output order is $N=11n+3M$. The bounds on $M$ give
+\[
+ \frac{Mn}{N^2}\geq
+ \frac{121/(2\epsilon_0)}{(11+192/\epsilon_0)^2}=:c_*>0.
+\]
+Equation~\eqref{eq:np-total-depth-added-vertices-bounds} and
+Lemma~\ref{lem:np-total-depth-cubic} give
 \[
  \totd(H)\ge MW(G(J))
  \ge M(37n/2+3)\ge Mn=\Omega(N^2).
 \]
-Choose $\tau$ so that $\tau N^2\le\epsilon_0 Mn$.
+Choose the fixed sparsification parameter $\tau\le\epsilon_0c_*$,
+so that $\tau N^2\le\epsilon_0 Mn$ for every source order $n$.
 Since the sparse graph $H'\subseteq H$
 has $\totd(H')\le\totd(H)$, Lemma~\ref{lem:solution-lifting},
 with $L(H)=Mn$, lifts a
