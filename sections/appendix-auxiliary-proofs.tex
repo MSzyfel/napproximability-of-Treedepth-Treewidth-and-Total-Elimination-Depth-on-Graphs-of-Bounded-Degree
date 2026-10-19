@@ -15,6 +15,11 @@ treedepth conclusion of Theorem~\ref{thm:sse-hardness}. The inherited
 part is the source reduction and its separator soundness analysis.
 The additional argument is a treedepth upper bound in the YES case.
 
+\begin{restatedtheorem}{Incidence-construction consequence}
+For every fixed $C\geq1$, approximating treedepth within factor $C$
+is SSE-hard even on simple bipartite graphs.
+\end{restatedtheorem}
+
 \emph{The output graph.}
 Let $G$ be their regular source host, with $m>0$ edges, and let
 $R_{\mathrm{inc}}\geq |V(G)|m$ be an integer. Denote its incidence output by
@@ -120,6 +125,16 @@ on bipartite outputs from the cited construction.
 \subsection{The branching inequality}
 \label{app:branching-proof}
 
+\begin{restatedlemma}{Lemma~\ref{lem:branching-ineq}}
+For a positive integer $\nu$, positive reals $q_1,\ldots,q_\nu$, and
+nonnegative reals $n_1,\ldots,n_\nu$,
+\[
+  3\sum_{j=1}^\nu q_jn_j-2\max_j(q_jn_j)
+  \leq\left(\sum_{j=1}^\nu q_j\right)
+        \left(\sum_{j=1}^\nu n_j\right).
+\]
+\end{restatedlemma}
+
 \begin{proof}[Proof of Lemma~\ref{lem:branching-ineq}]
 If every $n_j$ is zero, both sides of the claimed inequality are
 zero. Otherwise $\max_j(q_jn_j)>0$, because each $q_j$ is
@@ -175,6 +190,15 @@ which is the claimed inequality.
 
 \subsection{The quadratic branching inequality}
 \label{app:total-depth-branching}
+
+\begin{restatedlemma}{Lemma~\ref{lem:quadratic-branching}}
+For a positive integer $\nu$ and nonnegative reals
+$W_1,\ldots,W_\nu$,
+\[
+ \sum_{j=1}^\nu W_j^2+14\sum_{1\leq i<j\leq\nu}W_iW_j
+ \leq\left(\sum_{j=1}^\nu\sqrt{W_j}\right)^4.
+\]
+\end{restatedlemma}
 
 \begin{proof}[Proof of Lemma~\ref{lem:quadratic-branching}]
 Put $x_j=\sqrt{W_j}$, so every $x_j$ is nonnegative and
@@ -354,6 +378,18 @@ There are three cases.
 \end{enumerate}
 Taking the weakest of these three bounds proves the lemma.
 \end{proof}
+
+Let $H_\ell(G)$ be obtained from a tripartite graph $G$ with specified
+nonempty independent parts $A,B,C$ by adding, for each
+$X\in\{A,B,C\}$, a clique $K_X$ of size $\ell$ and a vertex $z_X$.
+Join every vertex of $K_X$ to every vertex of $X\cup\{z_X\}$, and add
+no other edges.
+
+\begin{restatedcorollary}{Corollary~\ref{cor:max-part-anchor}}
+If $G$ is tripartite with specified nonempty independent parts $A,B,C$
+and $\ell\geq\max\{|A|,|B|,|C|\}$, then
+$\td(H_\ell(G))=\ell+\vc(G)+1$.
+\end{restatedcorollary}
 
 \begin{proof}[Proof of Corollary~\ref{cor:max-part-anchor}]
 If $\ell\ge\max\{|A|,|B|,|C|,1\}$, then any two parts together

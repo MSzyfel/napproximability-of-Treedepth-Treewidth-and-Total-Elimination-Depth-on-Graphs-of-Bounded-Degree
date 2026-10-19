@@ -115,6 +115,13 @@ $\sum_vm_v$ vertices and at most $(\sum_vm_v)^2$ edges. Hence it can
 be constructed in polynomial time under the stated size assumption.
 \end{proof}
 
+\begin{restatedtheorem}{Theorem~\ref{thm:kr}}
+For every fixed rational $0<\eta<1/10$, it is Unique Games-hard to
+distinguish simple unweighted graphs $G$ on $n\geq1$ vertices with
+$\alphaI(G)\geq(1/2-\eta)n$ \textup{(YES)} from those with
+$\alphaI(G)<\eta n$ \textup{(NO)}.
+\end{restatedtheorem}
+
 \begin{proof}[Proof of Theorem~\ref{thm:kr}]
 Khot and Regev's Theorem~3.2~\cite[Theorem~3.2]{KhotRegev} shows
 that the ordinary UGC implies their stronger Unique Games promise,
@@ -167,6 +174,15 @@ therefore gives the simple unweighted source asserted in the theorem.
 
 \subsection{The balanced multipartite source}
 \label{app:multipartite-normalization}
+
+\begin{restatedtheorem}{Theorem~\ref{thm:ugc-tripartite-cover}}
+For every fixed integer $k\geq3$ and fixed rational
+$0<\zeta<1/12$, it is Unique Games-hard to distinguish simple
+unweighted $k$-partite graphs $G$ on $N$ vertices, with a specified
+partition into $k$ independent parts each of size $N/k$, with
+$\vc(G)\leq(1/2+\zeta)N$ \textup{(YES)} from those with
+$\vc(G)\geq(1-1/k-\zeta)N$ \textup{(NO)}.
+\end{restatedtheorem}
 
 \begin{proof}[Proof of Theorem~\ref{thm:ugc-tripartite-cover}]
 Apply the unweighted source of Theorem~\ref{thm:kr} with
@@ -262,6 +278,29 @@ $Z>1$. Hence
 where $1-\xi^2=(1-\xi)(1+\xi)\geq1-\xi=\varepsilon'/2
 \geq\varepsilon/4$. Taking $a=c_*/2$ proves the lemma.
 \end{proof}
+
+\begin{restatedtheorem}{Theorem~\ref{thm:sse-source}}
+There are absolute constants $c>0$ and $\varepsilon_0>0$ such that,
+for every fixed integer $q\geq2$ and every fixed
+$0<\varepsilon<\varepsilon_0$, the following promise on finite
+undirected graphs with positive rational edge weights is SSE-hard.
+Parallel edges and loops are allowed. Let $W>0$ be the total edge
+weight, and write $\deg_G(v)$ for the sum of incident edge weights,
+counting a loop twice. Let
+$w(\cut_G(A))$ denote the total weight of edges with exactly one
+endpoint in $A$. Put
+$\vol_G(A)=\sum_{v\in A}\deg_G(v)$,
+$\mu_G(A)=\vol_G(A)/(2W)$, and
+$\Phi_G(A)=w(\cut_G(A))/\vol_G(A)$ when $\vol_G(A)>0$.
+\begin{description}
+\item[YES:] There is a partition
+  $V(G)=V_1\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}V_q$ with
+  $\mu_G(V_i)=1/q$ and $\Phi_G(V_i)\leq2\varepsilon$ for every $i$.
+\item[NO:] Every $A\subseteq V(G)$ with
+  $\mu_G(A)\in[1/10,9/10]$ satisfies
+  $w(\cut_G(A))\geq c\sqrt{\varepsilon}\,W$.
+\end{description}
+\end{restatedtheorem}
 
 \begin{proof}[Proof of Theorem~\ref{thm:sse-source}]
 Fix $q$ and $\varepsilon$ as in the statement, taking its threshold
@@ -391,6 +430,25 @@ $2\OPT(F_0)$. Every original equation is paired with one having
 the opposite right-hand side, so each right-hand side occurs in
 $m_0$ equations.
 \end{proof}
+
+\begin{restatedtheorem}{Theorem~\ref{thm:xor-source}}
+For every fixed $0<\epsilon<1/4$, it is NP-hard to distinguish
+unweighted systems $F$ of $m\geq1$ equations
+$x+y+z=a\pmod2$, where $a\in\{0,1\}$ and $x,y,z$ are distinct
+Boolean variables, with $\OPT(F)\geq(1-\epsilon)m$ \textup{(YES)}
+from those with $\OPT(F)\leq(1/2+\epsilon)m$ \textup{(NO)}.
+Equations may be repeated. Every variable occurs a constant number of
+times, with at most two possible occurrence counts, and the instances
+can be required to satisfy
+\[
+ d_x\in6\mathbb Z_{>0},\qquad
+ \sum_xd_x=3m,\qquad
+ |\{j:a_j=0\}|=|\{j:a_j=1\}|=m/2,
+\]
+where $d_x$ is the number of equations containing $x$, and $\OPT(F)$
+is the maximum number of equations satisfied by one assignment,
+counting repetitions.
+\end{restatedtheorem}
 
 \begin{proof}[Proof of the normalized form in Theorem~\ref{thm:xor-source}]
 Hazan, Safra, and Schwartz state the required source gap as

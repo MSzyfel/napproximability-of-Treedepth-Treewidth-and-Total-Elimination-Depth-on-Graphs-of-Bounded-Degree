@@ -308,6 +308,15 @@ deterministic and polynomial time by the
 cited theorem.
 \end{proof}
 
+\begin{restatedtheorem}{Theorem~\ref{thm:bounded-degree-kr-source}}
+For every fixed rational $0<\eta<1/10$, there is a constant
+$d_\eta$ such that it is Unique Games-hard to distinguish simple
+unweighted graphs $G$ of maximum degree at most $d_\eta$ with
+$\alphaI(G)\geq(1/2-\eta)|V(G)|$ \textup{(YES)} from those with
+$\alphaI(G)<\eta|V(G)|$ \textup{(NO)}. The reduction is deterministic
+and polynomial time.
+\end{restatedtheorem}
+
 \begin{proof}[Proof of Theorem~\ref{thm:bounded-degree-kr-source}]
 Set $p=1/2-\eta/4$ and $\xi=-p/(1-p)$. Fix a positive rational
 $g$ with $4g<\Gamma_\xi(\eta)$. Use analytic error

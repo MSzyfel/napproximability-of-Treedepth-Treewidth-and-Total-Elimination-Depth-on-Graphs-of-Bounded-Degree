@@ -75,6 +75,23 @@ Use the following two constructions.
 
 A walk is \emph{closed} if its first and last vertices coincide.
 
+\begin{restatedlemma}{Lemma~\ref{lem:factor-expanders}}
+For every fixed $\zeta>0$ and $\kappa\geq1$, there is a constant
+$d_{\zeta,\kappa}$ such that the following connected simple graphs,
+each of maximum degree at most $d_{\zeta,\kappa}$, can be constructed
+deterministically in polynomial time.
+\begin{enumerate}
+ \item For any specified nonempty finite set $U$, there is a graph on
+ $U$ in which every two disjoint sets $X,Y\subseteq U$ with
+ $|X|,|Y|\geq\lceil\zeta|U|\rceil$ have an edge between them.
+ \item For any specified disjoint nonempty finite sets $A,B$ with
+ $\max\{|A|,|B|\}/\min\{|A|,|B|\}\leq\kappa$, there is a bipartite
+ graph on $A\mathbin{\dot\cup}B$ with parts $A,B$ in which every
+ $X\subseteq A$, $Y\subseteq B$ with
+ $|X|,|Y|\geq\lceil\zeta(|A|+|B|)\rceil$ have an edge between them.
+\end{enumerate}
+\end{restatedlemma}
+
 \begin{proof}[Proof of Lemma~\ref{lem:factor-expanders}]
 We first bound degrees. In the one-set construction, every neighbor
 of $u\in U$ is the image of a step starting at a vertex of

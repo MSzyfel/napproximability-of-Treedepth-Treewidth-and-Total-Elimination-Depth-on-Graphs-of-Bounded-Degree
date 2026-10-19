@@ -17,6 +17,18 @@
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{remark}[theorem]{Remark}
 
+% Unnumbered copies keep appendix proofs readable without changing the
+% numbering of results in the main text.
+\newenvironment{restatedtheorem}[1]
+  {\par\medskip\noindent\textbf{#1.}\itshape\ }
+  {\par\medskip}
+\newenvironment{restatedlemma}[1]
+  {\par\medskip\noindent\textbf{#1.}\itshape\ }
+  {\par\medskip}
+\newenvironment{restatedcorollary}[1]
+  {\par\medskip\noindent\textbf{#1.}\itshape\ }
+  {\par\medskip}
+
 \newcommand{\td}{\operatorname{td}}
 \newcommand{\totd}{\operatorname{totd}}
 \newcommand{\alphaI}{\alpha}
