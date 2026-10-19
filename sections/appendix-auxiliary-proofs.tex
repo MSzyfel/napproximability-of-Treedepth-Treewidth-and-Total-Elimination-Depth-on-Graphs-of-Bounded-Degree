@@ -136,56 +136,21 @@ nonnegative reals $n_1,\ldots,n_\nu$,
 \end{restatedlemma}
 
 \begin{proof}[Proof of Lemma~\ref{lem:branching-ineq}]
-If every $n_j$ is zero, both sides of the claimed inequality are
-zero. Otherwise $\max_j(q_jn_j)>0$, because each $q_j$ is
-positive. For $0<t\leq\max_j(q_jn_j)$, define
-$J(t)=\{j:q_jn_j\geq t\}$. At least one product attains the
-maximum, so $J(t)$ is nonempty throughout this interval.
-
-First we prove an inequality at each such $t$. Since all $q_j$ are
-positive, $\sum_iq_i\geq\sum_{j\in J(t)}q_j$. Applying
-Cauchy--Schwarz to $\sqrt{q_j}$ and $1/\sqrt{q_j}$ on the
-index set $J(t)$ then gives
+Put $x_j=\sqrt{q_jn_j}$ and choose $k$ with $x_k=\max_jx_j$.
+Cauchy--Schwarz gives the first inequality below. All cross products
+are nonnegative, and $x_kx_j\geq x_j^2$ because
+$0\leq x_j\leq x_k$. Therefore
 \[
- \left(\sum_{i=1}^{\nu}q_i\right)
- \left(\sum_{j\in J(t)}\frac1{q_j}\right)
- \geq
- \left(\sum_{j\in J(t)}
-       \sqrt{q_j}\,\frac1{\sqrt{q_j}}\right)^2
- =|J(t)|^2.
+\begin{aligned}
+ \left(\sum_jq_j\right)\left(\sum_jn_j\right)
+ &\ge \left(\sum_jx_j\right)^2
+ =\sum_jx_j^2+2\sum_{i<j}x_ix_j\\
+ &\ge \sum_jx_j^2+2x_k\sum_{j\ne k}x_j
+ \ge \sum_jx_j^2+2\sum_{j\ne k}x_j^2
+ =3\sum_jx_j^2-2x_k^2.
+\end{aligned}
 \]
-For a positive integer $|J(t)|$, we also have
-$|J(t)|^2-3|J(t)|+2=(|J(t)|-1)(|J(t)|-2)\geq0$.
-Indeed, this product is zero for $|J(t)|=1,2$ and positive for
-$|J(t)|\geq3$. Combining the two bounds yields
-\[
- \left(\sum_{i=1}^{\nu}q_i\right)
- \left(\sum_{j\in J(t)}\frac1{q_j}\right)
- \geq3|J(t)|-2.
-\]
-
-We now integrate over $0<t\leq\max_i(q_in_i)$. For a fixed
-index $j$, the indicator $\mathbf1_{\{j\in J(t)\}}$ is one
-for $0<t\leq q_jn_j$ and zero otherwise. Since
-$0\leq q_jn_j\leq\max_i(q_in_i)$, its integral is $q_jn_j$.
-This remains true when $n_j=0$, in which case the indicator
-vanishes throughout the integration interval. Interchanging an
-integral with each finite sum gives
-\[
- \int_0^{\max_i(q_in_i)}
-       \sum_{j\in J(t)}\frac1{q_j}\,dt
- =\sum_{j=1}^{\nu}n_j,\qquad
- \int_0^{\max_i(q_in_i)}|J(t)|\,dt
- =\sum_{j=1}^{\nu}q_jn_j.
-\]
-The constant $2$ has integral $2\max_i(q_in_i)$. Substituting
-these three integrals into the pointwise inequality therefore gives
-\[
- \left(\sum_{i=1}^{\nu}q_i\right)
- \left(\sum_{j=1}^{\nu}n_j\right)
- \geq3\sum_{j=1}^{\nu}q_jn_j-2\max_j(q_jn_j),
-\]
-which is the claimed inequality.
+Substituting $x_j^2=q_jn_j$ proves the claim.
 \end{proof}
 
 \subsection{The quadratic branching inequality}
@@ -201,56 +166,21 @@ $W_1,\ldots,W_\nu$,
 \end{restatedlemma}
 
 \begin{proof}[Proof of Lemma~\ref{lem:quadratic-branching}]
-Put $x_j=\sqrt{W_j}$, so every $x_j$ is nonnegative and
-$W_j=x_j^2$. After substituting these expressions, the desired
-inequality is equivalent to
+Put $x_j=\sqrt{W_j}$. In the fourth-power expansion, each term
+$x_i^3x_j$ or $x_ix_j^3$ has coefficient $4!/(3!1!)=4$, and
+$x_i^2x_j^2$ has coefficient $4!/(2!2!)=6$. Discarding the
+nonnegative terms involving at least three distinct indices and
+using $x_i^2+x_j^2\geq2x_ix_j$ gives
 \[
+\begin{aligned}
  \left(\sum_jx_j\right)^4
- -\sum_jx_j^4-14\sum_{i<j}x_i^2x_j^2\geq0.
-\]
-
-We expand the fourth power according to the multiplicities of
-its indices. The five patterns are $4$, $3+1$, $2+2$, $2+1+1$,
-and $1+1+1+1$. Their multinomial coefficients are, respectively,
-$1$, $4!/(3!1!)=4$, $4!/(2!2!)=6$, $4!/(2!1!1!)=12$, and $4!=24$.
-Thus the complete expansion is
-\[
- \begin{aligned}
- \left(\sum_jx_j\right)^4
- ={}&\sum_jx_j^4
-   +4\sum_{i<j}(x_i^3x_j+x_ix_j^3)
+ &\ge \sum_jx_j^4
+   +4\sum_{i<j}x_ix_j(x_i^2+x_j^2)
    +6\sum_{i<j}x_i^2x_j^2\\
- &+12\sum_{i<j<k}
-      (x_i^2x_jx_k+x_ix_j^2x_k+x_ix_jx_k^2)
-   +24\sum_{i<j<k<\ell}x_ix_jx_kx_\ell.
- \end{aligned}
+ &\ge \sum_jx_j^4+14\sum_{i<j}x_i^2x_j^2.
+\end{aligned}
 \]
-In the sum over triples, the three displayed monomials correspond
-to the three choices of repeated index.
-
-Subtracting $\sum_jx_j^4$ cancels the terms with one distinct
-index. Subtracting $14\sum_{i<j}x_i^2x_j^2$ changes the
-coefficient of each $x_i^2x_j^2$ from $6$ to $-8$. For each
-pair $i<j$, the terms supported on that pair regroup as
-$4x_i^3x_j+4x_ix_j^3-8x_i^2x_j^2
-=4x_ix_j(x_i-x_j)^2\geq0$.
-The terms with three distinct indices factor as
-$12x_ix_jx_k(x_i+x_j+x_k)$, and those with four distinct
-indices already have positive coefficients. Hence the entire
-difference is
-\[
- \begin{aligned}
- \left(\sum_jx_j\right)^4
-   -\sum_jx_j^4-14\sum_{i<j}x_i^2x_j^2
- &=4\sum_{i<j}x_ix_j(x_i-x_j)^2\\
- &\quad+12\sum_{i<j<k}x_ix_jx_k(x_i+x_j+x_k)
-   +24\sum_{i<j<k<\ell}x_ix_jx_kx_\ell\geq0.
- \end{aligned}
-\]
-Every summand is nonnegative because $x_j\geq0$ for all $j$.
-The identity also covers fewer than three or four indices by
-interpreting the corresponding sums as empty. Substituting
-$x_j=\sqrt{W_j}$ proves the lemma.
+Substituting $x_j^2=W_j$ proves the claim.
 \end{proof}
 
 \subsection{Derivation of the anchor-length corollary}

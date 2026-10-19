@@ -148,45 +148,36 @@ contain admissible $t$-element subsets.
  two images lie in the disjoint sets $A,B$.
 \end{enumerate}
 
-It remains to prove connectedness. In the one-set construction,
-an auxiliary walk maps to an output walk after consecutive
-repetitions are removed. In the bipartite construction, each step
-switches sides, so reaching both images of an auxiliary vertex
-requires walks of both parities. We obtain these walks by showing
-that $\mathcal E$ is connected and nonbipartite.
+It remains to prove connectedness.
 For a $d$-regular undirected graph, the eigenvalue $d$ has
 multiplicity equal to the number of connected components, and
 $-d$ is an eigenvalue if and only if some component is bipartite
 \cite[Section~2.3]{HLW2006}. These criteria also apply to our
 multigraph adjacency matrix, which counts parallel edges and loops
-as steps. Since its nonconstant eigenvalue bound is
-$d\lambda_0^k<d$ (because $0<\lambda_0<1$ and $k\ge1$), the
-eigenvalue $d$ is simple and $-d$ is absent. Thus $\mathcal E$ is
-connected and nonbipartite. A graph is bipartite exactly when it has
-no odd cycle, so $\mathcal E$ contains an odd cycle.
+as steps. The nonconstant eigenvalue bound $d\lambda_0^k<d$
+therefore makes $d$ simple and excludes $-d$, so $\mathcal E$ is
+connected and nonbipartite.
 
-In the one-set construction, take any two output vertices $u,v$
-and choose preimages $x,y$. A walk from $x$ to $y$ exists in
-$\mathcal E$. Apply $\pi$ to its vertex sequence. Consecutive
-images are equal or adjacent in the output. Omitting consecutive
-repetitions gives a walk from $u$ to $v$, proving connectedness.
+In the one-set construction, applying $\pi$ to an auxiliary walk
+gives a sequence of equal or adjacent output vertices. Deleting
+consecutive repetitions gives an output walk. Connectedness of
+$\mathcal E$ and surjectivity of $\pi$ thus prove connectedness of
+the output.
 
-For the bipartite construction, fix an auxiliary vertex $x$.
-There is an odd closed walk from $x$ to itself: follow a path to
-an odd cycle, traverse that cycle, and return along the reverse
-path. The two path lengths add to an even number, so the total
-length is odd. For every auxiliary vertex $y$, start with any
-walk from $x$ to $y$. Prepending the odd closed walk changes its
-length parity. Hence there are both even-length and odd-length
-walks from $x$ to $y$.
-A walk $x=x_0,x_1,\ldots,x_\ell=y$ maps to the alternating sequence
+For the bipartite construction, each step switches sides, so we
+need auxiliary walks of both parities. Since $\mathcal E$ is
+nonbipartite, it contains an odd cycle, allowing a loop as a cycle
+of length one. From any vertex $x$, follow a path to this cycle,
+traverse it, and return along the reverse path. This is an odd
+closed walk. Prepending it to any walk from $x$ to $y$ changes
+the length parity, so both parities are available. Map a walk
+$x=x_0,x_1,\ldots,x_\ell=y$ to the alternating sequence
 $\pi_A(x_0),\pi_B(x_1),\pi_A(x_2),\ldots$ in the output.
 Each consecutive pair is an edge by construction, using the
 reverse auxiliary step when the sequence goes from $B$ to $A$.
 An even-length walk reaches $\pi_A(y)$, and an odd-length walk
 reaches $\pi_B(y)$. Thus $\pi_A(x)$ is connected to both images of
-every $y$. Since both maps are onto, this reaches every output
-vertex, proving connectedness.
+every $y$, and surjectivity gives connectedness.
 
 Both outputs are simple by their edge definitions.
 The auxiliary order $M$ is at most four times the largest prescribed

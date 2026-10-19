@@ -81,21 +81,11 @@ reduction.
 \begin{proof}
 Choose positive $\epsilon_{\mathrm{YES}}$ and $\epsilon_{\mathrm{NO}}$
 so that $\epsilon_{\mathrm{NO}}+r\epsilon_{\mathrm{YES}}<r'-r$.
-On sufficiently large YES instances,
-\[
- \OPT(I')\le(1+\epsilon_{\mathrm{YES}})Y(N),
-\]
-and on NO instances,
-\[
- \OPT(I')\ge(r'-\epsilon_{\mathrm{NO}})Y(N).
-\]
-The NO bound exceeds $r$ times the YES bound because
-\[
- \bigl(r'-\epsilon_{\mathrm{NO}}\bigr)Y(N)
- -r\bigl(1+\epsilon_{\mathrm{YES}}\bigr)Y(N)
- =Y(N)\bigl(r'-r-\epsilon_{\mathrm{NO}}
-                  -r\epsilon_{\mathrm{YES}}\bigr)>0.
-\]
+On sufficiently large instances, the transformed YES upper bound is
+$(1+\epsilon_{\mathrm{YES}})Y(N)$ and the NO lower bound is
+$(r'-\epsilon_{\mathrm{NO}})Y(N)$. Their coefficients satisfy
+$r(1+\epsilon_{\mathrm{YES}})<r'-\epsilon_{\mathrm{NO}}$, so an
+$r$-approximation would distinguish the two cases.
 \end{proof}
 
 \emph{Keep the total loss below the hardness gap.}
@@ -447,24 +437,16 @@ In particular, $\totd(J)\le \totd(H)\le \totd(J)+N\operatorname{exc}_{\mathrm{td
 \end{lemma}
 
 \begin{proof}
-Fix any elimination forest $F$ of $J$. Use the exceptional set
-$D$ from the proof of Lemma~\ref{lem:factor-sparsification} for
-this forest, so $|D|\le\operatorname{exc}_{\mathrm{td}}$. That proof shows that the
-restriction $F'$ of $F$ to $V(H)\setminus D$ is an elimination
-forest of $H-D$.
-
-For each $v\in V(H)\setminus D$, restriction gives
-$\operatorname{depth}_{F'}(v)\le\operatorname{depth}_F(v)$.
-Summing over $V(H)\setminus D$ gives $\totd(F')\le\totd(F)$. Restore
-the vertices of $D$ as in Lemma~\ref{lem:restore-vertices}, placing
-them one at a time above all existing roots. Each restoration
-increases the depths of the existing vertices by one and gives
-the new root depth one. Its total cost is therefore the number of
-vertices then present, at most $N$. After $|D|$ restorations, the
-resulting elimination forest $\widehat F$ satisfies
-$\totd(\widehat F)\le\totd(F)+N|D|\le\totd(F)+N\operatorname{exc}_{\mathrm{td}}$.
-Choosing $F$ of minimum total depth proves the upper
-comparison. The lower comparison follows from $J\subseteq H$.
+Fix an elimination forest $F$ of $J$, and use the exceptional set $D$
+and restricted forest $F'$ from the proof of
+Lemma~\ref{lem:factor-sparsification}.
+Then $|D|\le\operatorname{exc}_{\mathrm{td}}$, and $F'$
+is an elimination forest of $H-D$ with
+$\totd(F')\le\totd(F)$.
+By Lemma~\ref{lem:restore-total-depth}, restoring $D$ adds
+$N|D|-|D|(|D|-1)/2\leq N|D|\leq N\operatorname{exc}_{\mathrm{td}}$.
+Minimizing over $F$ gives the upper comparison, and
+the lower comparison follows from $J\subseteq H$.
 \end{proof}
 
 The following comparison lemma assumes that each side of a biclique
@@ -728,11 +710,12 @@ For an integer $k\ge1$, the \emph{$k$th walk power} of
 $\mathcal E$ has the same vertex set and one step from $u$ to $v$
 for each length-$k$ walk from $u$ to $v$ in $\mathcal E$.
 Its adjacency matrix is $A_{\mathcal E}^k$: matrix multiplication
-counts walks by length. Thus the walk power is undirected and
-$d^k$-regular. Its eigenvalues are the $k$th powers of those of
-$A_{\mathcal E}$, so its nonconstant eigenvalue bound is $\lambda^k$
-\cite[Section~2]{HLW2006}. The ratio of this bound to the degree is
-$\lambda^k/d^k=(\lambda/d)^k$.
+counts walks by length. This matrix is symmetric, so the walk power
+is undirected. There are $d$ choices at each step, giving degree
+$d^k$. If $A_{\mathcal E}x=\mu x$, then
+$A_{\mathcal E}^kx=\mu^kx$, so the nonconstant eigenvalue bound is
+$\lambda^k$~\cite[Section~2]{HLW2006}. The ratio of this bound to the
+degree is $\lambda^k/d^k=(\lambda/d)^k$.
 When $\lambda/d<1$, a fixed sufficiently large $k$ makes this ratio
 smaller than any prescribed positive constant. The new degree
 $d^k$ still does not depend on the number of vertices.
