@@ -37,6 +37,13 @@ show that they persist on graphs of bounded maximum degree, addressing the
 conjecture of Schirrmacher, Siebertz, and Vigny
 ~\cite[Conjecture~1]{SchirrmacherSiebertzVigny2025}.
 
+We also study \emph{total elimination depth}, $\totd(G)$, the minimum
+sum of vertex depths in an elimination forest (roots have depth one).
+This is the vertex-partition-tree sum of~\cite{HogemoEtAl2021}. On a
+connected graph, $\totd(G)/|V(G)|$ is the expected cost of vertex-query
+search with a uniform target and unit query costs
+~\cite{HogemoEtAl2021,Szyfelbein2025GraphSearch}.
+
 \subsection{Our results and techniques}
 \label{subsec:results-techniques}
 
@@ -45,19 +52,25 @@ Here UGC denotes the ordinary Unique Games Conjecture, SSEH the Small Set
 Expansion Hypothesis, and NP-hardness means unless $\mathrm{P}=\mathrm{NP}$.
 
 \Needspace{12\baselineskip}
-\begin{theorem}[Unrestricted treedepth and treewidth hardness]
+\begin{theorem}[Unrestricted treedepth, treewidth, and total-depth hardness]
 \label{thm:main-results}
-For each row below and every fixed factor $r$ in the indicated
-range, approximating the corresponding parameter within factor $r$
-is hard in the stated sense.
+\label{thm:total-depth-main}
+There is an absolute constant $\epsilon_0>0$ such that, for each row
+below and every fixed factor $r$ in the indicated range,
+approximating the corresponding parameter within factor $r$ is hard
+in the stated sense.
 \begin{center}
-\begin{tabular}{lcc}
+\begin{tabular}{lccc}
 \toprule
-\textup{Hardness} & \textup{Treedepth} & \textup{Treewidth}\\
+\textup{Hardness} & \textup{Treedepth} & \textup{Treewidth}
+                  & \textup{Total elimination depth}\\
 \midrule
-\textup{NP-hard} & $1\leq r<18/17$ & $1\leq r<12/11$\\
-\textup{Unique Games-hard} & $1\leq r<4/3$ & $1\leq r<4/3$\\
+\textup{NP-hard} & $1\leq r<18/17$ & $1\leq r<12/11$
+                 & $1\leq r<1+\epsilon_0$\\
+\textup{Unique Games-hard} & $1\leq r<4/3$ & $1\leq r<4/3$
+                           & $1\leq r<8/7$\\
 \textup{SSE-hard} & \textup{every fixed }$r\geq1$
+                & \textup{every fixed }$r\geq1$
                 & \textup{every fixed }$r\geq1$\\
 \bottomrule
 \end{tabular}
@@ -65,24 +78,7 @@ is hard in the stated sense.
 The reductions are deterministic.
 \end{theorem}
 
-We also study \emph{total elimination depth}, $\totd(G)$, the minimum sum
-of vertex depths in an elimination forest (roots have depth one). This is
-the vertex-partition-tree sum of~\cite{HogemoEtAl2021}. On a connected graph,
-$\totd(G)/|V(G)|$ is the expected cost of vertex-query search with a uniform
-target and unit query costs~\cite{HogemoEtAl2021,Szyfelbein2025GraphSearch}.
-
-\Needspace{10\baselineskip}
-\begin{theorem}[Unrestricted total elimination depth hardness]
-\label{thm:total-depth-main}
-There is an absolute constant $\epsilon_0>0$ such that
-approximating total elimination depth within factor $1+\epsilon_0$
-on simple unweighted graphs is NP-hard. Under ordinary UGC, every
-fixed factor $1\leq r<8/7$ is hard. Under SSEH, every fixed factor
-$r\ge1$ is hard. All reductions are deterministic.
-\end{theorem}
-
-The same bounds hold for average elimination depth, since the graph order
-is fixed in each reduction. The proofs follow three source routes. Under
+The proofs follow three source routes. Under
 UGC, a Khot--Regev independent-set gap is encoded in clique layers
 ~\cite{KhotRegev}. For treedepth, the YES forest puts copies outside a
 large source independent set on a common prefix, then places the
