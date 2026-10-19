@@ -519,8 +519,11 @@ even length. Each internal vertex has degree two, and deleting all
 internal vertices leaves the original vertices isolated, so
 $G_\ell$ is $2$-degenerate. Every cycle uses at least three
 replacement paths and therefore has length at least $3\ell\geq g$.
-Contracting each replacement path shows $\operatorname{tw}(G)
-\leq\operatorname{tw}(G_\ell)$. Conversely, for each path
+Treewidth and treedepth are minor-monotone: vertex and edge deletions
+and edge contractions cannot increase either parameter. Contracting
+each replacement path therefore gives
+$\operatorname{tw}(G)\leq\operatorname{tw}(G_\ell)$ and
+$\td(G)\leq\td(G_\ell)$. Conversely, for each path
 $u=x_0,x_1,\ldots,x_\ell=v$, attach the bags
 $\{u,v,x_1\},\{v,x_1,x_2\},\ldots,
 \{v,x_{\ell-2},x_{\ell-1}\}$ along a path to an old bag containing
@@ -540,10 +543,9 @@ Thus the $\ell-1$ internal vertices on each replaced edge have such
 a tree of height $h=\lceil\log_2\ell\rceil$. Attach this tree below
 the deeper of the original edge's endpoints in an elimination forest
 of $G$. The original endpoints are comparable, so the edge to the
-shallower endpoint is represented as well. Together with
-minor-monotonicity, this gives
+shallower endpoint is represented as well. This gives
 \[
- \td(G)\leq\td(G_\ell)\leq\td(G)+h,\qquad h=\lceil\log_2\ell\rceil.
+ \td(G_\ell)\leq\td(G)+h,\qquad h=\lceil\log_2\ell\rceil.
 \]
 Lemma~\ref{lem:gap-preservation} absorbs the fixed height increase
 $h$, since the YES bounds grow linearly with the source order. For
