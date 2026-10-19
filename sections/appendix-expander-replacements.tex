@@ -1,6 +1,33 @@
 \subsection{Sparse replacements on prescribed vertex sets}
 \label{app:factor-expanders}
 
+We use two standard spectral facts. First, the
+Margulis--Gabber--Galil construction gives the following family
+\cite[Construction~8.1 and Theorem~8.2]{HLW2006}.
+\begin{restatedtheorem}{Margulis--Gabber--Galil expander family}
+For every integer $\nu\ge1$, there is a deterministically
+constructible eight-regular undirected multigraph on $\nu^2$
+vertices whose nonconstant eigenvalues have absolute value at most
+$5\sqrt2$. Its construction takes polynomial time in $\nu$.
+\end{restatedtheorem}
+
+For a regular step multigraph $\mathcal E$ with adjacency matrix
+$A_{\mathcal E}$, define
+$e_{\mathcal E}(S,T)=\mathbf1_S^{\mathsf T}A_{\mathcal E}\mathbf1_T$;
+this counts the steps from vertices in $S$ to vertices in $T$,
+including multiplicities. The second fact is the expander mixing
+lemma~\cite[Lemma~2.5]{HLW2006}.
+\begin{restatedlemma}{Expander mixing lemma}
+Let $\mathcal E$ be a $d$-regular undirected step multigraph on $M$
+vertices. Suppose every eigenvalue of $A_{\mathcal E}$ on the
+orthogonal complement of the all-ones vector has absolute value at
+most $\lambda$. Then, for all $S,T\subseteq V(\mathcal E)$,
+\[
+ \left|e_{\mathcal E}(S,T)-\frac{d|S||T|}{M}\right|
+ \leq\lambda\sqrt{|S||T|}.
+\]
+\end{restatedlemma}
+
 Fix $\zeta>0$ and $\kappa\ge1$ as in Lemma~\ref{lem:factor-expanders}.
 We map the vertices of a powered expander onto the prescribed sets
 and verify the degree, no-hole, and connectedness guarantees.
@@ -9,10 +36,10 @@ Put $\lambda_0=5\sqrt2/8<1$. Fix an integer $k\ge1$ with
 $\lambda_0^k<\zeta/4$, and set
 $d_{\zeta,\kappa}=\lceil4\kappa\rceil8^k$. For each square order
 $M=\nu^2$, let $\mathcal E$ be the $k$th walk power of the graph
-in Theorem~\ref{thm:auxiliary-expander-family}, with degree $d=8^k$.
+in the restated Margulis--Gabber--Galil family, with degree $d=8^k$.
 Its nonconstant eigenvalue bound satisfies
 $(5\sqrt2)^k=8^k(5\sqrt2/8)^k=d\lambda_0^k$.
-Substituting this bound in Lemma~\ref{lem:expander-mixing} yields
+Substituting this bound in the expander mixing lemma yields
 \begin{equation}\label{eq:factor-expander-mixing}
  e_{\mathcal E}(S,T)\ge\frac{d|S||T|}{M}
        -d\lambda_0^k\sqrt{|S||T|}
