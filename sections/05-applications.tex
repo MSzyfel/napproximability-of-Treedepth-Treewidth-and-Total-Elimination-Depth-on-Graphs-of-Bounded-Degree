@@ -468,16 +468,18 @@ NO treewidth lower bound. The resulting differences are
    &n=RN.
  \end{array}
 \]
-For NP hardness, choose $\epsilon>0$ so that
+For NP hardness, choose $0<\epsilon<1/4$ so that
 $1/18-2\epsilon/9>\chi$, then take $R$ large enough that
-$1/(3R)<1/18-2\epsilon/9-\chi$. For UGC, choose $\zeta>0$ so that
-$1/6-2\zeta>\chi$, then take $R$ large enough that
+$1/(3R)<1/18-2\epsilon/9-\chi$. For UGC, choose
+$0<\zeta<1/12$ so that $1/6-2\zeta>\chi$, then take $R$ large enough that
 $1/(3R)<1/6-2\zeta-\chi$. In either case, let $\delta>0$ be the
 remaining margin, so the relevant coefficient exceeds $\chi$ by
 $\delta$. Let $w_Y,w_N$ be the displayed YES upper and NO lower
-treewidth bounds. The corresponding bag-size bounds are
-$b_Y=w_Y+1$ and $b_N=w_N+1$, so
-$b_N-b_Y=w_N-w_Y\geq(\chi+\delta)n$. The TSS bounds then imply
+treewidth bounds, and put $b_Y=w_Y+1$ and $b_N=w_N+1$. Then
+$b_N-b_Y=w_N-w_Y\geq(\chi+\delta)n$. Every NO decomposition has
+a bag of size at least $b_N$. For YES, the cited optimal-width
+decomposition has at most $n$ bags, each of size at most $b_Y$.
+Therefore
 \[
  \frac{\operatorname{TSS}(G_N)}{\operatorname{TSS}(G_Y)}
  \geq\frac{2^{b_N}}{n2^{b_Y}}
