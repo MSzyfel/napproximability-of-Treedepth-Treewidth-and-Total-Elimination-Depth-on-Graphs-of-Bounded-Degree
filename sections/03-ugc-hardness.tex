@@ -327,13 +327,12 @@ contains the prefix as well as a longest path in $F_k$. Hence
 Lemma~\ref{lem:ugc-forest-accounting} gives
 $h(F)\geq qn-\sum_jN_j+h(F_k)$. Substituting
 $N_j=q_jn_j-M_j$ and
-$h(F_k)\geq\frac23q_kc_k-M_k$ leaves the nonnegative sum
-$\sum_{j\ne k}M_j$. Therefore,
+$h(F_k)\geq\frac23q_kc_k-M_k$ gives the following cancellation:
 \[
 \begin{aligned}
  h(F)&\geq qn-\sum_jN_j+h(F_k)\\
-     &\geq qn-\sum_jq_jn_j+\frac23q_kc_k\\
-     &\qquad+\sum_{j\ne k}M_j\\
+     &\geq qn-\sum_j(q_jn_j-M_j)+\frac23q_kc_k-M_k\\
+     &=qn-\sum_jq_jn_j+\frac23q_kc_k+\sum_{j\ne k}M_j\\
      &\geq qn-\sum_jq_jn_j+\frac23q_kc_k.
 \end{aligned}
 \]
@@ -343,7 +342,8 @@ Using $n_j\leq c_j+\alphaI(G)$, $n=c+\alphaI(G)$ from
 obtain
 \[
  qn-\sum_jq_jn_j
- \geq qc-\sum_jq_jc_j+\alphaI(G)\Bigl(q-\sum_jq_j\Bigr)
+ \geq q(c+\alphaI(G))-\sum_jq_j(c_j+\alphaI(G))
+ =qc-\sum_jq_jc_j+\alphaI(G)\Bigl(q-\sum_jq_j\Bigr)
  \geq qc-\sum_jq_jc_j.
 \]
 Combining these estimates and applying Lemma~\ref{lem:branching-ineq}
