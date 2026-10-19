@@ -277,9 +277,11 @@ accepting state. The resulting partial DFA accepts the label sequences
 of directed walks from $a$ back to $a$. It is trim because the digraph
 is strongly connected, and it is bideterministic because each letter
 labels only one arc. It is also minimal: for distinct states $x,y$,
-choose a directed path from $x$ to $a$. Its first arc has a label that
-is unavailable at $y$, so the label sequence of the path is accepted
-from $x$ and not from $y$. Then
+choose a positive-length directed path from $x$ to $a$. If $x=a$,
+use a positive directed cycle through $a$, which exists when there is
+another state. The first arc of the chosen walk has a label that is
+unavailable at $y$, since each letter labels only one arc. Thus its
+label sequence is accepted from $x$ and not from $y$. Then
 $\td(G+a)=\td(G)+1$ and
 $\operatorname{cr}(\overleftrightarrow{G+a})=\td(G)$
 ~\cite[proof of Theorem~12]{Gruber2008}. The binary encoding
