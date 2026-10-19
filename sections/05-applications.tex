@@ -289,8 +289,11 @@ preserves the language's star height. The minimal trim DFA for the
 encoded language has its initial state as its sole accepting state.
 Thus every state lies on a path from and back to that state, so its
 transition digraph is strongly connected. Bideterminism over two
-letters bounds its indegree and outdegree by two, and McNaughton's
-theorem identifies its cycle rank with the language's star height.
+letters bounds its indegree and outdegree by two. McNaughton's
+theorem states that a regular language's star height equals the
+cycle rank of the transition digraph of its minimal DFA
+\cite[Theorem~20]{Gruber2008}. Hence the encoded language's star
+height is the cycle rank of this bounded-degree digraph.
 Gruber proves cycle-rank NP-hardness
 even for digraphs of maximum outdegree two and maximum total degree
 four~\cite[Corollary 24]{Gruber2008}. Our consequence is the transfer
