@@ -46,9 +46,10 @@ to the label at $u$. A \emph{labeling} assigns one label to every
 vertex. Its value is the fraction of constraints it satisfies,
 counting parallel constraints separately. The instance's optimum
 is the largest such fraction.
-Khot and Regev show that ordinary UGC is equivalent to the
-following regular bipartite promise, which AKS use
-\cite[Conjecture~2.4]{AKS2011}: for every fixed $\gamma>0$, it is
+Khot and Regev showed that ordinary UGC has an equivalent regular
+bipartite formulation~\cite{KhotRegev}. We use the version stated by
+Austrin, Khot, and Safra as Conjecture~2.4~\cite{AKS2011}: for every
+fixed $\gamma>0$, it is
 NP-hard to distinguish a YES instance in which there is a set
 $V_0\subseteq V$ of at least $(1-\gamma)|V|$ right vertices and one
 labeling satisfies every constraint incident to a vertex in $V_0$,
@@ -56,13 +57,20 @@ from a NO instance of value at most $\gamma$. The underlying
 bipartite multigraph is regular on each side.
 
 Fix a rational $p\in(0,1/2)$ and put $\xi=-p/(1-p)$.
-Theorem~3.1 of~\cite{AKS2011} gives a deterministic polynomial-time
-reduction, for fixed alphabet size, to a vertex- and edge-weighted
-graph $G$ with both total weights equal to one. If $a_v$ is the
-vertex weight, write $a(S)=\sum_{v\in S}a_v$. The weighted degree
-of $v$, the sum of its incident edge weights, is $2a_v$. For
-$S\subseteq V(G)$, let $e_G(S)$ be the total weight of edges with
-both endpoints in $S$. In the YES case,
+Apply Theorem~3.1 of~\cite{AKS2011} to this regular source. For a
+fixed alphabet size, it gives a deterministic polynomial-time
+reduction to a vertex- and edge-weighted graph $G$ with total vertex
+weight and total edge weight both equal to one. If $a_v$ is the
+vertex weight, write $a(S)=\sum_{v\in S}a_v$. AKS show that the
+weighted degree of each vertex is proportional to its vertex weight.
+Since the sum of weighted degrees is twice the total edge weight,
+\[
+ \sum_v\deg_G(v)=2\sum_{e\in E(G)}w_e=2,
+ \qquad \sum_va_v=1,
+\]
+the proportionality constant is $2$, so $\deg_G(v)=2a_v$.
+For $S\subseteq V(G)$, let $e_G(S)$ be the total weight of edges
+with both endpoints in $S$. In the YES case,
 $G$ has an independent set of weight at least $p-\gamma$. In the
 NO case, $e_G(S)\ge\Gamma_\xi(a(S))-\varepsilon_{\mathrm{dens}}$ for every
 $S\subseteq V(G)$. Here $\varepsilon_{\mathrm{dens}}>0$ is an arbitrarily small fixed analytic error
