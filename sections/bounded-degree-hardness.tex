@@ -66,12 +66,12 @@ $\OPT(I)\le Y(N)$ in the YES case and $\OPT(I)\ge r'Y(N)$ in the
 NO case, where $r'>1$, $Y(N)>0$, and $N$ is the source size.
 Suppose a deterministic polynomial-time reduction maps each source
 instance $I$ to a target minimization instance $I'$. Assume that for
-every fixed $\epsilon>0$ we can choose the reduction's fixed
-parameters and a size threshold $N_0$ so that, on promised instances
-with $N\ge N_0$,
+every fixed pair $\epsilon_{\mathrm{YES}},\epsilon_{\mathrm{NO}}>0$ we
+can choose the reduction's fixed parameters and a size threshold
+$N_0$ so that, on promised instances with $N\ge N_0$,
 \[
- \OPT(I')\le(1+\epsilon)Y(N)\quad(\text{YES}),\qquad
- \OPT(I')\ge(r'-\epsilon)Y(N)\quad(\text{NO}).
+ \OPT(I')\le(1+\epsilon_{\mathrm{YES}})Y(N)\quad(\text{YES}),\qquad
+ \OPT(I')\ge(r'-\epsilon_{\mathrm{NO}})Y(N)\quad(\text{NO}).
 \]
 Also assume that the source promise remains hard after any fixed size
 threshold. Then every fixed $1\le r<r'$ remains hard after the
@@ -79,18 +79,22 @@ reduction.
 \end{lemma}
 
 \begin{proof}
-Choose $\epsilon<(r'-r)/(r+1)$. On sufficiently large YES instances,
+Choose positive $\epsilon_{\mathrm{YES}}$ and $\epsilon_{\mathrm{NO}}$
+so that $\epsilon_{\mathrm{NO}}+r\epsilon_{\mathrm{YES}}<r'-r$.
+On sufficiently large YES instances,
 \[
- \OPT(I')\le(1+\epsilon)Y(N),
+ \OPT(I')\le(1+\epsilon_{\mathrm{YES}})Y(N),
 \]
 and on NO instances,
 \[
- \OPT(I')\ge(r'-\epsilon)Y(N).
+ \OPT(I')\ge(r'-\epsilon_{\mathrm{NO}})Y(N).
 \]
 The NO bound exceeds $r$ times the YES bound because
 \[
- (r'-\epsilon)Y(N)-r(1+\epsilon)Y(N)
- =Y(N)\bigl(r'-r-(r+1)\epsilon\bigr)>0.
+ \bigl(r'-\epsilon_{\mathrm{NO}}\bigr)Y(N)
+ -r\bigl(1+\epsilon_{\mathrm{YES}}\bigr)Y(N)
+ =Y(N)\bigl(r'-r-\epsilon_{\mathrm{NO}}
+                  -r\epsilon_{\mathrm{YES}}\bigr)>0.
 \]
 \end{proof}
 
