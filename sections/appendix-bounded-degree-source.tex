@@ -234,24 +234,24 @@ Substituting $q=\theta^{-2}$ gives
  \frac{q+1+2\sqrt q}{q+1-2\sqrt q}
  =\left(\frac{1+\theta}{1-\theta}\right)^2
  =1+\frac{4\theta}{(1-\theta)^2}
- \le1+\frac{576}{121}\theta<1+7\theta,
+ \le1+\frac{576}{121}\theta<1+5\theta,
 \]
 since $\theta\le1/12$.
 
 Applying this sandwich to $\mathbf1_{\{v\}}$ gives
-$\deg_G(v)\le\deg_{G'}(v)\le(1+7\theta)C_0/N$. Summing the lower
+$\deg_G(v)\le\deg_{G'}(v)\le(1+5\theta)C_0/N$. Summing the lower
 bounds over $v\in S$ gives
 $\operatorname{vol}_{G'}(S)\ge\operatorname{vol}_G(S)$.
 Applying the sandwich to $\mathbf1_S$ gives
-$w(\cut_{G'}(S))\le(1+7\theta)w(\cut_G(S))$. Every cut has weight at most the total edge weight, so
+$w(\cut_{G'}(S))\le(1+5\theta)w(\cut_G(S))$. Every cut has weight at most the total edge weight, so
 $w(\cut_G(S))\le1$. Also $\theta\le\zeta/14$ gives
-$7\theta/2\le\zeta/4$. Therefore, whenever $|S|\ge\eta N$,
+$5\theta/2\le\zeta/4$. Therefore, whenever $|S|\ge\eta N$,
 \begin{align*}
  2e_{G'}(S)&=\operatorname{vol}_{G'}(S)-w(\cut_{G'}(S))\\
- &\ge\operatorname{vol}_G(S)-(1+7\theta)w(\cut_G(S))\\
- &=2e_G(S)-7\theta w(\cut_G(S)),\\
- e_{G'}(S)&\ge e_G(S)-\tfrac{7\theta}{2}w(\cut_G(S))
- \ge\zeta-\tfrac{7\theta}{2}\ge3\zeta/4.
+ &\ge\operatorname{vol}_G(S)-(1+5\theta)w(\cut_G(S))\\
+ &=2e_G(S)-5\theta w(\cut_G(S)),\\
+ e_{G'}(S)&\ge e_G(S)-\tfrac{5\theta}{2}w(\cut_G(S))
+ \ge\zeta-\tfrac{5\theta}{2}\ge3\zeta/4.
 \end{align*}
 Write $w'_e$ for the weight of $e\in E(G')$. Define the unweighted
 graph $J$ by $V(J)=V(G)$ and
@@ -271,7 +271,7 @@ For $v\in V(J)$, every $e\in E(J)$ incident with $v$ has
 $w'_e\ge\zeta/(4dN)$. Hence
 \[
  \deg_J(v)\le\frac{4dN}{\zeta}\deg_{G'}(v)
- \le\frac{4(1+7\theta)C_0d}{\zeta},
+ \le\frac{4(1+5\theta)C_0d}{\zeta},
 \]
 a constant depending only on $C_0,\zeta$. The construction is
 deterministic and polynomial time by the
