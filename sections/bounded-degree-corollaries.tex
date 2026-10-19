@@ -519,9 +519,8 @@ even length. Each internal vertex has degree two, and deleting all
 internal vertices leaves the original vertices isolated, so
 $G_\ell$ is $2$-degenerate. Every cycle uses at least three
 replacement paths and therefore has length at least $3\ell\geq g$.
-Treewidth and treedepth are minor-monotone: vertex and edge deletions
-and edge contractions cannot increase either parameter. Contracting
-each replacement path therefore gives
+By Lemma~\ref{lem:minor-monotonicity}, contracting each replacement
+path gives
 $\operatorname{tw}(G)\leq\operatorname{tw}(G_\ell)$ and
 $\td(G)\leq\td(G_\ell)$. Conversely, for each path
 $u=x_0,x_1,\ldots,x_\ell=v$, attach the bags

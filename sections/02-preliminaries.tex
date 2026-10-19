@@ -58,3 +58,28 @@ subtree of $T$, and $T_u\cap T_v\ne\varnothing$ for every edge
 $uv\in E(H)$. Its width is
 $\max_t|B_t|-1$, and the \emph{treewidth} $\operatorname{tw}(H)$ is
 the minimum such width.
+
+\begin{lemma}[Minor monotonicity of treedepth and treewidth]
+\label{lem:minor-monotonicity}
+If $H'$ is obtained from $H$ by vertex deletions, edge deletions,
+and edge contractions, then
+$\td(H')\leq\td(H)$ and
+$\operatorname{tw}(H')\leq\operatorname{tw}(H)$.
+\end{lemma}
+
+\begin{proof}
+For treedepth, vertex deletion is handled by restricting an
+elimination forest, and edge deletion leaves it valid. For an edge
+contraction $uv$, its endpoints are comparable in any elimination
+forest. Suppose $u$ is above $v$. Delete $v$ and make the roots of its
+child subtrees children of $u$. Every neighbor of $v$ was either an
+ancestor of $v$ or a descendant of $v$, so after the contraction it
+remains comparable with $u$. This gives a valid forest without
+increasing height.
+
+For treewidth, delete vertices from every bag or leave the bags
+unchanged when deleting edges. To contract $uv$, replace $u$ and $v$
+by the contracted vertex in every bag. The node sets $T_u,T_v$
+intersect because $uv$ is an edge, so their union is connected; all
+edges remain covered and no bag grows.
+\end{proof}
