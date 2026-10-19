@@ -212,8 +212,15 @@ transfers the dense factor-$r'$ gap to factor $r$.
 Use the common line-graph factors.
 Every finite nonempty graph $H$ satisfies
 $b(H)\le\operatorname{tw}(H)+1$~\cite[Lemma~5.3]{APW}.
-Thus the sparse NO width is at least $\beta N-1-\tau N$,
-while its YES width is at most $4\eta N$.
+Thus the sparse NO width is at least $\beta N-1-\tau N$.
+The YES line-graph construction has treedepth at most $4\eta N$.
+For an elimination forest of height $h$, connect its roots to form
+a tree and use one bag per forest vertex, containing that vertex and
+all its ancestors. The bags containing a fixed vertex form its
+descendant subtree, and every graph edge is covered at its deeper
+endpoint. Thus these bags give a tree decomposition of width at most
+$h-1$. Hence the dense YES treewidth is at most $4\eta N$, and
+deleting edges to obtain the sparse graph cannot increase it.
 Fix $\eta$ so that $\gamma:=\beta-4r\eta>0$, which is possible
 because $\beta=(c/2)\sqrt\eta$. Choose $\tau<\gamma/2$ and take
 sufficiently many parallel copies so that $N>2/\gamma$. Then
