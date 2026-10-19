@@ -4,65 +4,66 @@
 \Needspace{12\baselineskip}
 \subsection{Additive errors in hardness reductions}
 
-The following observation lets us absorb small transformation errors
-without repeating the gap comparison. Here $\OPT(I)$ denotes the
-optimum of a minimization instance $I$.
+A small additive loss cannot close a fixed multiplicative gap. Here
+$\OPT(I)$ denotes the optimum of a minimization instance $I$.
 
 \begin{lemma}[Preservation of approximation gaps]
 \label{lem:gap-preservation}
-Let $I\mapsto I'$ be a polynomial-time transformation between
-minimization problems, and let $N$ be the source instance size.
-Suppose, for fixed $a>0$ and $r'>1$, the reduction gives YES and NO
-bounds $aY(N)$ and $ar'Y(N)$, respectively, before additive losses,
-where $Y(N)>0$. Let $\Delta(N)$ bound the total additive loss in
-these bounds, so the actual bounds are at most
-$aY(N)+\Delta(N)$ in the YES case and at least
-$ar'Y(N)-\Delta(N)$ in the NO case. Suppose that, for every fixed
-$\epsilon>0$, the reduction's fixed parameters and a threshold $N_0$
-can be chosen so that
+Let a minimization promise problem be hard to distinguish between
+$\OPT(I)\le Y(N)$ in the YES case and $\OPT(I)\ge r'Y(N)$ in the
+NO case, where $r'>1$, $Y(N)>0$, and $N$ is the source size.
+Suppose a deterministic polynomial-time reduction maps each source
+instance $I$ to a target minimization instance $I'$, with error bound
+$\operatorname{err}(N)\ge0$, and gives
 \[
- \Delta(N)\le\epsilon aY(N)
-\qquad\text{for every promised instance with }N\ge N_0.
+ \OPT(I')\le Y(N)+\operatorname{err}(N)\quad(\text{YES}),\qquad
+ \OPT(I')\ge r'Y(N)-\operatorname{err}(N)\quad(\text{NO}).
 \]
-Then every fixed $1\le r<r'$ is preserved by choosing
-$\epsilon<(r'-r)/(r+1)$, provided the source promise remains
-hard when restricted to instances of order at least any fixed
-constant.
-
-If, in addition, for some fixed $\eta\ge0$ every solution of $I'$ of
-cost $z$ can be converted
-in polynomial time into one of $I$ of cost at most
-$z/a+\eta L(I)$, where $0<L(I)\le\OPT(I)$, and
-$\OPT(I')\le a\OPT(I)+\eta aL(I)$, then an $r$-approximation for
-$I'$ gives an $(r+(r+1)\eta)$-approximation for $I$. If
-$\OPT(I')\le a\OPT(I)$, this improves to $r+\eta$.
+Assume that for every fixed $\epsilon>0$ we can choose the reduction's
+fixed parameters and a size threshold $N_0$ so that
+$\operatorname{err}(N)\le\epsilon Y(N)$ on every promised instance
+with $N\ge N_0$. Also assume the source promise remains hard after
+any fixed size threshold. Then every fixed $1\le r<r'$ remains hard
+after the reduction.
 \end{lemma}
 
 \begin{proof}
 Choose $\epsilon<(r'-r)/(r+1)$. On sufficiently large YES instances,
 \[
- \OPT(I')\le aY(N)+\Delta(N)\le a(1+\epsilon)Y(N),
+ \OPT(I')\le(1+\epsilon)Y(N),
 \]
 and on NO instances,
 \[
- \OPT(I')\ge ar'Y(N)-\Delta(N)\ge a(r'-\epsilon)Y(N).
+ \OPT(I')\ge(r'-\epsilon)Y(N).
 \]
 The NO bound exceeds $r$ times the YES bound because
 \[
- a(r'-\epsilon)Y(N)-ra(1+\epsilon)Y(N)
- =aY(N)\bigl(r'-r-(r+1)\epsilon\bigr)>0.
+ (r'-\epsilon)Y(N)-r(1+\epsilon)Y(N)
+ =Y(N)\bigl(r'-r-(r+1)\epsilon\bigr)>0.
 \]
-The error condition holds, for example, if $Y(N)\ge c_0N^p$ and
-$\Delta(N)\le C\theta N^p+g(N)$, where $c_0,C>0$ are fixed,
-$g(N)\ge0$, and $g(N)=o(N^p)$. Choose
-$\theta<\epsilon ac_0/(2C)$, then take $N$
-large enough that $g(N)\le\epsilon ac_0N^p/2$. Thus
-$\Delta(N)\le\epsilon aY(N)$. For $p=1$, this covers a tunable
-linear term plus $O(\log N)+O(1)$; for $p=2$, it covers a tunable
-quadratic term plus $O(N\log N)+O(N)$.
+In our applications, the error condition follows if $Y(N)\ge c_0N^p$
+and $\operatorname{err}(N)\le C\theta N^p+g(N)$, where $c_0,C>0$
+are fixed and $g(N)\ge0$ satisfies $g(N)=o(N^p)$. Choose
+$\theta<\epsilon c_0/(2C)$, then take $N$ large enough that
+$g(N)\le\epsilon c_0N^p/2$. Hence
+$\operatorname{err}(N)\le\epsilon Y(N)$. This covers a tunable
+linear error plus $O(\log N)+O(1)$ for $p=1$, and a tunable
+quadratic error plus $O(N\log N)+O(N)$ for $p=2$.
+\end{proof}
 
-For the solution claim,
-an $r$-approximate solution has $z\le r\OPT(I')$, so its conversion
+\begin{lemma}[Lifting approximate solutions]
+\label{lem:solution-lifting}
+Suppose each solution of a minimization instance $I'$ with cost $z$
+can be converted in polynomial time into a solution of $I$ with cost
+at most $z/a+\eta L(I)$, where $a>0$, $\eta\ge0$, and
+$0\le L(I)\le\OPT(I)$. If
+$\OPT(I')\le a\OPT(I)+\eta aL(I)$, then an $r$-approximation for
+$I'$ gives an $(r+(r+1)\eta)$-approximation for $I$. If instead
+$\OPT(I')\le a\OPT(I)$, the factor is $r+\eta$.
+\end{lemma}
+
+\begin{proof}
+An $r$-approximate solution has $z\le r\OPT(I')$, so its conversion
 has cost at most
 \[
 \frac za+\eta L(I)
@@ -419,19 +420,19 @@ bags contain $A_f\setminus D_{\mathcal C}$ and
 $B_f\setminus D_{\mathcal C}$, as required by the biclique
 completion lemma. Summing the deletion bounds gives
 \begin{equation}\label{eq:completion-deletion-bounds}
- \Delta_{\mathrm{td}}=2\sum_{f\in\mathcal C}(t_f-1)+4\sum_{f\in\mathcal B}(t_f-1),
+ \operatorname{exc}_{\mathrm{td}}=2\sum_{f\in\mathcal C}(t_f-1)+4\sum_{f\in\mathcal B}(t_f-1),
  \qquad
- \Delta_{\mathrm{tw}}=3\sum_{f\in\mathcal C}(t_f-1)+2\sum_{f\in\mathcal B}(t_f-1).
+ \operatorname{exc}_{\mathrm{tw}}=3\sum_{f\in\mathcal C}(t_f-1)+2\sum_{f\in\mathcal B}(t_f-1).
 \end{equation}
 
 \begin{lemma}[Treedepth comparison]\label{lem:factor-sparsification}
 Let $H,J$ and the thresholds $t_f$ satisfy
-Definition~\ref{def:factor-comparison}, and let $\Delta_{\mathrm{td}}$
+Definition~\ref{def:factor-comparison}, and let $\operatorname{exc}_{\mathrm{td}}$
 be defined by~\eqref{eq:completion-deletion-bounds}.
 Every elimination forest $F$ of $J$ can be
 completed to an elimination forest $\widehat F$ of $H$ with
-$h(\widehat F)\le h(F)+\Delta_{\mathrm{td}}$. In particular,
-$\td(J)\le\td(H)\le\td(J)+\Delta_{\mathrm{td}}$.
+$h(\widehat F)\le h(F)+\operatorname{exc}_{\mathrm{td}}$. In particular,
+$\td(J)\le\td(H)\le\td(J)+\operatorname{exc}_{\mathrm{td}}$.
 \end{lemma}
 
 \begin{proof}
@@ -442,7 +443,7 @@ For each $f\in\mathcal B$, let $D_f\subseteq A_f\cup B_f$ be
 the set from Lemma~\ref{lem:sparse-biclique-completion}, with
 $|D_f|\le4(t_f-1)$. Set
 $D=\bigcup_{f\in\mathcal C\cup\mathcal B}D_f$.
-Thus $|D|\le\sum_f|D_f|\le\Delta_{\mathrm{td}}$.
+Thus $|D|\le\sum_f|D_f|\le\operatorname{exc}_{\mathrm{td}}$.
 
 Let $F'$ be the restriction of $F$ to $V(H)\setminus D$.
 For $f\in\mathcal C$, the set
@@ -457,9 +458,9 @@ By~\eqref{eq:factor-edge-union}, these three cases cover every
 edge of $H-D$. Thus $F'$ is an elimination forest of $H-D$ with
 $h(F')\le h(F)$. By Lemma~\ref{lem:restore-vertices},
 restoring $D$ gives an elimination forest $\widehat F$ of $H$ with
-$h(\widehat F)\le h(F)+|D|\le h(F)+\Delta_{\mathrm{td}}$.
+$h(\widehat F)\le h(F)+|D|\le h(F)+\operatorname{exc}_{\mathrm{td}}$.
 Choosing $F$ of minimum height proves
-$\td(H)\le\td(J)+\Delta_{\mathrm{td}}$. The other comparison follows from
+$\td(H)\le\td(J)+\operatorname{exc}_{\mathrm{td}}$. The other comparison follows from
 $J\subseteq H$.
 \end{proof}
 
@@ -468,18 +469,18 @@ $J\subseteq H$.
 \label{lem:total-depth-comparison}
 Let $H,J$ and the thresholds $t_f$ satisfy
 Definition~\ref{def:factor-comparison}. Put $N=|V(H)|$, and let
-$\Delta_{\mathrm{td}}$ be defined by~\eqref{eq:completion-deletion-bounds}.
+$\operatorname{exc}_{\mathrm{td}}$ be defined by~\eqref{eq:completion-deletion-bounds}.
 Every elimination
 forest $F$ of $J$ can be completed to an elimination forest
 $\widehat F$ of $H$ with
-$\totd(\widehat F)\le\totd(F)+N\Delta_{\mathrm{td}}$.
-In particular, $\totd(J)\le \totd(H)\le \totd(J)+N\Delta_{\mathrm{td}}$.
+$\totd(\widehat F)\le\totd(F)+N\operatorname{exc}_{\mathrm{td}}$.
+In particular, $\totd(J)\le \totd(H)\le \totd(J)+N\operatorname{exc}_{\mathrm{td}}$.
 \end{lemma}
 
 \begin{proof}
 Fix any elimination forest $F$ of $J$. Use the exceptional set
 $D$ from the proof of Lemma~\ref{lem:factor-sparsification} for
-this forest, so $|D|\le\Delta_{\mathrm{td}}$. That proof shows that the
+this forest, so $|D|\le\operatorname{exc}_{\mathrm{td}}$. That proof shows that the
 restriction $F'$ of $F$ to $V(H)\setminus D$ is an elimination
 forest of $H-D$.
 
@@ -492,7 +493,7 @@ increases the depths of the existing vertices by one and gives
 the new root depth one. Its total cost is therefore the number of
 vertices then present, at most $N$. After $|D|$ restorations, the
 resulting elimination forest $\widehat F$ satisfies
-$\totd(\widehat F)\le\totd(F)+N|D|\le\totd(F)+N\Delta_{\mathrm{td}}$.
+$\totd(\widehat F)\le\totd(F)+N|D|\le\totd(F)+N\operatorname{exc}_{\mathrm{td}}$.
 Choosing $F$ of minimum total depth proves the upper
 comparison. The lower comparison follows from $J\subseteq H$.
 \end{proof}
@@ -505,15 +506,15 @@ biclique into sub-bicliques to meet this assumption.
 \begin{lemma}[Treewidth comparison]
 \label{lem:tw-factor-sparsification}
 Let $H,J$ and the thresholds $t_f$ satisfy
-Definition~\ref{def:factor-comparison}, and let $\Delta_{\mathrm{tw}}$
+Definition~\ref{def:factor-comparison}, and let $\operatorname{exc}_{\mathrm{tw}}$
 be defined by~\eqref{eq:completion-deletion-bounds}. Suppose that for
 every $f\in\mathcal B$ there are $g,h\in\mathcal C$ with
 $A_f\subseteq U_g$ and $B_f\subseteq U_h$.
 Every tree
 decomposition of $J$ can be completed to one of $H$ whose width
-increases by at most $\Delta_{\mathrm{tw}}$. In particular,
+increases by at most $\operatorname{exc}_{\mathrm{tw}}$. In particular,
 $\operatorname{tw}(J)\le\operatorname{tw}(H)
- \le\operatorname{tw}(J)+\Delta_{\mathrm{tw}}$.
+ \le\operatorname{tw}(J)+\operatorname{exc}_{\mathrm{tw}}$.
 \end{lemma}
 
 \begin{proof}
@@ -538,7 +539,7 @@ Lemma~\ref{lem:tw-biclique-completion} therefore gives
 $D_f\subseteq(A_f\cup B_f)\setminus D_{\mathcal C}$ with
 $|D_f|\le2(t_f-1)$.
 Put $D=D_{\mathcal C}\cup\bigcup_{f\in\mathcal B}D_f$.
-Then $|D|\le\sum_f|D_f|\le\Delta_{\mathrm{tw}}$.
+Then $|D|\le\sum_f|D_f|\le\operatorname{exc}_{\mathrm{tw}}$.
 
 For $f\in\mathcal C$, we have
 $U_f\setminus D\subseteq B_{u_f}\setminus D$, so this bag covers
@@ -560,7 +561,7 @@ both endpoints. If $x\in D$ and $y\notin D$, any bag containing
 $y$ also contains $x$.
 Thus $(T,(\widehat B_u)_{u\in V(T)})$ is a decomposition of $H$.
 Since $|\widehat B_u|\le|B_u|+|D|$ for every $u$, its width
-increases by at most $|D|\le\Delta_{\mathrm{tw}}$.
+increases by at most $|D|\le\operatorname{exc}_{\mathrm{tw}}$.
 Choosing a minimum-width decomposition proves the upper comparison.
 The lower comparison follows from $J\subseteq H$.
 \end{proof}

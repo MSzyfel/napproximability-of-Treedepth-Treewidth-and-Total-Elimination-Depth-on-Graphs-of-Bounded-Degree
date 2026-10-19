@@ -276,8 +276,8 @@ and Lemma~\ref{lem:np-total-depth-cubic} give
 \]
 Choose $\tau$ so that $\tau N^2\le\epsilon_0 Mn$.
 Since the sparse graph $H'\subseteq H$
-has $\totd(H')\le\totd(H)$, the solution part of
-Lemma~\ref{lem:gap-preservation}, with $L(H)=Mn$, lifts a
+has $\totd(H')\le\totd(H)$, Lemma~\ref{lem:solution-lifting},
+with $L(H)=Mn$, lifts a
 $(1+\epsilon_0)$-approximate sparse forest to a
 $(1+2\epsilon_0)$-approximate dense forest, a contradiction.
 Also $\totd(H')\ge\totd(H)-\tau N^2\ge(1-\epsilon_0)Mn
@@ -437,10 +437,9 @@ choose $d,n$ so the normalized error is at most $\epsilon L$, with
 $r+(r+1)\epsilon<r'$.
 The projection in Proposition~\ref{prop:regularization}
 converts every forest of $R$ of cost $z$ into one of $G$ of cost
-at most $z/(d+2)$. Hence the solution part of
-Lemma~\ref{lem:gap-preservation} converts an $r$-approximation
-on regular graphs into an approximation within the excluded
-factor $r'$ on the source family.
+at most $z/(d+2)$. Hence Lemma~\ref{lem:solution-lifting} converts
+an $r$-approximation on regular graphs into an approximation within
+the excluded factor $r'$ on the source family.
 \end{proof}
 
 \begin{corollary}\label{cor:subdivision-hardness}

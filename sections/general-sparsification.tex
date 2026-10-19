@@ -79,11 +79,11 @@ $H$ whose height increases by at most $\varepsilon N$.
 \begin{proof}
 Apply Lemma~\ref{lem:factor-replacement} with
 $\zeta=\varepsilon/(4d_1)$. Its degree bound depends only on
-the stated constants. The error bound in
+the stated constants. The exception bound in
 Lemma~\ref{lem:factor-sparsification} satisfies
 \begin{equation}\label{eq:common-forest-exception-budget}
  \begin{aligned}
- \Delta_{\mathrm{td}}
+ \operatorname{exc}_{\mathrm{td}}
  &=2\sum_{f\in\mathcal C}(t_f-1)+4\sum_{f\in\mathcal B}(t_f-1)\\
  &\le4\sum_{f\in\mathcal C\cup\mathcal B}(t_f-1)
  \le4\zeta d_1N=\varepsilon N.
@@ -183,10 +183,10 @@ $\totd(\widehat F)\le\totd(F)+\varepsilon N^2$.
 Use the same factor replacements as in
 Theorem~\ref{thm:td-sparsification}, with
 $\zeta=\varepsilon/(4d_1)$. Equation~\eqref{eq:common-forest-exception-budget}
-gives $\Delta_{\mathrm{td}}\le\varepsilon N$, and
+gives $\operatorname{exc}_{\mathrm{td}}\le\varepsilon N$, and
 Lemma~\ref{lem:total-depth-comparison} completes every forest with
 total-depth increase at most
-$N\Delta_{\mathrm{td}}\le\varepsilon N^2$.
+$N\operatorname{exc}_{\mathrm{td}}\le\varepsilon N^2$.
 Minimizing therefore gives the lower bound on $\totd(J)$. The upper
 bound follows from $J\subseteq H$.
 \end{proof}
