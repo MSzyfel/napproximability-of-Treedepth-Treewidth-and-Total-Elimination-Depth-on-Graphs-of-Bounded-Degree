@@ -1,41 +1,45 @@
 ﻿\section{Introduction}
 \label{sec:introduction}
 
-Treedepth measures the height of a recursive vertex elimination:
-a chosen vertex is removed, and the remaining connected components
-are processed independently. Equivalently, it is the minimum height
-of a rooted forest in which, for every graph edge, one endpoint is
-an ancestor of the other. Such a forest is an \emph{elimination forest}.
-This formulation connects treedepth to graph search,
-vertex ranking, and symbolic elimination
-\cite{Reidl2014,BodlaenderRankings}.
+Treedepth is the minimum height of an \emph{elimination forest}: a rooted forest on
+the graph's vertices in which the endpoints of every edge are comparable in the
+ancestor order. For connected graphs, every elimination forest is a tree.
+Recursively querying its root and then searching each remaining component gives
+a graph-search strategy. Treedepth is also characterized by vertex ranking and
+symbolic elimination~\cite{BodlaenderRankings}, and it is studied directly in
+parameterized algorithms~\cite{Reidl2014}. It is also a basic tool in
+structural graph theory. Low treedepth decompositions break sparse graphs into
+induced subgraphs of bounded treedepth. Nešetřil and
+Ossona de Mendez survey this framework and its applications. Their earlier work
+develops its connections to coloring and homomorphism bounds
+~\cite{LowTreeDepthSurvey,TreeDepthColoring}.
 
-A tree decomposition arranges
-vertex sets, called bags, in a tree so that every edge has both
-endpoints in some bag and the bags containing each vertex form a
-connected subtree. Treewidth is the minimum possible size of the
-largest bag, minus one. It has a central role in algorithms based on
-dynamic programming. The two
-parameters measure different structural features: treedepth limits
-elimination-forest height, whereas treewidth limits the size of a
-largest bag. We
-write $\td(G)$ for treedepth and $\operatorname{tw}(G)$ for treewidth.
-A path has treewidth one but treedepth grows with its length, so a
-NO-case lower bound on treedepth gives no lower bound on treewidth. Our
-treewidth hardness proof therefore needs a separate NO-case width
-bound and a suitably small YES-case decomposition.
+Treewidth captures a different form of tree-like structure. A \emph{tree
+decomposition} arranges vertex sets, called bags, in a tree so that every graph
+edge has both endpoints in some bag and the bags containing any fixed vertex
+form a connected subtree. Treewidth is the minimum possible largest bag size
+minus one. Bounded-width decompositions support dynamic programming for many
+graph problems and connect to graph-minor theory. Surveys describe these
+algorithmic uses and applications~\cite{BodlaenderTouristGuide,
+BodlaenderApplications}. The parameters control different features: treedepth
+bounds elimination-forest height, while treewidth bounds bag size. For example,
+paths have treewidth one but unbounded treedepth. We write $\td(G)$ and
+$\operatorname{tw}(G)$ for these parameters.
 
-Bonnet, Neuen, and Soko\l owski proved that approximating treedepth
-within factor $1.0003$ is NP-hard~\cite{BNS}. Bonnet proved the
-corresponding $1.00005$ hardness bound for treewidth
-~\cite{BonnetTreewidth}. For treedepth, Anand's greedy
-region-growing method gives an $O(\log n)$-approximation
-~\cite{Anand2026}. These bounds leave a wide range of approximation
-factors unresolved. Restricting the maximum degree raises a further
-question: the dense clique structure used in the recent hardness
-reductions is absent, and NP-hardness of computing treedepth on
-unweighted graphs of bounded maximum degree was conjectural
-\cite[Conjecture~1]{SchirrmacherSiebertzVigny2025}.
+Despite their established roles, the approximation complexity of both parameters is
+not well understood. Bonnet, Neuen, and Soko\l owski proved that approximating
+treedepth within factor $1.0003$ is NP-hard~\cite{BNS}. Bonnet proved the
+corresponding $1.00005$ hardness bound for treewidth~\cite{BonnetTreewidth}.
+Under the Small Set Expansion Hypothesis (SSEH), treewidth is hard to
+approximate within every fixed constant factor~\cite[Theorem~1.1]{APW}. On the
+algorithmic side, Anand gives an $O(\log n)$-approximation for
+treedepth~\cite{Anand2026}, while Feige, Hajiaghayi, and Lee give a polynomial-time
+$O(\sqrt{\log(\operatorname{tw}(G)+2)})$-approximation for
+treewidth~\cite{FeigeHajiaghayiLee2005}. These results leave a substantial gap
+between known algorithms and hardness. We strengthen the hardness bounds and
+show that they persist on graphs of bounded maximum degree, addressing the
+conjecture of Schirrmacher, Siebertz, and Vigny
+~\cite[Conjecture~1]{SchirrmacherSiebertzVigny2025}.
 
 \subsection{Results}
 
