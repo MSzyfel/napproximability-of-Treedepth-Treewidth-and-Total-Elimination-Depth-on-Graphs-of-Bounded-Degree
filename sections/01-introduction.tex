@@ -8,10 +8,15 @@ Recursively querying its root and then searching each remaining component gives
 a graph-search strategy. Treedepth is also characterized by vertex ranking and
 symbolic elimination~\cite{BodlaenderRankings}, and it is studied directly in
 parameterized algorithms~\cite{Reidl2014}. It is also a basic tool in
-structural graph theory. Low treedepth decompositions break sparse graphs into
-induced subgraphs of bounded treedepth. Nešetřil and
-Ossona de Mendez survey this framework and its applications. Their earlier work
-develops its connections to coloring and homomorphism bounds
+structural graph theory. Every class of bounded expansion, a standard formal
+notion of sparse graph class, has the following property: for each fixed $p$,
+its graphs can be colored with a number of colors bounded in terms of $p$ and
+the class, so that the subgraph induced by any $i$ color classes has treedepth
+at most $i$, for all $i\le p$. This is called a low-treedepth coloring. It
+lets us analyze a sparse graph through these bounded-treedepth pieces and
+supports results on coloring and homomorphism bounds. Nešetřil and Ossona de
+Mendez survey this framework and its applications, and their earlier work
+develops these connections
 ~\cite{LowTreeDepthSurvey,TreeDepthColoring}.
 
 Treewidth captures a different form of tree-like structure. A \emph{tree
