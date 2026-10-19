@@ -1,6 +1,83 @@
 \section{Hardness on graphs of bounded degree}
 \label{sec:bounded-degree-hardness}
 
+\Needspace{12\baselineskip}
+\subsection{Additive errors in hardness reductions}
+
+The following observation lets us absorb small transformation errors
+without repeating the gap comparison. Here $\OPT(I)$ denotes the
+optimum of a minimization instance $I$.
+
+\begin{lemma}[Preservation of approximation gaps]
+\label{lem:gap-preservation}
+Let $I\mapsto I'$ be a polynomial-time transformation between
+minimization problems. Suppose that, for fixed $a>0$ and
+$0\le\epsilon<1$, it satisfies
+\[
+ |\OPT(I')-a\OPT(I)|\le\epsilon aL(I),
+ \qquad 0<L(I)\le\OPT(I).
+\]
+A promise with YES upper bound $Y>0$ and NO lower bound $r'Y$,
+where $r'>1$ and $Y$ may depend on the input size, then has
+transformed bounds $a(1+\epsilon)Y$ and $a(1-\epsilon)r'Y$.
+Thus every fixed $1\le r<r'$ is preserved when
+$\epsilon<(r'-r)/(r'+r)$.
+
+Alternatively, suppose the transformation is known to have additive
+error at most $\epsilon aY$ on both promise cases, without a lower
+bound $L(I)\le\OPT(I)$. Then the transformed YES and NO bounds are
+$a(1+\epsilon)Y$ and $a(r'-\epsilon)Y$. Their gap has factor greater
+than $r$ whenever
+\[
+ \epsilon<\frac{r'-r}{r+1},\qquad
+ a(r'-\epsilon)Y-r a(1+\epsilon)Y
+ =aY\bigl(r'-r-(r+1)\epsilon\bigr)>0.
+\]
+In particular, an additive error $o(aY)$ is harmless on all
+sufficiently large promised instances.
+
+If, in addition, every solution of $I'$ of cost $z$ can be converted
+in polynomial time into one of $I$ of cost at most
+$z/a+\epsilon L(I)$, then an $r$-approximation for $I'$ gives an
+$(r+(r+1)\epsilon)$-approximation for $I$. If
+$\OPT(I')\le a\OPT(I)$, the latter factor improves to $r+\epsilon$.
+\end{lemma}
+
+\begin{proof}
+The additive bound and $L(I)\le\OPT(I)$ give
+\[
+ \begin{aligned}
+ \OPT(I')&\ge a\OPT(I)-\epsilon aL(I)\ge a(1-\epsilon)\OPT(I),\\
+ \OPT(I')&\le a\OPT(I)+\epsilon aL(I)\le a(1+\epsilon)\OPT(I).
+ \end{aligned}
+\]
+These inequalities give the stated YES and NO bounds. Their ratio is
+$r'(1-\epsilon)/(1+\epsilon)$. It exceeds $r$ if and only if
+$r(1+\epsilon)<r'(1-\epsilon)$, or
+$\epsilon<(r'-r)/(r'+r)$. Under the alternative additive-error
+hypothesis, YES values increase by at most $\epsilon aY$ and NO
+values decrease by at most the same amount, giving the displayed
+transformed bounds and gap condition. For the solution claim,
+an $r$-approximate solution has $z\le r\OPT(I')$, so its conversion
+has cost at most
+\[
+ \frac za+\epsilon L(I)
+ \le\frac{r\OPT(I')}{a}+\epsilon L(I)
+ \le r\OPT(I)+(r+1)\epsilon L(I)
+ \le\bigl(r+(r+1)\epsilon\bigr)\OPT(I).
+\]
+When $\OPT(I')\le a\OPT(I)$, use $z/a\le r\OPT(I)$ to bound the
+conversion cost by
+$r\OPT(I)+\epsilon L(I)\le(r+\epsilon)\OPT(I)$.
+\end{proof}
+
+An additive error of order $o(L(I))$ is at most
+$\epsilon aL(I)$ on all sufficiently large instances, for any
+fixed $a,\epsilon>0$. Thus the lemma also applies when its
+hypotheses hold only above a fixed
+size, provided the source promise remains hard under that
+restriction. The reductions below verify this condition.
+
 \subsection{The degree-reduction approach}
 
 Let $H$ be one of the dense graphs constructed above, with
