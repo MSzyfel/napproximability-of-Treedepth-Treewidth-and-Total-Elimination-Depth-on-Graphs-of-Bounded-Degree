@@ -190,9 +190,10 @@ graphs~\cite[Corollary 4.11]{GimaEtAlIntegrity} and starwidth~\cite{VanEe2017}.
 A customizable hub labeling assigns $L(v)\subseteq V(J)$ so that
 every $s$--$t$ path meets $L(s)\cap L(t)$, including the zero-length
 path at a vertex~\cite{BlumStorandt2023}.
-The labeling is \emph{hierarchical} if there is one vertex order
-such that every member of $L(v)$ is ranked at least as high as
-$v$. Without this requirement we call it general. Average,
+The labeling is \emph{hierarchical} if there is a total order
+$v_1,\ldots,v_{|V(J)|}$ of $V(J)$ such that
+$L(v_i)\subseteq\{v_i,\ldots,v_{|V(J)|}\}$ for every $i$.
+Without this requirement we call it general. Average,
 maximum, and total label size mean, respectively,
 $\sum_v|L(v)|/|V(J)|$, $\max_v|L(v)|$, and $\sum_v|L(v)|$.
 Blum and Storandt prove
