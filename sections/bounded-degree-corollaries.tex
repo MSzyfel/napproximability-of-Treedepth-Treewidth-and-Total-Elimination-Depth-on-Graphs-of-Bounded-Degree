@@ -98,10 +98,9 @@ anchor--part bicliques. Retain the witness-star edges.
 Each source vertex belongs to at most three local factors and one
 anchor--part biclique, while an anchor vertex belongs to its clique
 and one biclique. Thus $d_1=4$, $d_0=3$, and $\kappa=12/5$.
-Before omitting the three vertices $z_A,z_B,z_C$, each
-$K_X\cup\{z_X\}$ is a clique of order $3m+1$. Thus the original
-dense graph has treedepth at least $3m+1$. Omitting these vertices
-costs at most $3$, and sparsification costs at most $18\tau m$.
+    Deleting $z_A,z_B,z_C$ lowers treedepth by at most $3$, by
+    Lemma~\ref{lem:restore-vertices}. The resulting graph has order
+    $18m$, so sparsification lowers treedepth by at most $18\tau m$.
 The resulting YES bound is $(17/2+\epsilon)m+1$, and the NO lower
 bound is $(9-\epsilon)m-2-18\tau m$. Fix a target factor
 $r<18/17$ and let
