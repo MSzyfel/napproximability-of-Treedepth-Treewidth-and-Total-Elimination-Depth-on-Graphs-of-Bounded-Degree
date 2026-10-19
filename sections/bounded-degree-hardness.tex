@@ -65,18 +65,17 @@ Let a minimization promise problem be hard to distinguish between
 $\OPT(I)\le Y(N)$ in the YES case and $\OPT(I)\ge r'Y(N)$ in the
 NO case, where $r'>1$, $Y(N)>0$, and $N$ is the source size.
 Suppose a deterministic polynomial-time reduction maps each source
-instance $I$ to a target minimization instance $I'$, with error bound
-$\operatorname{err}(N)\ge0$, and gives
+instance $I$ to a target minimization instance $I'$. Assume that for
+every fixed $\epsilon>0$ we can choose the reduction's fixed
+parameters and a size threshold $N_0$ so that, on promised instances
+with $N\ge N_0$,
 \[
- \OPT(I')\le Y(N)+\operatorname{err}(N)\quad(\text{YES}),\qquad
- \OPT(I')\ge r'Y(N)-\operatorname{err}(N)\quad(\text{NO}).
+ \OPT(I')\le(1+\epsilon)Y(N)\quad(\text{YES}),\qquad
+ \OPT(I')\ge(r'-\epsilon)Y(N)\quad(\text{NO}).
 \]
-Assume that for every fixed $\epsilon>0$ we can choose the reduction's
-fixed parameters and a size threshold $N_0$ so that
-$\operatorname{err}(N)\le\epsilon Y(N)$ on every promised instance
-with $N\ge N_0$. Also assume the source promise remains hard after
-any fixed size threshold. Then every fixed $1\le r<r'$ remains hard
-after the reduction.
+Also assume that the source promise remains hard after any fixed size
+threshold. Then every fixed $1\le r<r'$ remains hard after the
+reduction.
 \end{lemma}
 
 \begin{proof}
@@ -93,14 +92,15 @@ The NO bound exceeds $r$ times the YES bound because
  (r'-\epsilon)Y(N)-r(1+\epsilon)Y(N)
  =Y(N)\bigl(r'-r-(r+1)\epsilon\bigr)>0.
 \]
-In our applications, the error condition follows if $Y(N)\ge c_0N^p$
-and $\operatorname{err}(N)\le C\theta N^p+g(N)$, where $c_0,C>0$
-are fixed and $g(N)\ge0$ satisfies $g(N)=o(N^p)$. Choose
+In our applications, the displayed bounds follow when
+$Y(N)\ge c_0N^p$ and the additive loss is at most
+$C\theta N^p+g(N)$, where $c_0,C>0$ are fixed and
+$g(N)\ge0$ satisfies $g(N)=o(N^p)$. Choose
 $\theta<\epsilon c_0/(2C)$, then take $N$ large enough that
-$g(N)\le\epsilon c_0N^p/2$. Hence
-$\operatorname{err}(N)\le\epsilon Y(N)$. This covers a tunable
-linear error plus $O(\log N)+O(1)$ for $p=1$, and a tunable
-quadratic error plus $O(N\log N)+O(N)$ for $p=2$.
+$g(N)\le\epsilon c_0N^p/2$. The loss is then at most
+$\epsilon c_0N^p\le\epsilon Y(N)$. This covers a tunable linear
+loss plus $O(\log N)+O(1)$ for $p=1$, and a tunable quadratic loss
+plus $O(N\log N)+O(N)$ for $p=2$.
 \end{proof}
 
 \emph{Keep the total loss below the hardness gap.}
