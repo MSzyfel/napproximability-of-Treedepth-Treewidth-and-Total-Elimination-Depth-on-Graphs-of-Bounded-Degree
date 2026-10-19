@@ -452,24 +452,15 @@ In particular, $\totd(J)\le \totd(H)\le \totd(J)+N\operatorname{exc}_{\mathrm{td
 \end{lemma}
 
 \begin{proof}
-Fix any elimination forest $F$ of $J$. Use the exceptional set
-$D$ from the proof of Lemma~\ref{lem:factor-sparsification} for
-this forest, so $|D|\le\operatorname{exc}_{\mathrm{td}}$. That proof shows that the
-restriction $F'$ of $F$ to $V(H)\setminus D$ is an elimination
-forest of $H-D$.
-
-For each $v\in V(H)\setminus D$, restriction gives
-$\operatorname{depth}_{F'}(v)\le\operatorname{depth}_F(v)$.
-Summing over $V(H)\setminus D$ gives $\totd(F')\le\totd(F)$. Restore
-the vertices of $D$ as in Lemma~\ref{lem:restore-vertices}, placing
-them one at a time above all existing roots. Each restoration
-increases the depths of the existing vertices by one and gives
-the new root depth one. Its total cost is therefore the number of
-vertices then present, at most $N$. After $|D|$ restorations, the
-resulting elimination forest $\widehat F$ satisfies
-$\totd(\widehat F)\le\totd(F)+N|D|\le\totd(F)+N\operatorname{exc}_{\mathrm{td}}$.
-Choosing $F$ of minimum total depth proves the upper
-comparison. The lower comparison follows from $J\subseteq H$.
+Use the exceptional set $D$ and restricted forest $F'$
+from the proof of Lemma~\ref{lem:factor-sparsification}.
+Then $|D|\le\operatorname{exc}_{\mathrm{td}}$, and $F'$
+is an elimination forest of $H-D$ with
+$\totd(F')\le\totd(F)$.
+By Lemma~\ref{lem:restore-total-depth}, restoring $D$ adds
+at most $N|D|\le N\operatorname{exc}_{\mathrm{td}}$.
+Minimizing over $F$ gives the upper comparison;
+the lower comparison follows from $J\subseteq H$.
 \end{proof}
 
 The following comparison lemma assumes that each side of a biclique
