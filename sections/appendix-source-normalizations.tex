@@ -2,10 +2,10 @@
 \section{Source promises, normalizations, and provenance}
 \label{sec:source-normalizations}
 
-The source derivations follow the order of the hardness sections:
-the Khot--Regev and multipartite UGC promises, the global SSE promise,
-the NP-hardness provenance and parity normalization, and the
-bounded-degree UGC source. The unweighting lemma precedes its use in
+The source derivations follow the order in which the paper uses them:
+the Khot--Regev promise and its bounded-degree form, the multipartite
+UGC promise, the global SSE promise, and the NP-hardness provenance
+and parity normalization. The unweighting lemma precedes its use in
 the Khot--Regev proof.
 
 \subsection{The Khot--Regev independent-set promise}
@@ -129,6 +129,8 @@ polynomial in the source instance size. The construction has no loops
 or parallel edges and uses only unweighted vertices and edges. It
 therefore gives the simple unweighted source asserted in the theorem.
 \end{proof}
+
+\input{sections/appendix-bounded-degree-source}
 
 \subsection{The balanced multipartite source}
 \label{app:multipartite-normalization}
@@ -490,5 +492,3 @@ operations increase the number of equations by the fixed factor
 twelve and therefore take polynomial time. This proves all the
 conditions in~\eqref{eq:xor-normalization}.
 \end{proof}
-
-\input{sections/appendix-bounded-degree-source}
