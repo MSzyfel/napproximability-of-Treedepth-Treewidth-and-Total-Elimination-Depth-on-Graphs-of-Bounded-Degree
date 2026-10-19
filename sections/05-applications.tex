@@ -208,8 +208,10 @@ customizable contraction hierarchy (CCH) form a hierarchical customizable
 hub labeling. Their Corollary~5 identifies the corresponding minimum
 average label size~\cite[Corollary~5, full version]{BlumStorandt2023}.
 Thus the same lower bound applies to every CCH search-space labeling.
-For the resulting graph $J=\mathcal L(G^*)$, the YES forest provides hierarchical
-labels by assigning each vertex its ancestors, including itself.
+For the resulting graph $J=\mathcal L(G^*)$, order the YES forest's
+vertices in postorder, so every vertex precedes its ancestors. Give
+each vertex the label consisting of its ancestors, including itself.
+This is a hierarchical labeling.
 Take any $s$--$t$ path and choose a vertex $z$ of minimum depth on it.
 Every edge of $J$ joins comparable vertices in the forest. Starting
 from $z$ and proceeding along the path in either direction, induction
