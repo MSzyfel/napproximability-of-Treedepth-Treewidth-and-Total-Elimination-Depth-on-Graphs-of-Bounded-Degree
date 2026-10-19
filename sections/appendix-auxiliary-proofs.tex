@@ -183,9 +183,23 @@ Substituting $x_j^2=W_j$ proves the claim.
 \subsection{Derivation of the anchor-length corollary}
 \label{app:anchor-proof}
 
-We prove Corollary~\ref{cor:max-part-anchor} for the graph
-$H_\ell(G)$ defined in Section~\ref{subsec:np-treedepth}. The anchor
-graph is the one introduced by Bonnet, Neuen, and
+We prove Corollary~\ref{cor:max-part-anchor}. We repeat the construction
+here so that the notation used in the proof is defined locally. Let $G$
+be tripartite with specified nonempty independent parts $A,B,C$, and
+let $\ell\ge1$ be an integer. Add pairwise disjoint sets
+$K_A,K_B,K_C$ of size $\ell$ and distinct vertices $z_A,z_B,z_C$,
+with all added vertices outside $V(G)$. The graph $H_\ell(G)$ has
+vertex set $V(G)\cup K_A\cup K_B\cup K_C\cup\{z_A,z_B,z_C\}$ and edge set
+\[
+ E(H_\ell(G))=E(G)\cup
+ \bigcup_{X\in\{A,B,C\}}
+ \left(\binom{K_X}{2}\cup
+       \{\{u,v\}:u\in K_X,\ v\in X\cup\{z_X\}\}\right).
+\]
+Thus $K_X$ is a clique joined completely to $X\cup\{z_X\}$, and
+there are no other new edges. We call $K_X$ the \emph{anchor clique}
+of part $X$. The vertex $z_X$ is associated with that part.
+The anchor graph is the one introduced by Bonnet, Neuen, and
 Soko\l owski~\cite[Lemma~6]{BNS}. We use their identity at long anchor
 length as a black box, and derive the extension to shorter anchors.
 
@@ -305,12 +319,6 @@ There are three cases.
 \end{enumerate}
 Taking the weakest of these three bounds proves the lemma.
 \end{proof}
-
-Let $H_\ell(G)$ be obtained from a tripartite graph $G$ with specified
-nonempty independent parts $A,B,C$ by adding, for each
-$X\in\{A,B,C\}$, a clique $K_X$ of size $\ell$ and a vertex $z_X$.
-Join every vertex of $K_X$ to every vertex of $X\cup\{z_X\}$, and add
-no other edges.
 
 \begin{restatedcorollary}{Corollary~\ref{cor:max-part-anchor}}
 If $G$ is tripartite with specified nonempty independent parts $A,B,C$
