@@ -11,72 +11,69 @@ optimum of a minimization instance $I$.
 \begin{lemma}[Preservation of approximation gaps]
 \label{lem:gap-preservation}
 Let $I\mapsto I'$ be a polynomial-time transformation between
-minimization problems. Suppose that, for fixed $a>0$ and
-$0\le\epsilon<1$, it satisfies
+minimization problems, and let $N$ be the source instance size.
+Suppose, for fixed $a>0$ and $r'>1$, the reduction gives YES and NO
+bounds $aY(N)$ and $ar'Y(N)$, respectively, before additive losses,
+where $Y(N)>0$. Let $\Delta(N)$ bound the total additive loss in
+these bounds, so the actual bounds are at most
+$aY(N)+\Delta(N)$ in the YES case and at least
+$ar'Y(N)-\Delta(N)$ in the NO case. Suppose that, for every fixed
+$\epsilon>0$, the reduction's fixed parameters and a threshold $N_0$
+can be chosen so that
 \[
- |\OPT(I')-a\OPT(I)|\le\epsilon aL(I),
- \qquad 0<L(I)\le\OPT(I).
+ \Delta(N)\le\epsilon aY(N)
+\qquad\text{for every promised instance with }N\ge N_0.
 \]
-A promise with YES upper bound $Y>0$ and NO lower bound $r'Y$,
-where $r'>1$ and $Y$ may depend on the input size, then has
-transformed bounds $a(1+\epsilon)Y$ and $a(1-\epsilon)r'Y$.
-Thus every fixed $1\le r<r'$ is preserved when
-$\epsilon<(r'-r)/(r'+r)$.
+Then every fixed $1\le r<r'$ is preserved by choosing
+$\epsilon<(r'-r)/(r+1)$, provided the source promise remains
+hard when restricted to instances of order at least any fixed
+constant.
 
-Alternatively, suppose the transformation is known to have additive
-error at most $\epsilon aY$ on both promise cases, without a lower
-bound $L(I)\le\OPT(I)$. Then the transformed YES and NO bounds are
-$a(1+\epsilon)Y$ and $a(r'-\epsilon)Y$. Their gap has factor greater
-than $r$ whenever
-\[
- \epsilon<\frac{r'-r}{r+1},\qquad
- a(r'-\epsilon)Y-r a(1+\epsilon)Y
- =aY\bigl(r'-r-(r+1)\epsilon\bigr)>0.
-\]
-In particular, an additive error $o(aY)$ is harmless on all
-sufficiently large promised instances.
-
-If, in addition, every solution of $I'$ of cost $z$ can be converted
+If, in addition, for some fixed $\eta\ge0$ every solution of $I'$ of
+cost $z$ can be converted
 in polynomial time into one of $I$ of cost at most
-$z/a+\epsilon L(I)$, then an $r$-approximation for $I'$ gives an
-$(r+(r+1)\epsilon)$-approximation for $I$. If
-$\OPT(I')\le a\OPT(I)$, the latter factor improves to $r+\epsilon$.
+$z/a+\eta L(I)$, where $0<L(I)\le\OPT(I)$, and
+$\OPT(I')\le a\OPT(I)+\eta aL(I)$, then an $r$-approximation for
+$I'$ gives an $(r+(r+1)\eta)$-approximation for $I$. If
+$\OPT(I')\le a\OPT(I)$, this improves to $r+\eta$.
 \end{lemma}
 
 \begin{proof}
-The additive bound and $L(I)\le\OPT(I)$ give
+Choose $\epsilon<(r'-r)/(r+1)$. On sufficiently large YES instances,
 \[
- \begin{aligned}
- \OPT(I')&\ge a\OPT(I)-\epsilon aL(I)\ge a(1-\epsilon)\OPT(I),\\
- \OPT(I')&\le a\OPT(I)+\epsilon aL(I)\le a(1+\epsilon)\OPT(I).
- \end{aligned}
+ \OPT(I')\le aY(N)+\Delta(N)\le a(1+\epsilon)Y(N),
 \]
-These inequalities give the stated YES and NO bounds. Their ratio is
-$r'(1-\epsilon)/(1+\epsilon)$. It exceeds $r$ if and only if
-$r(1+\epsilon)<r'(1-\epsilon)$, or
-$\epsilon<(r'-r)/(r'+r)$. Under the alternative additive-error
-hypothesis, YES values increase by at most $\epsilon aY$ and NO
-values decrease by at most the same amount, giving the displayed
-transformed bounds and gap condition. For the solution claim,
+and on NO instances,
+\[
+ \OPT(I')\ge ar'Y(N)-\Delta(N)\ge a(r'-\epsilon)Y(N).
+\]
+The NO bound exceeds $r$ times the YES bound because
+\[
+ a(r'-\epsilon)Y(N)-ra(1+\epsilon)Y(N)
+ =aY(N)\bigl(r'-r-(r+1)\epsilon\bigr)>0.
+\]
+The error condition holds, for example, if $Y(N)\ge c_0N^p$ and
+$\Delta(N)\le C\theta N^p+g(N)$, where $c_0,C>0$ are fixed,
+$g(N)\ge0$, and $g(N)=o(N^p)$. Choose
+$\theta<\epsilon ac_0/(2C)$, then take $N$
+large enough that $g(N)\le\epsilon ac_0N^p/2$. Thus
+$\Delta(N)\le\epsilon aY(N)$. For $p=1$, this covers a tunable
+linear term plus $O(\log N)+O(1)$; for $p=2$, it covers a tunable
+quadratic term plus $O(N\log N)+O(N)$.
+
+For the solution claim,
 an $r$-approximate solution has $z\le r\OPT(I')$, so its conversion
 has cost at most
 \[
- \frac za+\epsilon L(I)
- \le\frac{r\OPT(I')}{a}+\epsilon L(I)
- \le r\OPT(I)+(r+1)\epsilon L(I)
- \le\bigl(r+(r+1)\epsilon\bigr)\OPT(I).
+\frac za+\eta L(I)
+ \le\frac{r\OPT(I')}{a}+\eta L(I)
+ \le r\OPT(I)+(r+1)\eta L(I)
+ \le\bigl(r+(r+1)\eta\bigr)\OPT(I).
 \]
 When $\OPT(I')\le a\OPT(I)$, use $z/a\le r\OPT(I)$ to bound the
 conversion cost by
-$r\OPT(I)+\epsilon L(I)\le(r+\epsilon)\OPT(I)$.
+$r\OPT(I)+\eta L(I)\le(r+\eta)\OPT(I)$.
 \end{proof}
-
-An additive error of order $o(L(I))$ is at most
-$\epsilon aL(I)$ on all sufficiently large instances, for any
-fixed $a,\epsilon>0$. Thus the lemma also applies when its
-hypotheses hold only above a fixed
-size, provided the source promise remains hard under that
-restriction. The reductions below verify this condition.
 
 \subsection{The degree-reduction approach}
 
@@ -143,8 +140,8 @@ three steps.
    $r'>r$. The YES bound $Y$ has the same linear or quadratic scale
    as the corresponding loss, so the threshold fractions can make
    the loss at most $\delta Y$ for any fixed $\delta>0$. Taking
-   $\delta<(r'-r)/(r+1)$ lets the additive-slack form of
-   Lemma~\ref{lem:gap-preservation} preserve factor $r$.
+   $\delta<(r'-r)/(r+1)$ lets Lemma~\ref{lem:gap-preservation}
+   preserve factor $r$.
 \end{enumerate}
 
 For the maximum degree to be bounded, we also need bounded degree

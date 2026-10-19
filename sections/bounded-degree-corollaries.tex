@@ -3,12 +3,12 @@
 \label{subsec:bounded-degree-consequences}
 
 Fix a target factor $r$ below a dense hardness threshold, and choose
-a dense factor $r'>r$. The YES bound $Y$ is linear in $N$ for
-treedepth and treewidth and quadratic for total depth. The
+a dense factor $r'>r$. Write $Y$ for its YES upper bound. It is linear
+in $N$ for treedepth and treewidth and quadratic for total depth. The
 sparsification losses $\tau N$ and $\tau N^2$ can therefore be made
 at most $\delta Y$ by choosing $\tau$ small. Taking
-$\delta<(r'-r)/(r+1)$, the additive-slack form of
-Lemma~\ref{lem:gap-preservation} transfers the factor-$r$ hardness.
+$\delta<(r'-r)/(r+1)$, Lemma~\ref{lem:gap-preservation} transfers
+the factor-$r$ hardness.
 We verify the factor conditions using the following two observations.
 
 For every variable $x$ of $F$ and $a\in\{0,1\}$, let
@@ -122,12 +122,12 @@ $r<r'<4/3$. Take $q,\eta$ from the proof of
 Theorem~\ref{thm:ugc-hardness} for factor $r'$, and apply
 Theorem~\ref{thm:bounded-degree-kr-source} with this $\eta$ in
 $S_q(G)$. The layer cliques give $d_1=1$, and the retained
-cross-layer edges have maximum degree $(q-1)d_\eta$. A layer clique
-gives the lower bound $L:=n\le\td(S_q(G))$, while the sparsification
-loss is at most $\tau qn=\tau qL$. Choose
-$\tau<(r'-r)/(q(r'+r))$. Lemma~\ref{lem:gap-preservation}, with
-$a=1$ and $\epsilon=\tau q$, transfers the dense factor-$r'$
-gap to factor $r$.
+cross-layer edges have maximum degree $(q-1)d_\eta$. Write $Y$ for
+the dense YES upper bound. A layer clique gives
+$n\le\td(S_q(G))\le Y$ in the YES case.
+The sparsification loss is therefore at most $\tau qn\le\tau qY$.
+Choose $\tau<(r'-r)/(q(r+1))$. Lemma~\ref{lem:gap-preservation}
+then transfers the dense factor-$r'$ gap to factor $r$.
 
 \emph{SSE hardness.}
 Use the common line-graph factors above.
@@ -203,11 +203,11 @@ $(3/2+3\zeta)n$ and NO cover bound
 $(2-2\zeta)n\geq(2-3\zeta)n$ for $P_3(G)$, as required by
 Theorem~\ref{thm:tw-ugc}.
 The dense graph has global cliques of size $Rn$, so its treewidth is
-at least $Rn-1$. Since its order is $3Rn$, the sparsification loss
-$3\tau Rn$ is at most $6\tau(Rn-1)$ when $Rn\ge2$. Choose
-$\tau<(r'-r)/(6(r'+r))$. Lemma~\ref{lem:gap-preservation}, with
-$a=1$ and $L(H)=Rn-1$, transfers the dense factor-$r'$ gap to
-factor $r$.
+at least $Rn-1$. Write $Y$ for the dense YES upper bound, so
+$Y\ge Rn-1$. Since the graph has order $3Rn$, the sparsification
+loss is at most $3\tau Rn\le6\tau(Rn-1)\le6\tau Y$ when $Rn\ge2$. Choose
+$\tau<(r'-r)/(6(r+1))$. Lemma~\ref{lem:gap-preservation} then
+transfers the dense factor-$r'$ gap to factor $r$.
 
 \emph{SSE hardness.}
 Use the common line-graph factors.
@@ -295,10 +295,11 @@ Restriction to the $q$ layer cliques gives
  L:=q\,\frac{n(n+1)}2\le\totd(S_q(G)),\qquad
  L\ge\frac{qn^2}{2}=\frac{N^2}{2q},\quad N=qn.
 \]
-The sparsification loss $\tau N^2$ is at most $2q\tau L$.
-Choose $\tau<(r'-r)/(2q(r'+r))$. Lemma~\ref{lem:gap-preservation},
-with $a=1$, lower bound $L$, and $\epsilon=2q\tau$, transfers the
-dense factor-$r'$ gap to factor $r$.
+Write $Y$ for the dense YES upper bound. Since the layer cliques give
+$L\le\totd(S_q(G))\le Y$ in the YES case, the sparsification loss
+$\tau N^2$ is at most $2q\tau L\le2q\tau Y$. Choose
+$\tau<(r'-r)/(2q(r+1))$. Lemma~\ref{lem:gap-preservation} then
+transfers the dense factor-$r'$ gap to factor $r$.
 
 \emph{SSE hardness.}
 The common line-graph construction has YES total depth at most
@@ -409,8 +410,8 @@ enlargements described in Section~\ref{subsec:bounded-degree-consequences}.
 For treedepth and treewidth, Proposition~\ref{prop:regularization}
 changes the promise bounds by at most the fixed constant $d+2$.
 Their YES bounds have linear scale, so this is $o(Y)$ as the source
-order grows. The additive-slack form of
-Lemma~\ref{lem:gap-preservation} preserves the factor-$r$ gap.
+order grows. Lemma~\ref{lem:gap-preservation} preserves the
+factor-$r$ gap.
 
 For total depth, divide the regularized cost by $d+2$.
 Proposition~\ref{prop:regularization} gives
@@ -425,8 +426,8 @@ last bound is at most $\epsilon Y/2$ for all sufficiently large $n$,
 then choose $n$ large enough that the second term is at most
 $\epsilon Y/2$. The normalized error is then at most $\epsilon Y$,
 and the NO bound does not decrease. Choosing
-$\epsilon<(r'-r)/(r+1)$, the additive-slack form of
-Lemma~\ref{lem:gap-preservation} preserves the factor-$r$ gap.
+$\epsilon<(r'-r)/(r+1)$, Lemma~\ref{lem:gap-preservation}
+preserves the factor-$r$ gap.
 
 For the NP total-depth family, the optimum itself is bounded
 below by a fixed positive multiple of $n^2$, as shown in
@@ -483,9 +484,9 @@ minor-monotonicity, this gives
 \[
  \td(G)\leq\td(G_\ell)\leq\td(G)+h,\qquad h=\lceil\log_2\ell\rceil.
 \]
-The additive-slack form of Lemma~\ref{lem:gap-preservation} absorbs
-the fixed height increase $h$, since the YES bounds grow linearly
-with the source order. For total depth, start with a
+Lemma~\ref{lem:gap-preservation} absorbs the fixed height increase
+$h$, since the YES bounds grow linearly with the source order. For
+total depth, start with a
 $d$-regular instance $G$ on $n$ vertices from
 Corollary~\ref{cor:regular-hardness}.
 Since $d$ is odd, add a perfect matching to make every degree even,
