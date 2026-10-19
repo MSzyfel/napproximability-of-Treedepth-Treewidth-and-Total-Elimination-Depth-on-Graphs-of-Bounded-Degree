@@ -354,9 +354,10 @@ at ICS 1996~\cite{LamYue1996}.
 \paragraph{Hypergraph widths and binary queries.}
 A hypergraph has a vertex set and a collection of subsets called
 hyperedges, and its \emph{rank} is the largest hyperedge size.
-A tree decomposition covers each hyperedge by a bag and has the
-same connectedness requirement for each vertex as a graph
-decomposition. An edge cover of a bag is a set of hyperedges
+A tree decomposition consists of a tree $T$ and a bag $B_t\subseteq V(H)$
+for each node $t$. Every vertex must occur in at least one bag, the nodes
+whose bags contain any fixed vertex must form a connected subtree of $T$,
+and each hyperedge must be contained in a bag. An edge cover of a bag is a set of hyperedges
 whose union contains it. These covering edges are also called
 \emph{guards}. The \emph{generalized hypertree width}
 $\operatorname{ghw}$ minimizes the maximum number of guards in
@@ -373,8 +374,8 @@ bag must already occur in the current bag. This is the
 
 Marx reduces treewidth to fractional hypertree width
 in~\cite[proof of Theorem~5.1]{Marx2010Fractional}. We use adjacent
-clone pairs to transfer all three widths on
-rank-two instances, with the proof given below. Define $G[K_2]$ on
+clone pairs to transfer all three widths on rank-two instances, with
+the proof given below. Let $G$ be a nonempty graph, and define $G[K_2]$ on
 $V(G)\times\{1,2\}$: distinct vertices $(u,i),(v,j)$ are adjacent
 if and only if $u=v$ or $uv\in E(G)$. Thus each source vertex is
 replaced by an adjacent pair, and a source edge joins the two pairs
