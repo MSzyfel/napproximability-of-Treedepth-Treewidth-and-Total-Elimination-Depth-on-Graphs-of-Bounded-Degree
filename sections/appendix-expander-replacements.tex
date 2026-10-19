@@ -34,10 +34,11 @@ For a map $\pi:V(\mathcal E)\to U$ and a subset $X\subseteq U$,
 the \emph{preimage} is
 $\pi^{-1}(X)=\{x\in V(\mathcal E):\pi(x)\in X\}$.
 The map is \emph{onto} if every vertex of $U$ has at least one
-preimage. When $|U|=n\le M$, choose such a map by partitioning the
-$M$ auxiliary vertices into $n$ groups of sizes
-$\lfloor M/n\rfloor$ or $\lceil M/n\rceil$ and assigning one group
-to each vertex of $U$. This gives
+preimage. When $|U|=n\le M$, partition the $M$ auxiliary vertices
+into $n$ groups. Write $M=n\lfloor M/n\rfloor+r$ with
+$0\leq r<n$; give $r$ groups size $\lfloor M/n\rfloor+1$ and the
+other groups size $\lfloor M/n\rfloor$. Since $M\geq n$, every group
+is nonempty. Assign one group to each vertex of $U$. This gives
 $1\le|\pi^{-1}(\{u\})|\le\lceil M/n\rceil$ for every $u\in U$.
 
 These maps preserve the required edge condition. For disjoint
@@ -89,7 +90,8 @@ because its adjacency matrix is symmetric and has row sum $d$.
 Thus $\deg(v)\le8^k\lceil M/n_B\rceil$.
 
 For the one-set construction,
-$M=\lceil\sqrt n\rceil^2\le(\sqrt n+1)^2\le4n$, since $n\ge1$.
+$M=\lceil\sqrt n\rceil^2\le(\sqrt n+1)^2\le4n$, since
+$4n-(\sqrt n+1)^2=(3\sqrt n+1)(\sqrt n-1)\ge0$ for $n\ge1$.
 Hence $\lceil M/n\rceil\le4$. For the bipartite construction, the
 same estimate gives $M\le4\max\{n_A,n_B\}$. The side-size ratio
 is at most $\kappa$, so
@@ -141,9 +143,10 @@ $-d$ is an eigenvalue if and only if some component is bipartite
 \cite[Section~2.3]{HLW2006}. These criteria also apply to our
 multigraph adjacency matrix, which counts parallel edges and loops
 as steps. Since its nonconstant eigenvalue bound is
-$d\lambda_0^k<d$, the eigenvalue $d$ is simple and $-d$ is absent.
-Thus $\mathcal E$ is connected and nonbipartite, so it contains an
-odd cycle.
+$d\lambda_0^k<d$ (because $0<\lambda_0<1$ and $k\ge1$), the
+eigenvalue $d$ is simple and $-d$ is absent. Thus $\mathcal E$ is
+connected and nonbipartite. A graph is bipartite exactly when it has
+no odd cycle, so $\mathcal E$ contains an odd cycle.
 
 In the one-set construction, take any two output vertices $u,v$
 and choose preimages $x,y$. A walk from $x$ to $y$ exists in

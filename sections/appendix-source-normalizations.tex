@@ -221,8 +221,8 @@ We prove the only Gaussian estimate needed here.
 
 \begin{lemma}[Gaussian separation at medium measure]
 \label{lem:gaussian-medium-separation}
-There are absolute constants $a,\varepsilon_0>0$ such that, for
-$0<\varepsilon<\varepsilon_0$, $\varepsilon'\in[\varepsilon/2,\varepsilon]$,
+There are absolute constants $a,\varepsilon_{\mathrm G}>0$ such that, for
+$0<\varepsilon<\varepsilon_{\mathrm G}$, $\varepsilon'\in[\varepsilon/2,\varepsilon]$,
 and $1/10\le\mu\le1/2$,
 $\mu-\Gamma_{1-\varepsilon'/2}(\mu)\ge a\sqrt\varepsilon$.
 \end{lemma}
@@ -234,35 +234,38 @@ $Y=\xi X+\sqrt{1-\xi^2}\,Z$. Then $X,Y$ are standard normal
 with correlation $\xi$. If $\Pr[X\leq t]=\mu\in[1/10,1/2]$,
 the threshold $t$ lies in a fixed bounded interval with $t\leq0$.
 Moreover, $\mu-\Gamma_\xi(\mu)=\Pr[X\leq t<Y]$.
-For sufficiently small $\varepsilon'$, we have $0\leq\xi<1$.
-On the event $t-\sqrt{1-\xi^2}\leq X\leq t$ and $Z>1$,
+We may decrease $\varepsilon_{\mathrm G}$ so that
+$\varepsilon_{\mathrm G}\leq1$. Then $0\leq\xi<1$ and
+$\sigma:=\sqrt{1-\xi^2}\leq1$. Put $t_0=\Psi^{-1}(1/10)$.
+The interval $[t-\sigma,t]$ is contained in the fixed interval
+$[t_0-1,0]$. Let
+$c_*:=\Pr[Z>1]\min_{x\in[t_0-1,0]}\varphi(x)>0$, where $\varphi$
+is the standard normal density. On the event
+$t-\sigma\leq X\leq t$ and $Z>1$,
 we have $X\leq t$ and
 \[
  \begin{aligned}
- Y&>\xi\bigl(t-\sqrt{1-\xi^2}\bigr)
-       +\sqrt{1-\xi^2}\\
- &=\xi t+(1-\xi)\sqrt{1-\xi^2}\\
- &=t+(1-\xi)\bigl(\sqrt{1-\xi^2}-t\bigr)\geq t.
+ Y&>\xi(t-\sigma)+\sigma
+  =\xi t+(1-\xi)\sigma
+  =t+(1-\xi)(\sigma-t)\geq t.
  \end{aligned}
 \]
-The last inequality follows from $t\leq0$ and $\xi\leq1$.
-The standard normal density has a positive minimum on the fixed
-bounded interval containing all these possible values of $X$.
-Thus the first event has probability at least an absolute constant
-times its interval length $\sqrt{1-\xi^2}$. The event $Z>1$
-has a fixed positive probability and is independent of $X$.
-Their intersection therefore has probability at least
-$2a\sqrt{1-\xi^2}$ for some absolute constant $a>0$.
-Since $1-\xi^2=(1-\xi)(1+\xi)\geq1-\xi$, we have
-$\sqrt{1-\xi^2}\geq\sqrt{1-\xi}
-=\sqrt{\varepsilon'/2}\geq\frac12\sqrt{\varepsilon}$.
-Thus $\mu-\Gamma_{1-\varepsilon'/2}(\mu)
-\geq a\sqrt{\varepsilon}$ for $1/10\leq\mu\leq1/2$.
+The last inequality uses $t\leq0$ and $\xi\leq1$. The interval
+event for $X$ has probability at least
+$\sigma\min_{x\in[t_0-1,0]}\varphi(x)$, and it is independent of
+$Z>1$. Hence
+\[
+ \mu-\Gamma_\xi(\mu)
+ \geq c_*\sigma
+ \geq\frac{c_*}{2}\sqrt{\varepsilon},
+\]
+where $1-\xi^2=(1-\xi)(1+\xi)\geq1-\xi=\varepsilon'/2
+\geq\varepsilon/4$. Taking $a=c_*/2$ proves the lemma.
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:sse-source}]
-Fix $q$ and $\varepsilon$ as in the statement, reducing
-$\varepsilon_0$ so that $\varepsilon<1$. Choose a rational $\rho$ with
+Fix $q$ and $\varepsilon$ as in the statement, taking its threshold
+$\varepsilon_0\leq\min\{1,\varepsilon_{\mathrm G}\}$. Choose a rational $\rho$ with
 $\sqrt{1-\varepsilon/2}<\rho<\sqrt{1-\varepsilon/4}$. Put
 $\varepsilon'=2(1-\rho^2)$. Then $\rho$ and $\varepsilon'$ are
 rational, and $\varepsilon'\in(\varepsilon/2,\varepsilon)$.
@@ -283,9 +286,30 @@ expansion by
 Their parameter choices satisfy
 $\varepsilon_V=\varepsilon'^2$, with their small-set source parameter
 $\eta\leq\varepsilon'^2$, $\beta\leq\varepsilon'$, and
-$2^{-\Omega(k)}=O(\varepsilon'^2)$. Hence this bound is
-$\varepsilon'+O(\varepsilon'^2)$, with an absolute error bound
-independent of $q$. The sum of the classes' normalized
+$k$ is a sufficiently large constant multiple of
+$\log(1/\varepsilon')$. Thus their $2^{-\Omega(k)}$ error is
+$O(\varepsilon'^2)$, so for an absolute constant $C_{\mathrm{RST}}$,
+$2^{-\Omega(k)}\leq C_{\mathrm{RST}}\varepsilon'^2$. Put
+$u=1-\rho^2+\eta+2\varepsilon_V$. Since
+$1-\rho^2=\varepsilon'/2$, we have
+$u\leq\varepsilon'/2+3\varepsilon'^2$. For $\varepsilon'\leq1/6$,
+$u\leq\varepsilon'$, so the first two terms in the displayed bound
+are at most
+\[
+ 2u+u^2\leq2(\varepsilon'/2+3\varepsilon'^2)+\varepsilon'^2
+ =\varepsilon'+7\varepsilon'^2.
+\]
+Also $\rho^2=1-\varepsilon'/2\geq1/2$, and hence
+\[
+ \frac{(1-\rho^2)\beta}{\rho^2}
+ \leq\frac{(\varepsilon'/2)\varepsilon'}{1/2}
+ =\varepsilon'^2.
+\]
+Thus the full bound is at most
+$\varepsilon'+(8+C_{\mathrm{RST}})\varepsilon'^2$. It is at most
+$2\varepsilon'$ after reducing the theorem's $\varepsilon_0$ so that
+$\varepsilon_0\leq\min\{1/6,(8+C_{\mathrm{RST}})^{-1}\}$. The error constant does
+not depend on $q$. The sum of the classes' normalized
 volumes is $q\cdot(1/q)=1$. Since normalized volume is additive
 on disjoint sets and the whole graph has normalized volume one,
 the vertices outside these classes have total volume zero.
@@ -293,9 +317,8 @@ Such vertices have degree zero and can be assigned to any class
 without changing its volume or its boundary. We therefore obtain
 a partition of the entire vertex set with the required
 class volumes. Use the rational-parameter version of the finite RST
-reduction. Its output graph has rational edge weights. For
-sufficiently small $\varepsilon'$, the absolute error above is at
-most $\varepsilon'$, so every class has expansion at most
+reduction; its output graph has rational edge weights. The bound
+above gives each class expansion at most
 $2\varepsilon'\leq2\varepsilon$.
 
 \emph{NO case.}
@@ -309,25 +332,29 @@ Let $a$ be the constant in Lemma~\ref{lem:gaussian-medium-separation},
 and choose a fixed rational $0<\gamma\le a\sqrt\varepsilon/20$, as the source
 theorem permits.
 For $\mu_G(A)\in[1/10,1/2]$, multiply the source expansion
-inequality by $2\mu_G(A)$ and use
-$w(\cut_G(A))/W=2\mu_G(A)\Phi_G(A)$, which follows from
-$\vol_G(A)=2W\mu_G(A)$. Therefore
+inequality by $2\mu_G(A)$. Since
+$\Phi_G(A)=w(\cut_G(A))/\vol_G(A)$ and
+$\vol_G(A)=2W\mu_G(A)$, this gives
 \[
+ \begin{aligned}
   \frac{w(\cut_G(A))}{W}
-  \geq2\bigl(\mu_G(A)-\Gamma_{1-\varepsilon'/2}(\mu_G(A))\bigr)-2\gamma
-  \geq2a\sqrt{\varepsilon}-2\gamma
-  \geq\left(2-\frac1{10}\right)a\sqrt{\varepsilon}
-  \geq\frac{a}{10}\sqrt{\varepsilon}.
+  &=2\mu_G(A)\Phi_G(A)\\
+  &\geq2\mu_G(A)-2\Gamma_{1-\varepsilon'/2}(\mu_G(A))-2\gamma\\
+  &=2\bigl(\mu_G(A)-\Gamma_{1-\varepsilon'/2}(\mu_G(A))\bigr)-2\gamma\\
+  &\geq2a\sqrt{\varepsilon}-2\gamma
+   \geq\left(2-\frac1{10}\right)a\sqrt{\varepsilon}
+   \geq\frac{a}{10}\sqrt{\varepsilon}.
+ \end{aligned}
 \]
 Here $2\gamma\leq(a/10)\sqrt{\varepsilon}$. If
 $\mu_G(A)\in[1/2,9/10]$, its complement has measure
-$1-\mu_G(A)\in[1/10,1/2]$. A boundary edge has one endpoint in
+$1-\mu_G(A)\in[1/10,1/2]$, since volume is additive and
+$\mu_G(V(G))=1$. A boundary edge has one endpoint in
 each side, so $\cut_G(V(G)\setminus A)=\cut_G(A)$ as multisets.
 Applying the preceding argument to the complement therefore gives
 the same cut bound for $A$. Thus the
 claimed NO cut bound holds throughout $[1/10,9/10]$ with $c=a/10$.
-Reducing $\varepsilon_0$ if needed ensures the Gaussian stability
-estimate used above. All parameters are fixed constants for each source
+All parameters are fixed constants for each source
 promise, so the source reduction remains polynomial for each fixed
 $(q,\varepsilon)$.
 \end{proof}

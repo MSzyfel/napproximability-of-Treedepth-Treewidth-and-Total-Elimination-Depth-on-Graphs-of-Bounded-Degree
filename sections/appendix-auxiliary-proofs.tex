@@ -76,8 +76,10 @@ The same bound covers empty top or class chains.
 On a NO source instance, every set $A\subseteq V(G)$ with
 $|A|\in[|V(G)|/10,9|V(G)|/10]$ has at least
 $c_0\sqrt{\varepsilon}\,m$ crossing host edges, for an absolute
-constant $c_0>0$. Since the host is regular, this is the same as the
-corresponding volume condition. Wu, Austrin, Pitassi, and Liu~\cite[Lemma~5.1]{APW}
+constant $c_0>0$. If $d$ is the positive degree of the regular host,
+then $2m=d|V(G)|$ and
+$\mu_G(A)=d|A|/(d|V(G)|)=|A|/|V(G)|$. Hence this cardinality range
+is the same as the corresponding volume range. Wu, Austrin, Pitassi, and Liu~\cite[Lemma~5.1]{APW}
 apply this source property to the entire replicated incidence graph
 $G'$ and prove that its minimum balanced-separator size satisfies
 $b(G')\geq c_1\sqrt{\varepsilon}\,m$ for an absolute constant
@@ -94,15 +96,21 @@ partition classes have positive volume and are therefore nonempty.
 The regular host has positive integer degree, so
 $2m\geq|V(G)|\geq q\geq1/\varepsilon^2$.
 Since $\varepsilon\leq1/2$, this implies
-$m\geq1/(2\varepsilon^2)\geq1/\varepsilon$. The YES upper bound thus satisfies
+$m\geq1/(2\varepsilon^2)\geq1/\varepsilon$. Also,
+$q\geq\varepsilon^{-2}$ and $m\geq\varepsilon^{-1}$ give
+$m/q\leq\varepsilon^2m$ and $1\leq\varepsilon m$. Thus the YES
+upper bound satisfies
 \[
  2\varepsilon m+\frac{m}{q}+1
  \leq(2\varepsilon+\varepsilon^2+\varepsilon)m
  \leq4\varepsilon m,
 \]
-whereas the NO lower bound is
-$c_{\mathrm{inc}}\sqrt{\varepsilon}\,m>4C\varepsilon m$. Thus a factor-$C$
-approximation distinguishes the two cases. Finally, taking
+where the last inequality uses $\varepsilon^2\leq\varepsilon$.
+The NO lower bound is
+$c_{\mathrm{inc}}\sqrt{\varepsilon}\,m>4C\varepsilon m$. A factor-$C$
+approximation returns height at most $4C\varepsilon m$ in the YES
+case, while every feasible forest has greater height in the NO case.
+Thus it distinguishes the two cases. Finally, taking
 $R_{\mathrm{inc}}=|V(G)|m$ makes the incidence output polynomial in the source
 size. This proves SSE hardness for treedepth at every fixed factor
 on bipartite outputs from the cited construction.
@@ -268,8 +276,9 @@ $h(F)\ge\ell+\vc(G)+1$.
 \begin{proof}
 Set $L=\max\{\ell,\vc(G)\}$ and
 $d=L-\ell$. In each $K_X$, insert a chain of $d$ new vertices
-immediately above $v_X$. They are comparable with every old
-vertex of $K_X$. Every vertex of $X\cup\{z_X\}$ is comparable
+immediately above $v_X$. Together with $K_X$, these vertices form
+the size-$L$ anchor clique in $H_L(G)$, which is joined completely
+to $X\cup\{z_X\}$. Every vertex of $X\cup\{z_X\}$ is comparable
 with $v_X$, since it is adjacent to $v_X$. Hence it is
 also comparable with the inserted chain. The resulting forest is
 therefore an elimination forest of $H_L(G)$. Since the three
@@ -300,10 +309,15 @@ parts $A,B,C$ and every integer $\ell\ge1$,
 
 \begin{proof}
 \emph{Upper bound.}
-The cover-first forest in the proof of~\cite[Lemma~6]{BNS} has height
-at most $\ell+\vc(G)+1$. Its construction does not require
-$\ell\ge\vc(G)$, so it gives the stated upper bound for every
-$\ell\ge1$.
+The cover-first forest in the proof of~\cite[Lemma~6]{BNS} places a
+minimum vertex cover on a top chain, then places each anchor clique
+on its own chain below it and attaches the uncovered vertices of
+that part and its associated $z_X$ as leaves below the anchor chain.
+If the cover is empty, use the three anchor chains as separate roots.
+Every source edge meets the top cover, and every anchor edge has
+comparable endpoints. A root-to-leaf path therefore uses at most
+$\vc(G)+\ell+1$ vertices. The construction does not require
+$\ell\ge\vc(G)$, so it gives the upper bound for every $\ell\ge1$.
 
 \emph{Lower bound.}
 Fix an elimination forest $F$ and use the anchor notation above.
@@ -313,11 +327,12 @@ There are three cases.
    Lemma~\ref{lem:incomparable-anchor-extension} gives
    $h(F)\ge\ell+\vc(G)+1$.
 
- \item Suppose all three anchors are comparable, and let $v_X$
-   be the deepest. Every vertex of the other two anchor cliques lies
-   above $v_X$. Apply Lemma~\ref{lem:anchor-path} and its bound
-   \eqref{eq:anchor-path-bound} with $R=K_Y\cup K_Z$ to obtain
-   $h(F)\ge3\ell+1$.
+  \item Suppose all three anchors are comparable, and let $v_X$
+    be the deepest, with $\{Y,Z\}=\{A,B,C\}\setminus\{X\}$.
+    Every vertex of the other two anchor cliques lies above $v_X$.
+    Set $R=K_Y\cup K_Z$, so $|R|=2\ell$.
+    Lemma~\ref{lem:anchor-path} gives
+    $h(F)\geq|R|+\ell+1=3\ell+1$.
 
  \item Otherwise some pair is comparable, but the three anchors do
    not form a chain. Relabel so that $v_A$ is an ancestor of
@@ -325,13 +340,15 @@ There are three cases.
    This includes the case where $v_A$ is above both other
    anchors. Let $S$ be the source vertices ancestral
    to both $v_B$ and $v_C$. Lemma~\ref{lem:anchor-pair-cover} shows that
-   $S$ contains a cover of $G[B\cup C]$, so
-   $|S|\ge\vc(G[B\cup C])$. Every vertex
+    $S$ contains a cover of $G[B\cup C]$, so
+    $|S|\ge\vc(G[B\cup C])\ge\vc_2(G)$. Every vertex
    of $K_A$ is an ancestor of $v_A$, and hence of $v_B$.
    Therefore $R=S\cup K_A$ is disjoint from $K_B\cup\{z_B\}$ and
-   consists of ancestors of $v_B$. Lemma~\ref{lem:anchor-path} and
-   its bound~\eqref{eq:anchor-path-bound} give
-   $h(F)\ge2\ell+|S|+1\ge2\ell+\vc_2(G)+1$.
+    consists of ancestors of $v_B$. Since $S\subseteq V(G)$ and
+    $K_A$ is disjoint from $V(G)$, $|R|=|S|+|K_A|=|S|+\ell$.
+    Applying Lemma~\ref{lem:anchor-path} with anchor $B$ gives
+    $h(F)\geq|R|+\ell+1=2\ell+|S|+1
+      \geq2\ell+\vc_2(G)+1$.
 \end{enumerate}
 Taking the weakest of these three bounds proves the lemma.
 \end{proof}

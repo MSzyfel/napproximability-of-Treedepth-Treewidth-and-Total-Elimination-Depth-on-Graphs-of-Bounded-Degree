@@ -90,21 +90,22 @@ The reduction is deterministic and polynomial for fixed parameters.
 \end{lemma}
 
 \begin{proof}
-The edge distribution in~\cite[proof of Theorem~3.1]{AKS2011} first chooses two
-constraints incident with the same left vertex, then samples
-independent coordinate pairs $(x_j,y_j)$ with probabilities
-$\Pr[x_j=0,y_j=0]=1-2p$,
-$\Pr[x_j=0,y_j=1]=\Pr[x_j=1,y_j=0]=p$, and
-$\Pr[x_j=1,y_j=1]=0$.
-The endpoint strings are then permuted by the two constraints.
 To control possible loops even when the Unique Games instance has
-parallel constraints with different permutations, we first pad its
+parallel constraints with different permutations, first pad its
 alphabet from $[\ell]$ to $[\ell]\times[t]$, replacing every
 constraint $\pi$ by $(i,j)\mapsto(\pi(i),j)$.
 Projecting any satisfying padded label pair to its first coordinate
 shows that padding cannot increase the NO optimum. A YES labeling
 extends by giving every labeled vertex the same second coordinate.
 Regularity and the YES fraction are unchanged.
+
+The AKS edge distribution~\cite[proof of Theorem~3.1]{AKS2011}
+first chooses two constraints incident with the same left vertex,
+then samples independent coordinate pairs $(x_j,y_j)$ with
+probabilities $\Pr[x_j=0,y_j=0]=1-2p$,
+$\Pr[x_j=0,y_j=1]=\Pr[x_j=1,y_j=0]=p$, and
+$\Pr[x_j=1,y_j=1]=0$. It then permutes the endpoint strings by
+the two constraints.
 
 The coordinates $[\ell]\times\{j\}$, for a fixed $j\in[t]$,
 form one coordinate block. Put $c=p^2+(1-p)^2<1$. Conditional on any choice of the two
@@ -115,6 +116,7 @@ the two permutations select the same input coordinate there, equality
 has probability $1-2p$. If they select different input coordinates,
 the bits are independent with marginal probability $p$, so equality
 has probability $c=p^2+(1-p)^2$. Both bounds are at most $c$.
+Indeed, $c-(1-2p)=2p^2>0$.
 The coordinate blocks are independent, so the probability of full
 string equality, and hence the total loop weight, is at most $c^t$.
 Choose a fixed $t$ with $c^t<\varepsilon_{\mathrm{loop}}$, and delete all loops.
@@ -167,11 +169,38 @@ clone graph $G_1$ satisfies, for every $S'\subseteq V(G_1)$,
 \end{equation}
 \end{lemma}
 
-The cited argument selects each source vertex independently with
-probability equal to the fraction of its clones in the chosen set.
-The loop removal in Lemma~\ref{lem:aks-loop-removal} ensures that
-the two endpoints of each edge are distinct, so their selection
-events are independent.
+For a chosen set $S'\subseteq V(G_1)$, let $f_u$ be the fraction of
+clones of $u$ in $S'$. The cited argument forms a random set
+$S\subseteq V(G^-)$ by selecting each source vertex $u$ independently
+with probability $f_u$. Since $a_u=m_u/N_{\mathrm{cl}}$,
+each clone represents source weight $1/N_{\mathrm{cl}}$. The loop
+removal in Lemma~\ref{lem:aks-loop-removal} makes the two endpoints
+of each edge distinct, so their selection events are independent.
+For an edge $uv$ of weight $w_{uv}$, each of the $m_um_v$ clone pairs
+has weight $w_{uv}/(m_um_v)$. The set $S'$ contains $m_uf_u$ clones
+of $u$ and $m_vf_v$ of $v$, so these clone pairs contribute
+$(m_uf_u)(m_vf_v)w_{uv}/(m_um_v)=w_{uv}f_uf_v$. Thus the expected
+source weight and expected internal edge weight are
+\[
+ \mathbb E[a(S)]=\sum_u a_uf_u=\frac{|S'|}{N_{\mathrm{cl}}},
+ \qquad
+ \mathbb E[e_{G^-}(S)]=\sum_{uv}w_{uv}f_uf_v=e_{G_1}(S').
+\]
+Applying the source density bound and then convexity of $\Gamma_\xi$
+gives
+\[
+ \begin{aligned}
+ e_{G_1}(S')
+ &=\mathbb E[e_{G^-}(S)]\\
+ &\geq\mathbb E[\Gamma_\xi(a(S))]
+       -\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}\\
+ &\geq\Gamma_\xi\!\left(\mathbb E[a(S)]\right)
+       -\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}\\
+ &=\Gamma_\xi(|S'|/N_{\mathrm{cl}})
+       -\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}.
+ \end{aligned}
+\]
+This is the claimed bound.
 
 \subsubsection{Deterministic sparsification of a dense-set promise}
 
@@ -245,7 +274,7 @@ $\operatorname{vol}_{G'}(S)\ge\operatorname{vol}_G(S)$.
 Applying the sandwich to $\mathbf1_S$ gives
 $w(\cut_{G'}(S))\le(1+5\theta)w(\cut_G(S))$. Every cut has weight at most the total edge weight, so
 $w(\cut_G(S))\le1$. Also $\theta\le\zeta/14$ gives
-$5\theta/2\le\zeta/4$. Therefore, whenever $|S|\ge\eta N$,
+$5\theta/2\leq5\zeta/28\leq\zeta/4$. Therefore, whenever $|S|\ge\eta N$,
 \begin{align*}
  2e_{G'}(S)&=\operatorname{vol}_{G'}(S)-w(\cut_{G'}(S))\\
  &\ge\operatorname{vol}_G(S)-(1+5\theta)w(\cut_G(S))\\
@@ -278,13 +307,6 @@ deterministic and polynomial time by the
 cited theorem.
 \end{proof}
 
-Choose the errors in loop removal and sparsification smaller than
-the positive density bound $\Gamma_\xi(\eta)$. Then every set of at
-least $\eta N$ vertices still contains an edge in the NO case. In
-the YES case, deleting edges preserves the independent set obtained
-after vertex unweighting. We now specify the parameters for
-Theorem~\ref{thm:bounded-degree-kr-source}.
-
 \begin{proof}[Proof of Theorem~\ref{thm:bounded-degree-kr-source}]
 Set $p=1/2-\eta/4$ and $\xi=-p/(1-p)$. Fix a positive rational
 $g$ with $4g<\Gamma_\xi(\eta)$. Use analytic error
@@ -294,10 +316,10 @@ small for AKS Theorem~3.1 and for $\gamma\le\eta/4$.
 Pad the alphabet with a fixed $t$ satisfying
 $(p^2+(1-p)^2)^t<g$. After dropping loops and replacing vertices by
 copies, the YES independent-set density is at least
-$p-\gamma\ge1/2-\eta/2$. In the NO case,
+$p-\gamma\ge1/2-\eta/4-\eta/4=1/2-\eta/2$. In the NO case,
 equation~\eqref{eq:aks-clone-density} and monotonicity show that
 every set of at least $\eta N$ vertices has internal weight
-greater than $\Gamma_\xi(\eta)-2g>2g$.
+greater than $\Gamma_\xi(\eta)-2g>2g>g=\zeta$.
 Apply Lemma~\ref{lem:deterministic-density-sparsification} with
 $C_0=2$ and $\zeta=g$. Its output retains the YES
 independent set and has no NO independent set of size $\eta N$.
