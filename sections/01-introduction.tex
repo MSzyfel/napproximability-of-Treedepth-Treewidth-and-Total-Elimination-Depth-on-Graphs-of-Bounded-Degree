@@ -78,64 +78,36 @@ in the stated sense.
 The reductions are deterministic.
 \end{theorem}
 
-The proofs follow three source routes. Under
-UGC, a Khot--Regev independent-set gap is encoded in clique layers
-~\cite{KhotRegev}. For treedepth, the YES forest puts copies outside a
-large source independent set on a common prefix, then places the
-independent-set copies on separate lower chains. At the first split,
-source vertices whose
-copies occur in different child subtrees form an independent set, limiting
-how much height a NO instance can save. The same layered graph gives the
-total-depth gap: we charge how far every child lies below the shared prefix,
-then use a branching inequality to bound the total saving over all children.
-For treewidth, a multipartite product gives an equal-part vertex-cover gap.
-Replicating the copies before completing each global part to a clique makes
+The proofs follow three source routes. In order to prove approximation hardness of treedepth and total-depth under
+UGC, we reduce from the independent-set by constructing layered clique graphs. By this we mean a graph consisting of several clique layers, connected by edges inbetween clique vertices, representing neighbouring pairs in the source graph. A large independent set in the source graph corresponds then to a shallow elimination forest, by placing its complement vertices in the upper layers and the independent set vertices in the lower layers. Conversely, if all independent sets are small, an inductive reasoning over the number of layers shows that any elimination forest must be deep. 
+ 
+For treewidth, as a source we use inapprixambility of vertex cover on 3-partite graph, refining the construction of ~\cite[Lemma~6]{BonnetTreewidth} by replicating the copies before completing each global part to a clique, which makes
 the one-copy overhead negligible. Bonnet's central-bag argument then forces
-a cover from every source copy into a central bag~\cite[Lemma~6]{BonnetTreewidth}.
+a cover from every source copy into a central bag. This very same construction will also yield hardness of approximation based on $P\neq NP$, although using a different source promise.
 
-Under SSEH, the Raghavendra--Steurer--Tulsiani partition gap~\cite{RST}
-is transferred to a line graph, whose vertices represent source edges.
-The YES partition gives a shallow elimination forest. In the NO case,
-a small balanced separator would induce a balanced source cut with small
-boundary, contradicting expansion. The same separator bounds give the
-total-depth gap. For treewidth, the standard inequality between balanced
-separator size and treewidth gives the corresponding SSE hardness
-~\cite[Lemma~5.3]{APW}; our sparsification theorem transfers it to bounded
-degree.
+Under SSEH, we transfer the Raghavendra-Steurer-Tulsiani partition gap~\cite{RST}
+to treedepth and total-depth, by constructing a line graph of the source graph.
+In the YES case, we can then construct a shallow elimination forest corresponding to the partition.
+In the NO case, every balanced separator must be large, which then becomes the lower bound on the cost of any elimination tree.
+ The same separator bounds give the
+total-depth gap. For treewidth, the standard such a result is already given in
+~\cite[Lemma~5.3]{APW}.
 
 Under $\mathrm{P}\ne\mathrm{NP}$, we refine the truth-block and anchor
 construction of Bonnet, Neuen, and
 Soko\l owski~\cite{BNS}, using the parity gap of Hazan, Safra, and
-Schwartz~\cite[Theorem~10]{HazanSafraSchwartz2003}. Truth blocks encode
-variable values, and a star among the four satisfying assignments limits
-the gain from leaving variables unassigned. The resulting independent-set
-gap follows from counting witnesses consistent with partial assignments.
-Balanced parts and anchors transfer it to treedepth, and replication with
-clique completion transfers it to treewidth. A separate reduction from
+Schwartz~\cite[Theorem~10]{HazanSafraSchwartz2003}. We reduce from the parity problem. The construction encodes the variables using bicliques, so that any indepdent set can choose vertices of only one side. Moreover, we add 4 vertex per each constraint, where each vertex encodes a viable assignment consistent with the constraint. This ensures, that any indepedent set can pick at most 3 of them. Thus gives an inapproximability of indepdent set on such instances, which then transfers to treedepth, and treewidth. A separate reduction from
 cubic Independent Set~\cite{AlimontiKann2000} gives the total-depth gap:
 source parts become
 cliques, and attached leaves make the depth depend on the deepest vertex in
 each part. A matching makes the split separating one part from the other
 two cheapest, so the depth sum reflects the source independent-set size.
 
-We then turn these unrestricted instances into bounded-degree graphs by
-replacing each clique with a bounded-degree expander and each biclique with
-a bipartite expander. These replacements still put an edge between every
-two sufficiently large subsets, including subsets on opposite sides of a
-biclique. The completion lemmas isolate a small set of vertices that may
-account for missing dense-factor edges in a sparse solution. Bounded factor
-incidence keeps this set small, and the parameter-specific sparsification
-theorems bound the cost of restoring it. The additive-error lemma lets us
-choose the expansion threshold so this cost fits within the hardness gap.
-Since replacements only delete edges, the YES-case decompositions remain
-feasible. Section~\ref{sec:bounded-degree-hardness} develops these tools,
-proves one transfer theorem for each parameter, then applies them to
-treedepth, treewidth, and total elimination depth. The factor ranges above
-therefore also hold at bounded maximum degree, with the degree bound
-depending only on the target factor. This resolves the treedepth conjecture
+En route, we observe that all of the previously mentioned consructions, only use clique and bi-clique gadgets to enforce certain useful properties. These gadgets, force the graph to be very dense, and in particular the degree of the produced instances is unbounded. In Section 
+Section~\ref{sec:bounded-degree-hardness} our next goal becomes, to turn those instances into sparse graphs, with bounded degree. Our strategy is to replace each such dense gadget, with a bounded degree expanders. In order for such a construction to work, we need to ensure, that each such gadget contains no large \emph{holes}, which means that for all pairs of sufficiently large disjoint subsets of vertices in such a gadget are connected by at least one edge. To obtain such a family of graphs, we start with an expander, and power it sufficiently many times. Each such operation decreases the guarantee on the size of the largest possible hole.
+Since such replacements only delete edges, the YES-case decompositions remain
+feasible. It can be shown, that in the NO case, this incurrs only a small amount of distortion in the value of the optimum value of the objective. As a corollay we obtain that all our inapproximability results can be transferred to bounded degree instances. This resolves the treedepth conjecture
 of Schirrmacher, Siebertz, and Vigny~\cite[Conjecture~1]{SchirrmacherSiebertzVigny2025}.
-The corresponding results are in Corollaries~\ref{cor:td-bounded-degree},
-\ref{cor:tw-bounded-degree}, and~\ref{cor:total-depth-bounded-degree}.
 
 \subsection{Applications}
 
