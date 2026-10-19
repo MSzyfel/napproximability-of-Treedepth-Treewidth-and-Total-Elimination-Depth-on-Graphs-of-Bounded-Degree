@@ -142,23 +142,6 @@ Mapping these walks alternately through $\pi_A,\pi_B$ connects
 $\pi_A(x)$ to both $\pi_A(y)$ and $\pi_B(y)$ for every $y$.
 Surjectivity therefore proves connectedness.
 
-For the bipartite construction, fix an auxiliary vertex $x$.
-There is an odd closed walk from $x$ to itself: follow a path to
-an odd cycle, traverse that cycle, and return along the reverse
-path. The two path lengths add to an even number, so the total
-length is odd. For every auxiliary vertex $y$, start with any
-walk from $x$ to $y$. Prepending the odd closed walk changes its
-length parity. Hence there are both even-length and odd-length
-walks from $x$ to $y$.
-A walk $x=x_0,x_1,\ldots,x_\ell=y$ maps to the alternating sequence
-$\pi_A(x_0),\pi_B(x_1),\pi_A(x_2),\ldots$ in the output.
-Each consecutive pair is an edge by construction, using the
-reverse auxiliary step when the sequence goes from $B$ to $A$.
-An even-length walk reaches $\pi_A(y)$, and an odd-length walk
-reaches $\pi_B(y)$. Thus $\pi_A(x)$ is connected to both images of
-every $y$. Since both maps are onto, this reaches every output
-vertex, proving connectedness.
-
 Both outputs are simple by their edge definitions.
 The auxiliary order $M$ is at most four times the largest prescribed
 set size. The initial eight-regular graph is constructible in
