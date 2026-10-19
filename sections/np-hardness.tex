@@ -172,8 +172,10 @@ selected remains unassigned.
 The selected truth vertices number $\frac{5m}{2}-5D_U/6$. Use the random
 completion and the quantities $r_j,w_j,p_j$ defined above.
 Lemma~\ref{lem:xor-witness-excess} gives $w_j-p_j\le5r_j/6$. Also, $\sum_jr_j=D_U$,
-as both sides count occurrences of unassigned variables. By linearity
-of expectation, $\sum_jp_j\le\OPT(F)$. It follows that
+as both sides count occurrences of unassigned variables. The random
+completion satisfies an expected $\sum_jp_j$ equations by linearity
+of expectation. Every completion satisfies at most $\OPT(F)$ equations,
+so $\sum_jp_j\le\OPT(F)$. It follows that
 \[
 \begin{aligned}
  |I|&=\frac{5m}{2}-\frac56D_U+\sum_jw_j
