@@ -324,7 +324,9 @@ $r<r'<8/7$. Use the parameters $q,\eta$ from the proof of
 Theorem~\ref{thm:total-depth-ugc} for factor $r'$, with the same
 layer factors and retained edges as in the treedepth proof. Thus
 $d_1=1$ and $d_0=(q-1)d_\eta$.
-Restriction to the $q$ layer cliques gives
+Each layer is a clique, so its $n$ vertices lie on one ancestor
+path and have depths at least $1,2,\ldots,n$. Summing over all $q$
+layers gives the lower bound
 \[
  L:=q\,\frac{n(n+1)}2\le\totd(S_q(G)),\qquad
  L\ge\frac{qn^2}{2}=\frac{N^2}{2q},\quad N=qn.
@@ -336,8 +338,9 @@ $\tau<(r'-r)/(2q(r+1))$. Lemma~\ref{lem:gap-preservation} then
 transfers the dense factor-$r'$ gap to factor $r$.
 
 \emph{SSE hardness.}
-The common line-graph construction has YES total depth at most
-$4\eta N^2$. Lemma~\ref{lem:balanced-by-td} gives NO total depth
+The YES line-graph construction has height at most $4\eta N$ and
+has $N$ vertices, so its total depth is at most
+$N\cdot4\eta N=4\eta N^2$. Lemma~\ref{lem:balanced-by-td} gives NO total depth
 at least $\beta N^2/2$. For a target factor $r$, choose $\eta$
 small enough that $\gamma:=\beta/2-4r\eta>0$, which is possible
 since $\beta=(c/2)\sqrt{\eta}$. Choose $\tau<\gamma$. After
