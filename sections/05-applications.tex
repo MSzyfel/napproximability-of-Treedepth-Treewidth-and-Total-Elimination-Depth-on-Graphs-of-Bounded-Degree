@@ -169,12 +169,17 @@ $\operatorname{fr}\leq\operatorname{vi}\leq2\operatorname{fr}$ and
 $\operatorname{sw}+1\leq\operatorname{vi}\leq2(\operatorname{sw}+1)$
 give SSE hardness at every fixed factor for fracture number
 \cite[Section~1.3]{GimaEtAlIntegrity}. For
-starwidth, the YES and NO bounds on vertex integrity give
-$\operatorname{sw}(J)\leq4\varepsilon N$ and
-$\operatorname{sw}(J)\geq\beta N/2-1$, respectively, where
-$N=|V(J)|$. Since $\beta/(8\varepsilon)=c/(16\sqrt\varepsilon)$
-can be made arbitrarily large, choose $\varepsilon$ for the desired
-factor. Parallel copies of each host edge preserve the normalized
+starwidth, take the same YES deletion set $D$ as above, and let $C$
+range over the components of $J-D$. A star decomposition with center
+bag $D$ and one leaf bag $D\cup C$ for each component has width at
+most $|D|+c_J(D)-1$. Hence
+$\operatorname{sw}(J)+1\leq|D|+c_J(D)\leq4\varepsilon N$.
+In the NO case, $\operatorname{vi}(J)\geq\beta N$ and
+$\operatorname{vi}(J)\leq2(\operatorname{sw}(J)+1)$, so
+$\operatorname{sw}(J)\geq\beta N/2-1$. Since
+$\beta/(8\varepsilon)=c/(16\sqrt\varepsilon)$ can be made
+arbitrarily large, choose $\varepsilon$ for the desired factor.
+Parallel copies of each host edge preserve the normalized
 source promises and make $N$ arbitrarily large. Indeed, replacing each
 host edge by $t$ parallel copies multiplies the edge count, every host
 degree, every set volume, and every cut size by $t$. Hence normalized
