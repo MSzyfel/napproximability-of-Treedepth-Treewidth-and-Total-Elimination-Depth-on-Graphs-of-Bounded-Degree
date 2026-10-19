@@ -411,9 +411,15 @@ Thus the pair is $y_B,y_C$, and $S_0$ covers the
 $A$--$(B\cup C)$ edges.
 
 Apply Lemma~\ref{lem:cubic-cover-normalization} to $S_0$.
-Its resulting source set $S$ satisfies
+By Lemma~\ref{lem:clique-path-covers}, $S_1$ covers the residual
+graph $G[(B\cup C)\setminus S_0]$, so
+$\vc(G[(B\cup C)\setminus S_0])\leq|S_1|$. Therefore the value
+$2|S_0|+\vc(G[(B\cup C)\setminus S_0])$ for the original cover is at
+most $2|S_0|+|S_1|=W(F_G)-N-3$. The normalization in
+Lemma~\ref{lem:cubic-cover-normalization} does not increase this
+value. Hence its resulting source set $S$ satisfies
 $7n+m-|S|+|E(J[S])|\le W(F_G)-N-3$ by
-Lemma~\ref{lem:clique-path-covers} and~\eqref{eq:cubic-cover-cost}.
+\eqref{eq:cubic-cover-cost}.
 Deleting an endpoint of each internal edge of $J[S]$ gives an
 independent set $I$ with
 \[
