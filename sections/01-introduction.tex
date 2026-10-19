@@ -78,36 +78,64 @@ in the stated sense.
 The reductions are deterministic.
 \end{theorem}
 
-The proofs follow three source routes. In order to prove approximation hardness of treedepth and total-depth under
-UGC, we reduce from the independent-set by constructing layered clique graphs. By this we mean a graph consisting of several clique layers, connected by edges inbetween clique vertices, representing neighbouring pairs in the source graph. A large independent set in the source graph corresponds then to a shallow elimination forest, by placing its complement vertices in the upper layers and the independent set vertices in the lower layers. Conversely, if all independent sets are small, an inductive reasoning over the number of layers shows that any elimination forest must be deep. 
- 
-For treewidth, as a source we use inapprixambility of vertex cover on 3-partite graph, refining the construction of ~\cite[Lemma~6]{BonnetTreewidth} by replicating the copies before completing each global part to a clique, which makes
-the one-copy overhead negligible. Bonnet's central-bag argument then forces
-a cover from every source copy into a central bag. This very same construction will also yield hardness of approximation based on $P\neq NP$, although using a different source promise.
+The UGC reductions for treedepth and total elimination depth start from the
+Khot--Regev independent-set gap~\cite{KhotRegev}. We place copies of the
+source graph in clique layers. A large independent set gives a shallow
+elimination forest by putting the other vertices on a common prefix and
+branching below it. For the lower bound, vertices in different child
+subtrees are incomparable, so no source edge can join vertices represented
+in different children. This limits the height saved by branching. For
+total depth, we also count the depth shift that the prefix imposes on each
+child, then bound the combined savings across the children. For treewidth,
+a multipartite product turns a vertex-cover gap on tripartite graphs with
+equal-sized parts into a treewidth gap. We replicate the source copies before
+completing each global part to a clique. Bonnet's central bag argument
+then forces a cover from every copy into one bag, while the replication
+keeps the additional YES cost to one copy's scale~\cite[Lemma~6]{BonnetTreewidth}.
 
-Under SSEH, we transfer the Raghavendra-Steurer-Tulsiani partition gap~\cite{RST}
-to treedepth and total-depth, by constructing a line graph of the source graph.
-In the YES case, we can then construct a shallow elimination forest corresponding to the partition.
-In the NO case, every balanced separator must be large, which then becomes the lower bound on the cost of any elimination tree.
- The same separator bounds give the
-total-depth gap. For treewidth, the standard such a result is already given in
-~\cite[Lemma~5.3]{APW}.
+Under SSEH, we transfer the Raghavendra--Steurer--Tulsiani partition
+gap~\cite{RST} to treedepth and total depth through a line graph whose
+vertices represent source edges. The YES partition gives a shallow forest.
+In the NO case, a small balanced separator in the line graph would divide
+the surviving source edges into two large groups with disjoint endpoint
+sets. Their endpoints would give a balanced source cut whose boundary
+lies among the host edges represented by the separator, contradicting
+the source expansion bound. The same separator bounds yield the total
+depth gap. Wu, Austrin, Pitassi, and Liu already prove the corresponding
+SSE treewidth hardness~\cite[Lemma~5.3]{APW}.
 
-Under $\mathrm{P}\ne\mathrm{NP}$, we refine the truth-block and anchor
-construction of Bonnet, Neuen, and
-Soko\l owski~\cite{BNS}, using the parity gap of Hazan, Safra, and
-Schwartz~\cite[Theorem~10]{HazanSafraSchwartz2003}. We reduce from the parity problem. The construction encodes the variables using bicliques, so that any indepdent set can choose vertices of only one side. Moreover, we add 4 vertex per each constraint, where each vertex encodes a viable assignment consistent with the constraint. This ensures, that any indepedent set can pick at most 3 of them. Thus gives an inapproximability of indepdent set on such instances, which then transfers to treedepth, and treewidth. A separate reduction from
-cubic Independent Set~\cite{AlimontiKann2000} gives the total-depth gap:
-source parts become
-cliques, and attached leaves make the depth depend on the deepest vertex in
-each part. A matching makes the split separating one part from the other
-two cheapest, so the depth sum reflects the source independent-set size.
+For treedepth under $\mathrm{P}\ne\mathrm{NP}$, we refine the truth block
+and anchor construction of Bonnet, Neuen, and Soko\l owski~\cite{BNS}
+using the parity gap of Hazan, Safra, and Schwartz
+~\cite[Theorem~10]{HazanSafraSchwartz2003}. The two truth blocks of each
+variable encode its values. Each equation has four witnesses for its
+satisfying assignments, and star edges ensure that at most three can be
+selected together. Counting witnesses consistent with a partial
+assignment gives the independent-set bound. Balanced parts and the anchor
+graph then transfer this gap to treedepth. The same source gap transfers to treewidth by the
+replicated clique completion above. A separate reduction from cubic
+Independent Set~\cite{AlimontiKann2000} gives the total depth gap. Its
+cliques and attached leaves make the cost depend on the deepest selected
+vertex in each part. The added matching makes the cover choice associated
+with one designated part cheaper than the choices for the other two. We
+recover a source independent set from a cover of that part.
 
-En route, we observe that all of the previously mentioned consructions, only use clique and bi-clique gadgets to enforce certain useful properties. These gadgets, force the graph to be very dense, and in particular the degree of the produced instances is unbounded. In Section 
-Section~\ref{sec:bounded-degree-hardness} our next goal becomes, to turn those instances into sparse graphs, with bounded degree. Our strategy is to replace each such dense gadget, with a bounded degree expanders. In order for such a construction to work, we need to ensure, that each such gadget contains no large \emph{holes}, which means that for all pairs of sufficiently large disjoint subsets of vertices in such a gadget are connected by at least one edge. To obtain such a family of graphs, we start with an expander, and power it sufficiently many times. Each such operation decreases the guarantee on the size of the largest possible hole.
-Since such replacements only delete edges, the YES-case decompositions remain
-feasible. It can be shown, that in the NO case, this incurrs only a small amount of distortion in the value of the optimum value of the objective. As a corollay we obtain that all our inapproximability results can be transferred to bounded degree instances. This resolves the treedepth conjecture
-of Schirrmacher, Siebertz, and Vigny~\cite[Conjecture~1]{SchirrmacherSiebertzVigny2025}.
+The unrestricted reductions use cliques and bicliques to enforce
+comparability and bag constraints, so their output degrees can be large.
+The bounded degree section replaces these dense factors with bounded
+degree graphs built from expanders. Their no hole condition says that every
+two sufficiently large disjoint subsets of a clique factor have an edge
+between them, and that sufficiently large subsets on opposite sides of a
+biclique factor also have an edge between them. Completion lemmas show how
+to extend a sparse solution to the original graph with an additive
+increase controlled by a small exceptional set. We choose the thresholds
+so this increase stays within the hardness gap. Edge deletion preserves
+the YES bounds, so the same reductions prove bounded degree hardness for all three
+parameters. The paper first establishes the unrestricted UGC, SSEH, and
+NP hardness results, then develops the degree reduction and applies it to
+each parameter, before deriving further applications. The treedepth
+result resolves the conjecture of Schirrmacher, Siebertz, and Vigny
+~\cite[Conjecture~1]{SchirrmacherSiebertzVigny2025}.
 
 \subsection{Applications}
 

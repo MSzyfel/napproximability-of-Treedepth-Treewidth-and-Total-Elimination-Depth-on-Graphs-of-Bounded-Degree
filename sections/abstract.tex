@@ -1,19 +1,26 @@
 \begin{abstract}
-We provide inapproximability results for treedepth, treewidth, and
-total elimination depth. Our lower bounds improve upon previous results in several ways. First, we obtain stronger inapproximability factors for each parameter. In particular treedepth is NP-hard to approximate within every
-fixed factor below $18/17$, and treewidth within every fixed factor
-below $12/11$. Under the Unique Games Conjecture (UGC), both
-parameters are hard within every fixed factor below $4/3$. For total
-elimination depth, the corresponding UGC threshold is $8/7$, and we
-also prove NP-hardness within some absolute factor greater than one, excluding a PTAS. 
-Under the stronger Small Set Expansion Hypothesis (SSEH), we also exclude any constant factor approximation for treedepth and total elimination depth (a similar result was previously known only for treewidth). Moreover, we show that our constructions can be transferred to bounded-degree instances. In particular, we show that for any approximation factor excluded by our results, there exist a degree bounded only by a constant depending on the factor, such that approximating a given parameter within that factor remains hard. The latter result is a non-trivial extensions, since known approximation hardness constructions, including our reductions use dense gadgets including cliques and bi-cliques to enforce certain structural properties.  In order to sparsify the resulting graphs, we show that we can replace every such gadget with an appropriate expander, which can be chosen so that the introduced cost distortion is small enough so that it does not affect the overall hardness guarantees.
+We prove approximation hardness for treedepth, treewidth, and total
+elimination depth. Unless $\mathrm{P}=\mathrm{NP}$, treedepth is hard
+to approximate within every fixed factor below $18/17$, treewidth below
+$12/11$, and total elimination depth below some absolute constant greater
+than one. Under the ordinary Unique Games Conjecture, the corresponding
+thresholds are $4/3$, $4/3$, and $8/7$. Under the Small Set Expansion
+Hypothesis, every fixed constant factor is hard for all three parameters.
+These results hold on simple unweighted graphs of bounded maximum degree,
+with the degree bound depending only on the target factor. In particular,
+the treedepth result resolves a conjecture of Schirrmacher, Siebertz, and
+Vigny.
 
-
-Our treedepth and total elimination depth bounds also imply approximation hardness for trivially perfect completion by
-number of added edges, vertex integrity, fracture number, starwidth,
-average and maximum general customizable-label size, and average
-hierarchical customizable-label size. The linear treewidth gaps
-give explicit exponential approximation lower bounds for the total
-state space of binary junction trees, measured by the sum of the table
-sizes over all bags.
+The reductions use independent-set and vertex-cover gaps, an SSE partition
+gap, and a parity constraint gap. To bound the degree, we replace clique
+and biclique factors by bounded-degree graphs built from expanders. A small
+exceptional set then suffices to complete solutions for the sparse graph
+to solutions for the original graph, with additive cost below the hardness
+gap. Since these replacements delete edges, the completeness bounds remain
+valid.
+Our results also imply hardness for trivially perfect completion, vertex
+integrity, fracture number, starwidth, average and maximum general
+customizable-label size, and average hierarchical customizable-label size.
+The treewidth gaps give exponential approximation lower bounds for the
+total table size of binary junction trees.
 \end{abstract}
