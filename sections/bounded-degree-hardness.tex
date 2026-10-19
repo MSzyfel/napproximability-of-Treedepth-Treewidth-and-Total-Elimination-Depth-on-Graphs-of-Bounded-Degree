@@ -1,81 +1,6 @@
 \section{Hardness on graphs of bounded degree}
 \label{sec:bounded-degree-hardness}
 
-\Needspace{12\baselineskip}
-\subsection{Additive errors in hardness reductions}
-
-A small additive loss cannot close a fixed multiplicative gap. Here
-$\OPT(I)$ denotes the optimum of a minimization instance $I$.
-
-\begin{lemma}[Preservation of approximation gaps]
-\label{lem:gap-preservation}
-Let a minimization promise problem be hard to distinguish between
-$\OPT(I)\le Y(N)$ in the YES case and $\OPT(I)\ge r'Y(N)$ in the
-NO case, where $r'>1$, $Y(N)>0$, and $N$ is the source size.
-Suppose a deterministic polynomial-time reduction maps each source
-instance $I$ to a target minimization instance $I'$, with error bound
-$\operatorname{err}(N)\ge0$, and gives
-\[
- \OPT(I')\le Y(N)+\operatorname{err}(N)\quad(\text{YES}),\qquad
- \OPT(I')\ge r'Y(N)-\operatorname{err}(N)\quad(\text{NO}).
-\]
-Assume that for every fixed $\epsilon>0$ we can choose the reduction's
-fixed parameters and a size threshold $N_0$ so that
-$\operatorname{err}(N)\le\epsilon Y(N)$ on every promised instance
-with $N\ge N_0$. Also assume the source promise remains hard after
-any fixed size threshold. Then every fixed $1\le r<r'$ remains hard
-after the reduction.
-\end{lemma}
-
-\begin{proof}
-Choose $\epsilon<(r'-r)/(r+1)$. On sufficiently large YES instances,
-\[
- \OPT(I')\le(1+\epsilon)Y(N),
-\]
-and on NO instances,
-\[
- \OPT(I')\ge(r'-\epsilon)Y(N).
-\]
-The NO bound exceeds $r$ times the YES bound because
-\[
- (r'-\epsilon)Y(N)-r(1+\epsilon)Y(N)
- =Y(N)\bigl(r'-r-(r+1)\epsilon\bigr)>0.
-\]
-In our applications, the error condition follows if $Y(N)\ge c_0N^p$
-and $\operatorname{err}(N)\le C\theta N^p+g(N)$, where $c_0,C>0$
-are fixed and $g(N)\ge0$ satisfies $g(N)=o(N^p)$. Choose
-$\theta<\epsilon c_0/(2C)$, then take $N$ large enough that
-$g(N)\le\epsilon c_0N^p/2$. Hence
-$\operatorname{err}(N)\le\epsilon Y(N)$. This covers a tunable
-linear error plus $O(\log N)+O(1)$ for $p=1$, and a tunable
-quadratic error plus $O(N\log N)+O(N)$ for $p=2$.
-\end{proof}
-
-\begin{lemma}[Lifting approximate solutions]
-\label{lem:solution-lifting}
-Suppose each solution of a minimization instance $I'$ with cost $z$
-can be converted in polynomial time into a solution of $I$ with cost
-at most $z/a+\eta L(I)$, where $a>0$, $\eta\ge0$, and
-$0\le L(I)\le\OPT(I)$. If
-$\OPT(I')\le a\OPT(I)+\eta aL(I)$, then an $r$-approximation for
-$I'$ gives an $(r+(r+1)\eta)$-approximation for $I$. If instead
-$\OPT(I')\le a\OPT(I)$, the factor is $r+\eta$.
-\end{lemma}
-
-\begin{proof}
-An $r$-approximate solution has $z\le r\OPT(I')$, so its conversion
-has cost at most
-\[
-\frac za+\eta L(I)
- \le\frac{r\OPT(I')}{a}+\eta L(I)
- \le r\OPT(I)+(r+1)\eta L(I)
- \le\bigl(r+(r+1)\eta\bigr)\OPT(I).
-\]
-When $\OPT(I')\le a\OPT(I)$, use $z/a\le r\OPT(I)$ to bound the
-conversion cost by
-$r\OPT(I)+\eta L(I)\le(r+\eta)\OPT(I)$.
-\end{proof}
-
 \subsection{The degree-reduction approach}
 
 Let $H$ be one of the dense graphs constructed above, with
@@ -128,22 +53,71 @@ three steps.
    $N|D|$. Thus a sparse solution of value $z$ gives a dense
    solution of height or width at most $z+|D|$, or total depth at
    most $z+N|D|$.
- \item \emph{Keep the total loss below the hardness gap.}
-   Choose $t_f$ so that $t_f-1$ is a small fraction of $|U_f|$
-   for a clique factor and of $\min\{|A_f|,|B_f|\}$ for a
-   biclique factor. If every vertex lies in at most a fixed number
-   of factor supports, then $\sum_f |U_f|=O(N)$. Hence
-   $|D|\le\varepsilon N$ for any prescribed fixed
-   $\varepsilon>0$, by choosing those fractions sufficiently small.
-   The resulting losses are at most $\varepsilon N$ for treedepth
-   and treewidth, and $\varepsilon N^2$ for total depth. Given a
-   target factor $r$ below the dense threshold, choose a dense factor
-   $r'>r$. The YES bound $Y$ has the same linear or quadratic scale
-   as the corresponding loss, so the threshold fractions can make
-   the loss at most $\delta Y$ for any fixed $\delta>0$. Taking
-   $\delta<(r'-r)/(r+1)$ lets Lemma~\ref{lem:gap-preservation}
-   preserve factor $r$.
 \end{enumerate}
+
+The first two steps give a sparse instance and bound the additive
+loss incurred when recovering a dense solution. The following lemma
+states when such a loss preserves the approximation gap.
+
+\begin{lemma}[Preservation of approximation gaps]
+\label{lem:gap-preservation}
+Let a minimization promise problem be hard to distinguish between
+$\OPT(I)\le Y(N)$ in the YES case and $\OPT(I)\ge r'Y(N)$ in the
+NO case, where $r'>1$, $Y(N)>0$, and $N$ is the source size.
+Suppose a deterministic polynomial-time reduction maps each source
+instance $I$ to a target minimization instance $I'$, with error bound
+$\operatorname{err}(N)\ge0$, and gives
+\[
+ \OPT(I')\le Y(N)+\operatorname{err}(N)\quad(\text{YES}),\qquad
+ \OPT(I')\ge r'Y(N)-\operatorname{err}(N)\quad(\text{NO}).
+\]
+Assume that for every fixed $\epsilon>0$ we can choose the reduction's
+fixed parameters and a size threshold $N_0$ so that
+$\operatorname{err}(N)\le\epsilon Y(N)$ on every promised instance
+with $N\ge N_0$. Also assume the source promise remains hard after
+any fixed size threshold. Then every fixed $1\le r<r'$ remains hard
+after the reduction.
+\end{lemma}
+
+\begin{proof}
+Choose $\epsilon<(r'-r)/(r+1)$. On sufficiently large YES instances,
+\[
+ \OPT(I')\le(1+\epsilon)Y(N),
+\]
+and on NO instances,
+\[
+ \OPT(I')\ge(r'-\epsilon)Y(N).
+\]
+The NO bound exceeds $r$ times the YES bound because
+\[
+ (r'-\epsilon)Y(N)-r(1+\epsilon)Y(N)
+ =Y(N)\bigl(r'-r-(r+1)\epsilon\bigr)>0.
+\]
+In our applications, the error condition follows if $Y(N)\ge c_0N^p$
+and $\operatorname{err}(N)\le C\theta N^p+g(N)$, where $c_0,C>0$
+are fixed and $g(N)\ge0$ satisfies $g(N)=o(N^p)$. Choose
+$\theta<\epsilon c_0/(2C)$, then take $N$ large enough that
+$g(N)\le\epsilon c_0N^p/2$. Hence
+$\operatorname{err}(N)\le\epsilon Y(N)$. This covers a tunable
+linear error plus $O(\log N)+O(1)$ for $p=1$, and a tunable
+quadratic error plus $O(N\log N)+O(N)$ for $p=2$.
+\end{proof}
+
+\emph{Keep the total loss below the hardness gap.}
+Choose $t_f$ so that $t_f-1$ is a small fraction of $|U_f|$
+for a clique factor and of $\min\{|A_f|,|B_f|\}$ for a
+biclique factor. If every vertex lies in at most a fixed number
+of factor supports, then $\sum_f |U_f|=O(N)$. Hence
+$|D|\le\varepsilon N$ for any prescribed fixed
+$\varepsilon>0$, by choosing those fractions sufficiently small.
+The resulting losses are at most $\varepsilon N$ for treedepth
+and treewidth, and $\varepsilon N^2$ for total depth. Given a
+target factor $r$ below the dense threshold, choose a dense factor
+$r'>r$. The YES bound $Y$ has the same linear or quadratic scale
+as the corresponding loss, so the threshold fractions can make
+the loss at most $\delta Y$ for any fixed $\delta>0$. Taking
+$\delta<(r'-r)/(r+1)$ lets Lemma~\ref{lem:gap-preservation}
+preserve factor $r$.
 
 For the maximum degree to be bounded, we also need bounded degree
 in $E_0$ and a bounded ratio between the two side sizes of every

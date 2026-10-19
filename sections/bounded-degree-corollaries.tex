@@ -229,6 +229,34 @@ graphs is due to Wu, Austrin, Pitassi, and Liu~\cite[Theorem~1.1]{APW}. The boun
 statement here follows by applying our treewidth sparsification
 theorem to the line-graph construction.
 
+For the total-depth transfer below, we use the following bound for
+lifting an approximate solution through a reduction.
+
+\begin{lemma}[Lifting approximate solutions]
+\label{lem:solution-lifting}
+Suppose each solution of a minimization instance $I'$ with cost $z$
+can be converted in polynomial time into a solution of $I$ with cost
+at most $z/a+\eta L(I)$, where $a>0$, $\eta\ge0$, and
+$0\le L(I)\le\OPT(I)$. If
+$\OPT(I')\le a\OPT(I)+\eta aL(I)$, then an $r$-approximation for
+$I'$ gives an $(r+(r+1)\eta)$-approximation for $I$. If instead
+$\OPT(I')\le a\OPT(I)$, the factor is $r+\eta$.
+\end{lemma}
+
+\begin{proof}
+An $r$-approximate solution has $z\le r\OPT(I')$, so its conversion
+has cost at most
+\[
+\frac za+\eta L(I)
+ \le\frac{r\OPT(I')}{a}+\eta L(I)
+ \le r\OPT(I)+(r+1)\eta L(I)
+ \le\bigl(r+(r+1)\eta\bigr)\OPT(I).
+\]
+When $\OPT(I')\le a\OPT(I)$, use $z/a\le r\OPT(I)$ to bound the
+conversion cost by
+$r\OPT(I)+\eta L(I)\le(r+\eta)\OPT(I)$.
+\end{proof}
+
 \Needspace{8\baselineskip}
 \begin{corollary}[Bounded-degree total-depth hardness]
 \label{cor:total-depth-bounded-degree}
