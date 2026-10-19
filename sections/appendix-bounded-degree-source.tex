@@ -33,10 +33,10 @@ $X,Y$ of mean zero, variance one, and covariance $\xi$, and define
 $\Gamma_\xi(s)=\Pr[X\le\Psi^{-1}(s),\,Y\le\Psi^{-1}(s)]$.
 Set $\Gamma_\xi(0)=0$ and $\Gamma_\xi(1)=1$.
 This function is positive for $0<s<1$, nondecreasing, and convex.
-Indeed, differentiating the joint distribution gives
+These properties, including the derivative formula
 $\Gamma_\xi'(s)=2\Psi(\sqrt{(1-\xi)/(1+\xi)}\,\Psi^{-1}(s))$,
-which is nonnegative and increasing. These are the properties used
-in the density analysis of~\cite[Theorem~3.1 and equation~(3.2)]{AKS2011}.
+are established in the density analysis of
+~\cite[Theorem~3.1 and equation~(3.2)]{AKS2011}.
 
 A bipartite \emph{Unique Games instance} has left vertices $U$,
 right vertices $V$, and a finite label set, called the
@@ -156,7 +156,9 @@ $\deg_{G^-}(u)/m_u\le2a_u/(N_{\mathrm{cl}}a_u)=2/N_{\mathrm{cl}}$.
 The YES independent set becomes one of the same normalized size by
 selecting all its clone blocks.
 
-\begin{lemma}[Density after vertex unweighting]\label{lem:aks-clone-density}
+\begin{lemma}[Density after vertex unweighting
+{\cite[Section~4, Step~1]{AKS2011}}]
+\label{lem:aks-clone-density}
 If $G^-$ satisfies~\eqref{eq:aks-loop-free-density}, then its
 clone graph $G_1$ satisfies, for every $S'\subseteq V(G_1)$,
 \begin{equation}\label{eq:aks-clone-density}
@@ -165,33 +167,11 @@ clone graph $G_1$ satisfies, for every $S'\subseteq V(G_1)$,
 \end{equation}
 \end{lemma}
 
-\begin{proof}
-Take any $S'\subseteq V(G_1)$ and let $f_u$ be the fraction of
-clones of $u$ in $S'$. Include each original vertex $u$ in a random
-set $S$ independently with probability $f_u$. Since $a_u=m_u/N_{\mathrm{cl}}$,
-\[
- \mathbb E[a(S)]=\sum_u a_uf_u
- =\frac1{N_{\mathrm{cl}}}\sum_u m_uf_u=\frac{|S'|}{N_{\mathrm{cl}}}.
-\]
-There are no loops in $G^-$. Thus the two endpoints of each edge
-are chosen independently, and
-\[
- \mathbb E[e_{G^-}(S)]
- =\sum_{uv}w_{uv}f_uf_v
- =e_{G_1}(S').
-\]
-Taking expectations in~\eqref{eq:aks-loop-free-density} and using
-convexity of $\Gamma_\xi$ gives
-\[
- e_{G_1}(S')=\mathbb E[e_{G^-}(S)]
- \ge\mathbb E[\Gamma_\xi(a(S))]
-   -\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}
- \ge\Gamma_\xi(|S'|/N_{\mathrm{cl}})
-   -\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}.
-\]
-This is the argument of~\cite[Section~4, Step~1]{AKS2011}, applied
-after the loop removal of Lemma~\ref{lem:aks-loop-removal}.
-\end{proof}
+The cited argument selects each source vertex independently with
+probability equal to the fraction of its clones in the chosen set.
+The loop removal in Lemma~\ref{lem:aks-loop-removal} ensures that
+the two endpoints of each edge are distinct, so their selection
+events are independent.
 
 \subsubsection{Deterministic sparsification of a dense-set promise}
 

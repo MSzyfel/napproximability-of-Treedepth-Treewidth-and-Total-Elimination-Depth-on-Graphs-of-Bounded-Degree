@@ -636,7 +636,8 @@ Since each row sum is $d$, we have
 $A_{\mathcal E}\mathbf1=d\mathbf1$. The spectral theorem for real
 symmetric matrices states that there is a basis of eigenvectors
 that have length one and are pairwise orthogonal, and every vector
-is a unique linear combination of these basis vectors. We may take the
+is a unique linear combination of these basis vectors
+\cite[Section~2]{HLW2006}. We may take the
 first basis vector to be $\mathbf1/\sqrt M$, with eigenvalue $d$.
 All remaining basis vectors then have coordinate sum zero.
 Moreover, multiplication by $A_{\mathcal E}$ preserves zero sums:
@@ -726,27 +727,11 @@ a walk of the same length in the opposite direction.
 For an integer $k\ge1$, the \emph{$k$th walk power} of
 $\mathcal E$ has the same vertex set and one step from $u$ to $v$
 for each length-$k$ walk from $u$ to $v$ in $\mathcal E$.
-Its adjacency matrix is $A_{\mathcal E}^k$. To see this, the
-$(u,v)$ entry of $A_{\mathcal E}$ counts length-one walks, and
-\[
- (A_{\mathcal E}^{k+1})_{uv}
- =\sum_z(A_{\mathcal E}^k)_{uz}(A_{\mathcal E})_{zv}
-\]
-counts a length-$k$ walk from $u$ to $z$, followed by a step from
-$z$ to $v$. Summing over the penultimate vertex $z$ counts every
-length-$(k+1)$ walk once. Reversing walks shows that the walk power
-is undirected.
-
-There are $d$ choices at each of the $k$ steps, so each vertex
-starts $d^k$ walks and the walk power is $d^k$-regular.
-If $A_{\mathcal E}x=\mu x$, then
-$A_{\mathcal E}^2x=A_{\mathcal E}(\mu x)=\mu A_{\mathcal E}x=\mu^2x$,
-and induction gives $A_{\mathcal E}^kx=\mu^kx$.
-The orthonormal eigenbasis of $A_{\mathcal E}$ remains an eigenbasis
-of $A_{\mathcal E}^k$. On each zero-sum basis vector, the new
-eigenvalue satisfies $|\mu^k|=|\mu|^k\le\lambda^k$.
-Consequently the walk power has nonconstant eigenvalue bound $\lambda^k$,
-and the ratio of this bound to its degree is
+Its adjacency matrix is $A_{\mathcal E}^k$: matrix multiplication
+counts walks by length. Thus the walk power is undirected and
+$d^k$-regular. Its eigenvalues are the $k$th powers of those of
+$A_{\mathcal E}$, so its nonconstant eigenvalue bound is $\lambda^k$
+\cite[Section~2]{HLW2006}. The ratio of this bound to the degree is
 $\lambda^k/d^k=(\lambda/d)^k$.
 When $\lambda/d<1$, a fixed sufficiently large $k$ makes this ratio
 smaller than any prescribed positive constant. The new degree

@@ -243,7 +243,8 @@ $X,Y\in\{A,B,C\}$.
 For an elimination forest $F$ of $H_\ell(G)$, write $v_X$
 for the deepest vertex of $K_X$, for $X\in\{A,B,C\}$.
 
-\begin{lemma}[A path through an anchor]\label{lem:anchor-path}
+\begin{lemma}[A path through an anchor {\cite[Claim~7 in the proof of Lemma~6]{BNS}}]
+\label{lem:anchor-path}
 If every vertex of
 $R\subseteq V(H_\ell(G))\setminus(K_X\cup\{z_X\})$ is ancestral
 to $v_X$, then
@@ -252,38 +253,12 @@ to $v_X$, then
 \end{equation}
 \end{lemma}
 
-\begin{proof}
-The clique $K_X\cup\{z_X\}$ lies on one root-to-leaf path through
-$v_X$, and that path also contains $R$. This is the path
-bound in~\cite[Claim~7 in the proof of Lemma~6]{BNS}.
-\end{proof}
-
-\begin{lemma}[A cover from two incomparable anchors]\label{lem:anchor-pair-cover}
+\begin{lemma}[A cover from two incomparable anchors
+{\cite[Claim~9 in the proof of Lemma~6]{BNS}}]
+\label{lem:anchor-pair-cover}
 If $v_X,v_Y$ are incomparable, the vertices of $G$ ancestral to both
 contain a vertex cover of $G[X\cup Y]$.
 \end{lemma}
-
-\begin{proof}
-This is Claim~9 in the proof of~\cite[Lemma~6]{BNS}. We give the
-short argument. Let $xy\in E(G[X\cup Y])$, with $x\in X$ and
-$y\in Y$. The vertices $v_X,x,y,v_Y$ form a path in $H_\ell(G)$.
-Consecutive vertices on this path are comparable in $F$. Let $u_0$
-be a minimum-depth vertex on the path. We show, in each direction
-from $u_0$, that every path vertex is a descendant of $u_0$. Suppose
-the current vertex has this property, and let $w$ be
-the next vertex. If $w$ is a descendant of the current vertex,
-transitivity gives the claim. Otherwise, $w$ is an ancestor of the
-current vertex. The path has no repeated vertices, so $w\ne u_0$.
-Since the current vertex is a descendant of $u_0$, such an ancestor
-$w$ is either a proper ancestor of $u_0$ or a descendant of $u_0$.
-The first possibility would give $w$ smaller depth than the minimum-depth
-vertex $u_0$. Hence $w$ is a descendant of $u_0$. Induction shows that
-$u_0$ is an ancestor of all four.
-It cannot be $v_X$ or
-$v_Y$, because those anchors are incomparable. Hence it is $x$ or $y$,
-so one endpoint of every edge of $G[X\cup Y]$ is ancestral to both
-anchors. These endpoints form the required vertex cover.
-\end{proof}
 
 \begin{lemma}[Extending incomparable anchors]\label{lem:incomparable-anchor-extension}
 If $v_A,v_B,v_C$ are pairwise incomparable, then
@@ -325,18 +300,10 @@ parts $A,B,C$ and every integer $\ell\ge1$,
 
 \begin{proof}
 \emph{Upper bound.}
-Use the cover-first forest from~\cite[proof of Lemma~6]{BNS}. Its
-construction does not require $\ell\ge\vc(G)$.
-Take a minimum vertex cover $S$ of $G$ and arrange its vertices on
-one chain. Below this chain, make three separate branches, one for
-each $X\in\{A,B,C\}$. In the $X$ branch, put the vertices of $K_X$
-on a chain and attach each vertex of $X\setminus S$ and $z_X$ as a
-leaf below its last vertex. If $S=\varnothing$, take the three
-branches as separate rooted trees. Every source edge meets $S$.
-Each anchor clique lies on a chain. Its neighbors in $S$ lie
-above it, and its other neighbors are leaves below it. Thus every
-edge has comparable endpoints, giving an elimination forest.
-Its height is at most $|S|+\ell+1=\vc(G)+\ell+1$.
+The cover-first forest in the proof of~\cite[Lemma~6]{BNS} has height
+at most $\ell+\vc(G)+1$. Its construction does not require
+$\ell\ge\vc(G)$, so it gives the stated upper bound for every
+$\ell\ge1$.
 
 \emph{Lower bound.}
 Fix an elimination forest $F$ and use the anchor notation above.
