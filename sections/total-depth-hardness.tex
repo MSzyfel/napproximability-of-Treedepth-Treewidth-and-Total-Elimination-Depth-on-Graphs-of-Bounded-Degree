@@ -64,13 +64,9 @@ In the first-branch notation,
 \end{lemma}
 
 \begin{proof}
-The prefix vertices have depths $1,\ldots,|P|$. Each child vertex
-has depth $|P|$ greater than its depth within that child. Summing
-these contributions gives
-\[
- \totd(F)=\sum_{i=1}^{|P|}i+|P|\sum_jN_j+\sum_j\totd(F_j)
- =\frac{|P|(|P|+1)}2+|P|\sum_jN_j+\sum_j\totd(F_j).
-\]
+The prefix vertices have depths $1,\ldots,|P|$, and each child
+vertex has depth $|P|$ greater than its depth within that child.
+Summing these contributions proves the identity.
 \end{proof}
 
 \begin{lemma}[Restoring deleted vertices: total depth]

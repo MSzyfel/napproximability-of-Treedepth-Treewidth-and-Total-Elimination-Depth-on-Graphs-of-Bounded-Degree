@@ -80,27 +80,12 @@ after the reduction.
 \end{lemma}
 
 \begin{proof}
-Choose $\epsilon<(r'-r)/(r+1)$. On sufficiently large YES instances,
-\[
- \OPT(I')\le(1+\epsilon)Y(N),
-\]
-and on NO instances,
-\[
- \OPT(I')\ge(r'-\epsilon)Y(N).
-\]
-The NO bound exceeds $r$ times the YES bound because
-\[
- (r'-\epsilon)Y(N)-r(1+\epsilon)Y(N)
- =Y(N)\bigl(r'-r-(r+1)\epsilon\bigr)>0.
-\]
-In our applications, the error condition follows if $Y(N)\ge c_0N^p$
-and $\operatorname{err}(N)\le C\theta N^p+g(N)$, where $c_0,C>0$
-are fixed and $g(N)\ge0$ satisfies $g(N)=o(N^p)$. Choose
-$\theta<\epsilon c_0/(2C)$, then take $N$ large enough that
-$g(N)\le\epsilon c_0N^p/2$. Hence
-$\operatorname{err}(N)\le\epsilon Y(N)$. This covers a tunable
-linear error plus $O(\log N)+O(1)$ for $p=1$, and a tunable
-quadratic error plus $O(N\log N)+O(N)$ for $p=2$.
+Choose $0<\epsilon<(r'-r)/(r+1)$.
+On sufficiently large instances, the transformed YES upper
+bound is $(1+\epsilon)Y(N)$ and the NO lower bound is
+$(r'-\epsilon)Y(N)$.
+Since $r(1+\epsilon)<r'-\epsilon$, an $r$-approximation
+would distinguish the two cases.
 \end{proof}
 
 \emph{Keep the total loss below the hardness gap.}
@@ -722,31 +707,12 @@ a walk of the same length in the opposite direction.
 For an integer $k\ge1$, the \emph{$k$th walk power} of
 $\mathcal E$ has the same vertex set and one step from $u$ to $v$
 for each length-$k$ walk from $u$ to $v$ in $\mathcal E$.
-Its adjacency matrix is $A_{\mathcal E}^k$. To see this, the
-$(u,v)$ entry of $A_{\mathcal E}$ counts length-one walks, and
-\[
- (A_{\mathcal E}^{k+1})_{uv}
- =\sum_z(A_{\mathcal E}^k)_{uz}(A_{\mathcal E})_{zv}
-\]
-counts a length-$k$ walk from $u$ to $z$, followed by a step from
-$z$ to $v$. Summing over the penultimate vertex $z$ counts every
-length-$(k+1)$ walk once. Reversing walks shows that the walk power
-is undirected.
-
-There are $d$ choices at each of the $k$ steps, so each vertex
-starts $d^k$ walks and the walk power is $d^k$-regular.
-If $A_{\mathcal E}x=\mu x$, then
-$A_{\mathcal E}^2x=A_{\mathcal E}(\mu x)=\mu A_{\mathcal E}x=\mu^2x$,
-and induction gives $A_{\mathcal E}^kx=\mu^kx$.
-The orthonormal eigenbasis of $A_{\mathcal E}$ remains an eigenbasis
-of $A_{\mathcal E}^k$. On each zero-sum basis vector, the new
-eigenvalue satisfies $|\mu^k|=|\mu|^k\le\lambda^k$.
-Consequently the walk power has nonconstant eigenvalue bound $\lambda^k$,
-and the ratio of this bound to its degree is
-$\lambda^k/d^k=(\lambda/d)^k$.
-When $\lambda/d<1$, a fixed sufficiently large $k$ makes this ratio
-smaller than any prescribed positive constant. The new degree
-$d^k$ still does not depend on the number of vertices.
+Its adjacency matrix $A_{\mathcal E}^k$ is symmetric,
+its degree is $d^k$, and its nonconstant eigenvalue bound is
+$\lambda^k$, since each eigenvalue $\mu$ becomes $\mu^k$.
+When $\lambda<d$, the ratio $(\lambda/d)^k$ becomes arbitrarily
+small for a sufficiently large fixed $k$, while the degree
+remains independent of the graph order.
 
 We use the following explicit starting family.
 

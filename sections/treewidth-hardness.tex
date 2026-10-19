@@ -53,29 +53,20 @@ In particular, that bag has size at least $R\vc(G)$.
 \end{lemma}
 
 \begin{proof}
-We apply the cover argument from~\cite[proof of Lemma~6]{BonnetTreewidth}
-to the disjoint union of the $R$ source copies.
-Fix a tree decomposition with underlying tree $T$ and bags $B_u$.
-For each $X\in\{A,B,C\}$ with $X^*\ne\emptyset$, the sets
-$T_x$, $x\in X^*$, are nonempty and connected in $T$. Since $X^*$
-is a clique, these sets intersect pairwise. The Helly property for subtrees of a tree
-therefore gives a node $u_X$ whose bag contains all of $X^*$
-~\cite[Lemma~4]{BonnetTreewidth}. If $X^*$ is empty, choose any node
-$u_X$. Let $u$ be the median of
-$u_A,u_B,u_C$, namely the unique common node of their three pairwise
-connecting paths.
-
-Consider an edge $xy$ of one of the original copies, with $x\in X^*$
-and $y\in Y^*$ for different parts $X,Y$. If either $u_X$ or $u_Y$
-equals $u$, the bag at $u$ already contains the corresponding endpoint.
-Otherwise, $u_X$ and $u_Y$ lie in different components of $T-u$.
-If neither endpoint belonged to $B_u$, then $u\notin T_x\cup T_y$.
-Since $T_x$ is connected and contains $u_X$, it would lie in the
-component containing $u_X$, and $T_y$ would lie in the component
-containing $u_Y$. Thus $T_x\cap T_y=\varnothing$, contrary to
-$xy\in E(K_R(G))$. Hence $B_u$ contains an endpoint of every
-original edge. The disjoint union of the $R$ copies has vertex-cover number
-$R\vc(G)$, so this bag has size at least $R\vc(G)$.
+We use Bonnet's central-bag argument
+\cite[proof of Lemma~6]{BonnetTreewidth}.
+Fix a tree decomposition $(T,(B_t))$.
+By the Helly property~\cite[Lemma~4]{BonnetTreewidth}, choose $u_X$
+with $X^*\subseteq B_{u_X}$ for each $X\in\{A,B,C\}$,
+choosing arbitrarily when $X^*=\varnothing$.
+Let $u$ be the median of $u_A,u_B,u_C$, which lies on each
+pairwise connecting path.
+For every source edge $xy$, with $x\in X^*$ and $y\in Y^*$,
+the subtrees $T_x,T_y$ intersect. Their union is therefore
+connected and contains the $u_X$--$u_Y$ path, hence $u$.
+Thus $B_u$ contains an endpoint of every source edge,
+so it contains a vertex cover of the disjoint source copies
+and has size at least $R\vc(G)$.
 \end{proof}
 
 \begin{lemma}[A decomposition from a source cover]\label{lem:tw-cover-decomposition}
