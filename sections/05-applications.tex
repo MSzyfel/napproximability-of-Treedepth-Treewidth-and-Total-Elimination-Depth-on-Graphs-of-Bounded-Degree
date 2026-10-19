@@ -167,9 +167,13 @@ a tree decomposition whose underlying tree is a star.
 The standard comparisons
 $\operatorname{fr}\leq\operatorname{vi}\leq2\operatorname{fr}$ and
 $\operatorname{sw}+1\leq\operatorname{vi}\leq2(\operatorname{sw}+1)$
-give SSE hardness at every fixed factor for fracture number
-\cite[Section~1.3]{GimaEtAlIntegrity}. For
-starwidth, take the same YES deletion set $D$ as above, and let $C$
+are proved in~\cite[Section~1.3]{GimaEtAlIntegrity}. For fracture
+number, they give YES bound
+$\operatorname{fr}(J)\leq4\varepsilon|V(J)|$ and NO bound
+$\operatorname{fr}(J)\geq\beta|V(J)|/2$. Since
+$\beta/(8\varepsilon)=c/(16\sqrt\varepsilon)$ grows without bound
+as $\varepsilon$ decreases, this proves hardness at every fixed factor.
+For starwidth, take the same YES deletion set $D$ as above, and let $C$
 range over the components of $J-D$. A star decomposition with center
 bag $D$ and one leaf bag $D\cup C$ for each component has width at
 most $|D|+c_J(D)-1$. Hence
