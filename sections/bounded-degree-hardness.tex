@@ -92,15 +92,6 @@ The NO bound exceeds $r$ times the YES bound because
  (r'-\epsilon)Y(N)-r(1+\epsilon)Y(N)
  =Y(N)\bigl(r'-r-(r+1)\epsilon\bigr)>0.
 \]
-In our applications, the displayed bounds follow when
-$Y(N)\ge c_0N^p$ and the additive loss is at most
-$C\theta N^p+g(N)$, where $c_0,C>0$ are fixed and
-$g(N)\ge0$ satisfies $g(N)=o(N^p)$. Choose
-$\theta<\epsilon c_0/(2C)$, then take $N$ large enough that
-$g(N)\le\epsilon c_0N^p/2$. The loss is then at most
-$\epsilon c_0N^p\le\epsilon Y(N)$. This covers a tunable linear
-loss plus $O(\log N)+O(1)$ for $p=1$, and a tunable quadratic loss
-plus $O(N\log N)+O(N)$ for $p=2$.
 \end{proof}
 
 \emph{Keep the total loss below the hardness gap.}
