@@ -528,9 +528,11 @@ $u,v$. These bags cover the replacement path and preserve the
 connectedness condition for each vertex, so
 $\operatorname{tw}(G_\ell)\leq\max\{\operatorname{tw}(G),2\}$.
 If $\operatorname{tw}(G)\ge2$, the two bounds give equality.
-If $G$ is a forest with an edge, subdivision preserves acyclicity,
-so both graphs have treewidth one. An edgeless graph is unchanged.
-Thus subdivision preserves treewidth in every case.
+If $\operatorname{tw}(G)=1$, then $G$ is a forest with an edge,
+so subdivision preserves acyclicity and both graphs have treewidth
+one. If $\operatorname{tw}(G)=0$, then $G$ is edgeless and the
+construction leaves it unchanged. Thus subdivision preserves
+treewidth in every case.
 A path on $s$ vertices has an
 elimination tree of height at most $\lceil\log_2(s+1)\rceil$: choose
 a middle vertex as root and recurse on the two remaining subpaths.
