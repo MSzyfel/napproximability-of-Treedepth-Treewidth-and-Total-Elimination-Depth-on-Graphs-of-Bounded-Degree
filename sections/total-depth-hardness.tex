@@ -265,11 +265,32 @@ Let $q=2^s$ and let $G$ be the disjoint union of $q$ cliques of order
 $\ell$. View $S_q(G)$ as a $q\times q$ array of $\ell$-vertex cells,
 indexed by layers and source cliques. Put the two off-diagonal
 quadrants on a common chain and recurse on the two diagonal quadrants,
-ending with a chain in each cell. For $N=q^2\ell$, the resulting forest has
+ending with a chain in each cell. At a subproblem of side length $t\ge2$,
+the common chain contains $t^2\ell/2$ vertices, while the two
+diagonal subproblems each have side length $t/2$. If $H(t)$ and
+$T(t)$ denote the height and total depth of this recursive forest,
+then
 \[
- h(F)=\frac23N+\frac\ell3,\qquad
- \totd(F)=\frac37N^2+\frac N2+\frac{q\ell^2}{14}.
+ H(t)=\frac{t^2\ell}{2}+H(t/2),\qquad
+ T(t)=\frac{3t^4\ell^2}{8}+\frac{t^2\ell}{4}+2T(t/2),
 \]
+with $H(1)=\ell$ and $T(1)=\ell(\ell+1)/2$. The height recurrence
+sums the common-chain lengths along one root-to-leaf path, and the
+total-depth recurrence adds the chain's triangular cost, the depth
+shift of the two child subproblems, and their total depths. Iterating
+the recurrences for $q=2^s$ gives
+\[
+ \begin{aligned}
+ H(q)&=\ell+\frac{q^2\ell}{2}\sum_{i=0}^{s-1}4^{-i}
+      =\frac23q^2\ell+\frac\ell3,\\
+ T(q)&=\frac{q\ell(\ell+1)}2
+   +\frac{3q^4\ell^2}{8}\sum_{i=0}^{s-1}8^{-i}
+   +\frac{q^2\ell}{4}\sum_{i=0}^{s-1}2^{-i}\\
+   &=\frac37q^4\ell^2+\frac{q^2\ell}{2}+\frac{q\ell^2}{14}.
+ \end{aligned}
+\]
+Since $N=q^2\ell$, these are the displayed height and total-depth
+values.
 Together with Theorems~\ref{thm:ugc-structural} and~\ref{thm:total-depth-structural},
 this gives $\td(S_q(G))/N\to2/3$ and $\totd(S_q(G))/N^2\to3/7$
 as $q,\ell\to\infty$, although $\alphaI(G)/|V(G)|=1/\ell\to0$.
