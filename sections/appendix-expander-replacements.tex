@@ -129,41 +129,18 @@ contain admissible $t$-element subsets.
  two images lie in the disjoint sets $A,B$.
 \end{enumerate}
 
-It remains to prove connectedness. In the one-set construction,
-an auxiliary walk maps to an output walk after consecutive
-repetitions are removed. In the bipartite construction, each step
-switches sides, so reaching both images of an auxiliary vertex
-requires walks of both parities. We obtain these walks by showing
-that $\mathcal E$ is connected and nonbipartite.
-Its nonconstant eigenvalue bound is
-$d\lambda_0^k<d$. If $\mathcal E$ were disconnected, let $S$ be a
-nonempty proper connected component. Regularity and the absence of
-steps crossing its boundary give
-$A_{\mathcal E}\mathbf1_S=d\mathbf1_S$.
-Put $x=\mathbf1_S-(|S|/M)\mathbf1$. Since $0<|S|<M$, this vector
-is nonzero, and its coordinate sum is $|S|-(|S|/M)M=0$. Moreover,
-\[
- A_{\mathcal E}x
- =d\mathbf1_S-\frac{|S|}{M}d\mathbf1
- =d\left(\mathbf1_S-\frac{|S|}{M}\mathbf1\right)=dx.
-\]
-This contradicts the nonconstant eigenvalue bound, so
-$\mathcal E$ is connected.
-If it were bipartite, with parts $S,T$, regularity would give
-$d|S|=d|T|$ by counting the steps across the two sides.
-Let $x$ take value one on $S$ and minus one on $T$. It would
-therefore have zero sum. Every step goes to the opposite part, so
-each coordinate of $A_{\mathcal E}x$ would be $-d$ times the
-corresponding coordinate of $x$. The eigenvalue $-d$ would also
-contradict the bound.
-Thus $\mathcal E$ is nonbipartite and has an odd cycle, with a loop
-counted as a cycle of length one.
-
-In the one-set construction, take any two output vertices $u,v$
-and choose preimages $x,y$. A walk from $x$ to $y$ exists in
-$\mathcal E$. Apply $\pi$ to its vertex sequence. Consecutive
-images are equal or adjacent in the output. Omitting consecutive
-repetitions gives a walk from $u$ to $v$, proving connectedness.
+The nonconstant eigenvalue bound $d\lambda_0^k<d$ implies that
+$\mathcal E$ is connected and nonbipartite. Indeed, disconnectedness
+would give a nonconstant eigenvector with eigenvalue $d$,
+and bipartiteness one with eigenvalue $-d$.
+Mapping auxiliary walks through $\pi$ and deleting consecutive
+repetitions proves connectedness of the one-set output.
+For the bipartite output, connectedness and an odd cycle give
+walks of both parities between any two auxiliary vertices,
+by inserting an odd closed walk.
+Mapping these walks alternately through $\pi_A,\pi_B$ connects
+$\pi_A(x)$ to both $\pi_A(y)$ and $\pi_B(y)$ for every $y$.
+Surjectivity therefore proves connectedness.
 
 For the bipartite construction, fix an auxiliary vertex $x$.
 There is an odd closed walk from $x$ to itself: follow a path to
