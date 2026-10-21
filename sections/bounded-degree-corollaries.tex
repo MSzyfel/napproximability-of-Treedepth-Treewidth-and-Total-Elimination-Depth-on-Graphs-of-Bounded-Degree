@@ -9,31 +9,8 @@ sparsification losses $\tau N$ and $\tau N^2$ can therefore be made
 at most $\delta Y$ by choosing $\tau$ small. Taking
 $\delta<(r'-r)/(r+1)$, Lemma~\ref{lem:gap-preservation} transfers
 the factor-$r$ hardness.
-We verify the factor conditions using the following two observations.
-
-For every variable $x$ of $F$ and $a\in\{0,1\}$, let
-$W_x^a\subseteq V(G_F)$ consist of the witnesses for equations
-containing $x$ whose represented assignments set $x=a$.
-
-\begin{lemma}[Local factors of the parity graph]\label{lem:parity-local-factors}
-The edges of $G_F$ are the union of its witness-star edges and the
-bicliques $T_x^0\times T_x^1$, $T_x^0\times W_x^1$, and
-$T_x^1\times W_x^0$ over all variables $x$.
-The star edges have maximum degree three, every vertex belongs to
-at most three local factors, and their side-size ratios are at
-most $12/5$. Moreover, $W_x^0\subseteq A\cup C$ and
-$W_x^1\subseteq B\cup C$ for every variable $x$.
-\end{lemma}
-
-\begin{proof}
-These are the truth-block and inconsistency edges in the
-construction. A truth vertex belongs to two local bicliques. A
-witness belongs to one per variable of its equation, hence three.
-The sizes $|T_x^a|=5d_x/6$ and $|W_x^a|=2d_x$ give the ratio
-$12/5$. A witness setting $x=0$ lies in $A\cup C$, and one
-setting $x=1$ lies in $B\cup C$, by the placement of the special
-witnesses.
-\end{proof}
+We verify the factor conditions below, using the following observation
+for the SSE construction.
 
 \begin{lemma}[Clique factors of a line graph]\label{lem:linegraph-factors}
 Let $G$ be an unweighted host multigraph. Identify each edge
@@ -59,19 +36,23 @@ of a parity system and the independence fraction and maximum degree
 of an independent-set source. A relative independent-set
 approximation on the copies transfers to the original by choosing
 the copy with the largest selected set. For SSE, parallel copies
-of every host edge preserve normalized volumes and cuts and
+of every host edge preserve normalized volumes and normalized cut sizes and
 multiply the line-graph order.
 
 In all SSE cases, use Lemma~\ref{lem:sse-unweighted-gap} with source
 parameter $\eta$ and $q=\lceil2/\eta\rceil$, as in
-Theorem~\ref{thm:sse-hardness}. Write $N=|E(G^*)|$, counting
+Section~\ref{subsec:sse-dense-gap}. Write $N=|E(G^*)|$, counting
 multiplicity, and $\beta=(c/2)\sqrt\eta\le1/4$.
 The line graph has YES height bound $4\eta N$ and NO balanced-separator
 bound $\beta N$, the latter by
 Lemma~\ref{lem:linegraph-separators} with $\rho=1/2$.
 Lemma~\ref{lem:linegraph-factors} gives $d_1=2$, $d_0=0$, and no
-biclique factors. Since $\beta/\eta$ grows without bound as $\eta$
-decreases, any fixed target gap can be obtained before sparsification.
+biclique factors. Sparsification acts directly on the line graph by
+replacing these host-incidence cliques. Each line-graph vertex lies
+in at most two factors regardless of the host degree. The sparse
+output need not itself be a line graph. Since $\beta/\eta$ grows
+without bound as $\eta$ decreases, any fixed target gap can be
+obtained before sparsification.
 
 \Needspace{7\baselineskip}
 \begin{corollary}[Bounded-degree treedepth hardness]
@@ -92,12 +73,12 @@ Apply Theorem~\ref{thm:td-sparsification} and
 Lemma~\ref{lem:gap-preservation} in each case.
 
 \emph{NP-hardness.}
-Use the factors of Lemma~\ref{lem:parity-local-factors}, the three
-anchor cliques, and, after omitting $z_A,z_B,z_C$, the three
-anchor--part bicliques. Retain the witness-star edges.
-Each source vertex belongs to at most three local factors and one
-anchor--part biclique, while an anchor vertex belongs to its clique
-and one biclique. Thus $d_1=4$, $d_0=3$, and $\kappa=12/5$.
+Retain every edge of $G_F$, whose maximum degree is at most
+$3b_\epsilon$ by Lemma~\ref{lem:xor-cover}. After omitting
+$z_A,z_B,z_C$, replace the three anchor cliques and the three
+anchor--part bicliques. Each vertex lies in at most two factor
+supports, and each biclique has both sides of size $3m$.
+Thus $d_1=2$, $d_0=3b_\epsilon$, and $\kappa=1$.
     Deleting $z_A,z_B,z_C$ lowers treedepth by at most $3$, by
     Lemma~\ref{lem:restore-vertices}. The resulting graph has order
     $18m$, so sparsification lowers treedepth by at most $18\tau m$.
@@ -105,7 +86,7 @@ The resulting YES bound is $(17/2+\epsilon)m+1$, and the NO lower
 bound is $(9-\epsilon)m-2-18\tau m$. Fix a target factor
 $r<18/17$ and let
 $\gamma=9-\epsilon-r(17/2+\epsilon)>0$, using the choice of
-$\epsilon$ in Theorem~\ref{thm:np-hardness}. Choose
+$\epsilon$ in Section~\ref{subsec:np-td-gap}. Choose
 $\tau<\gamma/36$ and take enough source copies that
 $m>2(2+r)/\gamma$. Then
 \[
@@ -117,11 +98,13 @@ so the gap survives both losses.
 
 \emph{UGC hardness.}
 Fix a target factor $r<4/3$, and choose $r'$ with
-$r<r'<4/3$. Take $q,\eta$ from the proof of
-Theorem~\ref{thm:ugc-hardness} for factor $r'$, and apply
+$r<r'<4/3$. Take $q,\eta$ from the dense gap calculation in
+Section~\ref{subsec:ugc-td-gap} for factor $r'$, and apply
 Theorem~\ref{thm:bounded-degree-kr-source} with this $\eta$ in
-$S_q(G)$. The layer cliques give $d_1=1$, and the retained
-cross-layer edges have maximum degree $(q-1)d_\eta$. Write $Y$ for
+$S_q(G)$. Replace the $q$ layer cliques by bounded-degree expanders
+and retain all cross-layer source edges. These retained edges have
+maximum degree at most $(q-1)d_\eta$, so $d_1=1$ and
+$d_0=(q-1)d_\eta$. Write $Y$ for
 the dense YES upper bound. A layer clique gives
 $n\le\td(S_q(G))\le Y$ in the YES case.
 The sparsification loss is therefore at most $\tau qn\le\tau qY$.
@@ -163,15 +146,13 @@ Apply Theorem~\ref{thm:tw-sparsification} and
 Lemma~\ref{lem:gap-preservation}.
 
 \emph{NP-hardness.}
-In $K_R(G_F)$, use the three global cliques and the local factors
-of Lemma~\ref{lem:parity-local-factors} in each copy, retaining
-the witness-star edges. Then $d_1=4$, $d_0=3$, and $\kappa=12/5$.
-Each truth block lies in one global clique, and each $W_x^a$
-meets at most two. The nonempty intersections of a biclique side
-with the global parts therefore partition it into at most two
-sets, each contained in its global clique. Thus $s=2$.
-Fix a target factor $r<12/11$. The proof of
-Theorem~\ref{thm:tw-hardness} chooses $\epsilon,R$ so that
+In $K_R(G_F)$, replace the three global cliques and retain every
+edge of each source copy. Lemma~\ref{lem:xor-cover} bounds the
+retained degree by $d_0=3b_\epsilon$. Each vertex lies in one
+clique factor, so $d_1=1$. There are no biclique factors.
+Take $\kappa=s=1$.
+Fix a target factor $r<12/11$. The dense gap calculation in
+Section~\ref{subsec:np-treewidth} chooses $\epsilon,R$ so that
 \[
  \gamma=R(6-\epsilon)-r\bigl(R(11/2+\epsilon)+3\bigr)>0.
 \]
@@ -190,17 +171,20 @@ sparse YES upper bound is
 
 \emph{UGC hardness.}
 Fix a target factor $r<4/3$, and choose $r'$ with
-$r<r'<4/3$. Take $\zeta,R$ from the proof of
-Theorem~\ref{thm:tw-ugc} for factor $r'$, and use
-Theorem~\ref{thm:bounded-degree-kr-source} with $\eta=\zeta$,
-which is admissible since $\zeta<1/12<1/10$. Apply it in
+$r<r'<4/3$. Take $\zeta,R$ from the dense gap calculation in
+Section~\ref{subsec:ugc-tw-gap} for factor $r'$, and use
+Theorem~\ref{thm:bounded-degree-kr-source} with $\eta=\zeta/2$,
+as in Theorem~\ref{thm:ugc-tripartite-cover}. This is admissible
+since $0<\eta<1/24<1/10$. Apply it in
 $K_R(P_3(G))$.
-Replace the three global cliques and retain the product edges.
-Thus $d_1=1$ and $d_0=2d_\eta$, with no biclique factors.
+Replace only the three global cliques by bounded-degree expanders
+and retain every product edge in each source copy. These source
+edges already have bounded degree, so
+$d_1=1$ and $d_0=2d_\eta=D_{3,\zeta}$, with no biclique factors.
 Lemma~\ref{lem:multipartite-product} gives YES cover bound
-$(3/2+3\zeta)n$ and NO cover bound
-$(2-2\zeta)n\geq(2-3\zeta)n$ for $P_3(G)$, as required by
-Theorem~\ref{thm:tw-ugc}.
+$(3/2+3\zeta/2)n\leq(3/2+3\zeta)n$ and NO cover bound
+$(2-\zeta)n\geq(2-3\zeta)n$ for $P_3(G)$, as required by
+Section~\ref{subsec:ugc-tw-gap}.
 The dense graph has global cliques of size $Rn$, so its treewidth is
 at least $Rn-1$. Write $Y$ for the dense YES upper bound, so
 $Y\ge Rn-1$. Since the graph has order $3Rn$, the sparsification
@@ -210,8 +194,8 @@ transfers the dense factor-$r'$ gap to factor $r$.
 
 \emph{SSE hardness.}
 Use the common line-graph factors.
-Every finite nonempty graph $H$ satisfies
-$b(H)\le\operatorname{tw}(H)+1$~\cite[Lemma~5.3]{APW}.
+Lemma~\ref{lem:treewidth-balanced-separator} gives
+$b(H)\leq\operatorname{tw}(H)+1$ for the dense line graph.
 Thus the sparse NO width is at least $\beta N-1-\tau N$.
 The YES line-graph construction has treedepth at most $4\eta N$.
 For an elimination forest of height $h$, connect its roots to form
@@ -286,7 +270,7 @@ same additive cost.
 
 \emph{NP-hardness.}
 Use the dense family $H=H^\Sigma_M(G(J))$ from
-Theorem~\ref{thm:np-total-depth}, where the cubic source $J$ has
+Section~\ref{subsec:np-total-depth}, where the cubic source $J$ has
 $n$ vertices and $M=\Theta(n)$. Choose $0<\epsilon_0<1/2$ so that this
 family is hard within factor $1+2\epsilon_0$.
 The three part cliques and the three bicliques joining each part
@@ -327,10 +311,11 @@ transfer below.
 
 \emph{UGC hardness.}
 Fix a target factor $r<8/7$, and choose $r'$ with
-$r<r'<8/7$. Use the parameters $q,\eta$ from the proof of
-Theorem~\ref{thm:total-depth-ugc} for factor $r'$, with the same
-layer factors and retained edges as in the treedepth proof. Thus
-$d_1=1$ and $d_0=(q-1)d_\eta$.
+$r<r'<8/7$. Use the parameters $q,\eta$ from the dense gap
+calculation in Section~\ref{subsec:ugc-total-depth-gap} for factor $r'$, starting from
+Theorem~\ref{thm:bounded-degree-kr-source}. Replace the $q$ layer
+cliques by bounded-degree expanders and retain every cross-layer
+source edge. Thus $d_1=1$ and $d_0=(q-1)d_\eta$.
 Each layer is a clique, so its $n$ vertices lie on one ancestor
 path and have depths at least $1,2,\ldots,n$. Summing over all $q$
 layers gives the lower bound
@@ -518,7 +503,9 @@ $\ell\geq\max\{2,g/3\}$, obtaining $G_\ell$. All original vertices
 lie in one side of a bipartition, since every replacement path has
 even length. Each internal vertex has degree two, and deleting all
 internal vertices leaves the original vertices isolated, so
-$G_\ell$ is $2$-degenerate. Every cycle uses at least three
+$G_\ell$ is $2$-degenerate. Original vertices retain their degrees,
+so $\Delta(G_\ell)\leq\max\{\Delta(G),2\}$.
+Every cycle uses at least three
 replacement paths and therefore has length at least $3\ell\geq g$.
 By Lemma~\ref{lem:minor-monotonicity}, contracting each replacement
 path gives

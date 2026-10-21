@@ -3,132 +3,9 @@
 \label{sec:source-normalizations}
 
 The source derivations follow the order in which the paper uses them:
-the Khot--Regev promise and its bounded-degree form, the multipartite
-UGC promise, the global SSE promise, and the NP-hardness provenance
-and parity normalization. The unweighting lemma precedes its use in
-the Khot--Regev proof.
-
-\subsection{The Khot--Regev independent-set promise}
-\label{app:kr-normalization}
-
-We replace rational vertex weights by numbers of independent copies.
-Joining the copy sets completely along source edges ensures that an
-independent set can use copies only of pairwise nonadjacent source
-vertices. Thus its size records the corresponding source weight.
-
-\begin{lemma}[Unweighting by copies]\label{lem:copy-unweighting}
-Let $G$ be a simple graph with positive rational vertex weights $w_v$,
-and let $L>0$ make every $m_v=Lw_v$ a positive integer. Define $G'$
-on $\{v_i:v\in V(G),\ i\in[m_v]\}$, with $u_iv_j$ an edge if and
-only if $uv\in E(G)$. Thus the copies of each vertex are independent,
-and a source edge joins its two copy sets completely.
-Write $\alpha_w(G)=\max_I\sum_{v\in I}w_v$ over independent sets $I$,
-and $\vc_w(G)=\min_C\sum_{v\in C}w_v$ over vertex covers $C$.
-Minimum vertex-cover weight and maximum independent-set weight
-scale by $L$: $\vc(G')=L\vc_w(G)$ and $\alphaI(G')=L\alpha_w(G)$.
-If $G$ has a specified partition $V_1\dot\cup\cdots\dot\cup V_k$
-into independent sets, the construction preserves it, and the $i$th
-part has size $L\sum_{v\in V_i}w_v$. It is polynomial
-when $\sum_v m_v$ is polynomial in the source encoding length.
-\end{lemma}
-
-\begin{proof}
-For an independent set $I\subseteq V(G)$, take all $m_v$ copies of
-each $v\in I$. No two chosen copies are adjacent: copies of the same
-vertex are independent, and copies of distinct chosen vertices are
-adjacent only if their original vertices are adjacent in $G$.
-Thus the copies of vertices in $I$ form an independent set of $G'$ of size
-$\sum_{v\in I}m_v=L\sum_{v\in I}w_v$. Maximizing over $I$ proves
-$\alphaI(G')\geq L\alpha_w(G)$.
-
-Conversely, let $J$ be any independent set of $G'$ and let $I$ consist
-of the source vertices with at least one copy in $J$. If $uv$ were
-an edge of $G$ with $u,v\in I$, any chosen copy of $u$ would be
-adjacent to every chosen copy of $v$, contradicting independence.
-Thus $I$ is independent in $G$. It follows that
-\[
- |J|\leq\sum_{v\in I}m_v
- =L\sum_{v\in I}w_v\leq L\alpha_w(G).
-\]
-Together, the two inequalities prove the independent-set identity.
-
-A vertex set is a cover if and only if its complement is independent.
-Using this fact in the weighted source graph and in $G'$ gives
-\[
- \vc(G')=|V(G')|-\alphaI(G')
- =L\sum_vw_v-L\alpha_w(G)=L\vc_w(G).
-\]
-When $G$ is nonempty, neither the independent-set density nor the
-cover density changes:
-\[
- \frac{\alphaI(G')}{|V(G')|}
- =\frac{\alpha_w(G)}{\sum_vw_v},\qquad
- \frac{\vc(G')}{|V(G')|}
- =\frac{\vc_w(G)}{\sum_vw_v}.
-\]
-
-For the specified partition into independent sets, replace each part
-by the union of the copy sets of its vertices. There are no source
-edges within a part, so there are no output edges within it either.
-Its new size is $L$ times its original weight. Finally, the output has
-$\sum_vm_v$ vertices and at most $(\sum_vm_v)^2$ edges. Hence it can
-be constructed in polynomial time under the stated size assumption.
-\end{proof}
-
-\begin{restatedtheorem}{Theorem~\ref{thm:kr}}
-For every fixed rational $0<\eta<1/10$, it is Unique Games-hard to
-distinguish simple unweighted graphs $G$ on $n\geq1$ vertices with
-$\alphaI(G)\geq(1/2-\eta)n$ \textup{(YES)} from those with
-$\alphaI(G)<\eta n$ \textup{(NO)}.
-\end{restatedtheorem}
-
-\begin{proof}[Proof of Theorem~\ref{thm:kr}]
-Khot and Regev's Theorem~3.2~\cite[Theorem~3.2]{KhotRegev} shows
-that the ordinary UGC implies their stronger Unique Games promise,
-Conjecture~3.1. Their Section~4 reduction~\cite[Section~4]{KhotRegev}
-with $k=2$, $\epsilon=\eta/2$, and $\delta=\eta$
-then gives a weighted $2$-uniform hypergraph, hence a weighted graph,
-with YES independent-set density $1-1/k-2\epsilon=1/2-\eta$ and
-NO density less than $\eta$. Merge any parallel edges, which does not
-change its independent sets. These are the two
-independent-set thresholds in Theorem~\ref{thm:kr}. The source bias is
-$p=1-1/k-\epsilon=1/2-\eta/2=(1-\eta)/2$, which is rational because
-$\eta$ is a fixed rational. It remains to remove the weights without
-altering either density.
-
-Let $G$ denote the weighted graph in the Khot--Regev construction.
-Let $X$ be the set of source variables, let $s$ be the fixed size of
-their label set, and write
-the fixed rational bias as $p=a_0/a_1$ for integers $0<a_0<a_1$. A vertex
-indexed by $(x,F)$, where $x\in X$ and $F\subseteq[s]$, has weight
-\[
- w_{x,F}=\frac1{|X|}p^{|F|}(1-p)^{s-|F|}
- =\frac{a_0^{|F|}(a_1-a_0)^{s-|F|}}{|X|a_1^s}.
-\]
-The weights sum to one, since for each $x$ the sum over $F$ is
-$|X|^{-1}(p+(1-p))^s=|X|^{-1}$.
-Thus the weighted optimum is already its normalized density.
-
-Take $L=|X|a_1^s$. Then $Lw_{x,F}=a_0^{|F|}(a_1-a_0)^{s-|F|}$ is a
-positive integer. Replace $(x,F)$ by this many copies, and
-join two copy sets completely if and only if the source vertices were
-adjacent. For each fixed $x$, the number of new vertices is
-\[
- \sum_{F\subseteq[s]}a_0^{|F|}(a_1-a_0)^{s-|F|}
- =\sum_{i=0}^s\binom{s}{i}a_0^i(a_1-a_0)^{s-i}=a_1^s.
-\]
-Consequently the new graph has $n=|X|a_1^s=L$ vertices.
-Lemma~\ref{lem:copy-unweighting} gives
-$\alphaI(G')/n=\alpha_w(G)$, so a YES instance still has
-$\alphaI(G')\geq(1/2-\eta)n$, and a NO instance still has
-$\alphaI(G')<\eta n$. The strict NO inequality is preserved
-because both sides scale by $L$.
-
-For each fixed gap, $a_1$ and $s$ are constants. Hence $|X|a_1^s$ is
-polynomial in the source instance size. The construction has no loops
-or parallel edges and uses only unweighted vertices and edges. It
-therefore gives the simple unweighted source asserted in the theorem.
-\end{proof}
+the bounded-degree independent-set promise, the multipartite UGC
+promise, the global SSE promise, and the NP-hardness provenance and
+parity normalization.
 
 \input{sections/appendix-bounded-degree-source}
 
@@ -137,20 +14,32 @@ therefore gives the simple unweighted source asserted in the theorem.
 
 \begin{restatedtheorem}{Theorem~\ref{thm:ugc-tripartite-cover}}
 For every fixed integer $k\geq3$ and fixed rational
-$0<\zeta<1/12$, it is Unique Games-hard to distinguish simple
-unweighted $k$-partite graphs $G$ on $N$ vertices, with a specified
-partition into $k$ independent parts each of size $N/k$, with
-$\vc(G)\leq(1/2+\zeta)N$ \textup{(YES)} from those with
-$\vc(G)\geq(1-1/k-\zeta)N$ \textup{(NO)}.
+$0<\zeta<1/12$, there is a constant $D_{k,\zeta}$ such that the
+following promise problem is Unique Games-hard. The input is a
+simple unweighted $k$-partite graph $G$ on $N$ vertices, of maximum
+degree at most $D_{k,\zeta}$,
+with a specified partition into $k$ independent parts each of size
+$N/k$.
+\begin{description}
+ \item[YES:] $\vc(G)\leq(1/2+\zeta)N$.
+ \item[NO:] $\vc(G)\geq(1-1/k-\zeta)N$.
+\end{description}
+The reduction is deterministic and polynomial time.
 \end{restatedtheorem}
 
 \begin{proof}[Proof of Theorem~\ref{thm:ugc-tripartite-cover}]
-Apply the unweighted source of Theorem~\ref{thm:kr} with
+Apply the bounded-degree source of Theorem~\ref{thm:bounded-degree-kr-source} with
 $\eta=\zeta/2$. This is an admissible fixed rational parameter,
 since $0<\zeta<1/12$ gives $0<\eta<1/24<1/10$.
 For a source graph $G$ on $n$ vertices, form $P_k(G)$ as in
 Lemma~\ref{lem:multipartite-product}. It has $N=kn$ vertices,
 with $n=N/k$ vertices in each of its $k$ independent layers.
+The degree identity in the same lemma gives
+\[
+ \Delta(P_k(G))=(k-1)\Delta(G)
+ \leq(k-1)d_{\zeta/2}=:D_{k,\zeta},
+\]
+which is constant for fixed $k,\zeta$.
 
 In the YES case, $\alphaI(G)\geq(1/2-\eta)n$.
 Taking all $k$ copies of a source independent set gives
@@ -182,18 +71,16 @@ Here $(k-1)\eta/k\leq\eta=\zeta/2<\zeta$, so the claimed
 non-strict NO threshold follows in particular. The product has no
 loops because edges require distinct layer indices, and no parallel
 edges because $G$ is simple. Its $k$ is fixed, so its size is
-polynomial in that of $G$. This proves the stated balanced,
-simple, unweighted promise.
+polynomial in that of $G$. Both the independent-set source reduction
+and the product construction are deterministic. This proves the
+stated balanced, simple, unweighted, bounded-degree promise.
 \end{proof}
 
 \subsection{The global SSE partition promise}
 \label{app:sse-normalization}
 
-For $-1<\xi<1$, let $\Gamma_\xi(\mu)$ be the probability that
-both of two standard normal variables of correlation $\xi$ are
-below the threshold whose one-variable lower-tail probability is $\mu$.
-Write $\Psi(t)=\Pr[Z\leq t]$ for the cumulative distribution function
-of a standard normal random variable $Z$.
+We use the Gaussian notation $\Gamma_\xi$ and $\Psi$ introduced
+before Theorem~\ref{thm:aks-density-source}.
 
 We prove the only Gaussian estimate needed here.
 
@@ -241,19 +128,18 @@ where $1-\xi^2=(1-\xi)(1+\xi)\geq1-\xi=\varepsilon'/2
 \geq\varepsilon/4$. Taking $a=c_*/2$ proves the lemma.
 \end{proof}
 
-\begin{restatedtheorem}{Theorem~\ref{thm:sse-source}}
+We use the weighted graph notation of Section~\ref{sec:sseh} for
+the total edge weight $W$, weighted degree $\deg_G$, volume
+$\vol_G$, normalized volume $\mu_G$, expansion $\Phi_G$, and cut
+weight $w(\cut_G(A))$.
+
+\begin{theorem}[Global SSE partition gap, weighted normalized form {\cite[Theorem~3.5]{RST}}]
+\label{thm:sse-source}
 There are absolute constants $c>0$ and $\varepsilon_0>0$ such that,
 for every fixed integer $q\geq2$ and every fixed
 $0<\varepsilon<\varepsilon_0$, the following promise on finite
 undirected graphs with positive rational edge weights is SSE-hard.
-Parallel edges and loops are allowed. Let $W>0$ be the total edge
-weight, and write $\deg_G(v)$ for the sum of incident edge weights,
-counting a loop twice. Let
-$w(\cut_G(A))$ denote the total weight of edges with exactly one
-endpoint in $A$. Put
-$\vol_G(A)=\sum_{v\in A}\deg_G(v)$,
-$\mu_G(A)=\vol_G(A)/(2W)$, and
-$\Phi_G(A)=w(\cut_G(A))/\vol_G(A)$ when $\vol_G(A)>0$.
+Parallel edges and loops are allowed, with $W>0$.
 \begin{description}
 \item[YES:] There is a partition
   $V(G)=V_1\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}V_q$ with
@@ -262,7 +148,7 @@ $\Phi_G(A)=w(\cut_G(A))/\vol_G(A)$ when $\vol_G(A)>0$.
   $\mu_G(A)\in[1/10,9/10]$ satisfies
   $w(\cut_G(A))\geq c\sqrt{\varepsilon}\,W$.
 \end{description}
-\end{restatedtheorem}
+\end{theorem}
 
 \begin{proof}[Proof of Theorem~\ref{thm:sse-source}]
 Fix $q$ and $\varepsilon$ as in the statement, taking its threshold
@@ -360,6 +246,144 @@ promise, so the source reduction remains polynomial for each fixed
 $(q,\varepsilon)$.
 \end{proof}
 
+\subsubsection{Rounding to an unweighted host}
+
+Theorem~\ref{thm:sse-source} gives a weighted multigraph, whereas the
+output line graph has one vertex per unweighted host-edge copy. Replace each
+weighted edge $e$ by $\lfloor Mw_e/W\rfloor$ parallel copies, where
+$W$ is the total source edge weight and $M$ is chosen below.
+Rounding introduces an additive error in normalized
+volumes and cut sizes, so the source promise uses the wider interval
+$[1/10,9/10]$ rather than the interval $[1/4,3/4]$ required by
+Lemma~\ref{lem:linegraph-separators}.
+The conversion proves the unweighted source promise stated in
+Lemma~\ref{lem:sse-unweighted-gap}. The degree reduction is applied
+later to its line graph, through incidence clique factors, in
+Section~\ref{subsec:bounded-degree-consequences}.
+
+\begin{restatedlemma}{Lemma~\ref{lem:sse-unweighted-gap}}
+There are absolute constants $c>0$ and $\varepsilon_0>0$ such that,
+for every fixed integer $q\geq2$ and every fixed rational
+$0<\varepsilon<\varepsilon_0$, the following promise on unweighted
+multigraphs $G$ with $m>0$ edges, allowing loops, is SSE-hard:
+\begin{description}
+\item[YES:] There is a partition
+  $V(G)=V_1\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}V_q$ such that
+  $(1-\varepsilon)/q\leq\mu_G(V_i)\leq(1+\varepsilon)/q$ and
+  $\Phi_G(V_i)\leq3\varepsilon$ for every $i$.
+\item[NO:] Every $A\subseteq V(G)$ with
+  $\mu_G(A)\in[1/4,3/4]$ satisfies
+  $|\cut_G(A)|\geq(c/2)\sqrt{\varepsilon}\,m$.
+\end{description}
+\end{restatedlemma}
+
+\begin{proof}[Proof of Lemma~\ref{lem:sse-unweighted-gap}]
+Let $c$ and $\varepsilon_0$ be the constants from
+Theorem~\ref{thm:sse-source}. Decrease $\varepsilon_0$ so that every
+$0<\varepsilon<\varepsilon_0$ satisfies $\varepsilon\leq1/10$ and
+$\varepsilon^2\leq(c/2)\sqrt\varepsilon$.
+Fix $q\geq2$ and a rational $\varepsilon$ in this range, and set
+$\theta=\min\{\varepsilon^2,\varepsilon/(2q)\}$.
+
+\emph{Construction.}
+Let $G$ be a weighted source instance with $k\geq1$ edges of weights
+$w_e$ and total weight $W$, counting parallel edges separately.
+Set $M=\lceil k/\theta\rceil$ and $r_e=\lfloor Mw_e/W\rfloor$.
+Form the unweighted multigraph $G^*$ on $V(G)$ by replacing each
+edge $e$ by $r_e$ copies with the same endpoints, with no other edges.
+A loop is replaced by loops, and an edge with $r_e=0$ is removed.
+Write $m=\sum_e r_e$ and output $G^*$.
+
+\emph{Rounding estimates.}
+For each input edge $e$, write $\omega_e=Mw_e/W-r_e\in[0,1)$.
+Since $k\leq\theta M$ and $\omega_e<1$ for each of the $k$ input edges,
+$(1-\theta)M\leq M-k<M-\sum_e\omega_e=m\leq M$.
+Thus $m>0$, and $G^*$ has at most $M=O(k/\theta)$ edges.
+Since $q,\theta$ are fixed, the reduction has polynomial size.
+
+For a fixed vertex set $A$, an edge contributes zero, one, or two
+endpoint incidences to its volume. A loop in $A$ contributes two.
+Since $w_e/W-r_e/M=\omega_e/M$, edge $e$ contributes between zero
+and $\omega_e/M$ to the difference of normalized volumes. Summing gives
+\begin{equation}\label{eq:round-volume}
+ 0\leq\frac{\vol_G(A)}{2W}
+       -\frac{\vol_{G^*}(A)}{2M}
+ \leq\frac1M\sum_e\omega_e
+ <\frac{k}{M}\leq\theta.
+\end{equation}
+
+For the cut, only crossing edges contribute. Thus
+\begin{equation}\label{eq:round-cut}
+  |\cut_{G^*}(A)|
+  =M\frac{w(\cut_G(A))}{W}-\sum_{e\in\cut_G(A)}\omega_e
+  \geq M\left(\frac{w(\cut_G(A))}{W}-\theta\right),
+\end{equation}
+because $\sum_{e\in\cut_G(A)}\omega_e<k\leq\theta M$.
+
+\emph{YES case.}
+Use the source partition $(V_1,\ldots,V_q)$.
+Since $\mu_G(V_i)=1/q$, equation~\eqref{eq:round-volume} gives
+$1/q-\theta\leq\vol_{G^*}(V_i)/(2M)\leq1/q$.
+Also, $(1-\theta)M\leq m\leq M$, so
+$1-\theta\leq m/M\leq1$. Since
+$\mu_{G^*}(V_i)=\bigl(\vol_{G^*}(V_i)/(2M)\bigr)/(m/M)$, it follows
+that
+\[
+\begin{aligned}
+ \mu_{G^*}(V_i)
+ &\geq1/q-\theta
+ \geq(1-\varepsilon/2)/q
+ \geq(1-\varepsilon)/q,\\
+ \mu_{G^*}(V_i)
+ &\leq\frac{1/q}{1-\theta}
+ \leq\frac{1+\varepsilon}{q}.
+\end{aligned}
+\]
+Here the last inequality uses
+$\theta\leq\varepsilon/(2q)\leq\varepsilon/(1+\varepsilon)$.
+The source bounds give
+$w(\cut_G(V_i))=\Phi_G(V_i)\vol_G(V_i)
+\leq2\varepsilon\cdot2W/q=4\varepsilon W/q$.
+Since $r_e\leq Mw_e/W$, summing the rounded edge multiplicities over
+the cut gives
+$|\cut_{G^*}(V_i)|\leq Mw(\cut_G(V_i))/W\leq4\varepsilon M/q$.
+Consequently
+\[
+  \Phi_{G^*}(V_i)
+  \leq\frac{4\varepsilon M/q}{2M(1/q-\theta)}
+  =\frac{2\varepsilon}{1-q\theta}
+  \leq\frac{2\varepsilon}{1-\varepsilon/2}
+  \leq\frac{40}{19}\varepsilon<3\varepsilon.
+\]
+The penultimate inequality uses $\varepsilon\le1/10$.
+
+\emph{NO case.}
+Let $A$ be any set with
+$\mu_{G^*}(A)\in[1/4,3/4]$. Since
+$\vol_{G^*}(V(G))/(2M)=m/M$, its volume measured at scale $2M$
+satisfies $\vol_{G^*}(A)/(2M)=(m/M)\mu_{G^*}(A)
+\in[(1-\theta)/4,3/4]$.
+The volume bound~\eqref{eq:round-volume} says that this scaled volume
+is at most $\mu_G(A)$ and differs from it by at most $\theta$. Hence
+\[
+ \frac{1-\theta}{4}
+ \leq\frac{\vol_{G^*}(A)}{2M}
+ \leq\mu_G(A)
+ \leq\frac{\vol_{G^*}(A)}{2M}+\theta
+ \leq\frac34+\theta.
+\]
+Since $\theta\le1/10$, the lower endpoint is at least $9/40>1/10$
+and the upper endpoint is at most $17/20<9/10$. Thus
+$\mu_G(A)\in[1/10,9/10]$. The source NO promise
+therefore gives $w(\cut_G(A))/W\geq c\sqrt{\varepsilon}$. Applying
+\eqref{eq:round-cut}, $\theta\leq(c/2)\sqrt\varepsilon$, and $M\geq m$ gives
+\[
+  |\cut_{G^*}(A)|\geq M(c\sqrt\varepsilon-\theta)
+  \geq(c/2)\sqrt\varepsilon\,M
+  \geq(c/2)\sqrt\varepsilon\,m.
+\]
+\end{proof}
+
 \subsection{Provenance of the NP-hardness construction}
 \label{subsec:np-provenance}
 
@@ -434,22 +458,25 @@ $m_0$ equations.
 \end{proof}
 
 \begin{restatedtheorem}{Theorem~\ref{thm:xor-source}}
-For every fixed $0<\epsilon<1/4$, it is NP-hard to distinguish
-unweighted systems $F$ of $m\geq1$ equations
-$x+y+z=a\pmod2$, where $a\in\{0,1\}$ and $x,y,z$ are distinct
-Boolean variables, with $\OPT(F)\geq(1-\epsilon)m$ \textup{(YES)}
-from those with $\OPT(F)\leq(1/2+\epsilon)m$ \textup{(NO)}.
-Equations may be repeated. Every variable occurs a constant number of
-times, with at most two possible occurrence counts, and the instances
-can be required to satisfy
+For every fixed $0<\epsilon<1/4$, there is a constant
+$b_\epsilon\geq6$ depending only on $\epsilon$ such that the following
+promise problem is NP-hard. The input is an unweighted system $F$ of
+$m\geq1$ equations $x+y+z=a\pmod2$, where $a\in\{0,1\}$ and
+$x,y,z$ are distinct Boolean variables. Equations may be repeated.
+Every variable occurs at most $b_\epsilon$ times, with at most two
+possible occurrence counts, and the instances satisfy
 \[
  d_x\in6\mathbb Z_{>0},\qquad
  \sum_xd_x=3m,\qquad
- |\{j:a_j=0\}|=|\{j:a_j=1\}|=m/2,
+ |\{j:a_j=0\}|=|\{j:a_j=1\}|=m/2.
 \]
-where $d_x$ is the number of equations containing $x$, and $\OPT(F)$
+Here $d_x$ is the number of equations containing $x$, and $\OPT(F)$
 is the maximum number of equations satisfied by one assignment,
 counting repetitions.
+\begin{description}
+ \item[YES:] $\OPT(F)\geq(1-\epsilon)m$.
+ \item[NO:] $\OPT(F)\leq(1/2+\epsilon)m$.
+\end{description}
 \end{restatedtheorem}
 
 \begin{proof}[Proof of the normalized form in Theorem~\ref{thm:xor-source}]
@@ -484,6 +511,8 @@ $\OPT(F)\leq(1/2+\epsilon)m$.
 
 Each remaining variable occurred at least once before repetition,
 and its final occurrence count is six times a positive integer.
+The repetition also multiplies the occurrence upper bound by six,
+so the normalized bound $b_\epsilon$ still depends only on $\epsilon$.
 Thus $d_x\in6\mathbb Z_{>0}$. Counting the three variable
 occurrences in every equation gives $\sum_xd_x=3m$.
 The repetition creates $6m_0=m/2$ equations with each right-hand
@@ -491,4 +520,126 @@ side, so the required balance also holds and $m$ is even. These
 operations increase the number of equations by the fixed factor
 twelve and therefore take polynomial time. This proves all the
 conditions in~\eqref{eq:xor-normalization}.
+\end{proof}
+
+\subsection{A cubic independent-set source from the parity gap}
+\label{app:cubic-independent-set-source}
+
+We derive the threshold promise in
+Theorem~\ref{thm:source-cubic-independent-set} from the existing
+parity source. The degree normalization below has an explicitly
+computed additive effect on the independence number, so the
+threshold remains part of the polynomial-time reduction.
+
+\begin{restatedtheorem}{Theorem~\ref{thm:source-cubic-independent-set}}
+There is a fixed rational constant $\delta_0\in(0,1)$ such that the
+following promise problem is NP-hard. The input is a simple
+unweighted cubic graph $J$ on $n\geq4$ vertices and an integer
+$1\leq K\leq n$.
+\begin{description}
+ \item[YES:] $\alphaI(J)\geq K$.
+ \item[NO:] $\alphaI(J)\leq(1-\delta_0)K$.
+\end{description}
+\end{restatedtheorem}
+
+\begin{proof}[Proof of Theorem~\ref{thm:source-cubic-independent-set}]
+Use Theorem~\ref{thm:xor-source} with the fixed error
+$\epsilon=1/12$, and construct its witness graph $G_F$ from
+Section~\ref{subsec:np-treedepth}. Put $n_0=|V(G_F)|=9m$ and
+$e_0=|E(G_F)|$, and take a fixed integer
+$D\geq3b_{1/12}$. The construction has maximum degree at most $D$,
+and Lemma~\ref{lem:xor-cover} gives
+\[
+ \alphaI(G_F)=\frac{5m}{2}+\OPT(F).
+\]
+Consequently its YES independence number is at least $41m/12$,
+and its NO independence number is at most $37m/12$. The graph has
+no isolated vertices. Every truth vertex meets its opposite truth
+block, and every witness meets a truth block.
+
+For each vertex $v$ of degree $d_v\geq1$, replace $v$ by a path
+on $2d_v-1$ new vertices. Designate its $d_v$ odd-position vertices
+as ports, assign the edges incident with $v$ to distinct ports, and
+replace each original edge by an edge between its assigned ports.
+Call the resulting simple graph $Q$. Each port has at most two
+path neighbors and one external neighbor, so $Q$ has maximum degree
+at most three.
+
+An independent set in this path has at most $d_v$ vertices, and it
+has $d_v$ only when it contains all the ports. Thus the original
+vertices whose paths contribute $d_v$ form an independent set in
+$G_F$. Every other path contributes at most $d_v-1$. Conversely,
+an independent set in $G_F$ gives one in $Q$ by selecting all ports
+in its paths and all even-position vertices in the other paths.
+The external edges do not join two selected vertices. These two
+bounds prove
+\[
+ \alphaI(Q)=\alphaI(G_F)+\sum_v(d_v-1)
+           =\alphaI(G_F)+2e_0-n_0.
+\]
+The path construction also gives
+\[
+ |V(Q)|=4e_0-n_0,\qquad |E(Q)|=5e_0-2n_0.
+\]
+Hence the number of missing degrees needed to make $Q$ cubic is
+\[
+ r=\sum_{u\in V(Q)}(3-\deg_Q(u))
+   =3|V(Q)|-2|E(Q)|=2e_0+n_0.
+\]
+
+For each missing degree at a vertex $u$ of $Q$, take a fresh copy
+of $K_4$, subdivide one edge $ab$ with a new vertex $z$, and add
+the edge $uz$. All five vertices in this copy are new. The four
+original vertices have degree three, and $z$ has degree three
+after attachment. The resulting graph $J$ is therefore simple,
+unweighted, and cubic.
+
+Each five-vertex attachment has independence number two. Without
+$z$, it is $K_4$ with the edge $ab$ removed, whose maximum
+independent set is $\{a,b\}$. With $z$ selected, neither $a$ nor
+$b$ can be selected, and the two other vertices are adjacent.
+Moreover, the pair $\{a,b\}$ avoids the attachment vertex $z$, so
+it can be selected whether or not $u$ is selected. Thus the
+attachments add exactly $2r$ to the independence number, giving
+\[
+ \begin{aligned}
+  |V(J)|&=|V(Q)|+5r=14e_0+4n_0,\\
+  \alphaI(J)&=\alphaI(G_F)+s,
+  \qquad s=2e_0-n_0+2r=6e_0+n_0.
+ \end{aligned}
+\]
+
+Define the integer threshold and the fixed rational gap by
+\[
+ K=s+\left\lceil\frac{41m}{12}\right\rceil,
+ \qquad \delta_0=\frac{1}{81D+41}.
+\]
+In the YES case, integrality of the independence number gives
+$\alphaI(J)\geq K$. In the NO case,
+\[
+ \alphaI(J)\leq s+\frac{37m}{12}
+              \leq K-\frac m3.
+\]
+Since $e_0\leq Dn_0/2$, $n_0=9m$, and $m\geq1$,
+\[
+ K\leq6e_0+9m+\frac{41m}{12}+1
+   \leq\left(27D+\frac{161}{12}\right)m.
+\]
+It follows that
+\[
+ \delta_0K\leq
+ \frac{27D+161/12}{81D+41}\,m<\frac m3,
+\]
+and therefore the NO case satisfies
+$\alphaI(J)\leq(1-\delta_0)K$.
+The threshold is positive and at most the output order, since
+\[
+ |V(J)|-K\geq8e_0+3n_0-\frac{41m}{12}-1
+            =8e_0+\frac{283m}{12}-1>0.
+\]
+The bound on $D$ is fixed, so $e_0=O(m)$ and every construction
+above has $O(m)$ vertices and edges. All operations and the
+threshold computation take deterministic polynomial time.
+The source hardness in Theorem~\ref{thm:xor-source} therefore
+proves the claimed cubic promise.
 \end{proof}

@@ -1,97 +1,132 @@
 \subsection{Degree reduction for the UGC independent-set source}
 \label{app:bounded-degree-ugc-source}
 
-We prove Theorem~\ref{thm:bounded-degree-kr-source}, which gives a
-bounded-degree version of the independent-set promise in
-Theorem~\ref{thm:kr}: independent-set density close to
-$1/2$ in the YES case and arbitrarily small constant density in
-the NO case. Austrin, Khot, and Safra prove under UGC that independent
-set in maximum-degree-$d$ graphs is hard to approximate within a factor
-$\Theta(d/\log^2 d)$, using a randomized reduction
-\cite[Theorem~1.2 and Section~5.2]{AKS2011}. Their reduction obtains
-bounded degree by random edge sampling and removal of edges incident
-to high-degree vertices
-\cite[Section~4, Steps~2--3]{AKS2011}. We instead use their weighted
-density construction~\cite[Theorem~3.1]{AKS2011} and obtain the
-degree bound deterministically using spectral
-sparsification~\cite[Theorem~1.1]{BSS2012}.
+We derive Theorem~\ref{thm:bounded-degree-kr-source} from the
+weighted density theorem of Austrin, Khot, and Safra. Their later
+bounded-degree reduction uses random sampling
+\cite[Section~4, Steps~2--3]{AKS2011}. We instead obtain bounded
+degree deterministically by spectral sparsification. We state the
+cited density theorem first, then derive the loop removal, vertex
+unweighting, and degree bounds needed here.
 
-The derivation has three steps. We first remove loops while retaining
-the weighted density promise. We then replace each vertex by
-independent copies in proportion to its weight, obtaining a
-uniform bound on weighted degrees. Finally, a sparse reweighted
-graph preserves positive edge weight inside every vertex set above
-a fixed size threshold. Discarding edges turns the weighted-degree
-bound into an ordinary degree bound.
+\subsubsection{The AKS density theorem}
 
-\subsubsection{The weighted density source and removal of loops}
+A bipartite \emph{Unique Games instance}
+$\Lambda=(U,V,E_\Lambda,\Pi,[\ell])$ consists of a bipartite
+multigraph with left vertices $U$, right vertices $V$, and a label
+set $[\ell]$. Each edge $e=uv$ has a permutation $\pi_e\in\Pi$
+and requires the label at $v$ to be $\pi_e$ applied to the label at
+$u$. Write $\OPT(\Lambda)$ for the maximum fraction
+of satisfied constraints, counting parallel constraints separately.
+Write $\operatorname{VOPT}(\Lambda)$ for the largest fraction
+$|V_0|/|V|$ for which a labeling satisfies every constraint incident
+to $V_0\subseteq V$. The instance is \emph{regular} if all left
+vertices have the same degree and all right vertices have the same
+degree. The two degrees may differ.
 
-Let $\Psi$ be the cumulative distribution function of a standard
-normal variable, with mean zero and variance one. The value $\Psi^{-1}(s)$
-is its $s$-quantile. For $-1<\xi<1$, take jointly normal variables
-$X,Y$ of mean zero, variance one, and covariance $\xi$, and define
-$\Gamma_\xi(s)=\Pr[X\le\Psi^{-1}(s),\,Y\le\Psi^{-1}(s)]$.
-Set $\Gamma_\xi(0)=0$ and $\Gamma_\xi(1)=1$.
-This function is positive for $0<s<1$, nondecreasing, and convex.
-These properties, including the derivative formula
-$\Gamma_\xi'(s)=2\Psi(\sqrt{(1-\xi)/(1+\xi)}\,\Psi^{-1}(s))$,
-are established in the density analysis of
-~\cite[Theorem~3.1 and equation~(3.2)]{AKS2011}.
+\begin{theorem}[Regular Unique Games source
+{\cite[Conjecture~2.4]{AKS2011} and \cite{KhotRegev}}]
+\label{thm:regular-ug-source}
+For every fixed $\gamma>0$, there is a fixed alphabet size $\ell$
+such that it is UGC-hard to distinguish regular bipartite Unique
+Games instances $\Lambda$ with alphabet $[\ell]$ satisfying the
+following cases.
+\begin{description}
+\item[YES:] $\operatorname{VOPT}(\Lambda)\geq1-\gamma$.
+ There is a set $V_0\subseteq V$ of at least $(1-\gamma)|V|$ right
+ vertices and one labeling satisfying every constraint incident
+ to $V_0$.
+\item[NO:] $\OPT(\Lambda)\leq\gamma$.
+ Every labeling satisfies at most a $\gamma$ fraction of the
+ constraints.
+\end{description}
+\end{theorem}
 
-A bipartite \emph{Unique Games instance} has left vertices $U$,
-right vertices $V$, and a finite label set, called the
-\emph{alphabet}, $[\ell]$. Each edge $uv$ carries a permutation
-$\pi$ of $[\ell]$ and requires the label at $v$ to be $\pi$ applied
-to the label at $u$. A \emph{labeling} assigns one label to every
-vertex. Its value is the fraction of constraints it satisfies,
-counting parallel constraints separately. The instance's optimum
-is the largest such fraction.
-Khot and Regev showed that ordinary UGC has an equivalent regular
-bipartite formulation~\cite{KhotRegev}. We use the version stated by
-Austrin, Khot, and Safra as Conjecture~2.4~\cite{AKS2011}: for every
-fixed $\gamma>0$, it is
-NP-hard to distinguish a YES instance in which there is a set
-$V_0\subseteq V$ of at least $(1-\gamma)|V|$ right vertices and one
-labeling satisfies every constraint incident to a vertex in $V_0$,
-from a NO instance of value at most $\gamma$. The underlying
-bipartite multigraph is regular on each side.
+For a vertex- and edge-weighted graph $G$, let $a_v$ denote a
+vertex weight and $w_e$ an edge weight, normalized so that each
+of the two total weights is one. Put
+$a(S)=\sum_{v\in S}a_v$ and let $e_G(S)$ be the total weight of
+edges with both endpoints in $S$. We allow loops, counted once in
+$e_G(S)$ and twice in the weighted degree $\deg_G(v)$.
+For $\beta\in[0,1]$ and a real $\delta$, the graph is
+\emph{$(\beta,\delta)$-dense} if $a(S)\geq\beta$ implies
+$e_G(S)\geq\delta$.
 
-Fix a rational $p\in(0,1/2)$ and put $\xi=-p/(1-p)$.
-Apply Theorem~3.1 of~\cite{AKS2011} to this regular source. For a
-fixed alphabet size, it gives a deterministic polynomial-time
-reduction to a vertex- and edge-weighted graph $G$ with total vertex
-weight and total edge weight both equal to one. If $a_v$ is the
-vertex weight, write $a(S)=\sum_{v\in S}a_v$. AKS show that the
-weighted degree of each vertex is proportional to its vertex weight.
-Since the sum of weighted degrees is twice the total edge weight,
+Let $\Psi$ be the standard normal cumulative distribution function.
+For $-1<\rho<1$, let $X,Y$ be jointly normal with mean zero,
+variance one, and covariance $\rho$, and define
 \[
- \sum_v\deg_G(v)=2\sum_{e\in E(G)}w_e=2,
- \qquad \sum_va_v=1,
+ \Gamma_\rho(s)=
+ \Pr[X\leq\Psi^{-1}(s),\ Y\leq\Psi^{-1}(s)]
+ \qquad(0<s<1).
 \]
-the proportionality constant is $2$, so $\deg_G(v)=2a_v$.
-For $S\subseteq V(G)$, let $e_G(S)$ be the total weight of edges
-with both endpoints in $S$. In the YES case,
-$G$ has an independent set of weight at least $p-\gamma$. In the
-NO case, $e_G(S)\ge\Gamma_\xi(a(S))-\varepsilon_{\mathrm{dens}}$ for every
-$S\subseteq V(G)$. Here $\varepsilon_{\mathrm{dens}}>0$ is an arbitrarily small fixed analytic error
-and the Unique Games error $\gamma$ is chosen sufficiently small. We allow loops in this
-intermediate graph, counting a loop once in $e_G(S)$ and twice in
-weighted degree.
+Set $\Gamma_\rho(0)=0$ and $\Gamma_\rho(1)=1$.
+Fix a bias $q\in(0,1/2)$ and an analytic error
+$\varepsilon_{\mathrm{dens}}>0$, and put $\rho=-q/(1-q)$.
 
-We remove loops before replacing vertices by independent copies so that the NO-case
-argument can compare internal edge weights through independent
-choices of distinct original vertices. The following alphabet
-padding makes the total loop weight arbitrarily small.
+\Needspace{11\baselineskip}
+\begin{theorem}[AKS density theorem {\cite[Theorem~3.1]{AKS2011}}]
+\label{thm:aks-density-source}
+For all sufficiently small $\gamma>0$, an algorithm maps a Unique
+Games instance $\Lambda$ to a vertex- and edge-weighted graph $G$
+with the following properties.
+\begin{description}
+\item[YES:] If $\operatorname{VOPT}(\Lambda)\geq1-\gamma$, then
+ $G$ has an independent set of vertex weight at least $q-\gamma$.
+\item[NO:] If $\OPT(\Lambda)\leq\gamma$ and
+ $\Lambda$ is regular, then $G$ is
+ $(\beta,\Gamma_\rho(\beta)-\varepsilon_{\mathrm{dens}})$-dense
+ for every $\beta\in[0,1]$.
+\end{description}
+Vertex weights are proportional to weighted degrees.
+The running time is polynomial in $|U|,|V|,|E_\Lambda|$ and
+exponential in $\ell$.
+\end{theorem}
+
+For a regular input, the proportionality gives
+$\deg_G(v)=2a_v$: the weighted degrees sum to twice the total edge
+weight, whereas the vertex weights sum to one. Equivalently, each
+endpoint marginal of the AKS edge distribution is $a_v$, with a
+loop contributing twice. Thus the NO conclusion, applied with
+$\beta=a(S)$, is
+\[
+ e_G(S)\geq\Gamma_\rho(a(S))-\varepsilon_{\mathrm{dens}}
+ \qquad(S\subseteq V(G)).
+\]
+
+We will use positivity, monotonicity, and convexity of $\Gamma_\rho$.
+For completeness, these follow directly from its definition. The
+joint normal density is positive, so $\Gamma_\rho(s)>0$ for
+$0<s<1$. Differentiating the bivariate distribution function along
+its diagonal, using symmetry of $X,Y$ and the conditional normal
+law, gives
+\[
+ \Gamma_\rho'(s)=
+ 2\Psi\!\left(\sqrt{\frac{1-\rho}{1+\rho}}\,\Psi^{-1}(s)\right).
+\]
+The right-hand side is nonnegative and increasing in $s$.
+Consequently $\Gamma_\rho$ is nondecreasing and convex, including
+at the endpoints by continuity.
+
+\subsubsection{Removing loops and vertex weights}
+
+Fix a rational bias $q$ from now on. The AKS sampling construction
+can produce loops. We remove them before replacing vertices by
+independent copies, so that the density argument can use
+independent choices of distinct original vertices. Let
+$\varepsilon_{\mathrm{loop}}>0$ be a fixed loop-loss budget.
+The following alphabet padding makes the total loop weight smaller
+than this budget.
 
 \begin{lemma}[Removing loops by alphabet padding]\label{lem:aks-loop-removal}
 For every fixed $\varepsilon_{\mathrm{loop}}>0$, a fixed alphabet padding followed by the
 AKS construction and deletion of all loops gives a loopless graph $G^-$
 with vertex weights $a_v$ of total one, total edge weight at most
 one, and weighted degrees at most $2a_v$.
-Its YES independent-set weight is at least $p-\gamma$, and in the
+Its YES independent-set weight is at least $q-\gamma$, and in the
 NO case
 \begin{equation}\label{eq:aks-loop-free-density}
- e_{G^-}(S)\ge\Gamma_\xi(a(S))-\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}
+ e_{G^-}(S)\ge\Gamma_\rho(a(S))-\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}
  \qquad(S\subseteq V(G^-)).
 \end{equation}
 The reduction is deterministic and polynomial for fixed parameters.
@@ -110,21 +145,21 @@ Regularity and the YES fraction are unchanged.
 The AKS edge distribution~\cite[proof of Theorem~3.1]{AKS2011}
 first chooses two constraints incident with the same left vertex,
 then samples independent coordinate pairs $(x_j,y_j)$ with
-probabilities $\Pr[x_j=0,y_j=0]=1-2p$,
-$\Pr[x_j=0,y_j=1]=\Pr[x_j=1,y_j=0]=p$, and
+probabilities $\Pr[x_j=0,y_j=0]=1-2q$,
+$\Pr[x_j=0,y_j=1]=\Pr[x_j=1,y_j=0]=q$, and
 $\Pr[x_j=1,y_j=1]=0$. It then permutes the endpoint strings by
 the two constraints.
 
 The coordinates $[\ell]\times\{j\}$, for a fixed $j\in[t]$,
-form one coordinate block. Put $c=p^2+(1-p)^2<1$. Conditional on any choice of the two
+form one coordinate block. Put $c=q^2+(1-q)^2<1$. Conditional on any choice of the two
 constraints, a loop requires equality of the two permuted strings
 in every one of the $t$ coordinate blocks. In each block, full
 string equality implies equality at a fixed output coordinate. If
 the two permutations select the same input coordinate there, equality
-has probability $1-2p$. If they select different input coordinates,
-the bits are independent with marginal probability $p$, so equality
-has probability $c=p^2+(1-p)^2$. Both bounds are at most $c$.
-Indeed, $c-(1-2p)=2p^2>0$.
+has probability $1-2q$. If they select different input coordinates,
+the bits are independent with marginal probability $q$, so equality
+has probability $c=q^2+(1-q)^2$. Both bounds are at most $c$.
+Indeed, $c-(1-2q)=2q^2>0$.
 The coordinate blocks are independent, so the probability of full
 string equality, and hence the total loop weight, is at most $c^t$.
 Choose a fixed $t$ with $c^t<\varepsilon_{\mathrm{loop}}$, and delete all loops.
@@ -138,7 +173,7 @@ All operations are deterministic, and $t$ is fixed.
 \subsubsection{Vertex unweighting and uniform degree bounds}
 
 Write the padded alphabet size as $R$ and the fixed bias as
-$p=a_0/a_1$, with positive integers $a_0<a_1$. For a binary
+$q=a_0/a_1$, with positive integers $a_0<a_1$. For a binary
 string $x\in\{0,1\}^R$, let $|x|$ be its
 number of coordinates equal to one. The vertex weights in the AKS
 construction, indexed by right vertices $v\in V$ and strings $x$,
@@ -172,11 +207,12 @@ selecting all its clone blocks.
 If $G^-$ satisfies~\eqref{eq:aks-loop-free-density}, then its
 clone graph $G_1$ satisfies, for every $S'\subseteq V(G_1)$,
 \begin{equation}\label{eq:aks-clone-density}
- e_{G_1}(S')\ge\Gamma_\xi(|S'|/N_{\mathrm{cl}})
+ e_{G_1}(S')\ge\Gamma_\rho(|S'|/N_{\mathrm{cl}})
  -\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}.
 \end{equation}
 \end{lemma}
 
+\begin{proof}
 For a chosen set $S'\subseteq V(G_1)$, let $f_u$ be the fraction of
 clones of $u$ in $S'$. The cited argument forms a random set
 $S\subseteq V(G^-)$ by selecting each source vertex $u$ independently
@@ -194,21 +230,66 @@ source weight and expected internal edge weight are
  \qquad
  \mathbb E[e_{G^-}(S)]=\sum_{uv}w_{uv}f_uf_v=e_{G_1}(S').
 \]
-Applying the source density bound and then convexity of $\Gamma_\xi$
+Applying the source density bound and then convexity of $\Gamma_\rho$
 gives
 \[
  \begin{aligned}
  e_{G_1}(S')
  &=\mathbb E[e_{G^-}(S)]\\
- &\geq\mathbb E[\Gamma_\xi(a(S))]
+ &\geq\mathbb E[\Gamma_\rho(a(S))]
        -\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}\\
- &\geq\Gamma_\xi\!\left(\mathbb E[a(S)]\right)
+ &\geq\Gamma_\rho\!\left(\mathbb E[a(S)]\right)
        -\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}\\
- &=\Gamma_\xi(|S'|/N_{\mathrm{cl}})
+ &=\Gamma_\rho(|S'|/N_{\mathrm{cl}})
        -\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}.
  \end{aligned}
 \]
 This is the claimed bound.
+\end{proof}
+
+For the normalized promise, fix a rational $0<\eta<1/10$.
+Let $N$ denote the number of output vertices. The positive rational
+constant $\zeta_\eta$ below may depend on $\eta$.
+
+\begin{lemma}[Normalized density promise]
+\label{lem:normalized-density-source}
+There is a choice of $\zeta_\eta$ for which it is UGC-hard to
+distinguish simple edge-weighted graphs on $N$
+vertices, with positive rational edge weights, total edge weight
+at most one, and weighted degree at most $2/N$, satisfying
+\begin{description}
+\item[YES:] There is an independent set of size at least $(1/2-\eta)N$.
+\item[NO:] Every set of at least $\eta N$ vertices has internal edge
+ weight at least $\zeta_\eta$.
+\end{description}
+The reduction is deterministic and polynomial time.
+\end{lemma}
+
+\begin{proof}
+Set $q=1/2-\eta/4$ and $\rho=-q/(1-q)$. Choose a positive rational
+$g$ with $4g<\Gamma_\rho(\eta)$, take
+$\varepsilon_{\mathrm{dens}}\leq g$ and
+$\varepsilon_{\mathrm{loop}}=g$, and choose $\gamma\leq\eta/4$
+small enough for Theorem~\ref{thm:aks-density-source}.
+Apply the regular source of Theorem~\ref{thm:regular-ug-source},
+then the loop removal and clone construction above.
+The YES independent-set density is at least
+$q-\gamma\geq1/2-\eta/2\geq1/2-\eta$. For $|S|\geq\eta N$,
+equation~\eqref{eq:aks-clone-density} and monotonicity give
+\[
+ e_{G_1}(S)\geq\Gamma_\rho(\eta)-2g>2g>g.
+\]
+Thus we may take $\zeta_\eta=g$.
+
+The loop removal makes the clone graph simple after parallel edge
+weights are combined. Its total edge weight and degree bounds were
+proved above. Rational bias gives rational probabilities in the
+finite AKS edge distribution. Enumerating the choices computes the
+edge weights exactly. The clone weights are then rational as well.
+For fixed $\eta$, all alphabet sizes, denominators of the bias,
+and padding factors are constants. The displayed clone count is
+therefore polynomial, and all operations are deterministic.
+\end{proof}
 
 \subsubsection{Deterministic sparsification of a dense-set promise}
 
@@ -242,6 +323,19 @@ $2e_G(S)=\vol_G(S)-w(\cut_G(S))$: an internal edge
 contributes twice to the volume, while a crossing edge contributes
 once to both the volume and the cut.
 
+\begin{theorem}[BSS spectral sparsification
+{\cite[Theorem~1.1]{BSS2012}}]
+\label{thm:bss-spectral-sparsification}
+For every fixed $q>1$, a loopless undirected weighted graph $G$
+on $N\geq1$ vertices has a reweighted spanning subgraph $G'$ with
+at most $\lceil q(N-1)\rceil$ edges such that
+\[
+ L_G\preceq L_{G'}\preceq
+ \frac{q+1+2\sqrt q}{q+1-2\sqrt q}L_G.
+\]
+Such a graph can be constructed deterministically in polynomial time.
+\end{theorem}
+
 \begin{lemma}\label{lem:deterministic-density-sparsification}
 Fix positive constants $C_0,\zeta,\eta$. Let $G$ be a loopless
 edge-weighted graph on $N\ge1$ vertices, with parallel edge weights
@@ -258,15 +352,10 @@ $\eta N$.
 
 \begin{proof}
 Choose a fixed rational $0<\theta\le\min\{1/12,\zeta/14\}$,
-and put $q=\theta^{-2}$ and $d=\lceil q\rceil$. The spectral
-sparsification theorem of Batson, Spielman, and
-Srivastava~\cite[Theorem~1.1]{BSS2012} states that for every $q>1$ there is a
-weighted subgraph $G'$ on $V(G)$ with at most
-$\lceil q(N-1)\rceil\le dN$ edges and
-\[
- L_G\preceq L_{G'}\preceq
- \frac{q+1+2\sqrt q}{q+1-2\sqrt q}L_G.
-\]
+and put $q=\theta^{-2}$ and $d=\lceil q\rceil$.
+Apply Theorem~\ref{thm:bss-spectral-sparsification} to obtain a
+reweighted subgraph $G'$ with at most
+$\lceil q(N-1)\rceil\leq dN$ edges and the stated spectral bounds.
 Substituting $q=\theta^{-2}$ gives
 \[
  \frac{q+1+2\sqrt q}{q+1-2\sqrt q}
@@ -312,37 +401,28 @@ $w'_e\ge\zeta/(4dN)$. Hence
  \le\frac{4(1+5\theta)C_0d}{\zeta},
 \]
 a constant depending only on $C_0,\zeta$. The construction is
-deterministic and polynomial time by the
-cited theorem.
+deterministic and polynomial time by
+Theorem~\ref{thm:bss-spectral-sparsification}.
 \end{proof}
 
 \begin{restatedtheorem}{Theorem~\ref{thm:bounded-degree-kr-source}}
 For every fixed rational $0<\eta<1/10$, there is a constant
-$d_\eta$ such that it is Unique Games-hard to distinguish simple
-unweighted graphs $G$ of maximum degree at most $d_\eta$ with
-$\alphaI(G)\geq(1/2-\eta)|V(G)|$ \textup{(YES)} from those with
-$\alphaI(G)<\eta|V(G)|$ \textup{(NO)}. The reduction is deterministic
-and polynomial time.
+$d_\eta$ such that the following promise problem is Unique Games-hard.
+The input is a simple unweighted graph $G$ on $n\geq1$ vertices
+of maximum degree at most $d_\eta$. Distinguish the following cases:
+\begin{description}
+ \item[YES:] $\alphaI(G)\geq(1/2-\eta)n$.
+ \item[NO:] $\alphaI(G)<\eta n$.
+\end{description}
+The reduction is deterministic and polynomial time.
 \end{restatedtheorem}
 
 \begin{proof}[Proof of Theorem~\ref{thm:bounded-degree-kr-source}]
-Set $p=1/2-\eta/4$ and $\xi=-p/(1-p)$. Fix a positive rational
-$g$ with $4g<\Gamma_\xi(\eta)$. Use analytic error
-$\varepsilon_{\mathrm{dens}}\le g$ and loop-loss budget
-$\varepsilon_{\mathrm{loop}}=g$, and choose the Unique Games error sufficiently
-small for AKS Theorem~3.1 and for $\gamma\le\eta/4$.
-Pad the alphabet with a fixed $t$ satisfying
-$(p^2+(1-p)^2)^t<g$. After dropping loops and replacing vertices by
-copies, the YES independent-set density is at least
-$p-\gamma\ge1/2-\eta/4-\eta/4=1/2-\eta/2$. In the NO case,
-equation~\eqref{eq:aks-clone-density} and monotonicity show that
-every set of at least $\eta N$ vertices has internal weight
-greater than $\Gamma_\xi(\eta)-2g>2g>g=\zeta$.
-Apply Lemma~\ref{lem:deterministic-density-sparsification} with
-$C_0=2$ and $\zeta=g$. Its output retains the YES
-independent set and has no NO independent set of size $\eta N$.
-Its degree bound depends only on $\eta$.
-All alphabet parameters are constants for the fixed promise, so
-the whole reduction is deterministic and polynomial time.
+Take the graph from Lemma~\ref{lem:normalized-density-source} and
+apply Lemma~\ref{lem:deterministic-density-sparsification} with
+$C_0=2$ and $\zeta=\zeta_\eta$. Deleting edges preserves the YES
+independent set. In the NO case, every set of at least $\eta N$
+vertices still contains an edge, so every independent set has size
+less than $\eta N$. The output degree depends only on $\eta$.
+Both constructions are deterministic and polynomial time.
 \end{proof}
-

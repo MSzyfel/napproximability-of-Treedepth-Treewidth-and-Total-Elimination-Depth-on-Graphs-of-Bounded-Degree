@@ -20,16 +20,13 @@ proper ancestors. A graph is \emph{trivially perfect} if and only if
 it is such a closure. Let $f(J)$ be the minimum number of edges
 added to $J$ to obtain a trivially perfect graph, and recall that
 $\totd(J)$ is its minimum total elimination depth.
-The completion identity~\cite[Theorem~8]{HogemoEtAl2021} is
+\begin{lemma}[Completion identity {\cite[Theorem~8]{HogemoEtAl2021}}]
+\label{lem:tp-fill-depth}
+For every graph $J$,
 \begin{equation}\label{eq:tp-fill-depth}
  f(J)=\totd(J)-|V(J)|-|E(J)|.
 \end{equation}
-Indeed, a forest closure has one edge from each vertex to each
-proper ancestor, so its number of edges is
-$\sum_v(\operatorname{depth}_F(v)-1)$. Every trivially perfect
-graph is a forest closure. Requiring it to contain $J$ is equivalent
-to the elimination-forest condition. Subtracting the original edges
-gives the identity.
+\end{lemma}
 
 For any $C\geq1$, a factor-$C$ completion of cost $z$ satisfies
 $f(J)\leq z\leq C f(J)$. Adding the graph order and the number
@@ -80,38 +77,39 @@ whose target graphs have no induced cycle of length at least four,
 is already known~\cite[Theorem~1.2]{APW}. Restricting the
 target class to trivially perfect graphs changes the optimum, so
 that theorem alone does not prove the statement here.
-The incidence construction of Wu, Austrin, Pitassi, and Liu
-~\cite[Sections~4.3 and~5]{APW} yields a bipartite input construction.
-We derive the trivially perfect completion hardness for these inputs
-below. Let $n=|V(G)|$ and take $R_{\mathrm{inc}}=nm$, as in
-Appendix~\ref{app:incidence-proof}. Then $N'=|V(G')|=R_{\mathrm{inc}}n+m
-=m(n^2+1)$, and the output has at most
-$2R_{\mathrm{inc}}m=2nm^2$ edges. Its YES total depth is at most
-$4\varepsilon mN'$, since its treedepth is at most $4\varepsilon m$.
-Appendix~\ref{app:incidence-proof} gives an absolute constant
-$c_{\mathrm{inc}}>0$ for this construction. In the NO case,
-Lemma~\ref{lem:balanced-by-td} gives total depth at least
-$(c_{\mathrm{inc}}/2)\sqrt{\varepsilon}\,mN'$. The completion identity
-subtracts $N'+|E(G')|$, and
-\[
- \frac{N'+|E(G')|}{mN'}
- \leq \frac{N'+2nm^2}{mN'}
- =\frac1m+\frac{2n}{n^2+1}
- \leq \frac4n,
-\]
-where the last inequality uses $m\geq n/2$, since the host is
-regular and $m>0$. For each fixed $\varepsilon$, we may exclude the
-finitely many source instances below any fixed order, so assume
-$n\geq16/(c_{\mathrm{inc}}\sqrt{\varepsilon})$. The subtraction is
-then at most $(c_{\mathrm{inc}}/4)\sqrt{\varepsilon}\,mN'$. Therefore
-the NO completion cost is at least
-$(c_{\mathrm{inc}}/4)\sqrt{\varepsilon}\,mN'$, whereas the YES cost
-is at most $4\varepsilon mN'$. Their ratio is at least
-$c_{\mathrm{inc}}/(16\sqrt{\varepsilon})$, which exceeds any fixed
-constant for a sufficiently small fixed $\varepsilon$ in the allowed
-range of the source promise and incidence construction. Hence the
-completion problem is SSE-hard to approximate within every fixed
-constant on bipartite inputs as well.
+% Archived with the alternative incidence-based treedepth proof.
+% The incidence construction of Wu, Austrin, Pitassi, and Liu
+% ~\cite[Sections~4.3 and~5]{APW} yields a bipartite input construction.
+% We derive the trivially perfect completion hardness for these inputs
+% below. Let $n=|V(G)|$ and take $R_{\mathrm{inc}}=nm$, as in
+% Appendix~\ref{app:incidence-proof}. Then $N'=|V(G')|=R_{\mathrm{inc}}n+m
+% =m(n^2+1)$, and the output has at most
+% $2R_{\mathrm{inc}}m=2nm^2$ edges. Its YES total depth is at most
+% $4\varepsilon mN'$, since its treedepth is at most $4\varepsilon m$.
+% Appendix~\ref{app:incidence-proof} gives an absolute constant
+% $c_{\mathrm{inc}}>0$ for this construction. In the NO case,
+% Lemma~\ref{lem:balanced-by-td} gives total depth at least
+% $(c_{\mathrm{inc}}/2)\sqrt{\varepsilon}\,mN'$. The completion identity
+% subtracts $N'+|E(G')|$, and
+% \[
+%  \frac{N'+|E(G')|}{mN'}
+%  \leq \frac{N'+2nm^2}{mN'}
+%  =\frac1m+\frac{2n}{n^2+1}
+%  \leq \frac4n,
+% \]
+% where the last inequality uses $m\geq n/2$, since the host is
+% regular and $m>0$. For each fixed $\varepsilon$, we may exclude the
+% finitely many source instances below any fixed order, so assume
+% $n\geq16/(c_{\mathrm{inc}}\sqrt{\varepsilon})$. The subtraction is
+% then at most $(c_{\mathrm{inc}}/4)\sqrt{\varepsilon}\,mN'$. Therefore
+% the NO completion cost is at least
+% $(c_{\mathrm{inc}}/4)\sqrt{\varepsilon}\,mN'$, whereas the YES cost
+% is at most $4\varepsilon mN'$. Their ratio is at least
+% $c_{\mathrm{inc}}/(16\sqrt{\varepsilon})$, which exceeds any fixed
+% constant for a sufficiently small fixed $\varepsilon$ in the allowed
+% range of the source promise and incidence construction. Hence the
+% completion problem is SSE-hard to approximate within every fixed
+% constant on bipartite inputs as well.
 
 \subsection{Deletion and labeling objectives}
 
@@ -125,10 +123,10 @@ deleting all copies of a minimum source vertex cover leaves $q$ separate
 cliques on $\alphaI(G)$ vertices. Thus the same YES construction gives
 $\operatorname{vi}(S_q(G))\leq q(n-\alphaI(G))+\alphaI(G)$,
 while Theorem~\ref{thm:ugc-structural} supplies the NO lower bound.
-The parameter choices of Theorem~\ref{thm:ugc-hardness} therefore
+The parameter choices in Section~\ref{subsec:ugc-td-gap} therefore
 also give UGC hardness for vertex integrity below $4/3$.
 For SSE hardness, let $J=\mathcal L(G^*)$ be the output in the
-proof of Theorem~\ref{thm:sse-hardness}, and take $D$ to be the output vertices
+dense construction of Section~\ref{subsec:sse-dense-gap}, and take $D$ to be the output vertices
 corresponding to crossing host edges. The YES construction supplies
 \[
 \begin{aligned}
@@ -146,8 +144,8 @@ lemma with $\rho=2/3$ gives $b_{2/3}(J)\geq\beta |V(J)|$, where
 $b_{2/3}(J)$ is the minimum size of a set whose deletion leaves every
 component of order at most $2|V(J)|/3$, and
 $\beta=(c/2)\sqrt\varepsilon$. Choose $\varepsilon$ small enough
-that the source construction in the proof of
-Theorem~\ref{thm:sse-hardness} applies, $\beta\leq1/12$, and
+that the source construction in
+Section~\ref{subsec:sse-dense-gap} applies, $\beta\leq1/12$, and
 $\varepsilon\leq1$. For any
 $S\subseteq V(J)$, if
 $c_J(S)>|V(J)|/2$, then $|S|+c_J(S)>|V(J)|/2\geq\beta|V(J)|$.
@@ -209,7 +207,7 @@ Blum and Storandt prove
 $\sum_v|L(v)|/|V(J)|\geq b_{2/3}(J)/4$
 \cite[Corollary~10, full version]{BlumStorandt2023}.
 Choose a fixed rational $\varepsilon>0$ small enough that the source
-construction in Theorem~\ref{thm:sse-hardness} applies and
+construction in Section~\ref{subsec:sse-dense-gap} applies and
 $\beta=(c/2)\sqrt\varepsilon\leq1/12$ and
 $\sqrt\varepsilon<c/(32C)$, where $C\ge1$ is the desired factor.
 Blum and Storandt show that the upward search spaces of a
@@ -245,16 +243,9 @@ between the remaining neighbors of each eliminated vertex. Orient
 the resulting edges toward the later vertex in that order.
 The upward search space of $v$ is the set of vertices reachable
 from $v$ along these oriented edges, including $v$ itself.
-Use a postorder of the YES elimination forest, eliminating each
-subtree before its root. Initially every edge joins comparable
-vertices. Suppose this remains true before eliminating a vertex $v$.
-Each remaining neighbor of $v$ is later in the order and comparable
-with $v$, so it is an ancestor of $v$. Therefore every fill edge added
-at $v$ joins two ancestors of $v$, which are comparable. This proves
-the claim by induction over the elimination order. Each upward edge
-thus leads from a vertex to one of its ancestors, so every upward
-search space is contained in that vertex's ancestor set and has size
-at most its forest label.
+The CCH search spaces for the postorder above are contained vertexwise
+in its ancestor labels~\cite[Lemmas~2 and~4, full version]{BlumStorandt2023}.
+Thus every search space has size at most $4\varepsilon |V(J)|$.
 Total label size is average size times the
 graph order and has the same gap.
 
@@ -292,12 +283,8 @@ letter as a transition label, and take $a$ as the initial and sole
 accepting state. The resulting partial DFA accepts the label sequences
 of directed walks from $a$ back to $a$. It is trim because the digraph
 is strongly connected, and it is bideterministic because each letter
-labels only one arc. It is also minimal: for distinct states $x,y$,
-choose a positive-length directed path from $x$ to $a$. If $x=a$,
-use a positive directed cycle through $a$, which exists when there is
-another state. The first arc of the chosen walk has a label that is
-unavailable at $y$, since each letter labels only one arc. Thus its
-label sequence is accepted from $x$ and not from $y$. Then
+labels only one arc. It is also minimal by Gruber's walk-language
+construction~\cite[proof of Theorem~23]{Gruber2008}. Then
 $\td(G+a)=\td(G)+1$ and
 $\operatorname{cr}(\overleftrightarrow{G+a})=\td(G)$
 ~\cite[proof of Theorem~12]{Gruber2008}. The binary encoding

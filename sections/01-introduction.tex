@@ -4,8 +4,7 @@
 Treedepth is the minimum height of an \emph{elimination forest}: a rooted forest on
 the graph's vertices in which the endpoints of every edge are comparable in the
 ancestor order. For connected graphs, every elimination forest is a tree.
-Recursively querying its root and then searching each remaining component gives
-a graph-search strategy. Treedepth is also characterized by vertex ranking and
+This tree can be seen as a recursively searching strategy where querying a given vertex reveals, whether it is the target, and otherwise, which connected component occuring after the removal of this vertex contains the target. Treedepth is also characterized by vertex ranking and
 symbolic elimination~\cite{BodlaenderRankings}, and it is studied directly in
 parameterized algorithms~\cite{Reidl2014}. Low-treedepth decompositions are
 used in the structural theory of sparse graphs. Nešetřil and Ossona de Mendez
@@ -18,11 +17,9 @@ containing any fixed vertex form a connected subtree. Treewidth is the minimum
 possible largest bag size minus one. Decompositions of small width support
 dynamic programming for many graph problems and have uses in graph-minor
 theory. For surveys of these applications, see~\cite{BodlaenderTouristGuide,
-BodlaenderApplications}. A path has treewidth one, whereas its treedepth grows
-with its length. We write $\td(G)$ and $\operatorname{tw}(G)$ for these
-parameters.
+BodlaenderApplications}. We write $\td(G)$ and $\operatorname{tw}(G)$ for treedepth and treewidth respectively.
 
-The approximation complexity of these parameters remains poorly understood.
+Although both parameters have been extensively studied in the literature, their approximation complexity remains poorly understood.
 Bonnet, Neuen, and Soko\l owski proved that approximating
 treedepth within factor $1.0003$ is NP-hard~\cite{BNS}. Bonnet proved the
 corresponding $1.00005$ hardness bound for treewidth~\cite{BonnetTreewidth}.
@@ -30,7 +27,7 @@ Under the Small Set Expansion Hypothesis (SSEH), treewidth is hard to
 approximate within every fixed constant factor~\cite[Theorem~1.1]{APW}. On the
 algorithmic side, Anand gives an $O(\log n)$-approximation for
 treedepth~\cite{Anand2026}, while Feige, Hajiaghayi, and Lee give a polynomial-time
-$O(\sqrt{\log(\operatorname{tw}(G)+2)})$-approximation for
+$O(\sqrt{\log(\operatorname{tw}(G))})$-approximation for
 treewidth~\cite{FeigeHajiaghayiLee2005}. These results leave a substantial gap
 between known algorithms and hardness. We strengthen the hardness bounds and
 show that they persist on graphs of bounded maximum degree, addressing the
@@ -40,25 +37,21 @@ conjecture of Schirrmacher, Siebertz, and Vigny
 We also study \emph{total elimination depth}, $\totd(G)$, the minimum
 sum of vertex depths in an elimination forest (roots have depth one).
 This is the vertex-partition-tree sum of~\cite{HogemoEtAl2021}. On a
-connected graph, $\totd(G)/|V(G)|$ is the expected cost of vertex-query
-search with a uniform target and unit query costs
+connected graph this is the min-sum cost of vertex-query
+search for a target
 ~\cite{HogemoEtAl2021,Szyfelbein2025GraphSearch}.
 
 \subsection{Our results and techniques}
 \label{subsec:results-techniques}
 
-We first prove the hardness gaps on unrestricted simple unweighted graphs.
+Our results hold on simple unweighted graphs of bounded maximum degree.
+The following table summarizes Corollaries~\ref{cor:td-bounded-degree},
+\ref{cor:tw-bounded-degree}, and~\ref{cor:total-depth-bounded-degree},
+where $\epsilon_0>0$ is an absolute constant.
 Here UGC denotes the ordinary Unique Games Conjecture, SSEH the Small Set
 Expansion Hypothesis, and NP-hardness means unless $\mathrm{P}=\mathrm{NP}$.
 
-\Needspace{12\baselineskip}
-\begin{theorem}[Unrestricted treedepth, treewidth, and total-depth hardness]
-\label{thm:main-results}
-\label{thm:total-depth-main}
-There is an absolute constant $\epsilon_0>0$ such that, for each row
-below and every fixed factor $r$ in the indicated range,
-approximating the corresponding parameter within factor $r$ is hard
-in the stated sense.
+\Needspace{10\baselineskip}
 \begin{center}
 \begin{tabular}{lccc}
 \toprule
@@ -75,11 +68,12 @@ in the stated sense.
 \bottomrule
 \end{tabular}
 \end{center}
-The reductions are deterministic.
-\end{theorem}
+The degree bound depends only on the excluded approximation factor.
+All reductions are deterministic.
 
-The UGC reductions for treedepth and total elimination depth start from the
-Khot--Regev independent-set gap~\cite{KhotRegev}. We place copies of the
+The UGC reductions for treedepth and total elimination depth start from a
+bounded-degree form of the Khot--Regev independent-set gap~\cite{KhotRegev},
+which we derive from Austrin, Khot, and Safra~\cite{AKS2011}. We place copies of the
 source graph in clique layers. A large independent set gives a shallow
 elimination forest by putting the other vertices on a common prefix and
 branching below it. For the lower bound, vertices in different child
@@ -131,9 +125,10 @@ to extend a sparse solution to the original graph with an additive
 increase controlled by a small exceptional set. We choose the thresholds
 so this increase stays within the hardness gap. Edge deletion preserves
 the YES bounds, so the same reductions prove bounded degree hardness for all three
-parameters. The paper first establishes the unrestricted UGC, SSEH, and
-NP hardness results, then develops the degree reduction and applies it to
-each parameter, before deriving further applications. The treedepth
+parameters. The paper first constructs dense UGC, SSEH, and NP
+instances and analyzes their approximation gaps, then develops the
+degree reduction and proves the bounded-degree hardness statements
+before deriving further applications. The treedepth
 result resolves the conjecture of Schirrmacher, Siebertz, and Vigny
 ~\cite[Conjecture~1]{SchirrmacherSiebertzVigny2025}.
 
@@ -210,26 +205,27 @@ comparison. The treewidth argument also uses Bonnet's central-bag
 lower bound. Our replication lemma controls
 the completeness overhead for the source gaps used here.
 
-Khot and Regev~\cite{KhotRegev} supply the ordinary-UGC source for
-the layered construction. B\'erczi, Chandrasekaran, Kir\'aly, Lee,
+Khot and Regev~\cite{KhotRegev} supply the independent-set gap underlying
+our ordinary-UGC reductions. We use its bounded-degree form throughout,
+derived from the Gaussian density source of Austrin, Khot, and
+Safra~\cite{AKS2011}. B\'erczi, Chandrasekaran, Kir\'aly, Lee,
 and Xu~\cite[Sections~3.5--3.6]{BCKLX2017} prove a weighted $k$-partite
 Vertex Cover gap with ratio approaching $2(k-1)/k$. Our treewidth
 transfer uses an equal-part unweighted gap, which we derive from
-Khot--Regev by a multipartite product in
-Section~\ref{sec:tw-transfer}. The
-bounded-degree version uses the Gaussian density source of Austrin,
-Khot, and Safra~\cite{AKS2011}. Our expander replacements use the
+the bounded-degree independent-set source by a multipartite product in
+Section~\ref{sec:tw-transfer}. Our expander replacements use the
 standard Margulis--Gabber--Galil family, as presented
 in~\cite[Construction~8.1 and Theorem~8.2]{HLW2006}.
 
 Wu, Austrin, Pitassi, and Liu~\cite{APW} use the expansion reductions
 of Raghavendra, Steurer, and Tulsiani~\cite{RST} to prove SSE hardness
 for treewidth, pathwidth, and related objectives at every fixed factor.
-Their incidence-graph reduction also yields SSE treedepth hardness after a
-separator-to-forest argument. We give that derivation in
-Appendix~\ref{app:incidence-proof}.
+% Their incidence-graph reduction also yields SSE treedepth hardness after a
+% separator-to-forest argument. We give that derivation in
+% Appendix~\ref{app:incidence-proof}.
+
 For our
-bounded-degree result, Section~\ref{sec:bounded-degree-hardness} also
+bounded-degree result, Section~\ref{sec:bounded-degree-hardness}
 derives the degree bound from the weighted source by the same
 factor-completion tools used for NP and UGC hardness.
 

@@ -2,18 +2,13 @@
 \label{sec:tw-transfer}
 
 We prove UGC-hardness below $4/3$ by transferring a balanced,
-unweighted tripartite Vertex Cover gap to treewidth. We derive this
-gap from Khot--Regev using a multipartite product. B\'erczi,
-Chandrasekaran, Kir\'aly, Lee, and Xu prove a related weighted
+unweighted tripartite Vertex Cover gap on graphs of bounded degree
+to treewidth. We derive this gap from
+Theorem~\ref{thm:bounded-degree-kr-source} using a multipartite product.
+B\'erczi, Chandrasekaran, Kir\'aly, Lee, and Xu prove a related weighted
 $k$-partite Vertex Cover gap under UGC~\cite[Sections~3.5--3.6]{BCKLX2017}.
 The same transfer gives the NP-hardness bound in
 Section~\ref{subsec:np-treewidth}.
-
-\begin{theorem}\label{thm:tw-ugc}
-Under the ordinary Unique Games Conjecture, approximating treewidth
-within any fixed factor $1\leq r<4/3$ is hard, even on simple
-unweighted graphs with a specified partition into three equal cliques.
-\end{theorem}
 
 The transfer uses Bonnet's completion of three parts to cliques
 and his central-bag lower bound~\cite[Lemma~6]{BonnetTreewidth}.
@@ -21,6 +16,10 @@ We take disjoint source copies \emph{before} completing the three global parts.
 This lets each of three paths attached to a central bag process
 the copies one at a time: the additional bag size is bounded by one part of one copy,
 while the cover contribution grows with the number of copies.
+Completing the global parts creates a dense intermediate graph.
+Corollary~\ref{cor:tw-bounded-degree} obtains bounded-degree output
+by replacing these three cliques with bounded-degree expanders while
+retaining all source-copy edges.
 
 \subsubsection{A transfer from vertex cover to treewidth}
 
@@ -147,17 +146,12 @@ For fixed $R$, the construction has $R|V(G)|$ vertices and is
 polynomial in the source size.
 
 \subsubsection{The approximation gap}
+\label{subsec:ugc-tw-gap}
 
 For the UGC reduction we need cover thresholds $(1/2+\zeta)N$ and
-$(2/3-\zeta)N$ on balanced tripartite graphs. More generally,
-B\'erczi, Chandrasekaran, Kir\'aly, Lee, and Xu prove that for every fixed $k\geq3$ and sufficiently
-small fixed $\epsilon,\eta,\beta>0$, it is UGC-hard to distinguish weighted $k$-partite
-Vertex Cover instances of total vertex weight $k$ with optimum at most
-$k(1+\epsilon)/2+k\eta$ from instances with optimum at least
-$(k-1)(1-\epsilon)(1-\beta)$. As $\epsilon,\eta,\beta$ tend to zero,
-the gap ratio tends to $2(k-1)/k$~\cite[Sections~3.5--3.6]{BCKLX2017}.
+$(2/3-\zeta)N$ on balanced tripartite graphs.
 We derive the balanced, unweighted form needed here from the
-Khot--Regev independent-set promise using the product below. Its degree
+bounded-degree independent-set promise using the product below. Its degree
 identity will also be used in
 Section~\ref{sec:bounded-degree-hardness}.
 
@@ -184,24 +178,34 @@ Each copy of a vertex has one neighbor in each of the other
 $k-1$ layers for every source neighbor, giving the degree identity.
 \end{proof}
 
-\begin{theorem}[Balanced unweighted multipartite cover gap from Khot--Regev]
+\begin{theorem}[Balanced bounded-degree multipartite cover gap]
 \label{thm:ugc-tripartite-cover}
 For every fixed integer $k\geq3$ and fixed rational
-$0<\zeta<1/12$, it is Unique Games-hard
-to distinguish simple unweighted $k$-partite graphs $G$ on $N$
-vertices, with a specified partition into $k$ parts of size $N/k$,
-with $\vc(G)\leq(1/2+\zeta)N$ \textup{(YES)} from those with
-$\vc(G)\geq(1-1/k-\zeta)N$ \textup{(NO)}.
+$0<\zeta<1/12$, there is a constant $D_{k,\zeta}$ such that the
+following promise problem is Unique Games-hard. The input is a
+simple unweighted $k$-partite graph $G$ on $N$ vertices, of maximum
+degree at most $D_{k,\zeta}$, with a specified partition into $k$
+independent parts each of size $N/k$. Distinguish the following cases:
+\begin{description}
+ \item[YES:] $\vc(G)\leq(1/2+\zeta)N$.
+ \item[NO:] $\vc(G)\geq(1-1/k-\zeta)N$.
+\end{description}
+The reduction is deterministic and polynomial time.
 \end{theorem}
 
-The promise follows from Theorem~\ref{thm:kr} and
-Lemma~\ref{lem:multipartite-product}. Appendix~\ref{app:multipartite-normalization}
-records the parameter substitution. Taking $k=3$ and applying the
+The promise follows from Theorem~\ref{thm:bounded-degree-kr-source} and
+Lemma~\ref{lem:multipartite-product}, with
+$D_{k,\zeta}=(k-1)d_{\zeta/2}$. The independent-set source is already
+of bounded degree by the spectral sparsification in
+Appendix~\ref{app:bounded-degree-ugc-source}. The multipartite product
+multiplies its maximum degree by $k-1$.
+Appendix~\ref{app:multipartite-normalization} records the parameter
+substitution. Taking $k=3$ and applying the
 replication lemma proves the treewidth gap.
 
 
 
-\begin{proof}[Proof of Theorem~\ref{thm:tw-ugc}]
+\begin{proof}[Dense treewidth gap]
 As the source error decreases and $R$ increases, the leading NO
 and YES coefficients approach $2/3$ and $1/2$, giving ratio $4/3$.
 Fix $1\le r<4/3$. The positive difference $2/3-r/2$ allows us to

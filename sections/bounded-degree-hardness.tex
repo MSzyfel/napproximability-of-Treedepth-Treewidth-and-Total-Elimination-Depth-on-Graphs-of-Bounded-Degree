@@ -653,12 +653,19 @@ The word nonconstant excludes the chosen all-ones eigenvector,
 not any further eigenvectors with the same eigenvalue $d$.
 The absolute-value bound controls both positive and negative
 eigenvalues, which will be needed when we take walk powers.
-The standard spectral lower bound on edge expansion
-\cite[Theorem~2.4]{HLW2006} states that a $d$-regular graph with
-nonconstant eigenvalue bound $\lambda<d$ satisfies
-$|\cut_{\mathcal E}(S)|\ge(d-\lambda)|S|/2$ whenever
-$0<|S|\le M/2$. Hence such a spectral family is an expander family
-under the preceding definition.
+\begin{lemma}[Spectral edge expansion
+{\cite[Theorem~2.4]{HLW2006}}]
+\label{lem:spectral-edge-expansion}
+Let $\mathcal E$ be a $d$-regular graph on $M$ vertices with
+nonconstant eigenvalue bound $\lambda<d$. Then
+\[
+ |\cut_{\mathcal E}(S)|\geq\frac{d-\lambda}{2}|S|
+ \qquad\text{whenever }0<|S|\leq M/2.
+\]
+\end{lemma}
+
+By Lemma~\ref{lem:spectral-edge-expansion}, such a spectral family
+is an expander family under the preceding definition.
 
 \subsubsection{The mixing lemma and walk powers}
 

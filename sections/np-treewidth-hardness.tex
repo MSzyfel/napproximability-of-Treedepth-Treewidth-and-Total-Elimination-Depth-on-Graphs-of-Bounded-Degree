@@ -6,13 +6,7 @@ from Section~\ref{subsec:np-treedepth}. Its vertex-cover number exceeds
 every part size, so the transfer lemma scales the cover gap with an
 additive error controlled by the replication count $R$.
 
-\begin{theorem}\label{thm:tw-hardness}
-For every fixed real $1\leq r<12/11$, approximating treewidth within
-factor $r$ on simple unweighted graphs is NP-hard. The output graphs
-have a specified partition into three equal cliques.
-\end{theorem}
-
-\begin{proof}
+\begin{proof}[Dense treewidth gap]
 The leading NO and YES coefficients below approach $6$ and $11/2$
 as the source error decreases and $R$ increases, giving ratio
 $12/11$. Fix $1\le r<12/11$. Since $6-r(11/2)>0$, choose a fixed
@@ -24,7 +18,8 @@ and the second makes the additional YES cost $3m$ small relative
 to the terms multiplied by $R$.
 Apply the witness construction of Section~\ref{subsec:np-treedepth} to
 the normalized source of Theorem~\ref{thm:xor-source}. The resulting
-graph $G_F$ has $9m$ vertices, three independent parts of size $3m$, and
+graph $G_F$ has $9m$ vertices, three independent parts of size $3m$,
+maximum degree at most $3b_\epsilon$, and
 $\vc(G_F)=13m/2-\OPT(F)$.
 Since $\OPT(F)\leq m$, every instance satisfies
 $\vc(G_F)\geq13m/2-m=11m/2>3m$. The source promise gives the two bounds

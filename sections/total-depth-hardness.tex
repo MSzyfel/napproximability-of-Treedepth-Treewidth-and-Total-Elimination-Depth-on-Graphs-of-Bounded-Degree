@@ -7,11 +7,6 @@ contributes to the objective, and each vertex of the common prefix
 increases the depth of every vertex below it. We reuse the
 first-branch structure and bound these contributions together.
 
-\begin{theorem}\label{thm:total-depth-ugc}
-For every fixed real $1\leq r<8/7$, approximating $\totd(G)$ within
-factor $r$ on simple unweighted graphs is Unique Games-hard.
-\end{theorem}
-
 \subsubsection{The YES upper bound}
 
 The elimination forest from Lemma~\ref{lem:ugc-completeness} has a
@@ -197,7 +192,7 @@ then Cauchy--Schwarz to $\sqrt{q_j},\sqrt{c_j}$, gives
  \leq\frac{q^2c^2}{14}.
 \end{aligned}
 \]
-The second inequality uses $W_j=q_jc_j$; the third is
+The second inequality uses $W_j=q_jc_j$. The third is
 Cauchy--Schwarz applied to the sequences $(\sqrt{q_j})_j$ and
 $(\sqrt{c_j})_j$.
 Expand $(S+A)^2$ in~\eqref{eq:total-depth-combined-children}, apply
@@ -214,9 +209,10 @@ this estimate, and use $AS\le Aqc$. Finally, substitute $N=qc+A$:
 \end{proof}
 
 \subsubsection{The approximation gap}
+\label{subsec:ugc-total-depth-gap}
 
-\begin{proof}[Proof of Theorem~\ref{thm:total-depth-ugc}]
-Fix $1\leq r<8/7$. For the source promise of Theorem~\ref{thm:kr},
+\begin{proof}[Dense total-depth gap]
+Fix $1\leq r<8/7$. For the source promise of Theorem~\ref{thm:bounded-degree-kr-source},
 Lemma~\ref{lem:total-depth-completeness} and
 Theorem~\ref{thm:total-depth-structural} give the coefficients
 $A^{\Sigma}_{q,\eta}=(q^2-q(q-1)(1/2-\eta)^2)/2$ and
@@ -263,6 +259,7 @@ Take a fixed number of disjoint copies of the source graph before
 applying $S_q$, large enough that the new source order satisfies this
 size bound. Both the independence number and the order scale by the
 same factor, so the source promise remains unchanged. The resulting
+source has the same maximum degree as the original, and the
 reduction has gap greater than $r$.
 All parameters and the number of copies are fixed, so the reduction
 is polynomial.

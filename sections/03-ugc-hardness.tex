@@ -3,38 +3,31 @@
 
 We prove ordinary-UGC hardness below $4/3$ for treedepth and
 treewidth, and below $8/7$ for total elimination depth. The reductions
-start from the same independent-set promise, which we state
-together with its bounded-degree form.
+start from the same bounded-degree independent-set promise.
 
 \subsection{Independent-set source}
 \label{subsec:ugc-source}
 
-We use the following normalized source promise.
-
-\begin{theorem}[Khot--Regev, normalized form {\cite[Theorem~3.2 and Section~4]{KhotRegev}}]\label{thm:kr}
-For every fixed rational $0<\eta<1/10$, it is Unique Games-hard to
-distinguish simple unweighted graphs $G$ on $n\geq1$ vertices with
-$\alphaI(G)\geq(1/2-\eta)n$ \textup{(YES)} from those with
-$\alphaI(G)<\eta n$ \textup{(NO)}.
-\end{theorem}
-
-Appendix~\ref{app:kr-normalization} derives this unweighted form from
-the published weighted promise. The same gap can also be realized
-at bounded maximum degree.
+We use the following bounded-degree form of the Khot--Regev
+independent-set gap~\cite{KhotRegev}.
 
 \begin{theorem}[Bounded-degree independent-set source]
 \label{thm:bounded-degree-kr-source}
 For every fixed rational $0<\eta<1/10$, there is a constant
-$d_\eta$ such that the promise of Theorem~\ref{thm:kr} remains
-Unique Games-hard on graphs of maximum degree at most $d_\eta$.
-The hardness reduction is deterministic and polynomial time.
+$d_\eta$ such that the following promise problem is Unique Games-hard.
+The input is a simple unweighted graph $G$ on $n\geq1$ vertices
+of maximum degree at most $d_\eta$. Distinguish the following cases:
+\begin{description}
+ \item[YES:] $\alphaI(G)\geq(1/2-\eta)n$.
+ \item[NO:] $\alphaI(G)<\eta n$.
+\end{description}
+The reduction is deterministic and polynomial time.
 \end{theorem}
 
 We derive this bounded-degree form in
-Appendix~\ref{app:bounded-degree-ugc-source}, using the weighted
-density construction of Austrin, Khot, and
-Safra~\cite[Theorem~3.1]{AKS2011} and the spectral sparsification
-theorem of Batson, Spielman, and Srivastava~\cite[Theorem~1.1]{BSS2012}.
+Appendix~\ref{app:bounded-degree-ugc-source}, using the AKS density
+source in Theorem~\ref{thm:aks-density-source} and BSS spectral
+sparsification in Theorem~\ref{thm:bss-spectral-sparsification}.
 
 \subsection{Treedepth}
 \label{subsec:ugc-treedepth}
@@ -61,6 +54,14 @@ Thus each layer $V(G)\times\{i\}$ is a clique, and the displayed rule
 specifies all edges between layers. The graph has $qn$ vertices and
 $q\binom n2+q(q-1)|E(G)|$ edges, so the construction has polynomial
 size for fixed $q$.
+For $n\geq1$, its maximum degree is
+\[
+ \Delta(S_q(G))=n-1+(q-1)\Delta(G).
+\]
+The clique layers therefore give a dense output even for a
+bounded-degree source. Corollaries~\ref{cor:td-bounded-degree}
+and~\ref{cor:total-depth-bounded-degree} replace these layers by
+bounded-degree expanders while retaining all cross-layer source edges.
 
 Bonnet's construction~\cite[Section~3.1]{BonnetTreewidth} completes
 three parts to cliques. Here the $q$ parts are copies of one source
@@ -105,11 +106,6 @@ arguments.
 
 \subsubsection{Treedepth bounds}
 
-\begin{theorem}\label{thm:ugc-hardness}
-For every fixed real $1\leq r<4/3$, approximating treedepth within
-factor $r$ on simple unweighted graphs is Unique Games-hard.
-\end{theorem}
-
 \begin{lemma}[YES upper bound]\label{lem:ugc-completeness}
 For every graph $G$ on $n$ vertices and integer $q\geq1$,
 \[
@@ -131,7 +127,7 @@ is empty and $n>0$, use the $q$ lower chains as separate rooted trees.
 \end{proof}
 
 Write $A_{q,\eta}:=(q+1)/2+(q-1)\eta$. In a YES instance of
-Theorem~\ref{thm:kr}, Lemma~\ref{lem:ugc-completeness} gives
+Theorem~\ref{thm:bounded-degree-kr-source}, Lemma~\ref{lem:ugc-completeness} gives
 \begin{equation}\label{eq:ugc-yes}
  \td(S_q(G))\leq qn-(q-1)\alphaI(G)
  \leq A_{q,\eta}n.
@@ -359,15 +355,16 @@ This completes the induction.
 \end{proof}
 
 For $q\geq2$, write $B_{q,\eta}:=(2q/3)(1-\eta)$.
-For a NO instance of Theorem~\ref{thm:kr}, the structural bound gives
+For a NO instance of Theorem~\ref{thm:bounded-degree-kr-source}, the structural bound gives
 \begin{equation}\label{eq:ugc-no}
  \td(S_q(G))\geq\frac{2q}{3}\bigl(n-\alphaI(G)\bigr)
  >B_{q,\eta}n.
 \end{equation}
 
 \subsubsection{The approximation gap}
+\label{subsec:ugc-td-gap}
 
-\begin{proof}[Proof of Theorem~\ref{thm:ugc-hardness}]
+\begin{proof}[Dense treedepth gap]
 At zero source error, the ratio of the NO and YES coefficients is
 $B_{q,0}/A_{q,0}=4q/(3(q+1))$, which approaches $4/3$ as $q$
 increases. For any fixed $1\leq r<4/3$, we can therefore first

@@ -8,28 +8,24 @@ the source graph the \emph{host} to distinguish it from its line
 graph. For a fixed number $q$ of classes, the YES case has a partition
 into classes of nearly equal volume, each with few crossing edges.
 For fixed source parameters $c,\varepsilon>0$, the NO case gives every
-set of normalized volume in $[1/10,9/10]$ boundary weight at least
-$c\sqrt{\varepsilon}$ times the total edge weight. Passing to
+set of normalized volume in $[1/4,3/4]$ at least
+$(c/2)\sqrt{\varepsilon}\,m$ boundary edges. Passing to
 the line graph turns the YES partition into an elimination forest of
 height $O(\varepsilon m)$ and the NO cut bound into a balanced-separator
 lower bound of $\Omega(\sqrt{\varepsilon}\,m)$, where $m$ is the number
 of host edges and hence the order of the line graph.
 
-Wu, Austrin, Pitassi, and Liu's incidence construction also gives
-SSE hardness for treedepth at every fixed factor when combined with
-the elimination-forest bound in Appendix~\ref{app:incidence-proof}. Their output has one
-part for replicated host vertices and another for host edges. Our
-line-graph construction uses only host edges as vertices, joining two
+% Wu, Austrin, Pitassi, and Liu's incidence construction also gives
+% SSE hardness for treedepth at every fixed factor when combined with
+% the elimination-forest bound in Appendix~\ref{app:incidence-proof}. Their output has one
+% part for replicated host vertices and another for host edges.
+
+The line-graph construction uses host edges as vertices, joining two
 when the corresponding edges share an endpoint. This gives separator
 bounds directly in terms of the output order, which we use again in
-the bounded-degree reductions. We first prove these bounds for host
-multigraphs, then show that rounding the source weights preserves the
-promise.
-
-\begin{theorem}\label{thm:sse-hardness}
-For every fixed $C\geq1$, approximating treedepth within factor $C$ on
-simple unweighted graphs is SSE-hard.
-\end{theorem}
+the bounded-degree reductions. We use an unweighted host promise.
+Appendix~\ref{app:sse-normalization} derives it from the weighted
+source by rounding edge weights.
 
 \subsection{The source partition promise}
 
@@ -44,24 +40,29 @@ $\mu_G(A)=\vol_G(A)/(2W)$. When $\vol_G(A)>0$, put
 $\Phi_G(A)=w(\cut_G(A))/\vol_G(A)$. Thus a loop contributes twice
 its weight to the volume and never contributes to a cut.
 
-\begin{theorem}[Global SSE partition gap, normalized form {\cite[Theorem~3.5]{RST}}]\label{thm:sse-source}
+\begin{lemma}[Global SSE partition gap, normalized form]\label{lem:sse-unweighted-gap}
 There are absolute constants $c>0$ and $\varepsilon_0>0$ such that,
-for every fixed integer $q\geq2$ and every fixed
-$0<\varepsilon<\varepsilon_0$, the following promise on rationally
-weighted graphs is SSE-hard:
+for every fixed integer $q\geq2$ and every fixed rational
+$0<\varepsilon<\varepsilon_0$, the following promise on unweighted
+multigraphs $G$ with $m>0$ edges, allowing loops, is SSE-hard:
 \begin{description}
 \item[YES:] There is a partition
-  $V(G)=V_1\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}V_q$ with
-  $\mu_G(V_i)=1/q$ and $\Phi_G(V_i)\leq2\varepsilon$ for every $i$.
+  $V(G)=V_1\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}V_q$ such that
+  $(1-\varepsilon)/q\leq\mu_G(V_i)\leq(1+\varepsilon)/q$ and
+  $\Phi_G(V_i)\leq3\varepsilon$ for every $i$.
 \item[NO:] Every $A\subseteq V(G)$ with
-  $\mu_G(A)\in[1/10,9/10]$ satisfies
-  $w(\cut_G(A))\geq c\sqrt{\varepsilon}\,W$.
+  $\mu_G(A)\in[1/4,3/4]$ satisfies
+  $|\cut_G(A)|\geq(c/2)\sqrt{\varepsilon}\,m$.
 \end{description}
-\end{theorem}
+\end{lemma}
 
-Appendix~\ref{app:sse-normalization} derives this formulation from the
-published gap. The following counting lemma converts the partition
-properties into bounds on crossing and internal edge weights.
+Appendix~\ref{app:sse-normalization} derives this promise from the
+published weighted gap by rounding edge weights to parallel edge
+multiplicities. The host promise imposes no maximum-degree bound.
+The later degree reduction acts on the line graph through incidence
+clique factors, in Section~\ref{subsec:bounded-degree-consequences}.
+The following counting lemma converts the partition properties into
+bounds on crossing and internal edge weights.
 
 \begin{lemma}[Crossing and internal edge weights]
 \label{lem:sse-yes-edge-counts}
@@ -136,6 +137,13 @@ graph $H$ is a set $S\subseteq V(H)$ such that every component of
 $H-S$ has at most $\rho N$ vertices. We write $b_\rho(H)$ for its
 minimum size. A \emph{balanced separator} is a $1/2$-balanced
 separator, and we abbreviate $b_{1/2}(H)$ to $b(H)$.
+
+\begin{lemma}[Balanced separators from tree decompositions
+{\cite[Lemma~5.3]{APW}}]
+\label{lem:treewidth-balanced-separator}
+Every finite nonempty graph $H$ satisfies
+$b(H)\leq\operatorname{tw}(H)+1$.
+\end{lemma}
 
 \begin{lemma}[From host cuts to line-graph separators]
 \label{lem:linegraph-separators}
@@ -224,141 +232,10 @@ $b(\mathcal L(G))\leq\td(\mathcal L(G))$ from
 Lemma~\ref{lem:balanced-by-td}.
 \end{proof}
 
-\subsection{Conversion of weighted hosts}
-
-The source promise is stated for a weighted multigraph, whereas the
-output line graph has one vertex per unweighted host-edge copy. Replace each
-weighted edge $e$ by $\lfloor Mw_e/W\rfloor$ parallel copies, where
-$W$ is the total source edge weight and $M$ is chosen below.
-Rounding introduces an additive error in normalized
-volumes and cut sizes, so the source promise uses the wider interval
-$[1/10,9/10]$ rather than the interval $[1/4,3/4]$ required by
-Lemma~\ref{lem:linegraph-separators}.
-
-\begin{lemma}[Unweighted SSE partition gap]\label{lem:sse-unweighted-gap}
-Let $c>0$ be the constant from Theorem~\ref{thm:sse-source}.
-For every fixed integer $q\geq2$ and every sufficiently small fixed
-rational $\varepsilon>0$, the following promise on unweighted
-multigraphs $G$ with $m>0$ edges, allowing loops, is SSE-hard:
-\begin{description}
-\item[YES:] There is a partition
-  $V(G)=V_1\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}V_q$ such that
-  $(1-\varepsilon)/q\leq\mu_G(V_i)\leq(1+\varepsilon)/q$ and
-  $\Phi_G(V_i)\leq3\varepsilon$ for every $i$.
-\item[NO:] Every $A\subseteq V(G)$ with
-  $\mu_G(A)\in[1/4,3/4]$ satisfies
-  $|\cut_G(A)|\geq(c/2)\sqrt{\varepsilon}\,m$.
-\end{description}
-\end{lemma}
-
-\begin{proof}
-Choose $\varepsilon$ small enough that Theorem~\ref{thm:sse-source}
-applies, $\varepsilon\leq1/10$, and
-$\varepsilon^2\leq(c/2)\sqrt\varepsilon$.
-Set $\theta=\min\{\varepsilon^2,\varepsilon/(2q)\}$.
-
-\emph{Construction.}
-Let $G$ be a weighted source instance with $k\geq1$ edges of weights
-$w_e$ and total weight $W$, counting parallel edges separately.
-Set $M=\lceil k/\theta\rceil$ and $r_e=\lfloor Mw_e/W\rfloor$.
-Form the unweighted multigraph $G^*$ on $V(G)$ by replacing each
-edge $e$ by $r_e$ copies with the same endpoints, with no other edges.
-A loop is replaced by loops, and an edge with $r_e=0$ is removed.
-Write $m=\sum_e r_e$ and output $G^*$.
-
-\emph{Rounding estimates.}
-For each input edge $e$, write $\omega_e=Mw_e/W-r_e\in[0,1)$.
-Since $k\leq\theta M$ and $\omega_e<1$ for each of the $k$ input edges,
-$(1-\theta)M\leq M-k<M-\sum_e\omega_e=m\leq M$.
-Thus $m>0$, and $G^*$ has at most $M=O(k/\theta)$ edges.
-Since $q,\theta$ are fixed, the reduction has polynomial size.
-
-For a fixed vertex set $A$, an edge contributes zero, one, or two
-endpoint incidences to its volume. A loop in $A$ contributes two.
-Since $w_e/W-r_e/M=\omega_e/M$, edge $e$ contributes between zero
-and $\omega_e/M$ to the difference of normalized volumes. Summing gives
-\begin{equation}\label{eq:round-volume}
- 0\leq\frac{\vol_G(A)}{2W}
-       -\frac{\vol_{G^*}(A)}{2M}
- \leq\frac1M\sum_e\omega_e
- <\frac{k}{M}\leq\theta.
-\end{equation}
-
-For the cut, only crossing edges contribute. Thus
-\begin{equation}\label{eq:round-cut}
-  |\cut_{G^*}(A)|
-  =M\frac{w(\cut_G(A))}{W}-\sum_{e\in\cut_G(A)}\omega_e
-  \geq M\left(\frac{w(\cut_G(A))}{W}-\theta\right),
-\end{equation}
-because $\sum_{e\in\cut_G(A)}\omega_e<k\leq\theta M$.
-
-\emph{YES case.}
-Use the source partition $(V_1,\ldots,V_q)$.
-Since $\mu_G(V_i)=1/q$, equation~\eqref{eq:round-volume} gives
-$1/q-\theta\leq\vol_{G^*}(V_i)/(2M)\leq1/q$.
-Also, $(1-\theta)M\leq m\leq M$, so
-$1-\theta\leq m/M\leq1$. Since
-$\mu_{G^*}(V_i)=\bigl(\vol_{G^*}(V_i)/(2M)\bigr)/(m/M)$, it follows
-that
-\[
-\begin{aligned}
- \mu_{G^*}(V_i)
- &\geq1/q-\theta
- \geq(1-\varepsilon/2)/q
- \geq(1-\varepsilon)/q,\\
- \mu_{G^*}(V_i)
- &\leq\frac{1/q}{1-\theta}
- \leq\frac{1+\varepsilon}{q}.
-\end{aligned}
-\]
-Here the last inequality uses
-$\theta\leq\varepsilon/(2q)\leq\varepsilon/(1+\varepsilon)$.
-The source bounds give
-$w(\cut_G(V_i))=\Phi_G(V_i)\vol_G(V_i)
-\leq2\varepsilon\cdot2W/q=4\varepsilon W/q$.
-Since $r_e\leq Mw_e/W$, summing the rounded edge multiplicities over
-the cut gives
-$|\cut_{G^*}(V_i)|\leq Mw(\cut_G(V_i))/W\leq4\varepsilon M/q$.
-Consequently
-\[
-  \Phi_{G^*}(V_i)
-  \leq\frac{4\varepsilon M/q}{2M(1/q-\theta)}
-  =\frac{2\varepsilon}{1-q\theta}
-  \leq\frac{2\varepsilon}{1-\varepsilon/2}
-  \leq\frac{40}{19}\varepsilon<3\varepsilon.
-\]
-The penultimate inequality uses $\varepsilon\le1/10$.
-
-\emph{NO case.}
-Let $A$ be any set with
-$\mu_{G^*}(A)\in[1/4,3/4]$. Since
-$\vol_{G^*}(V(G))/(2M)=m/M$, its volume measured at scale $2M$
-satisfies $\vol_{G^*}(A)/(2M)=(m/M)\mu_{G^*}(A)
-\in[(1-\theta)/4,3/4]$.
-The volume bound~\eqref{eq:round-volume} says that this scaled volume
-is at most $\mu_G(A)$ and differs from it by at most $\theta$. Hence
-\[
- \frac{1-\theta}{4}
- \leq\frac{\vol_{G^*}(A)}{2M}
- \leq\mu_G(A)
- \leq\frac{\vol_{G^*}(A)}{2M}+\theta
- \leq\frac34+\theta.
-\]
-Since $\theta\le1/10$, the lower endpoint is at least $9/40>1/10$
-and the upper endpoint is at most $17/20<9/10$. Thus
-$\mu_G(A)\in[1/10,9/10]$. The source NO promise
-therefore gives $w(\cut_G(A))/W\geq c\sqrt{\varepsilon}$. Applying
-\eqref{eq:round-cut}, $\theta\leq(c/2)\sqrt\varepsilon$, and $M\geq m$ gives
-\[
-  |\cut_{G^*}(A)|\geq M(c\sqrt\varepsilon-\theta)
-  \geq(c/2)\sqrt\varepsilon\,M
-  \geq(c/2)\sqrt\varepsilon\,m.
-\]
-\end{proof}
-
 \subsection{The approximation gap}
+\label{subsec:sse-dense-gap}
 
-\begin{proof}[Proof of Theorem~\ref{thm:sse-hardness}]
+\begin{proof}[Dense treedepth gap]
 The YES and NO bounds below have coefficients $4\varepsilon$ and
 $(c/2)\sqrt\varepsilon$. Their ratio $c/(8\sqrt\varepsilon)$ grows
 without bound as $\varepsilon$ decreases, so a sufficiently small

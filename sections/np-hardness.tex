@@ -9,13 +9,10 @@ approximation gap for total elimination depth.
 \subsection{Treedepth}
 \label{subsec:np-treedepth}
 
-\begin{theorem}\label{thm:np-hardness}
-For every fixed real $1\le r<18/17$, approximating treedepth within
-factor $r$ on simple unweighted graphs is NP-hard.
-\end{theorem}
-
-We prove the theorem by encoding parity equations in a tripartite
-graph, then converting its vertex-cover number into treedepth.
+We encode parity equations in a tripartite graph, then convert its
+vertex-cover number into a dense treedepth gap.
+Corollary~\ref{cor:td-bounded-degree} gives the bounded-degree
+hardness consequence after sparsification.
 
 The truth blocks and assignment witnesses follow Bonnet, Neuen, and
 Soko\l owski~\cite[Section~4 and Lemma~10]{BNS}, building on Bonnet's
@@ -39,18 +36,25 @@ gap~\cite{Hastad1997}, in the distinct-variable,
 bounded-occurrence form stated by Hazan, Safra, and Schwartz.
 
 \begin{theorem}[Bounded-occurrence Max-3-LIN-2 gap {\cite[Theorem~10]{HazanSafraSchwartz2003}}]\label{thm:xor-source}
-For every fixed $0<\epsilon<1/4$, it is NP-hard to distinguish unweighted systems
-$F$ with $\OPT(F)\ge(1-\epsilon)m$ (YES) from those with
-$\OPT(F)\le(1/2+\epsilon)m$ (NO).
-The hardness holds when every equation contains three distinct
-variables and each variable occurs a constant number of times, with
-at most two possible occurrence counts. It also holds under the
-following normalizations:
+For every fixed $0<\epsilon<1/4$, there is a constant
+$b_\epsilon\geq6$ depending only on $\epsilon$ such that the following
+promise problem is NP-hard. The input is an unweighted system $F$ of
+$m\geq1$ equations $x+y+z=a\pmod2$, where $a\in\{0,1\}$ and
+$x,y,z$ are distinct Boolean variables. Equations may be repeated.
+Every variable occurs at most $b_\epsilon$ times, with at most two
+possible occurrence counts, and the instances satisfy
 \begin{equation}\label{eq:xor-normalization}
  d_x\in6\mathbb Z_{>0},\qquad
  \sum_xd_x=3m,\qquad
  |\{j:a_j=0\}|=|\{j:a_j=1\}|=m/2.
 \end{equation}
+Here $d_x$ is the number of equations containing $x$, and $\OPT(F)$
+is the maximum number of equations satisfied by one assignment,
+counting repetitions.
+\begin{description}
+ \item[YES:] $\OPT(F)\geq(1-\epsilon)m$.
+ \item[NO:] $\OPT(F)\leq(1/2+\epsilon)m$.
+\end{description}
 \end{theorem}
 
 The additional conditions are obtained by pairing the source with a
@@ -109,6 +113,14 @@ witnesses per equation in $C$. Hence
  |A|=|B|=|C|=3m.
 \end{equation}
 
+The source graph $G_F$ already has bounded maximum degree.
+A truth vertex in $T_x^a$ has $5d_x/6$ neighbors in the opposite
+truth block and $2d_x$ witness neighbors, hence degree $17d_x/6$.
+A witness has neighbors in three truth blocks and at most three
+star neighbors, hence degree at most $5b_\epsilon/2+3$.
+Since the normalized occurrence bound satisfies $b_\epsilon\geq6$,
+both bounds are at most $3b_\epsilon$.
+
 \subsubsection{The independent-set optimum}
 
 An optimal assignment gives an independent set of size $\frac{5m}{2}+\OPT(F)$.
@@ -153,7 +165,8 @@ otherwise it has a neighbor in a selected truth block.
 \end{proof}
 
 \begin{lemma}\label{lem:xor-cover}
-The graph $G_F$ satisfies $\alphaI(G_F)=5m/2+\OPT(F)$ and
+The graph $G_F$ has maximum degree at most $3b_\epsilon$ and satisfies
+$\alphaI(G_F)=5m/2+\OPT(F)$ and
 $\vc(G_F)=13m/2-\OPT(F)$.
 \end{lemma}
 
@@ -231,6 +244,7 @@ least the largest part size, so it applies with $\ell=3m$ even though
 $\vc(G_F)\geq11m/2$.
 
 \subsubsection{The treedepth identity and the hardness gap}
+\label{subsec:np-td-gap}
 
 Taking $\ell=3m$ gives the following identity.
 
@@ -252,7 +266,7 @@ edges arise. The source normalization changes size by a constant
 factor, giving a polynomial construction.
 \end{proof}
 
-\begin{proof}[Proof of Theorem~\ref{thm:np-hardness}]
+\begin{proof}[Dense treedepth gap]
 The leading NO and YES coefficients below approach $9$ and $17/2$
 as the source error decreases, giving ratio $18/17$.
 Fix $1\le r<18/17$. Since $9-r(17/2)>0$, choose a fixed rational
