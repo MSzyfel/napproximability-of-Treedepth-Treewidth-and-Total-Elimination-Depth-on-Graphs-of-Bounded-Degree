@@ -1,549 +1,422 @@
 \subsection{Total elimination depth}
 \label{subsec:np-total-depth}
 
-We construct a dense total-depth gap for the bounded-degree
-hardness proof in Corollary~\ref{cor:total-depth-bounded-degree}.
+Auxiliary pairs encode the normalized parity source of
+Theorem~\ref{thm:xor-source} in a tripartite graph. Completing its parts
+to cliques follows Bonnet's construction~\cite[Section~3.1]{BonnetTreewidth}.
+Three added independent sets then transfer the number of satisfied
+equations to total depth, giving the limiting gap ${189/186=63/62}$.
 
-Alimonti and Kann prove that Maximum Independent Set is APX-hard on
-graphs of maximum degree three, and state that the hardness also
-holds when every vertex has degree exactly three
-\cite[Theorem~3.2 and the final paragraph of Section~3]{AlimontiKann2000}.
-For the reduction below, we use the explicit threshold promise that
-follows. Appendix~\ref{app:cubic-independent-set-source} derives it
-from the parity source and witness graph already used in
-Section~\ref{subsec:np-treedepth}, with a degree normalization.
+\subsubsection{The three-path objective}
 
-\begin{theorem}[Cubic independent-set source]
-\label{thm:source-cubic-independent-set}
-There is a fixed rational constant $\delta_0\in(0,1)$ such that the
-following promise problem is NP-hard. The input is a simple
-unweighted cubic graph $J$ on $n\geq4$ vertices and an integer
-$1\leq K\leq n$.
-\begin{description}
- \item[YES:] $\alphaI(J)\geq K$.
- \item[NO:] $\alphaI(J)\leq(1-\delta_0)K$.
-\end{description}
-\end{theorem}
+Let $G$ be a simple tripartite graph with specified nonempty independent
+parts $A\mathbin{\dot\cup}B\mathbin{\dot\cup}C$, and put $N=|V(G)|$.
+Complete each part to a clique by setting
+\[
+ \widehat G=\left(V(G),\ E(G)\cup
+                 \bigcup_{X\in\{A,B,C\}}\binom{X}{2}\right).
+\]
+For an integer $M\geq1$, form $H^\Sigma_M(G)$ by adding disjoint
+independent sets $T_A,T_B,T_C$, where $|T_X|=M$ and
+$N_{H^\Sigma_M(G)}(t)=X$ for every $X\in\{A,B,C\}$ and $t\in T_X$.
+The resulting graph is simple and unweighted.
 
-We need exact degree three below: each source vertex has three
-incident edges, so it receives three auxiliary neighbors and
-$|E(J)|=3|V(J)|/2$.
-
-Our reduction starts from this source theorem. Completing the three
-parts to cliques follows Bonnet's co-tripartite construction~\cite[Section~3.1]{BonnetTreewidth}.
-For each part $X\in\{A,B,C\}$, we add an independent set $T_X$ of
-$M$ vertices, each adjacent to every vertex of $X$ and to no other
-vertex. We choose $M$ later. After the normalization below, the
-vertices of $T_X$ are leaf children of the deepest vertex of $X$.
-Their total contribution is therefore $M$ times a sum of three
-depths. We use this sum to encode the source independence number.
-
-\subsubsection{Completing the parts and adding vertices}
-
-Let $G$ be tripartite with specified nonempty independent parts
-$A\mathbin{\dot\cup}B\mathbin{\dot\cup}C$, and put $N=|V(G)|$.
-For an integer $M\ge1$, add pairwise disjoint sets $T_A,T_B,T_C$,
-each of size $M$ and disjoint from $V(G)$. The graph $\widehat G$
-has vertex set $V(G)$ and edge set
-$E(\widehat G)=E(G)\cup\bigcup_{X\in\{A,B,C\}}\binom X2$.
-Thus each part $X\in\{A,B,C\}$ is a clique in $\widehat G$.
-Obtain $H^{\Sigma}_M(G)$ by joining every vertex of $T_X$ to every
-vertex of $X$, for each $X\in\{A,B,C\}$, and adding no other edges.
-Each added set is independent, and all its vertices have the same
-neighborhood, namely the corresponding part of $G$.
-
-\Needspace{9\baselineskip}
-We use $W$ to record the depth contribution of the added vertices.
-Let $F_G$ be an elimination forest of $\widehat G$. Since each part
-$X\in\{A,B,C\}$ is a clique, its vertices lie on one ancestor
-path.
-Let $y_X$ be the deepest vertex of $X$. We can extend $F_G$ by placing
-every vertex of $T_X$ as a leaf child of $y_X$: it is then below all
-its neighbors in $X$, and no two added vertices are adjacent. Each
-such leaf has depth $\operatorname{depth}_{F_G}(y_X)+1$.
-
-Define
+In an elimination forest $F_G$ of $\widehat G$, the vertices of each
+clique part lie on one ancestor path. Write $y_X$ for the deepest vertex
+of part $X$, with depths starting at one, and define
 \[
  W(F_G)=\sum_{X\in\{A,B,C\}}
           \bigl(\operatorname{depth}_{F_G}(y_X)+1\bigr),
- \qquad W(G)=\min_{F_G}W(F_G),
+ \qquad W(G)=\min_{F_G}W(F_G).
 \]
-where the minimum is over all elimination forests of $\widehat G$.
-Thus $W(F_G)$ is the total depth of one added vertex from each of
-$T_A,T_B,T_C$ when attached in this way. The $+1$ in each summand
-places that vertex one level below $y_X$. There are $M$ vertices in
-each added set, so their total contribution is $MW(F_G)$.
-The following lemmas show that every elimination forest of
-$H^{\Sigma}_M(G)$ can be put in this form without increasing its total
-depth.
-
-\Needspace{14\baselineskip}
-\begin{lemma}[Moving one added vertex]\label{lem:added-vertex-move}
-For any $X\in\{A,B,C\}$ and $u\in T_X$, every elimination forest
-of $H^{\Sigma}_M(G)$ can be changed so that $u$ is a leaf child of
-the deepest vertex in $X$, without increasing total depth or changing
-the ancestor order among vertices of $G$.
-\end{lemma}
-
-\begin{proof}
-Fix $X\in\{A,B,C\}$, an elimination forest, and a vertex $u\in T_X$.
-Let $y_X$ be the deepest vertex in part $X$. The edge $uy_X$ makes
-$u$ and $y_X$ comparable. Delete $u$ from its position, attaching
-each of its children to its parent, or making those children roots
-if $u$ was a root. Then reinsert $u$ as a leaf child of $y_X$.
-
-If $u$ was below $y_X$, its depth does not increase, and its former
-descendants only move upwards. If $u$ was above $y_X$, deleting $u$
-decreases the depth of $y_X$ by one, so the new depth of $u$ is the
-old depth of $y_X$. The increase in the depth of $u$ therefore equals
-the number of vertices on the old path strictly below $u$ through
-$y_X$. Each of these vertices decreases its depth by one, canceling
-$u$'s increase. All other former descendants also move up one level,
-and no other depth increases. Thus the total depth does not increase.
-
-The modification preserves all graph edges. Deletion preserves the
-ancestor relation among the remaining vertices. Every neighbor of
-$u$ belongs to $X$ and is ancestral to $y_X$, so it is ancestral
-to the reinserted leaf $u$. The ancestor order among vertices of $G$
-is unchanged.
-\end{proof}
+Here and below, minima over $F_G$ range over all elimination forests
+of $\widehat G$, and $\totd(F_G)$ denotes the sum of their vertex depths.
+The following normalization and path identities are proved in
+Appendix~\ref{app:total-depth-tools}.
 
 \begin{lemma}[Normalization of added vertices]
 \label{lem:np-total-depth-added-vertices}
-Every elimination forest of $H^{\Sigma}_M(G)$ can be transformed without
-increasing total depth so that, for every $X\in\{A,B,C\}$, all
-vertices of $T_X$ are leaf children of the deepest vertex in $X$.
-Consequently,
+Every elimination forest of $H^\Sigma_M(G)$ can be transformed without
+increasing total depth so that all vertices of each $T_X$ are leaf
+children of the deepest vertex of $X$. Consequently,
 \begin{equation}\label{eq:np-total-depth-added-vertices-identity}
- \totd(H^{\Sigma}_M(G))=\min_{F_G}\bigl(\totd(F_G)+MW(F_G)\bigr),
+ \totd(H^\Sigma_M(G))
+ =\min_{F_G}\bigl(\totd(F_G)+MW(F_G)\bigr),
 \end{equation}
 and
 \begin{equation}\label{eq:np-total-depth-added-vertices-bounds}
- MW(G)\le \totd(H^{\Sigma}_M(G))\le MW(G)+\frac{N(N+1)}2.
+ MW(G)
+ \leq\totd(H^\Sigma_M(G))
+ \leq MW(G)+\frac{N(N+1)}2.
 \end{equation}
 \end{lemma}
 
-
-\begin{proof}
-Apply Lemma~\ref{lem:added-vertex-move} to every added vertex.
-Previously moved vertices remain leaf children of their respective
-deepest vertices, and hence the forest has the required normalization.
-
-Remove the added leaves from such a normalized forest. The remaining
-forest is an elimination forest $F_G$ of
-$\widehat G$, and the removed leaves contribute $MW(F_G)$.
-Conversely, every $F_G$ extends by these leaves to an elimination
-forest of $H^{\Sigma}_M(G)$. Therefore
-\eqref{eq:np-total-depth-added-vertices-identity} holds. Finally,
-$\totd(F_G)$ is $N$ plus the number of strict ancestor pairs, so
-$\totd(F_G)\le N+\binom N2=N(N+1)/2$. Taking a forest minimizing
-$W$ gives the upper bound in
-\eqref{eq:np-total-depth-added-vertices-bounds}. Nonnegativity of $\totd(F_G)$ gives
-the lower bound.
-\end{proof}
-
-\subsubsection{The cost of the three paths}
-
-As in Bonnet's central-bag proof~\cite[proof of Lemma~6]{BonnetTreewidth},
-separating the three clique parts forces a vertex cover. Here we
-count vertices shared by the paths from the roots to $y_A,y_B,y_C$.
-Vertices on all three paths and those on two paths yield two
-successive covers with different coefficients in the total-depth cost.
-All edges and cover numbers in the formula refer to the original
-tripartite graph $G$. In particular, they exclude the clique edges
-added in $\widehat G$.
-
-For $X\in\{A,B,C\}$, let $Y,Z$ be the other two parts, and let
-$S_0\subseteq V(G)$ range over covers of all edges of $G$ between
-$X$ and $Y\cup Z$. Define the cover cost
+For $X\in\{A,B,C\}$, let $Y,Z$ be the other two parts. Let
+$S_0\subseteq V(G)$ range over covers of all $X$--$(Y\cup Z)$ edges, and let
+$S_1\subseteq(Y\cup Z)\setminus S_0$ be a minimum vertex cover of
+the remaining $YZ$ graph. Define
 \begin{equation}\label{eq:np-total-depth-cover-cost}
  \operatorname{cost}_X(G)=\min_{S_0}
- \left(2|S_0|+
-       \vc\bigl(G[(Y\cup Z)\setminus S_0]\bigr)\right).
+ \left(2|S_0|+\vc\bigl(G[(Y\cup Z)\setminus S_0]\bigr)\right).
 \end{equation}
-The induced graph in this formula is bipartite, with sides in the two
-parts other than $X$.
-
-For an elimination forest $F_G$ of $\widehat G$, let $S_0$ be the
-vertices ancestral to all three of $y_A,y_B,y_C$, and let $S_1$ be
-those ancestral to two of them and no others.
-
-\begin{lemma}[The same pair of descendants]\label{lem:clique-path-pair}
-If $S_1$ is nonempty, all its vertices are ancestral to the same two
-vertices among $y_A,y_B,y_C$.
-\end{lemma}
-
-\begin{proof}
-For two vertices in a rooted forest, their sets of descendants among
-$y_A,y_B,y_C$ are disjoint or one contains the other.
-The sets for vertices in $S_1$ have size two, so any two intersect.
-They must therefore be equal.
-\end{proof}
-
-When $S_1$ is nonempty, write $X$ for the part whose deepest vertex
-$y_X$ lies outside the common pair, and write $Y,Z$ for the other two
-parts.
-When $S_1$ is empty, choose any part as $X$ and write $Y,Z$ for the
-other two parts.
-
-\begin{lemma}[Covers from the three paths]\label{lem:clique-path-covers}
-The set $S_0$ covers the $X$--$(Y\cup Z)$ edges of $G$, and
-$S_1\subseteq Y\cup Z$ covers $G[(Y\cup Z)\setminus S_0]$.
-Moreover, $W(F_G)=N+3+2|S_0|+|S_1|\ge
-N+3+\operatorname{cost}_X(G)$.
-\end{lemma}
-
-\begin{proof}
-Every vertex of a part is ancestral to its deepest vertex. A vertex
-of $S_1$ has $y_Y,y_Z$ as its two descendants among $y_X,y_Y,y_Z$,
-so it cannot belong to $X$. Thus $S_1\subseteq Y\cup Z$. A vertex
-of $X\setminus S_0$ has only $y_X$ among these three vertices as a
-descendant. A vertex of $(Y\cup Z)\setminus S_0$ has descendants
-among them only in $\{y_Y,y_Z\}$. The two descendant sets are
-nonempty and disjoint, so the vertices are incomparable. Therefore
-$S_0$ covers the
-$X$--$(Y\cup Z)$ edges. Likewise, a $YZ$-edge outside $S_0$ with
-neither endpoint in $S_1$ would join a vertex ancestral only to $y_Y$
-to one ancestral only to $y_Z$. They are incomparable, so $S_1$
-covers the remaining $YZ$ edges.
-
-The sum of the depths of $y_A,y_B,y_C$ counts a vertex once for each
-of these three vertices below it. Every vertex is counted at least
-once, since it is ancestral to the deepest vertex of its own part.
-Hence vertices in $S_0$ are counted three
-times, those in $S_1$ twice, and all others once. Adding the $3$ in
-the definition of $W$ gives
-\[
- W(F_G)=3+3|S_0|+2|S_1|+(N-|S_0|-|S_1|)
-       =N+3+2|S_0|+|S_1|.
-\]
-The cover properties and~\eqref{eq:np-total-depth-cover-cost} give
-the inequality, including when $S_1$ or $S_0$ is empty.
-\end{proof}
+All cover graphs refer to $G$, before clique completion. In the
+associated forest, $S_0$ lies on a path common to all three parts,
+$S_1$ lies on a path shared by $Y,Z$, and the remaining vertices of
+each part lie on its own path.
 
 \begin{lemma}[Cost of the three paths]
 \label{lem:np-total-depth-path-cost}
 For every tripartite graph $G$ with nonempty specified parts,
 \begin{equation}\label{eq:np-total-depth-path-cost-formula}
  W(G)=N+3+\min\{\operatorname{cost}_A(G),
-                   \operatorname{cost}_B(G),
-                   \operatorname{cost}_C(G)\}.
+                 \operatorname{cost}_B(G),\operatorname{cost}_C(G)\}.
 \end{equation}
 \end{lemma}
 
+\subsubsection{The tripartite parity construction}
 
-\begin{proof}
-Lemma~\ref{lem:clique-path-covers} gives the lower bound for every
-elimination forest of $\widehat G$.
+Fix $0<\epsilon<1/4$ and let $F$ be an instance from
+Theorem~\ref{thm:xor-source}, with variable set $\mathcal X(F)$,
+$m\geq1$ equations, and satisfying
+\eqref{eq:xor-normalization}. Thus $d_x$ is the number of equations
+containing variable $x$, $d_x\in6\mathbb Z_{>0}$, and
+$\sum_{x\in\mathcal X(F)}d_x=3m$. The source occurrence bound is $d_x\leq b_\epsilon$.
+Construct $G=G_F^\Sigma$ with independent parts $A,B,C$ as follows.
+All blocks and all auxiliary vertices mentioned below are pairwise
+disjoint. An \emph{auxiliary pair} consists of fresh vertices
+$b\in B$, $c\in C$ and the edge $bc$. Attaching an endpoint to a
+block means adding every edge between that endpoint and the block.
 
-Conversely, choose $X\in\{A,B,C\}$ attaining the minimum in
-\eqref{eq:np-total-depth-path-cost-formula}, and let $Y,Z$ be the other
-two parts. Choose a cover $S_0$ in
-\eqref{eq:np-total-depth-cover-cost}, and a minimum cover $S_1$ of
-$G[(Y\cup Z)\setminus S_0]$. Put $S_0$ on a common chain.
-Below it, put the remaining $X$ vertices on one chain. On the other
-branch put $S_1$ on a chain, followed by separate chains for the
-remaining $Y$ and $Z$ vertices. Empty chains are omitted. This is
-an elimination forest of $\widehat G$: the vertices in each of $X,Y,Z$
-are comparable along their part's path, and every cross-part edge either
-meets $S_0$ or is a $YZ$-edge meeting $S_1$.
-
-Consider the path through $S_0$ to the $X$-chain and the two paths
-through $S_0,S_1$ to the $Y$- and $Z$-chains. If a final chain is
-empty, end its path at the preceding shared chain. Each path contains
-every vertex of its part, so the depth of the deepest vertex of that
-part is at most the number of vertices on the path. Counting $S_0$
-three times, $S_1$ twice, and all other vertices once gives
-\[
- W(F_G)\le 3+3|S_0|+2|S_1|+(N-|S_0|-|S_1|)
-          =N+3+2|S_0|+|S_1|.
-\]
-Minimizing proves the upper bound.
-\end{proof}
-
-\subsubsection{A cubic source and an added matching}
-
-Let $J$ be a nonempty simple graph in which every vertex has degree
-three. Put $n=|V(J)|$ and $m=|E(J)|=3n/2$, and choose an orientation
-of every edge. For each $v\in V(J)$, create two vertices $v^1,v^2$.
-For each $e\in E(J)$, create vertices $a_e,c_e$. Also create vertices
-$y_i,z_i$ for every integer $i$ with $1\le i\le3n$. All these
-vertices are pairwise distinct. Define the parts
-\[
-\begin{aligned}
- A&=\{v^1:v\in V(J)\}\cup\{v^2:v\in V(J)\},\\
- B&=\{a_e:e\in E(J)\}\cup\{y_i:1\le i\le3n\},\\
- C&=\{c_e:e\in E(J)\}\cup\{z_i:1\le i\le3n\}.
-\end{aligned}
-\]
-The three parts are pairwise disjoint and contain all the vertices
-created above.
-The graph $G(J)$ has vertex set $A\cup B\cup C$. For each oriented
-edge $e=u\to v$, add the edges $u^1a_e$, $u^2a_e$, $a_ec_e$,
-$c_ev^1$, and $c_ev^2$. Also add $y_iz_i$ for every $i$ with
-$1\le i\le3n$. There are no other edges, so $A,B,C$ are independent
-parts. The vertices $a_e,c_e$ are the
-\emph{auxiliary vertices} associated with source edge $e$.
-We call $a_ec_e$ its \emph{middle edge},
-and call the edges $y_iz_i$ the \emph{added matching}. These are all
-the edges between $B$ and $C$, and together they form a matching. The
-order of $G(J)$ is $N=2n+2m+6n=2n+3n+6n=11n$, using
-$m=3n/2$.
-
-The graph $G(J)$ has maximum degree three: each $v^1,v^2$ has
-three auxiliary neighbors, each $a_e,c_e$ has degree three, and
-each $y_i,z_i$ has degree one. The later construction
-$H^\Sigma_M(G(J))$ adds the dense clique and biclique factors.
-Corollary~\ref{cor:total-depth-bounded-degree} sparsifies those
-factors while retaining every edge of $G(J)$.
-
-For a cover $S_0$ of the $A$--$(B\cup C)$ edges, call
-$G[(B\cup C)\setminus S_0]$ the residual $BC$ graph.
-
-\begin{lemma}[Normalizing the first cover]\label{lem:cubic-cover-normalization}
-Every such cover $S_0$ can be reduced without increasing
-$2|S_0|+\vc(G[(B\cup C)\setminus S_0])$ so that, for some
-$S\subseteq V(J)$, it consists of both copies of every source vertex
-outside $S$ and all auxiliary neighbors of the copies of $S$.
-For the resulting cover,
-\begin{equation}\label{eq:cubic-cover-cost}
- 2|S_0|+\vc(G[(B\cup C)\setminus S_0])
- =7n+m-|S|+|E(J[S])|.
+\begin{description}
+\item[Literal blocks.]
+ For every $x\in\mathcal X(F)$, put two blocks $A_x^0,A_x^1$ in $A$, with
+ $|A_x^0|=|A_x^1|=9d_x/2\in\mathbb Z_{>0}$.
+\item[Opposite pairs.]
+ For every $x\in\mathcal X(F)$, create $2d_x$ auxiliary pairs. For $d_x$ of them,
+ attach $b$ to $A_x^0$ and $c$ to $A_x^1$; for the other $d_x$,
+ attach $b$ to $A_x^1$ and $c$ to $A_x^0$.
+\item[Equation pairs.]
+ In each equation $e\in\{1,\ldots,m\}$, order its distinct variables as $x_1,x_2,x_3$
+ and write $a_e$ for its right-hand side. For every satisfying local
+ assignment $\sigma=(\sigma_1,\sigma_2,\sigma_3)\in\{0,1\}^3$
+ with $\sigma_1+\sigma_2+\sigma_3=a_e\pmod2$, and every
+ $j\in\{1,2,3\}$, create one auxiliary pair. Attach $b$ to all
+ three blocks $A_{x_i}^{1-\sigma_i}$, $i\in\{1,2,3\}$, and
+ attach $c$ to $A_{x_j}^{\sigma_j}$. This gives twelve pairs per
+ equation.
+\item[Padding pairs.]
+ Add $18m$ auxiliary pairs having no neighbors in $A$.
+\end{description}
+Add no other edges to $G$. In particular, its $BC$ graph is a matching.
+There are $6m$ opposite pairs, $12m$ equation pairs, and $18m$ padding
+pairs, so
+\begin{equation}\label{eq:np-total-depth-part-sizes}
+ |A|=27m,\qquad |B|=|C|=36m,\qquad N=99m.
 \end{equation}
-\end{lemma}
-
-\begin{proof}
-Let $S_0$ cover the edges between $A$
-and $B\cup C$. If one of $v^1,v^2$ lies in $S_0$ and the other does not, say
-$v^1\in S_0$, then every neighbor of the absent copy $v^2$ lies in
-$S_0$. Since the two copies have the same neighbors, deleting $v^1$
-preserves the cross-edge cover and leaves the remaining graph
-$G[(B\cup C)\setminus S_0]$ unchanged, while decreasing $2|S_0|$
-by two. Thus we may arrange that $S_0$ contains either both copies of each
-source vertex or neither.
-
-Let $S\subseteq V(J)$ consist of the vertices whose two copies are
-outside $S_0$. All auxiliary neighbors of these copies are forced
-into $S_0$. If both copies of a source vertex are in $S_0$, they already
-cover every incident edge from those copies, so their auxiliary
-neighbors are not needed in $S_0$. Removing any such unforced auxiliary
-vertex decreases $2|S_0|$ by two.
-The old minimum vertex cover of the residual $BC$ graph, together
-with this restored vertex, covers the enlarged residual graph, so its
-cover number increases by at most one. Hence the total cost does not
-increase. The same argument removes every added matching vertex from
-$S_0$.
-
-After these deletions, $S_0$ has
-$|S_0|=2(n-|S|)+3|S|=2n+|S|$, since each vertex of $S$ has three
-distinct auxiliary neighbors.
-A middle edge $a_ec_e$ survives outside $S_0$ if and only if neither
-endpoint of $e$ belongs to $S$. The vertices of $S$ have $3|S|$
-incident edge ends. Every edge inside $J[S]$ contributes two of
-these ends but is one edge, whereas every edge leaving $S$ contributes
-one end. Hence $3|S|-|E(J[S])|$ edges have an endpoint in $S$,
-and the number of surviving middle edges is
-$|E(J[V(J)\setminus S])|=m-3|S|+|E(J[S])|$.
-Together with the $3n$ added matching edges, these form a matching.
-Its vertex-cover number equals its number of edges. Adding $2|S_0|$
-therefore gives the stated cost.
-\end{proof}
-
-\begin{lemma}[The encoded independent-set optimum]
-\label{lem:np-total-depth-cubic}
-The graph $G=G(J)$ satisfies
-\begin{equation}\label{eq:np-total-depth-cubic-W}
- W(G)=\frac{39}{2}n-\alphaI(J)+3.
+The two vertex types satisfy
+\[
+ \deg_G(v)=2d_x+8d_x=10d_x
+ \quad(v\in A_x^0\cup A_x^1),\qquad
+ \deg_G(v)\leq3(9b_\epsilon/2)+1
+ \quad(v\in B\cup C).
+\]
+The second bound accounts for at most three literal-block
+neighborhoods and the paired endpoint. Since $b_\epsilon\geq6$,
+\begin{equation}\label{eq:np-total-depth-degree}
+ \Delta(G_F^\Sigma)\leq14b_\epsilon.
 \end{equation}
-Moreover, $\operatorname{cost}_B(G),\operatorname{cost}_C(G)\ge9n$,
-whereas $\operatorname{cost}_A(G)=17n/2-\alphaI(J)$.
-\end{lemma}
+This is the degree before completing the parts and adding $T_A,T_B,T_C$.
 
-
-\begin{proof}
-Every $S\subseteq V(J)$ defines an admissible cover of the form in
-Lemma~\ref{lem:cubic-cover-normalization}. That lemma therefore gives
+Write $F_0$ for the initial parity source, $G=G_F^\Sigma$, and
+$H=H^\Sigma_M(G)$. The reduction has four stages:
 \[
- \operatorname{cost}_A(G)=\min_{S\subseteq V(J)}
-       \bigl(7n+m-|S|+|E(J[S])|\bigr)
-       =7n+m-\alphaI(J)
-       =\frac{17}{2}n-\alphaI(J),
+ F_0\xrightarrow{\text{normalize}}F
+ \xrightarrow{\text{encode}}G
+ \xrightarrow{\text{complete}}\widehat G
+ \xrightarrow{\text{add }T_A,T_B,T_C}H.
 \]
-To justify the minimization identity, delete an endpoint of each internal
-edge of $J[S]$. At most $|E(J[S])|$ vertices are deleted, so $S$
-contains an independent set of size at least $|S|-|E(J[S])|$. Hence
-$|S|-|E(J[S])|\le\alphaI(J)$, and a maximum independent set attains
-equality.
+The source is from~\cite[Theorem~10]{HazanSafraSchwartz2003}, with
+normalization in Appendix~\ref{app:xor-normalization}.
+Proposition~\ref{prop:np-total-depth-parity-identity} analyzes the
+encoding, the clique completion follows~\cite[Section~3.1]{BonnetTreewidth},
+and Lemma~\ref{lem:np-total-depth-added-vertices} handles the added sets.
 
-For $\operatorname{cost}_B(G)$, an admissible $S_0$ covers every edge
-between $B$ and $A\cup C$, so it must cover all edges between $B$ and
-$C$. These are the $m$ middle edges $a_ec_e$ and the $3n$ added edges
-$y_iz_i$. They form a matching, so $S_0$ contains at least one
-different vertex for each edge: $|S_0|\ge m+3n$. The other term in
-the cover cost is nonnegative, hence
-$\operatorname{cost}_B(G)\ge2|S_0|\ge2(m+3n)
- =2(3n/2+3n)=9n$.
-For $\operatorname{cost}_C(G)$, the same $B$--$C$ edges must be
-covered, so $\operatorname{cost}_C(G)\ge9n$ as well. In contrast,
-$\operatorname{cost}_A(G)=17n/2-\alphaI(J)\le17n/2<9n$.
-Thus the minimum in Lemma~\ref{lem:np-total-depth-path-cost} is
-attained by $A$. The identity from that lemma and $N=11n$ give
-\[
- W(G)=N+3+\operatorname{cost}_A(G)
- =11n+3+\frac{17}{2}n-\alphaI(J)
- =\frac{39}{2}n+3-\alphaI(J),
-\]
-which is~\eqref{eq:np-total-depth-cubic-W}.
-\end{proof}
-
-\subsubsection{The approximation transfer}
-
-We prove the gap by extracting an independent set from a forest whose
-total depth is close to optimal. This also records the constants
-needed for the bounded-degree extension.
-
-\begin{lemma}[Independent sets from elimination forests]
-\label{lem:independent-set-from-forest}
-Let $J$ be a nonempty simple cubic graph on $n$ vertices, put
-$G=G(J)$, and let $F_G$ be an elimination forest of $\widehat G$ with
-$W(F_G)<W(G)+n/2$. An independent set of $J$ of size at least
-$39n/2+3-W(F_G)$ can be obtained in polynomial time.
-\end{lemma}
-
-\begin{proof}
-Use $S_0,S_1$ and the common pair of descendants from
-Lemmas~\ref{lem:clique-path-pair} and~\ref{lem:clique-path-covers}.
-If $S_1$ were empty, we could choose $X=B$ in the cover bound. If
-$S_1$ were nonempty but its pair were not $y_B,y_C$, the deepest
-vertex outside the pair would belong to $B$ or $C$, so $X\in\{B,C\}$.
-In either case, $\operatorname{cost}_X(G)\ge9n$ would give
-$W(F_G)\ge N+3+9n=11n+3+9n=20n+3$.
-Since $W(G)\le39n/2+3$, this contradicts the hypothesis.
-Thus the pair is $y_B,y_C$, and $S_0$ covers the
-$A$--$(B\cup C)$ edges.
-
-Apply Lemma~\ref{lem:cubic-cover-normalization} to $S_0$.
-By Lemma~\ref{lem:clique-path-covers}, $S_1$ covers the residual
-graph $G[(B\cup C)\setminus S_0]$, so
-$\vc(G[(B\cup C)\setminus S_0])\leq|S_1|$. Therefore the value
-$2|S_0|+\vc(G[(B\cup C)\setminus S_0])$ for the original cover is at
-most $2|S_0|+|S_1|=W(F_G)-N-3$. The normalization in
-Lemma~\ref{lem:cubic-cover-normalization} does not increase this
-value. Hence its resulting source set $S$ satisfies
-$7n+m-|S|+|E(J[S])|\le W(F_G)-N-3$ by
-\eqref{eq:cubic-cover-cost}.
-Deleting an endpoint of each internal edge of $J[S]$ gives an
-independent set $I$ with
-\[
-\begin{aligned}
- |I|&\ge |S|-|E(J[S])|\ge 7n+m+N+3-W(F_G)\\
-    &=(7+\tfrac32+11)n+3-W(F_G)=\tfrac{39}{2}n+3-W(F_G),
-\end{aligned}
-\]
-where the equality substitutes $m=3n/2$ and $N=11n$. All these
-operations are polynomial.
-\end{proof}
-
-\begin{lemma}[Extraction from a total-depth approximation]
-\label{lem:np-total-depth-extraction}
-Fix $0<\epsilon\le1/100$. Let $J$ be a nonempty simple cubic
-graph on $n$ vertices, put $G=G(J)$ and $N=|V(G)|$, and choose an integer $M$ satisfying
-\begin{equation}\label{eq:np-total-depth-added-vertices-size}
- \frac{N(N+1)}{2M}\le\epsilon n.
+\begin{proposition}[The encoded parity optimum]
+\label{prop:np-total-depth-parity-identity}
+The tripartite graph above satisfies
+\begin{equation}\label{eq:np-total-depth-parity-W}
+ W(G_F^\Sigma)=192m-6\OPT(F)+3.
 \end{equation}
-From an elimination forest of $H^{\Sigma}_M(G)$ with total depth at most
-$(1+\epsilon)\totd(H^{\Sigma}_M(G))$, one can obtain an independent set of $J$
-of size at least $\alphaI(J)-23\epsilon n$, and hence at least
-$(1-92\epsilon)\alphaI(J)$, in polynomial time.
-\end{lemma}
+In particular, $W(G_F^\Sigma)\geq186m+3$.
+\end{proposition}
 
 \begin{proof}
-Let $F_0$ be the forest returned by the approximation algorithm.
-Normalize it by Lemma~\ref{lem:np-total-depth-added-vertices}, call
-the result $F$, and let $F_G$ be its restriction to $V(G)$. The
-normalization identity gives $\totd(F)=\totd(F_G)+MW(F_G)$, so
-$\totd(F_G)\ge0$ implies $W(F_G)\le\totd(F)/M$. Also,
-$\totd(F)\le\totd(F_0)$ because normalization does not increase total
-depth. Since total depth is the objective being minimized, the
-approximation guarantee bounds the returned forest $F_0$ by $(1+\epsilon)$
-times the minimum over elimination forests $F'$ of $H^{\Sigma}_M(G)$.
-By definition, this minimum is $\totd(H^{\Sigma}_M(G))$. Thus
-\[
- \begin{aligned}
- \totd(F)&\le\totd(F_0)
- \le(1+\epsilon)\min_{F'}\totd(F')\\
- &=(1+\epsilon)\totd(H^{\Sigma}_M(G)),
-\end{aligned}
-\]
-Using this bound, followed by~\eqref{eq:np-total-depth-added-vertices-bounds}
-and~\eqref{eq:np-total-depth-added-vertices-size}, gives
-\[
-\begin{aligned}
- W(F_G)&\le\frac{\totd(F)}M
-       \le(1+\epsilon)\frac{\totd(H^{\Sigma}_M(G))}M
-       \le(1+\epsilon)\left(W(G)+\frac{N(N+1)}{2M}\right)\\
-       &\le(1+\epsilon)\bigl(W(G)+\epsilon n\bigr).
-\end{aligned}
-\]
-A nonempty simple cubic graph has $n\ge4$. By
-Lemma~\ref{lem:np-total-depth-cubic},
-$W(G)\le39n/2+3\le39n/2+3n/2=21n$, since $n\ge4$ gives
-$3\le3n/2$. Therefore
-\begin{equation}\label{eq:np-total-depth-path-error}
-\begin{aligned}
- W(F_G)-W(G)
- &\le(1+\epsilon)\bigl(W(G)+\epsilon n\bigr)-W(G)
-  =\epsilon W(G)+\epsilon(1+\epsilon)n\\
- &\le21\epsilon n+\epsilon(1+\epsilon)n
-  =(22+\epsilon)\epsilon n\le23\epsilon n,
-\end{aligned}
-\end{equation}
-where the last step uses $\epsilon\le1/100<1$.
+We compute the $A$-first cost and lower-bound the two competing costs
+in~\eqref{eq:np-total-depth-path-cost-formula}.
 
-Since $23\epsilon<1/2$, Lemma~\ref{lem:independent-set-from-forest}
-applies and gives an independent set $I$ satisfying
+\emph{The $A$-first cover.}
+By Lemma~\ref{lem:total-depth-cover-normalization}, each literal block
+can be taken wholly in $S_0$ or wholly outside it. Omitting a literal
+block forces all its auxiliary neighbors into $S_0$. Retain exactly
+these forced endpoints: removing any unforced auxiliary endpoint from
+$S_0$ saves two and increases the residual cover cost by at most one.
+The residual $BC$ graph remains a matching, so each pair contributes
+one when neither endpoint is forced, two when one is forced, and four
+when both are forced. Relative to an unforced pair, the extra costs
+are therefore $0,1,3$.
+
+With every literal block in $S_0$, the cost is
+\begin{equation}\label{eq:np-total-depth-A-baseline}
+ 2|A|+36m\overset{\eqref{eq:np-total-depth-part-sizes}}{=}90m.
+\end{equation}
+For variable $x$, omitting one block saves $9d_x$
+and incurs opposite-pair extra cost $2d_x$, giving net saving $7d_x$.
+Omitting both saves $18d_x$ and incurs extra cost $6d_x$, giving net
+saving $12d_x$. Allocate these net savings equally among the $d_x$
+equations containing $x$.
+
+For an equation $e$, let $s$ be the number of its variables with
+exactly one omitted block and let $b$ be the number with both blocks
+omitted. A variable with exactly one omitted block $A_x^v$, where
+$v\in\{0,1\}$, is fixed to value $v$. Call a satisfying local assignment
+compatible if it agrees with every omitted literal, and let $n_e$ count such assignments.
+Thus $n_e=0$ when $b>0$, since the two omitted literals of one
+variable prescribe conflicting values.
+Write $\Delta_e$ for the allocated variable savings minus the extra
+costs of the twelve equation pairs. Then
+\begin{equation}\label{eq:np-total-depth-local-saving}
+ \Delta_e=3s+4b-12+(3+s)n_e.
+\end{equation}
+To count the extra equation cost, note that each omitted literal
+forces an endpoint in $C$ in exactly two of the four satisfying assignments.
+There are therefore $2s+4b$ forced endpoints in $C$ in total.
+A compatible assignment forces no endpoint in $B$ and exactly $s$
+in $C$. An incompatible assignment forces all three endpoints in
+$B$, at extra cost three, and each forced endpoint in $C$ then
+costs two more. Hence the extra equation cost is
+\[
+ E_e=n_es+3(4-n_e)+2(2s+4b-n_es)
+ =12+4s+8b-(3+s)n_e.
+\]
+Subtracting this from the allocated savings $7s+12b$ proves
+\eqref{eq:np-total-depth-local-saving}.
+For $b=0$ and $s\leq2$, the unfixed variables give
+$n_e=2^{2-s}$. Substitution in~\eqref{eq:np-total-depth-local-saving}
+and the bound $s+b\leq3$ therefore give
+\begin{equation}\label{eq:np-total-depth-saving-table}
+\begin{gathered}
+ \Delta_e=-s(3-s)/2\leq0 \quad (b=0,\ s\leq2),\qquad \Delta_e=3s+4b-12
+  \overset{s+b\leq3}{\leq}b-3\leq0 \quad (b>0),\\
+ \Delta_e=6n_e-3\in\{-3,3\} \quad (b=0,\ s=3).
+\end{gathered}
+\end{equation}
+In particular, an equation with an unfixed variable has saving at most
+zero. Complete the fixed values by independent fair bits for variables
+having neither or both blocks omitted. By
+Lemma~\ref{lem:partial-parity-completion}, each unfinished equation
+is satisfied with probability $1/2$, so its expected saving after
+completion is $(3-3)/2=0$. Fully fixed equations keep their saving.
+Writing $\Delta_e^{\rm old}$ and
+$\Delta_e^{\rm new}$ for the respective savings, linearity gives
+\[
+ \mathbb E\!\left[\sum_{e=1}^m\Delta_e^{\rm new}\right]
+ \overset{\text{linearity}}{=}
+ \sum_{e=1}^m\mathbb E[\Delta_e^{\rm new}]
+ \overset{\eqref{eq:np-total-depth-saving-table}}{\geq}
+ \sum_{e=1}^m\Delta_e^{\rm old}.
+\]
+No independence between equations is needed. Some outcome attains at
+least its expectation. A full assignment satisfying
+$k$ equations has saving $3k-3(m-k)=6k-3m$. Conversely, any assignment
+is realized by omitting the block matching each assigned value. If
+$S_{\max}$ denotes the maximum total saving over the normalized block
+choices, this proves
+\begin{equation}\label{eq:np-total-depth-max-saving}
+ S_{\max}\overset{\eqref{eq:np-total-depth-saving-table}}{=}6\OPT(F)-3m.
+\end{equation}
+Therefore
+\begin{equation}\label{eq:np-total-depth-A-cost}
+ \operatorname{cost}_A(G)
+ \overset{\text{Lem.~\ref{lem:total-depth-cover-normalization}},\,\eqref{eq:np-total-depth-A-baseline}}{=}
+   90m-S_{\max}
+ \overset{\eqref{eq:np-total-depth-max-saving}}{=}
+   90m-(6\OPT(F)-3m)=93m-6\OPT(F).
+\end{equation}
+
+\emph{The competing covers.}
+Consider a $B$-first or $C$-first cover. Normalize each literal block
+using Lemma~\ref{lem:total-depth-cover-normalization}. Its state is
+$T$ if it is in $S_0$, $U$ if it is in $S_1$, and $V$ if it is
+in neither. For a block of variable $x$, these states cost
+$9d_x,9d_x/2,0$, respectively.
+
+An \emph{ordinary pair} has its $b$ endpoint attached to one literal
+block, called its tail, and its $c$ endpoint attached to one literal
+block, called its head. In the following indicators, $\text{tail}$
+and $\text{head}$ denote the states of these blocks. For fixed block
+states, its minimum auxiliary cost in a $B$-first cover is
+\begin{equation}\label{eq:np-total-depth-rival-pair}
+ 2+\mathbf1[\text{tail}\ne T,\ \text{head}=V].
+\end{equation}
+The middle edge forces at least one endpoint into $S_0$, at cost two.
+If the tail is $T$, choosing $c\in S_0$ attains this cost. Otherwise
+$b\in S_0$ is forced. The head attachment is then already covered
+when the head is $T$ or $U$; when it is $V$, the cheapest choice is
+to add $c$ to $S_1$, costing one more. In a $C$-first cover the same
+formula holds with tail and head exchanged. Here $\mathbf1[\mathcal E]$
+is one if condition $\mathcal E$ holds and zero otherwise.
+
+For an equation pair, index the three blocks adjacent to its $b$
+endpoint by $i\in\{1,2,3\}$, write $\text{tail}_i$ for their states,
+and write $\text{head}$ for the state of the block adjacent to $c$.
+In the $B$-first case its extra cost above two is
+$\mathbf1[\text{head}=V]\max_{1\leq i\leq3}\mathbf1[\text{tail}_i\ne T]$.
+In the $C$-first case it is
+$\mathbf1[{\text{head}\ne T}]\max_{1\leq i\leq3}\mathbf1[\text{tail}_i=V]$.
+Each maximum dominates the average of its three entries; in particular,
+\[
+ 2+\mathbf1[\text{head}=V]\max_{1\leq i\leq3}
+                        \mathbf1[\text{tail}_i\ne T]
+ \overset{\max\geq\text{average}}{\geq}
+ \frac13\sum_{i=1}^3
+       \bigl(2+\mathbf1[\text{head}=V,\ \text{tail}_i\ne T]\bigr).
+\]
+For this cost analysis, represent each equation pair by three weighted
+directed ordinary pairs, one from each tail block to the head block.
+The baseline two is averaged along with the extra cost. Let $\mathcal P_e$
+be the multiset of all these replacement pairs and $\mathcal P_o$ the
+multiset of opposite pairs, directed from their tail to their head. Set
+$\mathcal P=\mathcal P_o\mathbin{\dot\cup}\mathcal P_e$ and assign
+\[
+ \omega(p)=1\ (p\in\mathcal P_o),\qquad \omega(p)=1/3\ (p\in\mathcal P_e),\qquad \sum_{p\in\mathcal P}\omega(p)=6m+\frac13(36m)=18m.
+\]
+These weights describe the cost analysis; the constructed graph
+remains unweighted. Write $\operatorname{tail}(p)$ and
+$\operatorname{head}(p)$ for the two literal blocks of $p$.
+Let $\mathcal B=\{A_x^v:x\in\mathcal X(F),\ v\in\{0,1\}\}$.
+In each case below, consider only block-state maps induced by a
+cover of the corresponding type.
+For a fixed block-state map $z:\mathcal B\to\{T,U,V\}$, its total
+literal-block cost is
+\[
+ L(z)=\sum_{x\in\mathcal X(F)}\sum_{v\in\{0,1\}}
+ d_x\left(9\mathbf1[z(A_x^v)=T]
+              +\frac92\mathbf1[z(A_x^v)=U]\right).
+\]
+Put
+\[
+ I_p(z)=\mathbf1[z(\operatorname{tail}(p))\ne T,\,
+                 z(\operatorname{head}(p))=V]
+ \qquad(p\in\mathcal P).
+\]
+Let $C_{\mathrm{np}}(z)$ be the minimum literal-block and non-padding-pair
+cost among $B$-first covers inducing $z$. The preceding inequality gives
+\begin{equation}\label{eq:np-total-depth-weighted-surrogate}
+ C_{\mathrm{np}}(z)
+ \overset{\max\geq\text{average}}{\geq}
+ L(z)+\sum_{p\in\mathcal P}\omega(p)\bigl(2+I_p(z)\bigr)
+ =36m+L(z)+\sum_{p\in\mathcal P}\omega(p)I_p(z).
+\end{equation}
+For every $x\in\mathcal X(F)$ and $v\in\{0,1\}$,
+\begin{equation}\label{eq:np-total-depth-pair-degrees}
+ \sum_{p\in\mathcal P:\,\operatorname{head}(p)=A_x^v}\omega(p)
+ =
+ \sum_{p\in\mathcal P:\,\operatorname{tail}(p)=A_x^v}\omega(p)
+ =d_x+2d_x=3d_x.
+\end{equation}
+Indeed, opposite pairs contribute $d_x$ in each direction. In each
+equation containing $x$, the literal is a tail in two satisfying
+assignments and all three positions, each with weight $1/3$, and a
+head in two assignments at its own position, each with total weight one.
+
+Every directed pair satisfies the pointwise inequality
+\[
+ 1\leq I_p(z)+\mathbf1[z(\operatorname{head}(p))\ne V]
+                  +\mathbf1[z(\operatorname{tail}(p))=T].
+\]
+Indeed, if neither block indicator pays the unit, the head is $V$
+and the tail is not $T$, so $I_p(z)=1$. Multiply by $\omega(p)$
+and sum, using $\sum_{p\in\mathcal P}\omega(p)=18m$.
+The equal weighted in- and out-degrees give the certificate
+\begin{equation}\label{eq:np-total-depth-charge-payment}
+\begin{gathered}
+ 18m
+ \overset{\eqref{eq:np-total-depth-pair-degrees}}{\leq}
+ \sum_{p\in\mathcal P}\omega(p)I_p(z)+\sum_{x\in\mathcal X(F)}\sum_{v\in\{0,1\}}
+   3d_x\bigl(2\mathbf1[z(A_x^v)=T]+\mathbf1[z(A_x^v)=U]\bigr)\\
+ \overset{6d_x\leq9d_x,\ 3d_x\leq9d_x/2}{\leq}
+ \sum_{p\in\mathcal P}\omega(p)I_p(z)+L(z).
+\end{gathered}
+\end{equation}
+For $C$-first covers, use $C_{\mathrm{np}}(z)$ for the corresponding
+minimum and reverse all ordinary-pair directions; the same bounds
+apply by~\eqref{eq:np-total-depth-pair-degrees}.
+For either competing cover, this certificate and the weighted baseline
+prove
+\begin{equation}\label{eq:np-total-depth-rival-charging}
+ C_{\mathrm{np}}(z)
+ \overset{\eqref{eq:np-total-depth-weighted-surrogate},\,
+          \eqref{eq:np-total-depth-charge-payment}}{\geq}36m+18m=54m.
+\end{equation}
+
+Each padding pair costs at least two, since one of its endpoints must
+be in $S_0$. Therefore
+\begin{equation}\label{eq:np-total-depth-rival-costs}
+ \operatorname{cost}_B(G),\operatorname{cost}_C(G)
+ \overset{\eqref{eq:np-total-depth-rival-charging}}{\geq}
+ 3(18m)+2(18m)=90m.
+\end{equation}
+Applying Lemma~\ref{lem:partial-parity-completion} to the empty
+partial assignment gives
+\begin{equation}\label{eq:np-total-depth-opt-range}
+ \frac m2\leq\OPT(F)\leq m.
+\end{equation}
+It follows that
+\begin{equation}\label{eq:np-total-depth-first-cover-minimum}
+ \operatorname{cost}_A(G)
+ \overset{\eqref{eq:np-total-depth-A-cost}}{=}93m-6\OPT(F)
+  \overset{\eqref{eq:np-total-depth-opt-range}}{\leq}90m
+ \overset{\eqref{eq:np-total-depth-rival-costs}}{\leq}
+  \min\{\operatorname{cost}_B(G),\operatorname{cost}_C(G)\}.
+\end{equation}
+Thus the $A$-first cost attains the minimum in the path identity, giving
 \[
 \begin{aligned}
- |I|&\ge\frac{39}{2}n+3-W(F_G)\\
-    &=\left(\frac{39}{2}n+3-W(G)\right)-(W(F_G)-W(G))\\
-    &=\alphaI(J)-(W(F_G)-W(G))\ge\alphaI(J)-23\epsilon n.
+ W(G)&\overset{\eqref{eq:np-total-depth-path-cost-formula},\,
+                    \eqref{eq:np-total-depth-first-cover-minimum}}{=}
+       N+3+\operatorname{cost}_A(G)\\
+ &\overset{\eqref{eq:np-total-depth-part-sizes},\,\eqref{eq:np-total-depth-A-cost}}{=}
+       99m+3+93m-6\OPT(F)=192m-6\OPT(F)+3
+  \overset{\eqref{eq:np-total-depth-opt-range}}{\geq}186m+3.
 \end{aligned}
 \]
-To see that $\alphaI(J)\ge n/4$, repeatedly choose any remaining
-vertex, add it to an independent set, and delete it and all its
-remaining neighbors. Each step deletes at most four vertices, since
-$J$ has maximum degree three. The chosen vertices are independent,
-and the deleted sets partition $V(J)$, so the number chosen is at
-least $n/4$. Hence $n\le4\alphaI(J)$. Substituting this into the
-additive-error bound gives
-\[
- |I|\ge\alphaI(J)-23\epsilon n
-     \ge\alphaI(J)-92\epsilon\alphaI(J)
-     =(1-92\epsilon)\alphaI(J).
-\]
-The extraction is polynomial.
 \end{proof}
 
-\begin{proof}[Dense total-depth gap]
-Let $\delta_0$ be the constant in
-Theorem~\ref{thm:source-cubic-independent-set}. Fix a rational
-$0<\epsilon_0<\min\{1/100,\delta_0/92\}$.
-Given a source instance $(J,K)$, construct $G(J)$ and take
-$M=\lceil N(N+1)/(2\epsilon_0 n)\rceil$. This satisfies
-\eqref{eq:np-total-depth-added-vertices-size} and is $O(n)$, since
-$N=11n$ and $\epsilon_0$ is fixed. In fact,
-\[
- M\le\frac{11n(11n+1)}{2\epsilon_0n}+1
-   =\frac{121}{2\epsilon_0}n+\frac{11}{2\epsilon_0}+1=O(n).
-\]
-The graph $H^{\Sigma}_M(G)$ is simple
-and unweighted, has $N+3M=O(n)$ vertices, and is polynomial in the
-source size. A $(1+\epsilon_0)$-approximation for $\totd$ would, by
-Lemma~\ref{lem:np-total-depth-extraction}, produce an independent
-set of size at least
-$(1-92\epsilon_0)\alphaI(J)$. In the YES case this size is at least
-$(1-92\epsilon_0)K>(1-\delta_0)K$. In the NO case every independent
-set has size at most $\alphaI(J)\leq(1-\delta_0)K$. Comparing the
-extracted size with this threshold therefore distinguishes the two
-source cases, contradicting Theorem~\ref{thm:source-cubic-independent-set}.
+\subsubsection{The approximation gap}
+
+\begin{theorem}[Dense total-depth gap]
+\label{thm:np-total-depth-dense-gap}
+For every fixed $1\leq r<63/62$, it is NP-hard to approximate total
+elimination depth within factor $r$ on connected simple unweighted
+graphs. The reduction starts from a bounded-occurrence parity source,
+with a fixed error $\epsilon=\epsilon(r)>0$ chosen in the proof.
+Its tripartite graph before clique completion satisfies
+$\Delta(G_F^\Sigma)\leq14b_\epsilon$.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+Proposition~\ref{prop:np-total-depth-parity-identity} gives YES and
+NO bounds $(186+6\epsilon)m+3$ and $(189-6\epsilon)m+3$ for
+$W(G_F^\Sigma)$. By Lemma~\ref{lem:np-total-depth-added-vertices},
+the output total depth lies between $MW(G_F^\Sigma)$ and
+$MW(G_F^\Sigma)+N(N+1)/2$, where $N=99m$.
+For a fixed $r<189/186=63/62$, choose a small source error,
+repeat the source to absorb the additive three, and take $M=C_rm$
+with a sufficiently large fixed integer $C_r\geq1$ to absorb the quadratic
+remainder. The output still has $O(m)$ vertices and $O(m^2)$ edges.
+Its completed core is connected because auxiliary pairs join $B$
+to $C$ and literal-block edges join $A$ to both; added vertices
+have neighbors in their corresponding parts.
+Appendix~\ref{app:dense-np-total} gives all parameter choices and
+the full separation calculation.
 \end{proof}

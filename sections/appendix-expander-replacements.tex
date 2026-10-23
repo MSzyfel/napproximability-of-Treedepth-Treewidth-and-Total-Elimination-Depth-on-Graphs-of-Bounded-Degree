@@ -9,49 +9,43 @@ Fix $\zeta>0$ and $\kappa\ge1$ as in Lemma~\ref{lem:factor-expanders}.
 We map the vertices of a powered expander onto the prescribed sets
 and verify the degree, no-hole, and connectedness guarantees.
 
-Put $\lambda_0=5\sqrt2/8<1$. Fix an integer $k\ge1$ with
-$\lambda_0^k<\zeta/4$, and set
-$d_{\zeta,\kappa}=\lceil4\kappa\rceil8^k$. For each square order
-$M=\nu^2$, let $\mathcal E$ be the $k$th walk power of the graph
-given by Theorem~\ref{thm:auxiliary-expander-family}, with degree $d=8^k$.
-Every eigenvalue on the all-ones orthogonal subspace is raised to the
-$k$th power, so its absolute value is at most
-$(5\sqrt2)^k=8^k(5\sqrt2/8)^k=d\lambda_0^k$.
-Applying Lemma~\ref{lem:expander-mixing} with this bound yields
+Use $\lambda_0=5\sqrt2/8$ from
+Theorem~\ref{thm:auxiliary-expander-family}. Fix an integer $h\ge1$
+with $\lambda_0^h<\zeta/4$, and set
+$d_{\zeta,\kappa}=\lceil4\kappa\rceil8^h$.
+Use this same walk length for both constructions. For each integer
+$\nu\ge1$, put $M=\nu^2$ and take
+$\mathcal E=\mathcal G_\nu^{[h]}$ from that theorem.
+It has degree $d=8^h$ and normalized operator norm at most
+$\lambda_0^h$ on the zero-sum subspace, so its nonconstant
+adjacency eigenvalue bound is $d\lambda_0^h$.
+For $S,T\subseteq V(\mathcal E)$, Lemma~\ref{lem:expander-mixing} gives
 \begin{equation}\label{eq:factor-expander-mixing}
- e_{\mathcal E}(S,T)\ge\frac{d|S||T|}{M}
-       -d\lambda_0^k\sqrt{|S||T|}
- =d\sqrt{|S||T|}\left(\frac{\sqrt{|S||T|}}{M}-\lambda_0^k\right).
+ e_{\mathcal E}(S,T)
+ \overset{\text{Lem.~\ref{lem:expander-mixing}}}{\geq}
+ d\sqrt{|S||T|}\left(\frac{\sqrt{|S||T|}}{M}-\lambda_0^h\right).
 \end{equation}
-If $|S|,|T|\ge t>\lambda_0^kM$, then
-$\sqrt{|S||T|}/M\ge t/M>\lambda_0^k$, so the right-hand side is
+For an integer $t\ge1$, if $|S|,|T|\ge t>\lambda_0^hM$, then
+$\sqrt{|S||T|}/M\ge t/M>\lambda_0^h$, so the right-hand side is
 positive. Hence a step joins $S$ to $T$.
 
-The auxiliary graphs have square orders. A clique support can have
-any size, and a biclique
-requires two prescribed sides. We accommodate these sizes by
-grouping auxiliary vertices and assigning each group to one
-prescribed vertex. Each auxiliary step whose assigned vertices
-differ gives an edge between them. The size of a group controls
-the degree of its image vertex.
+We accommodate arbitrary sizes by grouping auxiliary vertices and
+assigning each group to a prescribed vertex. Auxiliary steps give
+edges between distinct images; group sizes bound the output degrees.
 
 For a map $\pi:V(\mathcal E)\to U$ and a subset $X\subseteq U$,
 the \emph{preimage} is
 $\pi^{-1}(X)=\{x\in V(\mathcal E):\pi(x)\in X\}$.
 The map is \emph{onto} if every vertex of $U$ has at least one
-preimage. When $|U|=n\le M$, partition the $M$ auxiliary vertices
+preimage. When $1\le n=|U|\le M$, partition the $M$ auxiliary vertices
 into $n$ groups. Write $M=n\lfloor M/n\rfloor+r$, where
-$0\leq r<n$. Give $r$ groups size $\lfloor M/n\rfloor+1$ and the
+$r$ is an integer with $0\leq r<n$. Give $r$ groups size $\lfloor M/n\rfloor+1$ and the
 other groups size $\lfloor M/n\rfloor$. Since $M\geq n$, every group
 is nonempty. Assign one group to each vertex of $U$. This gives
-$1\le|\pi^{-1}(\{u\})|\le\lceil M/n\rceil$ for every $u\in U$.
-
-These maps preserve the required edge condition. For disjoint
-output sets, a step between their preimages gives an output edge.
-Since the maps are onto, $|\pi^{-1}(X)|\ge|X|$ and
-$|\pi^{-1}(Y)|\ge|Y|$. For a biclique, use the separate maps for
-its two sides. The mixing bound therefore applies at the same
-threshold.
+\begin{equation}\label{eq:factor-expander-preimages}
+ \lfloor M/n\rfloor\le|\pi^{-1}(\{u\})|\le\lceil M/n\rceil
+ \qquad(u\in U).
+\end{equation}
 
 Use the following two constructions.
 \begin{enumerate}
@@ -59,10 +53,13 @@ Use the following two constructions.
  Let $U$ have size $n\ge1$, put $M=\lceil\sqrt n\rceil^2$, and
  take the $M$-vertex graph $\mathcal E$ above. Choose an onto map
  $\pi:V(\mathcal E)\to U$ with the group sizes just specified.
- The replacement has vertex set $U$. Distinct vertices $u,v\in U$
- are adjacent if and only if some step $xy$ of $\mathcal E$ has
- $\pi(x)=u$ and $\pi(y)=v$. Steps whose endpoints have the same
- image give no edge, and repeated images give a single edge.
+ Define the replacement $R_U$ by
+ \[
+ V(R_U)=U,
+ \qquad E(R_U)=\{uv\in\tbinom{U}{2}:
+ e_{\mathcal E}(\pi^{-1}(\{u\}),\pi^{-1}(\{v\}))>0\}.
+ \]
+ Thus equal images give no edge, and repeated pairs give a single edge.
  \item\label{constr:two-side-replacement} \emph{Two prescribed sides.}
  Let $A,B$ be disjoint sets of sizes $n_A,n_B\ge1$, put
  $M=\lceil\sqrt{\max\{n_A,n_B\}}\rceil^2$, and take the
@@ -71,10 +68,14 @@ Use the following two constructions.
  $\pi_B:V(\mathcal E)\to B$, with preimage sizes
  $\lfloor M/n_A\rfloor$ or $\lceil M/n_A\rceil$ for the first
  map, and $\lfloor M/n_B\rfloor$ or $\lceil M/n_B\rceil$ for
- the second. The replacement has vertex set $A\mathbin{\dot\cup}B$.
- Its edges are the pairs $\pi_A(x)\pi_B(y)$ arising from steps
- $xy$ of $\mathcal E$, keeping one edge for each distinct pair.
- There are no edges within either side. The two maps have the same
+ the second. Define the replacement $R_{A,B}$ by
+ \[
+ V(R_{A,B})=A\mathbin{\dot\cup}B,
+ \qquad E(R_{A,B})=\{uv:u\in A,\ v\in B,
+ e_{\mathcal E}(\pi_A^{-1}(\{u\}),\pi_B^{-1}(\{v\}))>0\}.
+ \]
+ This gives one edge for each distinct pair and no edge within
+ either side. The two maps have the same
  domain, and their preimage groups may differ.
 \end{enumerate}
 
@@ -98,71 +99,61 @@ deterministically in polynomial time.
 \end{restatedlemma}
 
 \begin{proof}[Proof of Lemma~\ref{lem:factor-expanders}]
-We first bound degrees. In the one-set construction, every neighbor
-of $u\in U$ is the image of a step starting at a vertex of
-$\pi^{-1}(\{u\})$. Each such auxiliary vertex starts $d=8^k$
-steps. Distinct steps may give the same output neighbor, so
-$\deg(u)\le d|\pi^{-1}(\{u\})|\le8^k\lceil M/n\rceil$.
-For $u\in A$ in the bipartite construction, the same argument uses
-outgoing steps from $\pi_A^{-1}(\{u\})$, giving
-$\deg(u)\le8^k\lceil M/n_A\rceil$.
-For $v\in B$, use incoming steps at
-$\pi_B^{-1}(\{v\})$. Each auxiliary vertex has $d$ incoming steps
-because its adjacency matrix is symmetric and has row sum $d$.
-Thus $\deg(v)\le8^k\lceil M/n_B\rceil$.
+Each auxiliary vertex has $d=8^h$ outgoing and incoming steps,
+because its adjacency matrix is symmetric with row sum $d$.
+For any output vertex $v$, let $\rho$ be its map ($\pi$, $\pi_A$,
+or $\pi_B$), and let $n_\rho$ be the size of that map's prescribed
+set. Count outgoing steps from its preimage, except on side $B$,
+where we count incoming steps. Each output neighbor uses at least
+one such step, so the same bound covers all three cases:
+\[
+ \deg(v)\le8^h|\rho^{-1}(\{v\})|
+ \overset{\eqref{eq:factor-expander-preimages}}{\leq}
+ 8^h\lceil M/n_\rho\rceil.
+\]
 
-For the one-set construction,
-$M=\lceil\sqrt n\rceil^2\le(\sqrt n+1)^2\le4n$, since
-$4n-(\sqrt n+1)^2=(3\sqrt n+1)(\sqrt n-1)\ge0$ for $n\ge1$.
+In the one-set construction,
+\begin{equation}\label{eq:factor-expander-order}
+ M=\lceil\sqrt n\rceil^2\le(\sqrt n+1)^2\le4n.
+\end{equation}
 Hence $\lceil M/n\rceil\le4$. For the bipartite construction, the
-same estimate gives $M\le4\max\{n_A,n_B\}$. The side-size ratio
+same estimate with $n=\max\{n_A,n_B\}$ gives
+$M\overset{\eqref{eq:factor-expander-order}}{\leq}4\max\{n_A,n_B\}$.
+The side-size ratio
 is at most $\kappa$, so
-$M/n_A,M/n_B\le4\kappa$. Thus both constructions have maximum
-degree at most $\lceil4\kappa\rceil8^k=d_{\zeta,\kappa}$.
+$M/n_A,M/n_B\le4\kappa$. Both constructions therefore have degree
+at most $\lceil4\kappa\rceil8^h=d_{\zeta,\kappa}$.
 
 We next verify the no-hole conditions at the thresholds in the
 lemma. In the one-set case, put $t=\lceil\zeta n\rceil$. Then
-$\lambda_0^kM<(\zeta/4)M\le\zeta n\le t$.
+$\lambda_0^hM<(\zeta/4)M
+\overset{\eqref{eq:factor-expander-order}}{\leq}\zeta n\le t$.
 In the bipartite case, put $t=\lceil\zeta(n_A+n_B)\rceil$. Then
-$\lambda_0^kM<(\zeta/4)M\le\zeta\max\{n_A,n_B\}
-\le\zeta(n_A+n_B)\le t$.
-It therefore suffices in each case to apply the mixing bound to
-sets of size $t$. If no such admissible sets exist, the corresponding
+$\lambda_0^hM<(\zeta/4)M
+\overset{\eqref{eq:factor-expander-order}}{\leq}\zeta\max\{n_A,n_B\}\le t$.
+We apply the mixing bound to preimages of $t$-sets. If no such admissible sets exist, the corresponding
 no-hole condition is vacuous. Otherwise, any larger admissible sets
 contain admissible $t$-element subsets.
-\begin{enumerate}
- \item For the one-set construction, take disjoint sets
- $X,Y\subseteq U$ with $|X|=|Y|=t$, and put
- $S=\pi^{-1}(X)$ and $T=\pi^{-1}(Y)$.
- Since $\pi$ is onto, each vertex of $X$ and $Y$ has a preimage,
- so $|S|\ge|X|=t$ and $|T|\ge|Y|=t$.
- The preimages are disjoint because $X,Y$ are disjoint and $\pi$
- assigns only one image to each auxiliary vertex.
- Equation~\eqref{eq:factor-expander-mixing} gives a step from $S$
- to $T$. Its endpoints map to a vertex of $X$ and a vertex of
- $Y$, which are distinct, so their pair is an output edge.
- \item For the bipartite construction, take
- $X\subseteq A$ and $Y\subseteq B$ with $|X|=|Y|=t$, and put
- $S=\pi_A^{-1}(X)$ and $T=\pi_B^{-1}(Y)$.
- Again, $|S|,|T|\ge t$ because both maps are onto, and
- \eqref{eq:factor-expander-mixing} gives a step $xy$ with
- $x\in S$ and $y\in T$. Its image
- $\pi_A(x)\pi_B(y)$ is an edge between $X$ and $Y$.
- Here $S,T$ may overlap, since they use different maps.
- Even a loop step $x=y$ gives a valid output edge, because its
- two images lie in the disjoint sets $A,B$.
-\end{enumerate}
+For the one-set construction, take disjoint $t$-sets $X,Y\subseteq U$
+and put $S=\pi^{-1}(X)$, $T=\pi^{-1}(Y)$.
+For the bipartite construction, take $t$-sets $X\subseteq A$,
+$Y\subseteq B$ and put $S=\pi_A^{-1}(X)$, $T=\pi_B^{-1}(Y)$.
+In both cases surjectivity gives $|S|,|T|\ge t>\lambda_0^hM$,
+so \eqref{eq:factor-expander-mixing} supplies a step from $S$ to $T$.
+Its endpoint images give an edge between $X$ and $Y$. In the one-set
+case the preimages are disjoint and their images are distinct.
+In the bipartite case the preimages may overlap, and even a loop
+step gives a valid edge because its images lie in the disjoint
+sets $A,B$.
 
-It remains to prove connectedness.
-For a $d$-regular undirected graph, the eigenvalue $d$ has
-multiplicity equal to the number of connected components, and
-$-d$ is an eigenvalue if and only if some component is bipartite
-\cite[Section~2.3]{HLW2006}. These criteria also apply to our
-multigraph adjacency matrix, which counts parallel edges and loops
-as steps. Every eigenvalue on the all-ones orthogonal subspace has
-absolute value at most $d\lambda_0^k<d$. Thus $d$ is a simple
-eigenvalue and $-d$ is absent, so $\mathcal E$ is connected and
-nonbipartite.
+It remains to prove connectedness. If $\mathcal E$ had a nonempty
+proper component $C$, then
+$x=\mathbf1_C-(|C|/M)\mathbf1$ would be a nonzero zero-sum vector
+with $A_{\mathcal E}x=dx$, contradicting its nonconstant eigenvalue
+bound $d\lambda_0^h<d$. Thus $\mathcal E$ is connected.
+It also has a loop at $(0,0)$: repeat $h$ times a loop of the
+Margulis--Gabber--Galil graph at that vertex. This explicitly
+supplies the odd closed walk needed below.
 
 In the one-set construction, applying $\pi$ to an auxiliary walk
 gives a sequence of equal or adjacent output vertices. Deleting
@@ -170,13 +161,10 @@ consecutive repetitions gives an output walk. Connectedness of
 $\mathcal E$ and surjectivity of $\pi$ thus prove connectedness of
 the output.
 
-For the bipartite construction, each step switches sides, so we
-need auxiliary walks of both parities. Since $\mathcal E$ is
-nonbipartite, it contains an odd cycle, allowing a loop as a cycle
-of length one. From any vertex $x$, follow a path to this cycle,
-traverse it, and return along the reverse path. This is an odd
-closed walk. Prepending it to any walk from $x$ to $y$ changes
-the length parity, so both parities are available. Map a walk
+For the bipartite construction we need auxiliary walks of both
+parities. From any $x\in V(\mathcal E)$, walk to $(0,0)$, traverse its loop, and
+return along the reversed walk. Prepending this odd closed walk to a walk from
+$x$ to $y\in V(\mathcal E)$ changes its parity. Map a walk
 $x=x_0,x_1,\ldots,x_\ell=y$ to the alternating sequence
 $\pi_A(x_0),\pi_B(x_1),\pi_A(x_2),\ldots$ in the output.
 Each consecutive pair is an edge by construction, using the
@@ -187,8 +175,10 @@ every $y$, and surjectivity gives connectedness.
 
 Both outputs are simple by their edge definitions.
 The auxiliary order $M$ is at most four times the largest prescribed
-set size. The initial eight-regular graph is constructible in
-polynomial time, and its $k$th walk power has degree $8^k$. Since
-$k$ depends only on $\zeta$, constructing this power and mapping
-its steps takes polynomial time for the fixed parameters.
+set size. Theorem~\ref{thm:auxiliary-expander-family} constructs its
+walk-power graph in polynomial time for fixed $h$. Map the endpoints
+as specified above and sort the resulting pairs to merge repeated
+edges, discarding equal images in the one-set construction. Since
+$h$ depends only on $\zeta$, these operations take polynomial time
+for the fixed parameters.
 \end{proof}

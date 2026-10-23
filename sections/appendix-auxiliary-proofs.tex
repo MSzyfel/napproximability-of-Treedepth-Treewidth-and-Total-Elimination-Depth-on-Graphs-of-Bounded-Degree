@@ -1,9 +1,6 @@
 \section{Auxiliary proofs}
 \label{sec:auxiliary-proofs}
 
-The subsections give proofs of the two branching inequalities, the
-anchor-length corollary, and the sparse-replacement construction.
-
 % Alternative treedepth proof retained in source but omitted from the paper.
 % \subsection{The earlier incidence construction}
 % \label{app:incidence-proof}
@@ -138,26 +135,31 @@ anchor-length corollary, and the sparse-replacement construction.
 For a positive integer $\nu$, positive reals $q_1,\ldots,q_\nu$, and
 nonnegative reals $n_1,\ldots,n_\nu$,
 \[
-  3\sum_{j=1}^\nu q_jn_j-2\max_j(q_jn_j)
+  3\sum_{j=1}^\nu q_jn_j-2\max_{1\leq j\leq\nu}(q_jn_j)
   \leq\left(\sum_{j=1}^\nu q_j\right)
         \left(\sum_{j=1}^\nu n_j\right).
 \]
 \end{restatedlemma}
 
 \begin{proof}[Proof of Lemma~\ref{lem:branching-ineq}]
-Put $x_j=\sqrt{q_jn_j}$ and choose $k$ with $x_k=\max_jx_j$.
+Put $x_j=\sqrt{q_jn_j}$ for $1\leq j\leq\nu$, and choose
+$k\in\{1,\ldots,\nu\}$ with $x_k=\max_{1\leq j\leq\nu}x_j$.
 Cauchy--Schwarz gives the first inequality below. All cross products
 are nonnegative, and $x_kx_j\geq x_j^2$ because
 $0\leq x_j\leq x_k$. Therefore
 \[
-\begin{aligned}
- \left(\sum_jq_j\right)\left(\sum_jn_j\right)
- &\ge \left(\sum_jx_j\right)^2
- =\sum_jx_j^2+2\sum_{i<j}x_ix_j\\
- &\ge \sum_jx_j^2+2x_k\sum_{j\ne k}x_j
- \ge \sum_jx_j^2+2\sum_{j\ne k}x_j^2
- =3\sum_jx_j^2-2x_k^2.
-\end{aligned}
+\begin{gathered}
+ \left(\sum_{j=1}^{\nu}q_j\right)
+ \left(\sum_{j=1}^{\nu}n_j\right)
+ \overset{\text{Cauchy--Schwarz}}{\ge}
+   \left(\sum_{j=1}^{\nu}x_j\right)^2 =\sum_{j=1}^{\nu}x_j^2
+   +2\sum_{1\leq i<j\leq\nu}x_ix_j
+ \ge \sum_{j=1}^{\nu}x_j^2
+       +2x_k\sum_{1\leq j\leq\nu,\;j\ne k}x_j\\
+ \ge \sum_{j=1}^{\nu}x_j^2
+       +2\sum_{1\leq j\leq\nu,\;j\ne k}x_j^2
+ =3\sum_{j=1}^{\nu}x_j^2-2x_k^2.
+\end{gathered}
 \]
 Substituting $x_j^2=q_jn_j$ proves the claim.
 \end{proof}
@@ -175,50 +177,51 @@ $W_1,\ldots,W_\nu$,
 \end{restatedlemma}
 
 \begin{proof}[Proof of Lemma~\ref{lem:quadratic-branching}]
-Put $x_j=\sqrt{W_j}$. In the fourth-power expansion, each term
-$x_i^3x_j$ or $x_ix_j^3$ has coefficient $4!/(3!1!)=4$, and
-$x_i^2x_j^2$ has coefficient $4!/(2!2!)=6$. Discarding the
-nonnegative terms involving at least three distinct indices and
-using $x_i^2+x_j^2\geq2x_ix_j$ gives
+Put $x_j=\sqrt{W_j}\geq0$ for $1\leq j\leq\nu$. The fourth-power
+expansion has pure terms $x_j^4$ and, for each pair $1\leq i<j\leq\nu$, the three mixed terms
+$4x_i^3x_j+6x_i^2x_j^2+4x_ix_j^3$. All terms involving at least
+three distinct indices are nonnegative. For each pair,
 \[
-\begin{aligned}
- \left(\sum_jx_j\right)^4
- &\ge \sum_jx_j^4
-   +4\sum_{i<j}x_ix_j(x_i^2+x_j^2)
-   +6\sum_{i<j}x_i^2x_j^2\\
- &\ge \sum_jx_j^4+14\sum_{i<j}x_i^2x_j^2.
-\end{aligned}
+4x_i^3x_j+6x_i^2x_j^2+4x_ix_j^3
+ =14x_i^2x_j^2+4x_ix_j(x_i-x_j)^2
+ \geq14x_i^2x_j^2.
 \]
-Substituting $x_j^2=W_j$ proves the claim.
+Sum these bounds, add the pure terms, and discard the terms with
+three or more indices. Substituting $x_j^2=W_j$ proves the claim.
 \end{proof}
 
 \subsection{Derivation of the anchor-length corollary}
 \label{app:anchor-proof}
 
-We prove Corollary~\ref{cor:max-part-anchor} using the anchor graph
-$H_\ell(G)$, its cliques $K_X$, and vertices $z_X$ defined in
-Section~\ref{subsubsec:anchor-graph}. We use the cited identity at
-long anchor length as a black box, and derive the extension to
-shorter anchors.
+We prove Corollary~\ref{cor:max-part-anchor} for the anchor graph
+$H_\ell(G)$, its cliques $K_X$, and vertices $z_X$ from
+Section~\ref{subsubsec:anchor-graph}. Fix a tripartite graph $G$ with
+nonempty specified independent parts $A,B,C$ and an integer $\ell\ge1$.
+Put
+\[
+ \vc_2(G)=\min_{X,Y\in\{A,B,C\},\;X\ne Y}\vc(G[X\cup Y]).
+\]
+The following published identity supplies the case of long anchors.
 
 \begin{lemma}[BNS anchor identity {\cite[Lemma~6]{BNS}}]
 \label{lem:bns-anchor}
 Let $G$ be a tripartite graph with specified nonempty independent parts
-$A,B,C$. If $L\ge\vc(G)$, then
+$A,B,C$. For every positive integer $L\ge\vc(G)$,
 $\td(H_L(G))=L+\vc(G)+1$.
 \end{lemma}
 
-Throughout the rest of this subsection, $G$ has nonempty specified
-independent parts $A,B,C$ and $\ell\ge1$. Let
-$\vc_2(G)=\min_{X\ne Y}\vc(G[X\cup Y])$, where
-$X,Y\in\{A,B,C\}$.
-
-For an elimination forest $F$ of $H_\ell(G)$, write $v_X$
-for the deepest vertex of $K_X$, for $X\in\{A,B,C\}$.
+For an elimination forest $F$ of $H_\ell(G)$, write $h(F)$ for its
+height and define, for $X\in\{A,B,C\}$,
+\[
+ v_X=\underset{v\in K_X}{\operatorname{arg\,max}}\,
+                   \operatorname{depth}_F(v).
+\]
+This vertex is unique because the vertices of a clique form an
+ancestor chain.
 
 \begin{lemma}[A path through an anchor {\cite[Claim~7 in the proof of Lemma~6]{BNS}}]
 \label{lem:anchor-path}
-If every vertex of
+Let $X\in\{A,B,C\}$. If every vertex of
 $R\subseteq V(H_\ell(G))\setminus(K_X\cup\{z_X\})$ is ancestral
 to $v_X$, then
 \begin{equation}\label{eq:anchor-path-bound}
@@ -226,12 +229,42 @@ to $v_X$, then
 \end{equation}
 \end{lemma}
 
-\begin{lemma}[A cover from two incomparable anchors
-{\cite[Claim~9 in the proof of Lemma~6]{BNS}}]
+\begin{proof}
+Since $K_X$ is a clique, all its vertices are ancestral to its deepest
+vertex $v_X$. Thus $R\cup K_X$ lies on the ancestor path ending at
+$v_X$. The edge $z_Xv_X$ makes $z_X$ comparable with $v_X$, so
+$R\cup K_X\cup\{z_X\}$ lies on one root-to-leaf path. The sets
+are disjoint and contain $|R|+\ell+1$ vertices in total, proving
+the bound. This argument applies to every elimination forest $F$
+and every $\ell\ge1$.
+\end{proof}
+
+The next lemma adapts the argument of
+\cite[Claim~9 in the proof of Lemma~6]{BNS}. Only the two specified anchors need to be
+incomparable; no condition on the third anchor is required.
+
+\begin{lemma}[A cover from two incomparable anchors]
 \label{lem:anchor-pair-cover}
-If $v_X,v_Y$ are incomparable, the vertices of $G$ ancestral to both
-contain a vertex cover of $G[X\cup Y]$.
+Let $X,Y\in\{A,B,C\}$ be distinct and define
+\[
+ S_{X,Y}=\{v\in X\cup Y:v\text{ is ancestral to both }v_X
+                                      \text{ and }v_Y\text{ in }F\}.
+\]
+If $v_X,v_Y$ are incomparable, then $S_{X,Y}$ is a vertex cover
+of $G[X\cup Y]$.
 \end{lemma}
+
+\begin{proof}
+For an edge $xy\in E(G[X\cup Y])$ with $x\in X$ and $y\in Y$,
+the four vertices $v_X,x,y,v_Y$ induce a connected subgraph, since
+$v_Xx$, $xy$, and $yv_Y$ are edges of $H_\ell(G)$.
+Lemma~\ref{lem:connected-set-ancestor} gives one of these four
+vertices ancestral to all four. It cannot
+be $v_X$ or $v_Y$, since those anchors are incomparable. Hence $x$
+or $y$ is ancestral to both anchors. Thus
+$\{x,y\}\cap S_{X,Y}\ne\varnothing$ for every
+$xy\in E(G[X\cup Y])$, as required.
+\end{proof}
 
 \begin{lemma}[Extending incomparable anchors]\label{lem:incomparable-anchor-extension}
 If $v_A,v_B,v_C$ are pairwise incomparable, then
@@ -249,18 +282,13 @@ also comparable with the inserted chain. The resulting forest is
 therefore an elimination forest of $H_L(G)$. Since the three
 anchors are pairwise incomparable, each root-to-leaf path meets
 at most one inserted chain, so its height is at most $h(F)+d$.
-Lemma~\ref{lem:bns-anchor} now gives
-$h(F)+d\ge L+\vc(G)+1$, and thus
+We now have
+$h(F)+d\overset{\text{Lem.~\ref{lem:bns-anchor}}}{\ge}L+\vc(G)+1$, and thus
 $h(F)\ge L+\vc(G)+1-d=\ell+\vc(G)+1$.
 \end{proof}
 
-The lower bound depends on how the three anchor vertices are
-arranged in the forest. Pairwise incomparable anchors force a cover
-of the whole source graph. A comparable pair forces two anchor
-cliques onto one path, together with a cover between two source
-parts. If all three anchors are comparable, all three anchor cliques
-contribute to one path. Taking the smallest of these three bounds
-gives a bound valid for every forest.
+We now distinguish the possible ancestor relations among the three
+anchors to obtain a bound for every anchor length.
 
 \begin{lemma}[Bounds for arbitrary anchor length]
 \label{lem:arbitrary-anchor}
@@ -274,9 +302,10 @@ parts $A,B,C$ and every integer $\ell\ge1$,
 
 \begin{proof}
 \emph{Upper bound.}
-The cover-first forest in the proof of~\cite[Lemma~6]{BNS} places a
-minimum vertex cover on a top chain, then places each anchor clique
-on its own chain below it and attaches the uncovered vertices of
+We follow the cover-first forest in the proof of~\cite[Lemma~6]{BNS}.
+Choose a vertex cover $S\subseteq V(G)$ with $|S|=\vc(G)$,
+place $S$ on a top chain, then place each anchor clique
+on its own chain below it and attach the uncovered vertices of
 that part and its associated $z_X$ as leaves below the anchor chain.
 If the cover is empty, use the three anchor chains as separate roots.
 Every source edge meets the top cover, and every anchor edge has
@@ -289,31 +318,37 @@ Fix an elimination forest $F$ and use the anchor notation above.
 There are three cases.
 \begin{enumerate}
  \item If $v_A,v_B,v_C$ are pairwise incomparable,
-   Lemma~\ref{lem:incomparable-anchor-extension} gives
-   $h(F)\ge\ell+\vc(G)+1$.
+   $h(F)\overset{\text{Lem.~\ref{lem:incomparable-anchor-extension}}}{\ge}
+   \ell+\vc(G)+1$.
 
   \item Suppose all three anchors are comparable, and let $v_X$
     be the deepest, with $\{Y,Z\}=\{A,B,C\}\setminus\{X\}$.
     Every vertex of the other two anchor cliques lies above $v_X$.
     Set $R=K_Y\cup K_Z$, so $|R|=2\ell$.
-    Lemma~\ref{lem:anchor-path} gives
-    $h(F)\geq|R|+\ell+1=3\ell+1$.
+    Then
+    $h(F)\overset{\eqref{eq:anchor-path-bound}}{\geq}|R|+\ell+1=3\ell+1$.
 
  \item Otherwise some pair is comparable, but the three anchors do
    not form a chain. Relabel so that $v_A$ is an ancestor of
    $v_B$ and $v_B$ is incomparable with $v_C$.
    This includes the case where $v_A$ is above both other
-   anchors. Let $S$ be the source vertices ancestral
-   to both $v_B$ and $v_C$. Lemma~\ref{lem:anchor-pair-cover} shows that
-    $S$ contains a cover of $G[B\cup C]$, so
-    $|S|\ge\vc(G[B\cup C])\ge\vc_2(G)$. Every vertex
+   anchors. Set $S=S_{B,C}$. The cover bound is
+   \begin{equation}\label{eq:anchor-common-cover-bound}
+    |S|\overset{\text{Lem.~\ref{lem:anchor-pair-cover}}}{\ge}
+    \vc(G[B\cup C])\ge\vc_2(G).
+   \end{equation}
+   Every vertex
    of $K_A$ is an ancestor of $v_A$, and hence of $v_B$.
    Therefore $R=S\cup K_A$ is disjoint from $K_B\cup\{z_B\}$ and
     consists of ancestors of $v_B$. Since $S\subseteq V(G)$ and
     $K_A$ is disjoint from $V(G)$, $|R|=|S|+|K_A|=|S|+\ell$.
-    Applying Lemma~\ref{lem:anchor-path} with anchor $B$ gives
-    $h(F)\geq|R|+\ell+1=2\ell+|S|+1
-      \geq2\ell+\vc_2(G)+1$.
+    Applying the path bound with anchor $B$ gives
+    \[
+    h(F)\overset{\eqref{eq:anchor-path-bound}}{\geq}|R|+\ell+1
+           =2\ell+|S|+1
+  \overset{\eqref{eq:anchor-common-cover-bound}}{\geq}
+           2\ell+\vc_2(G)+1.
+    \]
 \end{enumerate}
 Taking the weakest of these three bounds proves the lemma.
 \end{proof}
@@ -325,16 +360,23 @@ $\td(H_\ell(G))=\ell+\vc(G)+1$.
 \end{restatedcorollary}
 
 \begin{proof}[Proof of Corollary~\ref{cor:max-part-anchor}]
-If $\ell\ge\max\{|A|,|B|,|C|,1\}$, then any two parts together
-cover every edge, so $\vc(G)\le2\ell$. Also, choose a pair $X,Y$
+Since each part has size at most $\ell$, any two parts together
+cover every edge and $\vc(G)\le2\ell$. Choose a pair $X,Y$
 attaining $\vc_2(G)$ and let $Z$ be the omitted part. A minimum
 vertex cover of $G[X\cup Y]$, together with all of $Z$, covers $G$.
 Therefore $\vc(G)\le\vc_2(G)+|Z|\le\vc_2(G)+\ell$. The two
 cover bounds give
 $\ell+\vc(G)\le3\ell$ and
 $\ell+\vc(G)\le2\ell+\vc_2(G)$, respectively. Thus the minimum
-in Lemma~\ref{lem:arbitrary-anchor} is $\ell+\vc(G)$, matching the
-upper bound.
+is $\ell+\vc(G)$, and
+\[
+ \td(H_\ell(G))
+ \overset{\text{Lem.~\ref{lem:arbitrary-anchor}}}{=}
+ \ell+\vc(G)+1.
+\]
 \end{proof}
+
+\input{sections/appendix-total-depth-tools}
+
 
 \input{sections/appendix-expander-replacements}

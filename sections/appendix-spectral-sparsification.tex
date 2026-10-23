@@ -1,0 +1,24 @@
+\begin{lemma}[BSS sparsification]\label{lem:bss-sparsification-bound}
+Fix $0<\theta\le1/12$, and put $d=\lceil\theta^{-2}\rceil$.
+Given a loopless graph $G$ on $N\ge1$ vertices with nonnegative
+edge weights, a deterministic polynomial-time algorithm produces
+a weighted spanning subgraph $H$ with at most $dN$ edges and
+\[
+ L_G\preceq L_H\preceq(1+7\theta)L_G.
+\]
+\end{lemma}
+
+\begin{proof}
+Discard zero-weight edges and apply
+Theorem~\ref{thm:bss-spectral-sparsification} with this value of $d$.
+The resulting subgraph has at most $\lceil d(N-1)\rceil\le dN$
+edges. Since $1/\sqrt d\le\theta\le1/12$, its spectral factor satisfies
+\[
+ \frac{d+1+2\sqrt d}{d+1-2\sqrt d}
+ =\left(\frac{1+1/\sqrt d}{1-1/\sqrt d}\right)^2
+ \le\left(\frac{1+\theta}{1-\theta}\right)^2
+ =1+\frac{4\theta}{(1-\theta)^2}
+ \le1+7\theta.
+\]
+The running time is polynomial for fixed $\theta$ by the same theorem.
+\end{proof}

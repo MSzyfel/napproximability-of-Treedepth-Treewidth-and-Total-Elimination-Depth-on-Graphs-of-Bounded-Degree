@@ -2,8 +2,8 @@
 We prove approximation hardness for treedepth, treewidth, and total
 elimination depth. Unless $\mathrm{P}=\mathrm{NP}$, treedepth is hard
 to approximate within every fixed factor below $18/17$, treewidth below
-$12/11$, and total elimination depth below some absolute constant greater
-than one. Under the ordinary Unique Games Conjecture, the corresponding
+$12/11$, and total elimination depth below $63/62$.
+Under the ordinary Unique Games Conjecture, the corresponding
 thresholds are $4/3$, $4/3$, and $8/7$. Under the Small Set Expansion
 Hypothesis, every fixed constant factor is hard for all three parameters.
 These results hold on simple unweighted graphs of bounded maximum degree,
@@ -11,16 +11,22 @@ with the degree bound depending only on the target factor. In particular,
 the treedepth result resolves a conjecture of Schirrmacher, Siebertz, and
 Vigny.
 
-The reductions use independent-set and vertex-cover gaps, an SSE partition
-gap, and a parity constraint gap. To bound the degree, we replace clique
+The three NP-hardness reductions reuse one bounded-occurrence parity
+constraint gap. The other reductions use independent-set and vertex-cover
+gaps and an SSE partition gap. To bound the degree, we replace clique
 and biclique factors by bounded-degree graphs built from expanders. A small
-exceptional set then suffices to complete solutions for the sparse graph
-to solutions for the original graph, with additive cost below the hardness
-gap. Since these replacements delete edges, the completeness bounds remain
-valid.
+exceptional set lets us extend sparse solutions to the original graph
+with additive cost below the hardness gap. Since these replacements delete
+edges, the completeness bounds remain
+valid. The general sparsification theorem does not require balanced
+biclique sides.
 Our results also imply hardness for trivially perfect completion, vertex
 integrity, fracture number, starwidth, average and maximum general
 customizable-label size, and average hierarchical customizable-label size.
+For hierarchical customizable labels and upward vertex search spaces
+in customizable contraction hierarchies,
+the minimum total size equals total elimination depth, so their total and
+average sizes inherit all three hardness ranges as well.
 The treewidth gaps give exponential approximation lower bounds for the
 total table size of binary junction trees.
 \end{abstract}

@@ -1,10 +1,12 @@
 \section{NP-hardness of approximation}
 \label{sec:np-hardness}
 
-We prove NP-hardness below $18/17$ for treedepth and below $12/11$
-for treewidth, using a shared tripartite source construction. A
-separate reduction from cubic Independent Set gives a constant
-approximation gap for total elimination depth.
+We prove NP-hardness below $18/17$ for treedepth, below $12/11$
+for treewidth, and below $63/62$ for total elimination depth.
+All three reductions use the normalized bounded-occurrence parity source
+of Theorem~\ref{thm:xor-source}. Treedepth and treewidth share one
+tripartite construction. A second tripartite encoding gives the
+total-depth gap in Section~\ref{subsec:np-total-depth}.
 
 \subsection{Treedepth}
 \label{subsec:np-treedepth}
@@ -25,44 +27,61 @@ the corollary's derivation.
 
 \subsubsection{The source gap and normalization}
 
-Let $F$ be an unweighted system of $m\ge1$ equations of the form
-$x+y+z=a\pmod2$, where $a\in\{0,1\}$ and $x,y,z$ are three distinct
-Boolean variables. Equations may be
-repeated, and $\OPT(F)$ denotes the maximum number simultaneously
-satisfied, counting repetitions. Write $a_j$ for the right-hand side
-of equation $j$ and $d_x$ for the number of
-equations containing $x$. We use H{\aa}stad's Max-3-LIN-$2$
+We use H{\aa}stad's Max-3-LIN-$2$
 gap~\cite{Hastad1997}, in the distinct-variable,
-bounded-occurrence form stated by Hazan, Safra, and Schwartz.
+bounded-occurrence form stated by Hazan, Safra, and Schwartz
+\cite[Theorem~10]{HazanSafraSchwartz2003}.
+Appendix~\ref{app:xor-normalization} adds right-hand-side balance and
+divisibility of occurrence counts to obtain the following statement.
 
-\begin{theorem}[Bounded-occurrence Max-3-LIN-2 gap {\cite[Theorem~10]{HazanSafraSchwartz2003}}]\label{thm:xor-source}
+\begin{theorem}[Normalized bounded-occurrence Max-3-LIN-2 gap]\label{thm:xor-source}
 For every fixed $0<\epsilon<1/4$, there is a constant
 $b_\epsilon\geq6$ depending only on $\epsilon$ such that the following
-promise problem is NP-hard. The input is an unweighted system $F$ of
-$m\geq1$ equations $x+y+z=a\pmod2$, where $a\in\{0,1\}$ and
-$x,y,z$ are distinct Boolean variables. Equations may be repeated.
-Every variable occurs at most $b_\epsilon$ times, with at most two
-possible occurrence counts, and the instances satisfy
+promise problem is NP-hard. The input is an unweighted system $F$ with
+finite Boolean variable set $\mathcal X(F)$ and $m\geq1$ equations,
+indexed by $j\in\{1,\ldots,m\}$, of the form $x+y+z=a\pmod2$,
+where $a\in\{0,1\}$ and $x,y,z\in\mathcal X(F)$ are distinct.
+Equations may be repeated.
+For $x\in\mathcal X(F)$, write $d_x$ for
+the number of equations containing $x$. Write $a_j$ for the right-hand
+side of equation $j$, and
+$\OPT(F)$ for the maximum number simultaneously satisfied,
+counting repetitions. The instances satisfy
 \begin{equation}\label{eq:xor-normalization}
- d_x\in6\mathbb Z_{>0},\qquad
- \sum_xd_x=3m,\qquad
- |\{j:a_j=0\}|=|\{j:a_j=1\}|=m/2.
+\begin{gathered}
+ d_x\in6\mathbb Z_{>0},\qquad d_x\leq b_\epsilon,\qquad
+ |\{d_x:x\in\mathcal X(F)\}|\leq2,\qquad
+ \sum_{x\in\mathcal X(F)}d_x=3m,\\
+ |\{j\in\{1,\ldots,m\}:a_j=0\}|
+ =|\{j\in\{1,\ldots,m\}:a_j=1\}|=m/2.
+\end{gathered}
 \end{equation}
-Here $d_x$ is the number of equations containing $x$, and $\OPT(F)$
-is the maximum number of equations satisfied by one assignment,
-counting repetitions.
-\begin{description}
- \item[YES:] $\OPT(F)\geq(1-\epsilon)m$.
- \item[NO:] $\OPT(F)\leq(1/2+\epsilon)m$.
-\end{description}
+\textbf{YES:} $\OPT(F)\geq(1-\epsilon)m$;
+\textbf{NO:} $\OPT(F)\leq(1/2+\epsilon)m$.
 \end{theorem}
 
-The additional conditions are obtained by pairing the source with a
-complemented copy and repeating each equation six times. Appendix~\ref{app:xor-normalization}
-derives these conditions. We henceforth
-assume~\eqref{eq:xor-normalization}. Divisibility makes the truth-block
-sizes integral, and the balance between right-hand sides will make
-the three graph parts equal.
+For the normalization, let $F_0$ be the initial source system, with
+$m_0$ equations. Let $F_0'$ be a copy on fresh variables with every
+right-hand side complemented,
+and put $F_1=F_0\mathbin{\dot\cup}F_0'$. Lemmas~\ref{lem:parity-balance} and~\ref{lem:parity-repetition}
+justify the two operations and their effect on the optimum:
+\[
+ F_0\xrightarrow{\text{complemented copy}}F_1
+ \xrightarrow{\text{sixfold repetition}}F,\qquad (m,\OPT(F))
+ \overset{\text{Lems.~\ref{lem:parity-balance}, \ref{lem:parity-repetition}}}{=}
+ 12(m_0,\OPT(F_0)).
+\]
+Thus the satisfied fraction is unchanged, and the maximum occurrence
+count is multiplied by six.
+We retain the correspondence between each variable of $F_0$ and its
+copy, and between the repeated equations in the two halves. This
+recorded pairing will provide a balanced optimal independent set in
+the treewidth reduction. The restriction to at most two occurrence
+counts is inherited from the source theorem; the treedepth and
+treewidth reductions use only the other normalization conditions.
+We henceforth assume~\eqref{eq:xor-normalization}. Divisibility makes
+the truth-block sizes integral, and right-hand-side balance makes the
+three graph parts equal.
 
 \subsubsection{A tripartite graph with equal parts}
 
@@ -71,32 +90,32 @@ $A\mathbin{\dot\cup}B\mathbin{\dot\cup}C$. Its vertices have two
 roles: vertices in \emph{truth blocks} encode values of individual
 variables, and \emph{assignment witnesses} represent satisfying
 assignments to the three variables of an equation. All blocks are
-pairwise disjoint, every witness is a new vertex, and the parts
-contain the vertices assigned below.
-For every variable $x$, create independent truth blocks
-$T_x^0\subseteq A$ and $T_x^1\subseteq B$, each of size $5d_x/6$,
-a positive integer by~\eqref{eq:xor-normalization}. Put all edges between these two blocks. Selecting
-$T_x^a$ in an independent set will encode the assignment $x=a$. The
-total size of one block per variable is
+pairwise disjoint, and every witness is a new vertex.
+For every $x\in\mathcal X(F)$, create independent truth blocks
+$T_x^0\subseteq A$ and $T_x^1\subseteq B$. Their size and the total
+size of one block per variable are
 \begin{equation}\label{eq:xor-truth-budget}
- \frac56\sum_xd_x=\frac{5m}{2}.
+ |T_x^0|=|T_x^1|=5d_x/6\in\mathbb Z_{>0},\qquad \frac56\sum_{x\in\mathcal X(F)}d_x
+ \overset{\eqref{eq:xor-normalization}}{=}\frac{5m}{2}.
 \end{equation}
+Integrality follows from~\eqref{eq:xor-normalization}. Put all edges
+between these two blocks. For $a\in\{0,1\}$, selecting $T_x^a$ in an
+independent set will encode the assignment $x=a$.
 
-For each equation $j$, create four witnesses, one for each of its
-satisfying assignments. If its right-hand side is zero, call the
+For each equation $j\in\{1,\ldots,m\}$, create four witnesses, one for
+each of its satisfying assignments. If its right-hand side is zero, call the
 witness for assignment $000$ special and place it in $A$. If its
 right-hand side is one, call the witness for assignment $111$ special
 and place it in $B$. Place the other three witnesses in $C$. Join the
 special witness to the other three witnesses of its equation, forming
 a star. We call these four vertices and their star edges the
-\emph{equation gadget}. These edges limit an independent set to at most three witnesses
-of an equation, even if it selects no truth block for any of that
-equation's variables.
+\emph{equation gadget}. Its star permits at most three witnesses
+in an independent set, even when no truth block is selected.
 
 For every witness representing a satisfying assignment $\sigma$ and
 every variable $x$ of its equation, join it to the entire truth block
-$T_x^{1-\sigma(x)}$. Add no other edges. In particular, witnesses
-from distinct equations have no edges between them.
+$T_x^{1-\sigma(x)}$. Add no other edges, so witnesses from distinct
+equations are nonadjacent.
 
 Every listed edge respects the tripartition. A special $000$ witness
 lies in $A$ and its truth-block neighbors all lie in $B$. A special
@@ -110,104 +129,130 @@ $G_F$ has $9m$ vertices. Equation~\eqref{eq:xor-normalization}
 gives $m/2$ special witnesses in each of $A$ and $B$, and three
 witnesses per equation in $C$. Hence
 \begin{equation}\label{eq:xor-equal-parts}
- |A|=|B|=|C|=3m.
+  |A|=|B|=|C|
+  \overset{\eqref{eq:xor-truth-budget},\,\eqref{eq:xor-normalization}}{=}3m.
 \end{equation}
 
 The source graph $G_F$ already has bounded maximum degree.
-A truth vertex in $T_x^a$ has $5d_x/6$ neighbors in the opposite
-truth block and $2d_x$ witness neighbors, hence degree $17d_x/6$.
-A witness has neighbors in three truth blocks and at most three
-star neighbors, hence degree at most $5b_\epsilon/2+3$.
-Since the normalized occurrence bound satisfies $b_\epsilon\geq6$,
-both bounds are at most $3b_\epsilon$.
+For $v\in T_x^a$, its opposite truth block and witness neighbors give
+\[
+ \deg_{G_F}(v)=\frac{5d_x}{6}+2d_x
+ =\frac{17d_x}{6}
+ \overset{\eqref{eq:xor-normalization}}{\leq}3b_\epsilon.
+\]
+For a witness $w$ of an equation on $x,y,z$, its three truth-block
+neighborhoods and at most three star neighbors give
+\[
+ \deg_{G_F}(w)\leq\frac56(d_x+d_y+d_z)+3
+ \overset{\eqref{eq:xor-normalization}}{\leq}\frac52b_\epsilon+3
+ \overset{\text{Thm.~\ref{thm:xor-source}}}{\leq}3b_\epsilon,
+\]
+where the last inequality uses $b_\epsilon\geq6$.
 
 \subsubsection{The independent-set optimum}
 
-An optimal assignment gives an independent set of size $\frac{5m}{2}+\OPT(F)$.
-We show that omitting truth blocks cannot improve this value.
+\begin{lemma}[Random completion of parity equations]
+\label{lem:partial-parity-completion}
+Fix any partial assignment to the variables of a system of parity
+equations on three distinct variables. Complete it by choosing each
+unassigned variable independently and uniformly from $\{0,1\}$.
+Every equation with an unassigned variable is satisfied with
+probability $1/2$; a fully assigned equation keeps its truth value.
+If $s$ fully assigned equations are satisfied and $u$ equations
+are unfinished, the expected number satisfied is $s+u/2$, and
+some completion satisfies at least this many equations.
+\end{lemma}
+
+\begin{proof}
+For an unfinished equation, condition on all but one of its
+unassigned variables. Its remaining fair bit determines its parity,
+so either outcome has probability $1/2$. Sum these probabilities
+and the fixed truth values over all equations. Linearity of
+expectation does not require independence between equations, and
+some outcome attains at least the expectation.
+\end{proof}
 
 For an independent set $I$ containing every truth block that it
 meets, the selected block $T_x^a$ fixes $x=a$. Variables with neither
-block selected remain unassigned. Let $U$ be the unassigned variables
-and put $D_U=\sum_{x\in U}d_x$. Complete this partial assignment by
+block selected remain unassigned. Complete this partial assignment by
 choosing each unassigned variable independently and uniformly from
-$\{0,1\}$. For equation $j$, let $r_j$ count its unassigned variables,
-let $w_j$ be the number of the four witness vertices in equation $j$'s
-gadget that belong to $I$, and let $p_j$ be the probability that
-equation $j$ is satisfied by this completion.
+$\{0,1\}$. Denote the resulting random assignment by $\sigma$.
+For $j\in\{1,\ldots,m\}$, let $r_j$ count its unassigned variables
+and let $w_j$ count its witness vertices in $I$. Define
+$p_j=\Pr[\text{equation }j\text{ is satisfied by }\sigma]$.
 
 \begin{lemma}[Witnesses under a partial assignment]
 \label{lem:xor-witness-excess}
-With this notation, $w_j-p_j\le5r_j/6$ for every equation $j$.
+With this notation, $w_j-p_j\le5r_j/6$ for every $j\in\{1,\ldots,m\}$.
 \end{lemma}
 
 \begin{proof}
 Every selected witness agrees with the fixed variables, since
 otherwise it has a neighbor in a selected truth block.
-\begin{enumerate}
-\setlength{\itemsep}{0pt}
-\setlength{\parsep}{0pt}
-\setlength{\topsep}{2pt}
-\setlength{\partopsep}{0pt}
- \item If $r_j=0$, all three variables are fixed. When the equation
- is satisfied, $p_j=1$ and at most its unique consistent witness
- can be selected. Otherwise $p_j=0$ and none can be selected.
- Thus $w_j-p_j\leq0=5r_j/6$.
- \item If $1\leq r_j\leq3$, half of the $2^{r_j}$ completions
- satisfy the equation. Hence $p_j=1/2$ and there are
- $2^{r_j-1}$ consistent satisfying witnesses. The witness star
- has independence number three, so
- $w_j-p_j\leq\min\{2^{r_j-1},3\}-1/2$.
- For $r_j=1,2,3$ this bound is $1/2,3/2,5/2$, respectively.
- These values are at most $5r_j/6$, since
- $1/2\leq5/6$, $3/2\leq10/6$, and $5/2=15/6$.
-\end{enumerate}
+If $r_j=0$, the equation is either satisfied with one consistent
+witness or unsatisfied with none, so $w_j\leq p_j$.
+If $r_j\geq1$, Lemma~\ref{lem:partial-parity-completion} gives
+$p_j=1/2$. The $2^{r_j}$ completions are equally likely, so exactly
+$2^{r_j-1}$ witnesses are consistent. The star permits at most three. Thus, for $r_j\in\{1,2,3\}$,
+\begin{equation}\label{eq:xor-local-witness-count}
+ w_j\leq\min\{2^{r_j-1},3\}=r_j,\qquad p_j=\frac12,\qquad w_j-p_j
+ \overset{\eqref{eq:xor-local-witness-count}}{\leq}
+ r_j-\frac12\overset{r_j\leq3}{\leq}\frac56r_j.
+\end{equation}
 \end{proof}
 
 \begin{lemma}\label{lem:xor-cover}
-The graph $G_F$ has maximum degree at most $3b_\epsilon$ and satisfies
-$\alphaI(G_F)=5m/2+\OPT(F)$ and
-$\vc(G_F)=13m/2-\OPT(F)$.
+The graph $G_F$ satisfies
+\[
+ \Delta(G_F)\leq3b_\epsilon,\qquad
+ \alphaI(G_F)=5m/2+\OPT(F),\qquad
+ \vc(G_F)=13m/2-\OPT(F).
+\]
 \end{lemma}
 
 
 \begin{proof}
 Start with any independent set $I$, and fill every truth block that
 it meets. This preserves independence because a block has no internal
-edges and its vertices have identical neighborhoods. The filled set
-is no smaller than the original. From now on, write $I$ for the filled set. The
-two nonempty blocks of a variable are joined completely, so at most one is selected.
-A selected block $T_x^a$ fixes $x=a$. A variable with neither block
-selected remains unassigned.
-The selected truth vertices number $\frac{5m}{2}-5D_U/6$. Use the random
-completion and the quantities $r_j,w_j,p_j$ defined above.
-Lemma~\ref{lem:xor-witness-excess} gives $w_j-p_j\le5r_j/6$. Also, $\sum_jr_j=D_U$,
-as both sides count occurrences of unassigned variables. The random
-completion satisfies an expected $\sum_jp_j$ equations by linearity
-of expectation. Every completion satisfies at most $\OPT(F)$ equations,
-so $\sum_jp_j\le\OPT(F)$. It follows that
+edges and its vertices have identical neighborhoods. It suffices to
+bound the filled set, which we continue to call $I$. The two blocks
+of a variable are joined completely, so at most one is selected.
+Let $U\subseteq\mathcal X(F)$ be the set of unassigned variables.
+Relative to one truth block per variable, the missing truth vertices
+number $\frac56\sum_{x\in U}d_x$.
+For the random completion above, counting those variables' occurrences
+and applying linearity of expectation give
+\begin{equation}\label{eq:xor-completion-counts}
+ \sum_{j=1}^{m}r_j=\sum_{x\in U}d_x,\qquad
+ \sum_{j=1}^{m}p_j\leq\OPT(F).
+\end{equation}
+The second bound holds because every completion satisfies at most
+$\OPT(F)$ equations.
+Lemma~\ref{lem:xor-witness-excess} therefore gives
 \[
-\begin{aligned}
- |I|&=\frac{5m}{2}-\frac56D_U+\sum_jw_j
- \le\frac{5m}{2}-\frac56D_U+\sum_jp_j+\frac56\sum_jr_j\\
- &=\frac{5m}{2}-\frac56D_U+\sum_jp_j+\frac56D_U
- =\frac{5m}{2}+\sum_jp_j\le\frac{5m}{2}+\OPT(F).
-\end{aligned}
+ |I|\overset{\eqref{eq:xor-truth-budget},\,\eqref{eq:xor-completion-counts}}{=}
+       \frac{5m}{2}+\sum_{j=1}^{m}\left(w_j-\frac56r_j\right)
+ \overset{\text{Lem.~\ref{lem:xor-witness-excess}}}{\le}
+       \frac{5m}{2}+\sum_{j=1}^{m}p_j
+ \overset{\eqref{eq:xor-completion-counts}}{\le}
+       \frac{5m}{2}+\OPT(F).
 \]
-Since filling does not decrease the size, this bound also holds for
-the independent set before its truth blocks were filled.
-
 For the reverse bound, take an assignment satisfying $\OPT(F)$
-equations. Select its truth blocks, of total size $\frac{5m}{2}$, and, for each
+equations. Select its truth blocks, of total size $\frac{5m}{2}$
+by~\eqref{eq:xor-truth-budget}, and, for each
 satisfied equation, its unique witness with that assignment. Such a
 witness has no neighbor in the selected truth blocks. Only one witness
 is selected per equation, so no star edge has both endpoints selected.
 There are no edges between distinct equation gadgets. The resulting
 independent set has size $\frac{5m}{2}+\OPT(F)$.
 
-Using~\eqref{eq:xor-truth-budget} proves the independent-set identity.
-The graph has $9m$ vertices, so complementation gives the stated
-vertex-cover identity.
+The matching bounds and the graph order $9m$ give
+\begin{equation}\label{eq:xor-independent-set-optimum}
+ \alphaI(G_F)=\frac{5m}{2}+\OPT(F),\qquad \vc(G_F)
+ \overset{\eqref{eq:cover-independent-complement}}{=}9m-\alphaI(G_F)
+ \overset{\eqref{eq:xor-independent-set-optimum}}{=}
+ \frac{13m}{2}-\OPT(F).
+\end{equation}
 \end{proof}
 
 \subsubsection{The anchor graph}
@@ -227,8 +272,8 @@ $V(G)\cup K_A\cup K_B\cup K_C\cup\{z_A,z_B,z_C\}$ and edge set
 \]
 Thus $K_X$ is a clique joined completely to $X\cup\{z_X\}$, and
 there are no other new edges. We call $K_X$ the \emph{anchor clique}
-of part $X$. The vertex $z_X$ is associated with that part. This is
-the anchor graph of~\cite[Lemma~6]{BNS} and has $|V(G)|+3\ell+3$ vertices.
+of part $X$. This is the anchor graph of~\cite[Lemma~6]{BNS} and has
+$|V(G)|+3\ell+3$ vertices.
 
 \begin{corollary}[Anchors as long as the largest part]\label{cor:max-part-anchor}
 If $G$ is tripartite with nonempty specified independent parts $A,B,C$ and
@@ -241,12 +286,10 @@ including the short-anchor analysis.
 Bonnet, Neuen, and Soko\l owski require $\ell\geq\vc(G)$ for their
 identity~\cite[Lemma~6]{BNS}. Our corollary only requires $\ell$ to be at
 least the largest part size, so it applies with $\ell=3m$ even though
-$\vc(G_F)\geq11m/2$.
+$\vc(G_F)\overset{\text{Lem.~\ref{lem:xor-cover}}}{\geq}11m/2$.
 
 \subsubsection{The treedepth identity and the hardness gap}
 \label{subsec:np-td-gap}
-
-Taking $\ell=3m$ gives the following identity.
 
 \begin{proposition}\label{prop:xor-treedepth-identity}
 For every normalized source system $F$, the graph $H=H_{3m}(G_F)$
@@ -259,34 +302,36 @@ has $18m+3$ vertices and satisfies
 \begin{proof}
 Each source part has size $3m$ by~\eqref{eq:xor-equal-parts}, so
 Corollary~\ref{cor:max-part-anchor} and Lemma~\ref{lem:xor-cover} give
-$\td(H)=3m+\vc(G_F)+1=19m/2-\OPT(F)+1$.
+\[
+ \td(H)
+ \overset{\text{Cor.~\ref{cor:max-part-anchor}}}{=}3m+\vc(G_F)+1
+ \overset{\text{Lem.~\ref{lem:xor-cover}}}{=}
+ \frac{19m}{2}-\OPT(F)+1.
+\]
 The graph has $9m+9m+3=18m+3$ vertices and $O(m^2)$ edges.
 Repeated equations have distinct witness gadgets, so no parallel
 edges arise. The source normalization changes size by a constant
 factor, giving a polynomial construction.
 \end{proof}
 
-\begin{proof}[Dense treedepth gap]
-The leading NO and YES coefficients below approach $9$ and $17/2$
-as the source error decreases, giving ratio $18/17$.
-Fix $1\le r<18/17$. Since $9-r(17/2)>0$, choose a fixed rational
-$0<\epsilon<1/4$ such that $9-\epsilon>r(17/2+\epsilon)$.
-Put $\gamma=9-\epsilon-r(17/2+\epsilon)>0$. Take enough disjoint
-copies of $F$ on disjoint variable sets that $\gamma m>r-1$.
-This multiplies $m$ and $\OPT(F)$ by the same integer, preserving
-the source promise and~\eqref{eq:xor-normalization}.
-By Proposition~\ref{prop:xor-treedepth-identity} and the source
-promise, the two cases satisfy
+The treedepth reduction follows the chain
 \[
-\begin{aligned}
-\textup{YES: }\td(H)
- &\le19m/2-(1-\epsilon)m+1
-   =(17/2+\epsilon)m+1,\\
-\textup{NO: }\td(H)
- &\ge19m/2-(1/2+\epsilon)m+1
-   =(9-\epsilon)m+1.
-\end{aligned}
+ F\xrightarrow{\text{witness graph}}G_F
+ \xrightarrow{\text{add anchors}}H_{3m}(G_F).
 \]
-The NO lower bound minus $r$ times the YES upper bound is
-$\gamma m+1-r>0$, proving the gap.
+Lemma~\ref{lem:xor-cover} encodes $\OPT(F)$ in the vertex-cover
+number, and Proposition~\ref{prop:xor-treedepth-identity} converts
+that number into treedepth. The source gap then gives
+the two bounds below; Corollary~\ref{cor:td-bounded-degree} later
+transfers them to bounded-degree graphs.
+
+\begin{proof}[Dense treedepth gap: proof sketch]
+Proposition~\ref{prop:xor-treedepth-identity} and the parity promise
+give YES height at most $(17/2+\epsilon)m+1$ and NO height at least
+$(9-\epsilon)m+1$. Their leading coefficient ratio tends to
+$18/17$ as $\epsilon$ decreases. For any fixed $r<18/17$, choose
+$\epsilon$ small enough and repeat the source a fixed number of
+times so that the coefficient gap dominates the additive one.
+Appendix~\ref{app:dense-np-td} gives the explicit error and
+replication choices and checks the strict gap.
 \end{proof}

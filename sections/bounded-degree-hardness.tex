@@ -18,8 +18,9 @@ all edges $uv$ with $u\in A_f$ and $v\in B_f$. Thus
 \end{equation}
 For each factor choose an integer threshold $t_f\ge1$. Two
 disjoint vertex sets are \emph{anticomplete} if no edge joins them.
-A \emph{$(t,t)$ hole} is a pair of anticomplete sets of $t$ vertices
-each. A clique replacement on $U_f$ has no hole at threshold $t_f$
+For an integer $t\ge1$, a \emph{$(t,t)$ hole} is a pair of
+anticomplete sets of $t$ vertices each. In a bipartite graph with specified sides, the two sets lie
+on opposite sides. A clique replacement on $U_f$ has no hole at threshold $t_f$
 if every two disjoint $t_f$-subsets of $U_f$ have at least one edge
 between them. A biclique replacement on
 $A_f\mathbin{\dot\cup}B_f$ has no hole at threshold $t_f$ if every
@@ -32,8 +33,8 @@ $E_0$ may add further edges on its support.
 
 Replace each factor by a subgraph of its specified edge set on
 the same support. Let $J$ be the union of these replacement edges
-with $E_0$. Then $J$ is a spanning subgraph of $H$. The argument has
-three steps.
+with $E_0$. Then $J$ is a spanning subgraph of $H$. The construction
+has two steps.
 \begin{enumerate}
  \item \emph{Preserve the YES bound by deleting edges.}
    Every elimination forest or tree decomposition of $H$ is also
@@ -49,13 +50,11 @@ three steps.
    endpoints or by vertices in a common bag. For forests,
    restore $D$ as a chain above all existing roots. For tree
    decompositions, add $D$ to every bag. The height or width
-   increases by at most $|D|$, and the total depth by at most
-   $N|D|$. Thus a sparse solution of value $z$ gives a dense
-   solution of height or width at most $z+|D|$, or total depth at
-   most $z+N|D|$.
+    increases by at most $|D|$, and the total depth by at most
+    $N|D|$.
 \end{enumerate}
 
-The first two steps give a sparse instance and bound the additive
+These steps give a sparse instance and bound the additive
 loss incurred when recovering a dense solution. The following lemma
 states when such a loss preserves the approximation gap.
 
@@ -64,6 +63,8 @@ states when such a loss preserves the approximation gap.
 Let a minimization promise problem be hard to distinguish between
 $\OPT(I)\le Y(N)$ in the YES case and $\OPT(I)\ge r'Y(N)$ in the
 NO case, where $r'>1$, $Y(N)>0$, and $N$ is the source size.
+Assume the bounds below admit a polynomial-time computable separating
+threshold whenever they are strictly separated.
 Suppose a deterministic polynomial-time reduction maps each source
 instance $I$ to a target minimization instance $I'$. Assume that for
 every fixed pair $\epsilon_{\mathrm{YES}},\epsilon_{\mathrm{NO}}>0$ we
@@ -81,20 +82,22 @@ reduction.
 \begin{proof}
 Choose positive $\epsilon_{\mathrm{YES}}$ and $\epsilon_{\mathrm{NO}}$
 so that $\epsilon_{\mathrm{NO}}+r\epsilon_{\mathrm{YES}}<r'-r$.
-On sufficiently large instances, the transformed YES upper bound is
-$(1+\epsilon_{\mathrm{YES}})Y(N)$ and the NO lower bound is
-$(r'-\epsilon_{\mathrm{NO}})Y(N)$. Their coefficients satisfy
-$r(1+\epsilon_{\mathrm{YES}})<r'-\epsilon_{\mathrm{NO}}$, so an
-$r$-approximation would distinguish the two cases.
+Then $r(1+\epsilon_{\mathrm{YES}})<r'-\epsilon_{\mathrm{NO}}$, so
+an $r$-approximation returning a feasible solution has value at most
+$r(1+\epsilon_{\mathrm{YES}})Y(N)$ in the YES case and at least
+$(r'-\epsilon_{\mathrm{NO}})Y(N)$ in the NO case. Comparing its
+value with the supplied computable threshold distinguishes the cases
+on sufficiently large instances.
 \end{proof}
 
 \emph{Keep the total loss below the hardness gap.}
-Choose $t_f$ so that $t_f-1$ is a small fraction of $|U_f|$
-for a clique factor and of $\min\{|A_f|,|B_f|\}$ for a
-biclique factor. If every vertex lies in at most a fixed number
-of factor supports, then $\sum_f |U_f|=O(N)$. Hence
+Choose $t_f=\lceil\zeta|U_f|\rceil$, so that
+$t_f-1<\zeta|U_f|$ for each clique or biclique factor.
+If every vertex lies in at most a fixed number
+of factor supports, then
+$\sum_{f\in\mathcal C\cup\mathcal B}|U_f|=O(N)$. Hence
 $|D|\le\varepsilon N$ for any prescribed fixed
-$\varepsilon>0$, by choosing those fractions sufficiently small.
+$\varepsilon>0$, by choosing the fixed positive $\zeta$ sufficiently small.
 The resulting losses are at most $\varepsilon N$ for treedepth
 and treewidth, and $\varepsilon N^2$ for total depth. Given a
 target factor $r$ below the dense threshold, choose a dense factor
@@ -104,10 +107,12 @@ the loss at most $\delta Y$ for any fixed $\delta>0$. Taking
 $\delta<(r'-r)/(r+1)$ lets Lemma~\ref{lem:gap-preservation}
 preserve factor $r$.
 
-For the maximum degree to be bounded, we also need bounded degree
-in $E_0$ and a bounded ratio between the two side sizes of every
-biclique. This ratio bounds the number of auxiliary vertices mapped
-to each prescribed vertex. The expander construction below then
+For the maximum degree to be bounded, we also require bounded degree
+in $E_0$. If a biclique has a side smaller than its threshold, its
+no-hole condition is vacuous and we may use the empty replacement.
+Otherwise a threshold proportional to its total support size bounds
+the ratio of its side sizes. This ratio bounds the number of auxiliary
+vertices mapped to each prescribed vertex. The expander construction then
 gives the required no-hole condition with a constant degree
 contribution from each factor. Since each vertex lies in a bounded number of
 factor supports, its total degree is bounded. These constants may
@@ -126,6 +131,19 @@ the retained source edges $E_0$.
 The no-hole conditions above are inherited by deleting vertices. Recall that
 forest restriction preserves the ancestor order between surviving
 vertices and never increases their depths.
+
+For an elimination forest $F$ of $J$, traverse its trees one after
+another in depth-first order. Introduce a vertex on arrival and forget it after
+its child subtrees. Give all events distinct integer times. For each
+$v\in V(F)$, let $t_{\mathrm{in}}(v)$ and $t_{\mathrm{out}}(v)$ be its
+introduction and forgetting times, and put
+$I_v=[t_{\mathrm{in}}(v),t_{\mathrm{out}}(v)]$. These intervals are
+nested for comparable vertices and disjoint for incomparable ones.
+The introduced but unforgotten vertices form the current ancestor
+path. A forgotten vertex and an unintroduced vertex have disjoint
+intervals, so they are incomparable; in an elimination forest of $J$,
+no edge of $J$ joins them. We use these same traversal facts for
+clique and biclique completion.
 
 The following lemmas identify a small exceptional set whose deletion
 allows a sparse factor to be completed. For a clique, the surviving
@@ -146,33 +164,22 @@ $|U\setminus V(P)|\leq2(t-1)$.
 \begin{proof}
 If $|U|<t$, then $|U|\leq t-1\leq2(t-1)$, so the empty path
 satisfies the claim. Now assume $|U|\geq t$. Traverse each rooted
-tree in depth-first order. Introduce a vertex when first reached,
-traverse all its child subtrees, and forget it after those subtrees
-have been traversed. Throughout the traversal maintain two subsets
-of $U$: $L$ is the set of vertices already forgotten, and $R$ is the
-set of vertices not yet introduced. Initially $L=\varnothing$ and
-$R=U$. When a vertex of $U$ is introduced, remove it from $R$.
-When it is forgotten, add it to $L$. The vertices in $U\setminus(L\cup R)$
-have been introduced but not forgotten, so they lie on the current
-ancestor path. We traverse the rooted trees one after another, with
-this path empty between trees.
-
-At every point, no edge of $J$ joins $L$ to $R$. Indeed, if $x\in L$ and
-$y\in R$, then $y$ cannot be an ancestor of $x$, since ancestors are
-introduced first. Also, $x$ cannot be an ancestor of $y$, since the
-traversal finishes the subtree of $x$ before forgetting $x$. Thus
-$x$ and $y$ are incomparable, and the elimination-forest property
-rules out the edge $xy$.
-
-Consider the instant immediately after the $t$th vertex of $U$ is
-forgotten. Then $|L|=t$. If $|R|\geq t$, then $L$ and $R$ contain
-disjoint anticomplete subsets of size $t$, contrary to the
-hypothesis. Hence $|R|\leq t-1$. Immediately before this forgetting
-event, $|L|=t-1$ and $R$ is unchanged. Let $P$ be the current
-ancestor path then. The sets $L$, $R$, and $U\setminus(L\cup R)$
-partition $U$, and every vertex in the third set lies on $P$. Hence
+tree as above, and let $v$ be the $t$th vertex of $U$ to be forgotten.
+Immediately before forgetting $v$, let $P$ be the current ancestor
+path, and let $L,R\subseteq U$ consist of the already forgotten and
+not yet introduced vertices, respectively. Then $|L|=t-1$, and
+every vertex of $U\setminus(L\cup R)$ lies on $P$.
+Immediately after this event, $L\cup\{v\}$ is anticomplete to the
+unchanged set $R$, by the traversal facts above. Since
+$|L\cup\{v\}|=t$, the no-hole condition gives $|R|\le t-1$. Thus
+\begin{equation}\label{eq:clique-forest-sweep}
+ U\setminus V(P)\subseteq L\cup R,\qquad |L|=t-1,\qquad |R|\leq t-1.
+\end{equation}
+Consequently,
 \[
- |U\setminus V(P)|\leq |L|+|R|\leq(t-1)+(t-1)=2(t-1).
+ |U\setminus V(P)|
+ \overset{\eqref{eq:clique-forest-sweep}}{\leq}|L|+|R|
+ \overset{\eqref{eq:clique-forest-sweep}}{\leq}(t-1)+(t-1)=2(t-1).
 \]
 \end{proof}
 
@@ -213,19 +220,71 @@ each component $C$. If $t=1$, this gives $W=\varnothing$. For
 $t\geq2$, suppose $|W|\geq3t-2$. Select components one at a time
 until the sum of their $|W_C|$ first reaches $t$, and let $W_1$ be
 the union of their $W_C$ sets. The last component added contributes at most $t-1$
-vertices, so $t\leq|W_1|\leq2t-2$. Let $W_2=W\setminus W_1$.
-Then $|W_2|\geq(3t-2)-(2t-2)=t$. For $x\in W_1$ and $y\in W_2$,
+vertices, so, together with the assumed lower bound on $|W|$,
+\begin{equation}\label{eq:tw-clique-group-sizes}
+ t\leq|W_1|\leq2t-2,\qquad |W|\geq3t-2.
+\end{equation}
+Let $W_2=W\setminus W_1$. Then
+$|W_2|\overset{\eqref{eq:tw-clique-group-sizes}}{\geq}(3t-2)-(2t-2)=t$.
+For $x\in W_1$ and $y\in W_2$,
 the sets $T_x,T_y$ lie in different components of $T-u$ and are
 therefore disjoint, so no bag contains both $x$ and $y$. Hence $W_1,W_2$ are anticomplete in
-$J$, contrary to the hypothesis. Therefore
-$|U\setminus B_u|=|W|\leq3t-3=3(t-1)$.
+$J$, contrary to the hypothesis. Thus $|W|\leq3t-3$.
+Since $W=U\setminus B_u$ and $3t-3=3(t-1)$, this is the required bound.
 \end{proof}
 
 \subsubsection{Biclique factors}
 
-We use K\"onig's theorem~\cite[Theorem~2.1.1]{Diestel2017}: in a
-bipartite graph, the maximum matching size equals the minimum
-vertex-cover size.
+\begin{theorem}[K\"onig's theorem
+{\cite[Theorem~2.1.1 and Section~2.1]{Diestel2017}}]
+\label{thm:konig}
+In a finite bipartite graph with parts $A,B$, the maximum matching
+size equals the minimum vertex-cover size. A maximum matching can
+be found in polynomial time. Given such a matching, start at the
+unmatched vertices of $A$ and traverse unmatched edges toward $B$
+and matched edges toward $A$. If $Z$ is the set of vertices reached,
+then $(A\setminus Z)\cup(B\cap Z)$ is a minimum vertex cover.
+\end{theorem}
+
+Both biclique completion lemmas use the following interval argument.
+
+\begin{lemma}[Interval completion]\label{lem:interval-completion}
+Let $J$ be a finite simple graph, let $A,B\subseteq V(J)$ be disjoint,
+and let $t\ge1$ be an integer. Assign each $v\in A\cup B$ a nonempty interval
+$I_v$ in a common finite linear order. Suppose every edge of $J$
+between $A$ and $B$ has intersecting endpoint intervals, and the
+bipartite graph between $A$ and $B$ has no $(t,t)$ hole.
+There is a set $D\subseteq A\cup B$ with $|D|\le4(t-1)$ such that
+$I_u\cap I_v\ne\varnothing$ for all $u\in A\setminus D$ and
+$v\in B\setminus D$. If every disjoint cross-pair has its $A$-interval
+before its $B$-interval, the bound is $|D|\le2(t-1)$.
+\end{lemma}
+
+\begin{proof}
+Let $K$ be the bipartite graph on $A\mathbin{\dot\cup}B$ whose edges
+are the pairs with disjoint intervals. Partition its edges according
+to which endpoint interval comes first.
+Suppose a matching contains $m_0\ge2t-1$ edges $u_iv_i$, $i\in[m_0]$, with
+$u_i\in A$, $v_i\in B$, and the $u_i$-interval first. Order these
+edges by the last point of $I_{u_i}$. For $i\in[t]$ and
+$j\in\{m_0-t+1,\ldots,m_0\}$, we have $i\le j$ and
+\[
+ \max I_{u_i}\le\max I_{u_j}<\min I_{v_j}.
+\]
+Thus $\{u_1,\ldots,u_t\}$ and
+$\{v_{m_0-t+1},\ldots,v_{m_0}\}$ are anticomplete $t$-sets in $J$:
+their vertices are distinct because the edges form a matching, and
+their intervals are disjoint. This contradicts the no-hole condition.
+Interchanging $A,B$ gives the same bound for the other orientation.
+Every matching in $K$ therefore has at most $4t-4$ edges, or at most
+$2t-2$ when only the first orientation occurs. Theorem~\ref{thm:konig}
+gives a vertex cover $D$ of $K$ with the corresponding size bound.
+No surviving cross-pair is an edge of $K$, proving the claim.
+\end{proof}
+
+To compute the deletion set, enumerate the disjoint-interval pairs
+to construct $K$, then apply Theorem~\ref{thm:konig} to find its
+minimum vertex cover $D$ in polynomial time.
 
 \begin{lemma}[Biclique completion in an elimination forest]\label{lem:sparse-biclique-completion}
 Let $F$ be an elimination forest of a finite simple graph $J$,
@@ -237,57 +296,31 @@ $(A\setminus D)\times(B\setminus D)$ is comparable in $F$.
 \end{lemma}
 
 \begin{proof}
-Put $W=A\cup B$ and traverse each rooted tree depth-first: introduce
-a vertex when first reached, traverse its child subtrees, and forget
-it after they are complete. Maintain the sets $L$ of vertices in $W$
-already forgotten and $R$ of vertices in $W$ not yet introduced,
-starting with $L=\varnothing$ and $R=W$. When a vertex of $W$ is
-introduced, remove it from $R$. When it is forgotten, add it to $L$.
-Thus $W\setminus(L\cup R)$ consists of the introduced, unforgotten
-vertices on the current ancestor path. Assign a distinct time to
-each introduction and forgetting event, traversing different rooted
-trees consecutively. Let $t_{\mathrm{in}}(v)$ and
-$t_{\mathrm{out}}(v)$ be the introduction and forgetting times of
-$v$. The vertices in the subtree rooted at $v$ are visited during
-$[t_{\mathrm{in}}(v),t_{\mathrm{out}}(v)]$.
-Two vertices are incomparable if and only if these intervals
-are disjoint. Define the bipartite graph $K$ by
-$E(K)=\{uv:u\in A,\ v\in B,\ u,v\text{ are incomparable in }F\}$.
-For each $uv\in E(K)$, take $u\in A$ and $v\in B$, and partition these edges according to
-$t_{\mathrm{out}}(u)<t_{\mathrm{in}}(v)$ or $t_{\mathrm{out}}(v)<t_{\mathrm{in}}(u)$.
-If $K$ has a matching of size at least $4t-3$, one type contains
-at least $2t-1$ matching edges. Consider first the type satisfying
-$t_{\mathrm{out}}(u)<t_{\mathrm{in}}(v)$. Write its matching edges
-as $u_iv_i$, for $1\le i\le m_0$, where $m_0\ge2t-1$, and order
-them so that $t_{\mathrm{out}}(u_1)\le\cdots\le
-t_{\mathrm{out}}(u_{m_0})$. For $i\le t$ and
-$j\ge m_0-t+1$, we have $i\le j$ and therefore
-$t_{\mathrm{out}}(u_i)\le t_{\mathrm{out}}(u_j)<
-t_{\mathrm{in}}(v_j)$. Hence the sets
-$X=\{u_1,\ldots,u_t\}$ and
-$Y=\{v_{m_0-t+1},\ldots,v_{m_0}\}$ each have size $t$, and every
-vertex of $X$ is incomparable with every vertex of $Y$. The matching
-ensures that the vertices within each set are distinct. Since every
-edge of $J$ has comparable endpoints in $F$, the sets are
-anticomplete, a contradiction. For the other type, interchange the
-roles of $A$ and $B$ and order by the forgetting times of the
-vertices in $B$. The same argument gives a contradiction.
-It follows that the maximum matching size of $K$ is at most $4t-4$.
-K\"onig's theorem supplies a vertex cover $D$ of $K$ of that size.
-For $u\in A\setminus D$ and $v\in B\setminus D$, we have
-$uv\notin E(K)$ because $D$ covers $K$. By the definition of $K$,
-$u,v$ are comparable in $F$.
+Use the depth-first intervals $I_v$ defined above. They intersect
+exactly when their vertices are comparable in $F$.
+Every edge of $J$ therefore has intersecting endpoint intervals, so
+Lemma~\ref{lem:interval-completion} gives $D\subseteq A\cup B$ with
+$|D|\le4(t-1)$ and intersecting intervals for every surviving
+cross-pair. Such pairs are therefore comparable in $F$.
 \end{proof}
 
 For treewidth, we first complete the clique factors and use their
-bags to anchor the two sides of each biclique. We use the
-path-projection observation from the proof of Bonnet's
-Lemma~5~\cite{BonnetTreewidth}: if two subtrees contain opposite
-endpoints of a path, they intersect if and only if their
-intersections with that path intersect.
-The path traces are prefixes and suffixes. The no-hole condition
-then bounds a matching of uncovered pairs, and a vertex cover of
-those pairs gives the deletion set.
+bags to anchor the two sides of each biclique.
+
+\begin{lemma}[Intersections along a tree path]
+\label{lem:subtree-path-intersection}
+Let $S_1,S_2$ be connected vertex sets in a tree, with $x\in S_1$
+and $y\in S_2$, and let $P$ be the path from $x$ to $y$.
+Then $S_1,S_2$ intersect if and only if their intersections with $P$
+intersect.
+\end{lemma}
+
+\begin{proof}
+If $z\in S_1\cap S_2$, Lemma~\ref{lem:three-tree-paths} gives a
+vertex $p$ common to the $x$--$y$, $x$--$z$, and $y$--$z$ paths.
+Connectedness gives
+$p\in S_1\cap S_2\cap V(P)$. The reverse implication is immediate.
+\end{proof}
 
 When vertices are deleted from a graph, we restrict its tree
 decomposition by removing them from every bag.
@@ -299,7 +332,8 @@ Fix a tree decomposition $(T,(B_u)_{u\in V(T)})$ of $J$.
 Suppose $A,B\subseteq V(J)$ are disjoint, $A\subseteq B_x$ and
 $B\subseteq B_y$ for some $x,y\in V(T)$, and the
 bipartite graph of $J$ between $A$ and $B$ has no $(t,t)$ hole.
-There is a set $D\subseteq A\cup B$ with $|D|\leq2(t-1)$ such that
+There is a set $D\subseteq A\cup B$ with
+$|D|\leq2(t-1)$ such that
 for every $u\in A\setminus D$ and $v\in B\setminus D$, some
 $z\in V(T)$ satisfies $\{u,v\}\subseteq B_z\setminus D$.
 \end{lemma}
@@ -314,33 +348,16 @@ $T_u\cap V(P)=\{z_0,\ldots,z_a\}$ for some $0\leq a\leq\ell$,
 the vertex set of a nonempty prefix of $P$. Similarly, for $v\in B$,
 $T_v\cap V(P)=\{z_c,\ldots,z_\ell\}$ for some $0\leq c\leq\ell$,
 the vertex set of a suffix ending at $y$.
-By the observation above, $T_u,T_v$ intersect if and only if these
+By Lemma~\ref{lem:subtree-path-intersection}, $T_u,T_v$ intersect if and only if these
 path intervals intersect.
 
-Define the bipartite graph $K$ by
-$E(K)=\{uv:u\in A,\ v\in B,\ T_u\cap T_v=\varnothing\}$.
-If it has a matching of size $m_0\ge2t-1$, write its edges
-$u_iv_i$, with $u_i\in A$ and $v_i\in B$, and order them so that
-the last vertex of $T_{u_i}\cap V(P)$ has nondecreasing index.
-The endpoint of each
-$u_i$-prefix precedes the start of its matched $v_i$-suffix, since
-the two sets are disjoint and the prefix starts at $x$ while the
-suffix ends at $y$. Consequently, if $i\le t$ and
-$j\ge m_0-t+1$, then $i\le j$ and the prefix for $u_i$ ends before
-the suffix for $v_j$ starts. Thus the sets
-$X=\{u_1,\ldots,u_t\}$ and
-$Y=\{v_{m_0-t+1},\ldots,v_{m_0}\}$ each have size $t$, and
-$T_u\cap T_v=\varnothing$ for every $u\in X$, $v\in Y$. The matching ensures
-that vertices within each set are distinct. An edge of $J$ requires
-its endpoints to occur together in a bag, so $X,Y$ are anticomplete,
-contrary to the hypothesis. Therefore the maximum matching size of
-$K$ is at most $2t-2$.
-
-K\"onig's theorem gives a vertex cover $D$ of $K$ with
-$|D|\le2t-2$. If $u\in A\setminus D$ and $v\in B\setminus D$,
-then $uv\notin E(K)$, so $T_u\cap T_v\ne\varnothing$.
-Choose $z\in T_u\cap T_v$. Then $\{u,v\}\subseteq B_z\setminus D$,
-as required.
+Every edge of $J$ between $A$ and $B$ has intersecting traces and
+hence intersecting path intervals. A disjoint prefix and suffix
+always have the prefix first. Lemma~\ref{lem:interval-completion}
+therefore gives $D\subseteq A\cup B$ with $|D|\le2(t-1)$ such that
+every surviving cross-pair has intersecting path intervals. Choose
+a node $z$ in this intersection; then
+$\{u,v\}\subseteq B_z\setminus D$, as required.
 \end{proof}
 
 \subsubsection{Comparison bounds}
@@ -362,15 +379,12 @@ Assume the following conditions.
 \end{enumerate}
 \end{definition}
 
-Each preceding completion lemma starts with a solution for $J$ and
-deletes a small set of vertices so that the same solution also covers
-the edges of one completed factor. To cover all edges of $H$, take
-the union $D$ of these deletion sets. Further deletions preserve each
-completion, so the restricted solution is valid for $H-D$. We can
-then restore $D$ above the roots of an elimination forest, or add
-$D$ to every bag of a tree decomposition. Thus the number of deleted
-vertices controls the increase in height or width. For total depth,
-each restored vertex increases the cost by at most $N=|V(H)|$.
+Each completion lemma deletes a small set so that a solution for
+$J$ also covers one dense factor. Take the union $D$ of these sets.
+Further deletions preserve each completion, so restricting the
+solution gives one for $H-D$. Restoring $D$ above forest roots or
+in every bag increases height or width by at most $|D|$, and total
+depth by at most $N|D|$, where $N=|V(H)|$.
 
 For treewidth, we first choose a deletion set $D_{\mathcal C}$
 for the clique factors, so each $U_f\setminus D_{\mathcal C}$ lies
@@ -402,22 +416,27 @@ For each $f\in\mathcal B$, let $D_f\subseteq A_f\cup B_f$ be
 the set from Lemma~\ref{lem:sparse-biclique-completion}, with
 $|D_f|\le4(t_f-1)$. Set
 $D=\bigcup_{f\in\mathcal C\cup\mathcal B}D_f$.
-Thus $|D|\le\sum_f|D_f|\le\operatorname{exc}_{\mathrm{td}}$.
+Thus
+\begin{equation}\label{eq:forest-factor-exception-bound}
+|D|\le\sum_{f\in\mathcal C\cup\mathcal B}|D_f| \overset{\text{Lems.~\ref{lem:sparse-clique-completion}, \ref{lem:sparse-biclique-completion}}}{\leq}
+ 2\sum_{f\in\mathcal C}(t_f-1)+4\sum_{f\in\mathcal B}(t_f-1)
+ \overset{\eqref{eq:completion-deletion-bounds}}{=}\operatorname{exc}_{\mathrm{td}}.
+\end{equation}
 
-Let $F'$ be the restriction of $F$ to $V(H)\setminus D$.
-For $f\in\mathcal C$, the set
-$U_f\setminus D\subseteq U_f\setminus D_f$ lies on $P_f$,
-so every pair in $\binom{U_f\setminus D}{2}$ is comparable in $F'$.
-For $f\in\mathcal B$, every pair in
-$(A_f\setminus D)\times(B_f\setminus D)$ is comparable in $F'$ by the
-choice of $D_f$. Finally, if
-$uv\in E_0\cap\binom{V(H)\setminus D}{2}$, then $uv\in E(J)$,
-so $u,v$ are comparable in $F$ and remain comparable in $F'$.
-By~\eqref{eq:factor-edge-union}, these three cases cover every
-edge of $H-D$. Thus $F'$ is an elimination forest of $H-D$ with
-$h(F')\le h(F)$. By Lemma~\ref{lem:restore-vertices},
+Restrict $F$ to a forest $F'$ on $V(H)\setminus D$.
+The surviving vertices of each clique factor lie on $P_f$, and
+the surviving cross-pairs of each biclique are comparable by the
+choice of $D_f$. Retained edges are covered because $E_0\subseteq
+E(J)$. Restriction preserves these ancestor relations, so
+\eqref{eq:factor-edge-union} makes $F'$ an elimination forest of
+$H-D$ with $h(F')\le h(F)$. By Lemma~\ref{lem:restore-vertices},
 restoring $D$ gives an elimination forest $\widehat F$ of $H$ with
-$h(\widehat F)\le h(F)+|D|\le h(F)+\operatorname{exc}_{\mathrm{td}}$.
+\[
+ h(\widehat F)
+ \overset{\text{Lem.~\ref{lem:restore-vertices}}}{\leq}h(F)+|D|
+ \overset{\eqref{eq:forest-factor-exception-bound}}{\leq}
+ h(F)+\operatorname{exc}_{\mathrm{td}}.
+\]
 Choosing $F$ of minimum height proves
 $\td(H)\le\td(J)+\operatorname{exc}_{\mathrm{td}}$. The other comparison follows from
 $J\subseteq H$.
@@ -433,18 +452,26 @@ Every elimination
 forest $F$ of $J$ can be completed to an elimination forest
 $\widehat F$ of $H$ with
 $\totd(\widehat F)\le\totd(F)+N\operatorname{exc}_{\mathrm{td}}$.
-In particular, $\totd(J)\le \totd(H)\le \totd(J)+N\operatorname{exc}_{\mathrm{td}}$.
+In particular,
+$\totd(J)\le \totd(H)\le\totd(J)+N\operatorname{exc}_{\mathrm{td}}$.
 \end{lemma}
 
 \begin{proof}
 Fix an elimination forest $F$ of $J$, and use the exceptional set $D$
 and restricted forest $F'$ from the proof of
 Lemma~\ref{lem:factor-sparsification}.
-Then $|D|\le\operatorname{exc}_{\mathrm{td}}$, and $F'$
-is an elimination forest of $H-D$ with
-$\totd(F')\le\totd(F)$.
-By Lemma~\ref{lem:restore-total-depth}, restoring $D$ adds
-$N|D|-|D|(|D|-1)/2\leq N|D|\leq N\operatorname{exc}_{\mathrm{td}}$.
+Put $d=|D|\le\operatorname{exc}_{\mathrm{td}}$. Restriction does not
+increase total depth, so $\totd(F')\le\totd(F)$. Restoring $D$
+above all roots adds $d$ to the depths of the $N-d$ surviving
+vertices and gives each of the $d$ new vertices depth at most $d$.
+Consequently,
+\[
+ \totd(\widehat F)
+ \overset{\text{Lem.~\ref{lem:restore-total-depth}}}{\leq}
+ \totd(F)+d(N-d)+d^2
+ =\totd(F)+Nd
+ \le\totd(F)+N\operatorname{exc}_{\mathrm{td}}.
+\]
 Minimizing over $F$ gives the upper comparison, and
 the lower comparison follows from $J\subseteq H$.
 \end{proof}
@@ -490,60 +517,53 @@ Lemma~\ref{lem:tw-biclique-completion} therefore gives
 $D_f\subseteq(A_f\cup B_f)\setminus D_{\mathcal C}$ with
 $|D_f|\le2(t_f-1)$.
 Put $D=D_{\mathcal C}\cup\bigcup_{f\in\mathcal B}D_f$.
-Then $|D|\le\sum_f|D_f|\le\operatorname{exc}_{\mathrm{tw}}$.
+Then
+\begin{equation}\label{eq:treewidth-factor-exception-bound}
+|D|\le\sum_{f\in\mathcal C\cup\mathcal B}|D_f| \overset{\text{Lems.~\ref{lem:tw-clique-completion}, \ref{lem:tw-biclique-completion}}}{\leq}
+ 3\sum_{f\in\mathcal C}(t_f-1)+2\sum_{f\in\mathcal B}(t_f-1)
+ \overset{\eqref{eq:completion-deletion-bounds}}{=}\operatorname{exc}_{\mathrm{tw}}.
+\end{equation}
 
-For $f\in\mathcal C$, we have
-$U_f\setminus D\subseteq B_{u_f}\setminus D$, so this bag covers
-$\binom{U_f\setminus D}{2}$.
-For $f\in\mathcal B$ and $x\in A_f\setminus D$,
-$y\in B_f\setminus D$, the choice of $D_f$ gives a node $u\in V(T)$
-with $\{x,y\}\subseteq B_u\setminus D$.
-If $xy\in E_0\cap\binom{V(H)\setminus D}{2}$,
-an original bag covering $xy\in E(J)$ still contains both endpoints
-after restriction. Equation~\eqref{eq:factor-edge-union} now shows
-that $(T,(B_u\setminus D)_{u\in V(T)})$ covers every edge of $H-D$.
-Each vertex outside $D$ occurs at the same nodes as before, so its
-bag occurrences remain nonempty and connected.
+In the bags $B_u\setminus D$, each surviving clique factor lies
+in $B_{u_f}\setminus D$, each surviving biclique edge is covered
+by the choice of $D_f$, and retained edges remain covered because
+$E_0\subseteq E(J)$. Equation~\eqref{eq:factor-edge-union}
+therefore gives a decomposition of $H-D$: every surviving vertex
+occurs at the same nodes as before, so its occurrences remain
+nonempty and connected.
 
 Define $\widehat B_u=(B_u\setminus D)\cup D$ for every $u\in V(T)$.
-Every vertex of $D$ now occurs in every bag. The edges of $H-D$
-remain covered. If $xy\in E(H)$ with $x,y\in D$, every bag contains
-both endpoints. If $x\in D$ and $y\notin D$, any bag containing
-$y$ also contains $x$.
+This retains all edges of $H-D$, covers every edge incident with
+$D$, and makes each vertex of $D$ occur throughout $T$.
 Thus $(T,(\widehat B_u)_{u\in V(T)})$ is a decomposition of $H$.
 Since $|\widehat B_u|\le|B_u|+|D|$ for every $u$, its width
-increases by at most $|D|\le\operatorname{exc}_{\mathrm{tw}}$.
+increases by at most
+$|D|\overset{\eqref{eq:treewidth-factor-exception-bound}}{\leq}
+\operatorname{exc}_{\mathrm{tw}}$.
 Choosing a minimum-width decomposition proves the upper comparison.
 The lower comparison follows from $J\subseteq H$.
 \end{proof}
 
+All these completions are computable in polynomial time in the graph,
+factor description, and supplied forest or decomposition encoding.
+The forest paths are obtained by the stated depth-first sweeps.
+For the clique bags, count the occurrence subtrees contained on each
+side of every decomposition-tree edge, orient the edges, and find a
+sink. Path traversals give the interval endpoints for anchored bicliques;
+the matching and vertex-cover procedure above gives their deletion sets.
+Finally take the union of the deletion sets and perform the stated
+restriction and restoration. The running time includes the length of
+the supplied decomposition, which may contain redundant bags.
+
 \subsection{Sparse replacements at arbitrary sizes}
 
-The dense reductions use a clique to force its vertices onto one
-ancestor path in an elimination forest or into one bag of a tree decomposition.
-The completion lemmas recover this behavior, after deleting a few
-vertices, when a sparse replacement has no two large anticomplete sets.
-For bicliques, each surviving pair on opposite sides is
-comparable in the forest or occurs together in some bag.
-More specifically, a clique replacement need only join every two
-disjoint sets of $t_f$ vertices, and a biclique replacement need
-only join every pair of $t_f$-sets on opposite sides. Each factor
-then contributes at most a constant multiple of $t_f-1$ exceptional
-vertices. Our remaining task is to satisfy these conditions with
-bounded degree, while bounding $t_f-1$ by a small fixed fraction of
-the factor size. This makes the completion loss small enough to
-preserve the hardness gap.
-
-The idea is to distribute a few edges at each vertex so that two
-large sets cannot avoid each other. Expanders let us do this. We
-first use the expander mixing lemma to turn an eigenvalue bound
-into an edge between any two sufficiently large sets. We then join
-endpoints of fixed-length walks to lower the required set size.
-The degree increases, but remains bounded independently of the
-number of vertices. Finally, we map these graphs onto the prescribed
-clique supports and biclique sides. Lemma~\ref{lem:factor-expanders}
-collects the degree and no-hole bounds needed for the comparison
-lemmas.
+We now construct bounded-degree replacements satisfying the no-hole
+conditions used above, with $t_f-1$ a small fixed fraction of the
+factor size. The expander mixing lemma turns an eigenvalue bound
+into an edge between two large sets. Fixed-length walk powers lower
+the required set size, and grouping auxiliary vertices gives the
+prescribed clique supports and biclique sides.
+Lemma~\ref{lem:factor-expanders} records the resulting bounds.
 
 \subsubsection{Edge expansion and adjacency matrices}
 
@@ -590,43 +610,57 @@ keeps the total number of edges linear in the number of vertices.
 To bound the edges between two specified sets, we express their
 number using the adjacency matrix and then bound its eigenvalues.
 
-Now assume that $\mathcal E$ is $d$-regular. Its \emph{adjacency
-matrix} $A_{\mathcal E}$ has rows and columns
-indexed by $V(\mathcal E)$, with $(A_{\mathcal E})_{uv}$ equal to the
-number of steps from $u$ to $v$. It is symmetric, meaning
-$(A_{\mathcal E})_{uv}=(A_{\mathcal E})_{vu}$, because every step
-between distinct vertices has a reverse step. Each row sum is $d$.
+Now assume that $\mathcal E$ is $d$-regular with $d\ge1$. Define its \emph{adjacency
+matrix} $A_{\mathcal E}$ below, with $\mathbf1$ the all-ones vector
+and $\mathsf T$ denoting transpose:
+\begin{equation}\label{eq:auxiliary-regular-adjacency}
+ (A_{\mathcal E})_{uv}=e_{\mathcal E}(\{u\},\{v\})
+ \quad(u,v\in V(\mathcal E)),\qquad
+ A_{\mathcal E}^{\mathsf T}=A_{\mathcal E},\qquad
+ A_{\mathcal E}\mathbf1=d\mathbf1.
+\end{equation}
+Indeed, reversing steps gives
+$(A_{\mathcal E})_{uv}=(A_{\mathcal E})_{vu}$, and regularity gives
+$\sum_{v\in V(\mathcal E)}(A_{\mathcal E})_{uv}=d$
+for every $u\in V(\mathcal E)$.
 A real vector $x=(x_v)_{v\in V(\mathcal E)}$ assigns a real number to
 each vertex, and matrix multiplication gives
-$(A_{\mathcal E}x)_u=\sum_v(A_{\mathcal E})_{uv}x_v$.
+$(A_{\mathcal E}x)_u=\sum_{v\in V(\mathcal E)}(A_{\mathcal E})_{uv}x_v$
+for $u\in V(\mathcal E)$.
 Thus this coordinate is the sum of the values at the endpoints of
 the steps leaving $u$.
 
-Write $\mathbf1$ for the all-ones vector. For a set $S$, its
+For $S\subseteq V(\mathcal E)$, its
 \emph{indicator vector} $\mathbf1_S$ has coordinate one on $S$ and
-zero elsewhere. A superscript $\mathsf T$ denotes transpose, so
-$x^{\mathsf T}y=\sum_vx_vy_v$. The Euclidean length of $x$ is
-$\|x\|_2=(\sum_vx_v^2)^{1/2}$. Two vectors are
+zero elsewhere. For real vectors $x,y$ indexed by $V(\mathcal E)$,
+$x^{\mathsf T}y=\sum_{v\in V(\mathcal E)}x_vy_v$. The Euclidean length of $x$ is
+$\|x\|_2=(\sum_{v\in V(\mathcal E)}x_v^2)^{1/2}$. Two vectors are
 \emph{orthogonal} if $x^{\mathsf T}y=0$. In particular,
-$x$ is orthogonal to $\mathbf1$ if and only if $\sum_vx_v=0$.
+$x$ is orthogonal to $\mathbf1$ if and only if
+$\sum_{v\in V(\mathcal E)}x_v=0$.
 The step count can now be written as
 $e_{\mathcal E}(S,T)=\mathbf1_S^{\mathsf T}A_{\mathcal E}\mathbf1_T$.
 
 A nonzero vector $x$ is an \emph{eigenvector} of $A_{\mathcal E}$
 with \emph{eigenvalue} $\mu$ if $A_{\mathcal E}x=\mu x$.
-Since each row sum is $d$, we have
-$A_{\mathcal E}\mathbf1=d\mathbf1$. The spectral theorem for real
-symmetric matrices states that there is a basis of eigenvectors
-that have length one and are pairwise orthogonal, and every vector
-is a unique linear combination of these basis vectors
-\cite[Section~2]{HLW2006}. We may take the
-first basis vector to be $\mathbf1/\sqrt M$, with eigenvalue $d$.
+
+\begin{theorem}[Spectral theorem {\cite[Section~2]{HLW2006}}]
+\label{thm:real-symmetric-spectral}
+Every real symmetric matrix has a basis of eigenvectors of length
+one that are pairwise orthogonal. Every vector is a unique linear
+combination of these basis vectors.
+\end{theorem}
+
+Apply Theorem~\ref{thm:real-symmetric-spectral} to $A_{\mathcal E}$,
+taking the first basis vector to be $\mathbf1/\sqrt M$, with eigenvalue $d$.
 All remaining basis vectors then have coordinate sum zero.
 Moreover, multiplication by $A_{\mathcal E}$ preserves zero sums:
 \[
  \mathbf1^{\mathsf T}A_{\mathcal E}x
- =(A_{\mathcal E}\mathbf1)^{\mathsf T}x
- =d\mathbf1^{\mathsf T}x=0
+ \overset{\eqref{eq:auxiliary-regular-adjacency}}{=}
+ (A_{\mathcal E}\mathbf1)^{\mathsf T}x
+ \overset{\eqref{eq:auxiliary-regular-adjacency}}{=}
+ d\mathbf1^{\mathsf T}x=0
  \quad\text{if }\mathbf1^{\mathsf T}x=0.
 \]
 
@@ -688,15 +722,17 @@ $S,T\subseteq V(\mathcal E)$,
 \end{lemma}
 
 To guarantee a step between $S$ and $T$, it is enough that the
-main term exceed the error term. For nonempty $S,T$, the lemma gives
+main term exceed the error term. For nonempty $S,T\subseteq V(\mathcal E)$,
+the lemma gives
 \[
  e_{\mathcal E}(S,T)
- \ge\frac{d|S||T|}{M}-\lambda\sqrt{|S||T|}
+ \overset{\text{Lem.~\ref{lem:expander-mixing}}}{\geq}
+ \frac{d|S||T|}{M}-\lambda\sqrt{|S||T|}
  =d\sqrt{|S||T|}\left(\frac{\sqrt{|S||T|}}{M}-\frac\lambda d\right).
 \]
 Thus $e_{\mathcal E}(S,T)>0$ if
-$\sqrt{|S||T|}/M>\lambda/d$. In particular, sets of at least $t$
-vertices are joined whenever $t>(\lambda/d)M$. Thus $\lambda/d$
+$\sqrt{|S||T|}/M>\lambda/d$. In particular, for any integer $t\ge1$,
+sets of at least $t$ vertices are joined whenever $t>(\lambda/d)M$. Thus $\lambda/d$
 determines the fraction of vertices above which holes are
 impossible. A smaller ratio gives a smaller threshold and hence a
 smaller completion loss.
@@ -705,48 +741,69 @@ To reduce this ratio, we use a graph whose steps represent sequences
 of a fixed number of steps in the original graph. We define this
 construction next and derive its eigenvalue bound.
 
-For an integer $k\ge0$, a \emph{walk of length $k$} consists of vertices
-$x_0,x_1,\ldots,x_k$ and a chosen step from $x_{i-1}$ to $x_i$
-for each $1\le i\le k$. Vertices and edges may be repeated.
+For an integer $h\ge0$, a \emph{walk of length $h$} consists of vertices
+$x_0,x_1,\ldots,x_h$ and a chosen step from $x_{i-1}$ to $x_i$
+for each $1\le i\le h$. Vertices and edges may be repeated.
 Different choices among parallel steps give different walks,
 even if their vertex sequences agree.
 Reversing the order and directions of its steps gives
 a walk of the same length in the opposite direction.
 
-For an integer $k\ge1$, the \emph{$k$th walk power} of
+For an integer $h\ge1$, the \emph{$h$th walk power} of
 $\mathcal E$ has the same vertex set and one step from $u$ to $v$
-for each length-$k$ walk from $u$ to $v$ in $\mathcal E$.
-Its adjacency matrix is $A_{\mathcal E}^k$: matrix multiplication
+for each length-$h$ walk from $u$ to $v$ in $\mathcal E$.
+Its adjacency matrix is $A_{\mathcal E}^h$: matrix multiplication
 counts walks by length. This matrix is symmetric, so the walk power
 is undirected. There are $d$ choices at each step, giving degree
-$d^k$. If $A_{\mathcal E}x=\mu x$, then
-$A_{\mathcal E}^kx=\mu^kx$, so the nonconstant eigenvalue bound is
-$\lambda^k$~\cite[Section~2]{HLW2006}. The ratio of this bound to the
-degree is $\lambda^k/d^k=(\lambda/d)^k$.
-When $\lambda/d<1$, a fixed sufficiently large $k$ makes this ratio
+$d^h$. If $A_{\mathcal E}x=\mu x$, then
+$A_{\mathcal E}^hx=\mu^hx$, so the nonconstant eigenvalue bound is
+$\lambda^h$~\cite[Section~2]{HLW2006}. The ratio of this bound to the
+degree is $\lambda^h/d^h=(\lambda/d)^h$.
+When $\lambda/d<1$, a fixed sufficiently large $h$ makes this ratio
 smaller than any prescribed positive constant. The new degree
-$d^k$ still does not depend on the number of vertices.
+$d^h$ still does not depend on the number of vertices. Thus $h$
+counts steps in an auxiliary walk, whereas $t$ counts vertices in
+the sets that a replacement must join.
 
 We use the following explicit starting family.
 
 \begin{theorem}[Margulis--Gabber--Galil expanders
  {\cite[Construction~8.1 and Theorem~8.2]{HLW2006}}]
 \label{thm:auxiliary-expander-family}
-For every integer $\nu\ge1$, there is a deterministically
-constructible eight-regular undirected multigraph on $\nu^2$
-vertices whose nonconstant eigenvalues have absolute value
-at most $5\sqrt2$. Its construction takes polynomial time in $\nu$.
+For every integer $\nu\ge1$, put
+$\mathbb Z_\nu=\{0,\ldots,\nu-1\}$, with arithmetic modulo $\nu$.
+On vertex set $\mathbb Z_\nu^2$, define $\mathcal G_\nu$ by giving
+each vertex $(x,y)$ the eight
+outgoing steps with endpoints
+\[
+ (x\pm2y,y),\quad (x\pm(2y+1),y),\quad
+ (x,y\pm2x),\quad (x,y\pm(2x+1)).
+\]
+The eight choices remain distinct steps when endpoints coincide,
+including loop steps when the endpoint is $(x,y)$. They define an
+eight-regular undirected multigraph under our step convention,
+since the transformations with opposite signs are inverses.
+Its nonconstant eigenvalues have absolute value at most $5\sqrt2$.
+Put $\lambda_0=5\sqrt2/8<1$. For every integer $h\ge1$, the
+$h$th walk power $\mathcal G_\nu^{[h]}$ has degree $8^h$ and
+normalized transition operator
+\[
+ P_{\nu,h}=8^{-h}A_{\mathcal G_\nu}^h,\qquad
+ \|P_{\nu,h}x\|_2\le\lambda_0^h\|x\|_2
+ \quad(x\in\mathbf1^\perp).
+\]
+Thus its normalized operator norm on the zero-sum subspace is at
+most $\lambda_0^h$; when $\nu=1$ that subspace is zero. The
+walk-power assertion follows from the preceding calculation.
+For fixed $h$, enumerating its $\nu^2 8^h$ steps constructs the
+multigraph deterministically in time polynomial in $\nu$.
 \end{theorem}
 
-The eigenvalue-to-degree ratio is at most $5\sqrt2/8<1$. Thus, for
-any fixed positive threshold fraction, a sufficiently large fixed
-walk power gives the required no-hole bound. These graphs are
-available on $\nu^2$ vertices. Our remaining task is to obtain the
-same type of guarantee on arbitrary prescribed vertex sets and,
-for biclique factors, on two prescribed sides with all edges
-between them. This is a standard adaptation by grouping auxiliary
-vertices. We state the resulting lemma below and give the mapping
-definitions and proof in Appendix~\ref{app:factor-expanders}.
+These graphs have square orders $\nu^2$. To obtain replacements
+on arbitrary prescribed sets, we group auxiliary vertices and map
+each group to one prescribed vertex, using separate maps for the
+two biclique sides. The resulting lemma is proved in
+Appendix~\ref{app:factor-expanders}.
 
 \begin{lemma}[Mapping to prescribed vertex sets]
 \label{lem:factor-expanders}

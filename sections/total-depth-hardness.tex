@@ -7,6 +7,34 @@ contributes to the objective, and each vertex of the common prefix
 increases the depth of every vertex below it. We reuse the
 first-branch structure and bound these contributions together.
 
+For a rooted forest $F$, let $\iota(F)$ be the number of unordered
+pairs of distinct vertices that are incomparable in its ancestor order.
+This counts the savings in total depth relative to one chain.
+
+\begin{lemma}[Incomparable-pair accounting]
+\label{lem:incomparable-pair-accounting}
+For every rooted forest $F$ on $N$ vertices, the first identity below
+holds. If $F$ is nonempty and not a single chain, define its prefix
+$P$ and children $F_1,\ldots,F_\nu$ as in
+Section~\ref{subsec:ugc-branch-notation}, and put $N_j=|V(F_j)|$
+for $j\in[\nu]$. Then the second identity holds as well:
+\[
+ \totd(F)=\frac{N(N+1)}2-\iota(F),\qquad \iota(F)=\sum_{1\leq i<j\leq\nu}N_iN_j+
+           \sum_{j=1}^{\nu}\iota(F_j).
+\]
+Adding a chain above all roots leaves $\iota(F)$ unchanged.
+\end{lemma}
+
+\begin{proof}
+A vertex's depth counts itself and its proper ancestors. Thus total
+depth counts all $N$ vertices and all comparable unordered pairs,
+proving the first identity, including $N=0$. Every prefix vertex
+is comparable with every vertex, while vertices in different children
+are incomparable. This partitions the incomparable pairs as stated.
+New vertices on a chain above all roots are comparable with every
+vertex, so they create no incomparable pair.
+\end{proof}
+
 \subsubsection{The YES upper bound}
 
 The elimination forest from Lemma~\ref{lem:ugc-completeness} has a
@@ -24,19 +52,15 @@ For every graph $G$ on $n$ vertices and every integer $q\geq1$,
 \end{lemma}
 
 \begin{proof}
-Choose a maximum independent set of $G$, and use the forest of
-Lemma~\ref{lem:ugc-completeness}. A vertex's depth counts itself and
-its proper ancestors. Hence the total depth is the number of
-vertices plus the number of unordered pairs that are comparable
-in the ancestor order.
-
-In this forest, the only incomparable pairs have their endpoints in
+Choose a maximum independent set of $G$, and use the forest $F$ of
+Lemma~\ref{lem:ugc-completeness}. Its only incomparable pairs have endpoints in
 different lower chains. There are $q$ such chains, each with
 $\alphaI(G)$ vertices, so there are
 $\binom q2\alphaI(G)^2$ incomparable pairs. Therefore the forest has
 total depth
 \[
- qn+\binom{qn}{2}-\binom q2\alphaI(G)^2
+ \totd(F)\overset{\text{Lem.~\ref{lem:incomparable-pair-accounting}}}{=}
+ \frac{qn(qn+1)}2-\binom q2\alphaI(G)^2
  =\frac{qn(qn+1)-q(q-1)\alphaI(G)^2}{2},
 \]
 which gives the claimed upper bound, also when the common prefix is empty.
@@ -45,60 +69,21 @@ which gives the claimed upper bound, also when the common prefix is empty.
 \subsubsection{A structural lower bound for total depth}
 
 Use the notation from Section~\ref{subsec:ugc-branch-notation}.
-The prefix contributes its own depth sum and shifts every child
-depth by $|P|$. Within a child, we restore the missing pairs in
-$U_j\times I_j$ so that induction applies to a full layered graph.
-The next two lemmas compute these two costs.
+Lemma~\ref{lem:incomparable-pair-accounting} accounts for the prefix
+through one pair-counting identity: only incomparable pairs save depth. Restoring a child's
+missing pairs in $U_j\times I_j$ above its roots preserves this
+saving and lets induction apply to a full layered graph.
 
-\begin{lemma}[Prefix and child total depths]
-\label{lem:ugc-total-depth-accounting}
-In the first-branch notation,
-\[
- \totd(F)=\frac{|P|(|P|+1)}2+|P|\sum_jN_j+\sum_j\totd(F_j).
-\]
-\end{lemma}
-
-\begin{proof}
-The prefix vertices have depths $1,\ldots,|P|$, and each child
-vertex has depth $|P|$ greater than its depth within that child.
-Their contributions are $\sum_{i=1}^{|P|}i=|P|(|P|+1)/2$ and
-$|P|\sum_jN_j$, respectively. Adding the child costs gives the identity.
-\end{proof}
-
-\begin{lemma}[Restoring deleted vertices: total depth]
-\label{lem:restore-total-depth}
-Under the hypotheses of Lemma~\ref{lem:restore-vertices}, the
-forest $F'$ constructed there satisfies
-\[
- \totd(F')=\totd(F)+d(N-d)+\frac{d(d+1)}2.
-\]
-Consequently,
-$\totd(H)\leq\totd(H-X)+d(N-d)+d(d+1)/2$.
-\end{lemma}
-
-\begin{proof}
-The restoration increases each of the $N-d$ old depths by $d$,
-and the new vertices have depths $1,\ldots,d$. Thus
-\[
- \totd(F')=\totd(F)+d(N-d)+\sum_{i=1}^d i
- =\totd(F)+d(N-d)+\frac{d(d+1)}2.
-\]
-Minimizing over $F$ gives the inequality.
-\end{proof}
-
-Induction gives a squared term involving each child's layer count
-and vertex-cover number. Combining the children also produces
-products of these quantities from different children. The following
-inequality bounds the squares and products together.
-Cauchy--Schwarz will then bound its right-hand side using the total
-number of layers and the sum of the child vertex-cover numbers.
+The next inequality combines the squared child terms and their
+pairwise products. Cauchy--Schwarz will then bound its right-hand side
+using the total layer count and the sum of the child vertex-cover numbers.
 
 \begin{lemma}[Quadratic branching inequality]
 \label{lem:quadratic-branching}
 For a positive integer $\nu$ and nonnegative reals $W_1,\ldots,W_\nu$,
 \[
- \sum_{j=1}^\nu W_j^2+14\sum_{1\leq i<j\leq \nu}W_iW_j
- \leq\left(\sum_{j=1}^\nu\sqrt{W_j}\right)^4.
+ \sum_{j=1}^{\nu} W_j^2+14\sum_{1\leq i<j\leq \nu}W_iW_j
+ \leq\left(\sum_{j=1}^{\nu} \sqrt{W_j}\right)^4.
 \]
 \end{lemma}
 
@@ -116,187 +101,185 @@ $q\geq1$,
 \end{theorem}
 
 \begin{proof}
-We induct on $q$. The empty graph satisfies the bound with both
-sides zero. If $q=1$, every elimination forest is a chain. More
-generally, a single-chain forest has total depth
+We induct on $q$, with the induction hypothesis asserted for every
+finite simple source graph. If $n=0$, both sides are zero. Fix
+$n\geq1$ and an arbitrary elimination forest $F$ of $S_q(G)$.
+A single-chain forest has total depth
 $qn(qn+1)/2\ge(3/7)q^2\vc(G)^2+qn/2$, since $\vc(G)\le n$ and
-$1/2\ge3/7$. Otherwise use the first-branch notation
-from Section~\ref{subsec:ugc-branch-notation}, and put
-$c=\vc(G)$, $c_j=\vc(G[U_j])$, $W_j=q_jc_j$, $L_j=q_jn_j$,
-$S=\sum_jW_j$, $A=q\alphaI(G)$, and $N=qn$.
-By~\eqref{eq:cover-independent-complement},
-$n=c+\alphaI(G)$ and therefore $N=qc+A$.
-Lemmas~\ref{lem:ugc-layer-usage} and~\ref{lem:ugc-source-supports} give
-$\sum_jq_j\leq q$, $\sum_jc_j\leq c$, and
-$n_j=c_j+\alphaI(G[U_j])\leq c_j+\alphaI(G)$, so
-\[
- S=\sum_jq_jc_j\leq\Bigl(\sum_jq_j\Bigr)\Bigl(\sum_jc_j\Bigr)
- \leq qc,\qquad
- \sum_jL_j=\sum_jq_jn_j\leq\sum_jq_jc_j
-      +\alphaI(G)\sum_jq_j\leq S+A.
-\]
-
-To use induction in child $j$, restore its $M_j=L_j-N_j$ missing
-vertices above its roots. By Lemma~\ref{lem:restore-total-depth},
-the added cost is
-\[
- M_jN_j+\frac{M_j(M_j+1)}2
- =\frac{(N_j+M_j)(N_j+M_j+1)-N_j(N_j+1)}2
- =\frac{L_j(L_j+1)-N_j(N_j+1)}2.
-\]
-The restored forest represents $S_{q_j}(G[U_j])$. Since $q_j<q$,
-induction bounds its total depth below by $3W_j^2/7+L_j/2$.
-Subtracting the restoration cost gives
-\begin{equation}\label{eq:total-depth-child-bound}
- \totd(F_j)\geq\frac37W_j^2+\frac{L_j}{2}
- -\frac{L_j(L_j+1)-N_j(N_j+1)}2
- =\frac{N_j^2+N_j-L_j^2}{2}+\frac37W_j^2.
+$1/2\ge3/7$. This includes $q=1$, since $S_1(G)$ is a clique.
+Otherwise use the first-branch notation
+from Section~\ref{subsec:ugc-branch-notation}. Put $c=\vc(G)$ and,
+for $j\in[\nu]$, put $c_j=\vc(G[U_j])$, $W_j=q_jc_j$, and $L_j=q_jn_j$.
+Also put $S=\sum_{j=1}^{\nu} W_j$, $A=q\alphaI(G)$, and $N=qn$.
+We have $n\overset{\eqref{eq:cover-independent-complement}}{=}c+\alphaI(G)$
+and therefore $N=qc+A$. The shared child resource bounds give
+\begin{equation}\label{eq:total-depth-child-resources}
+ \left(\sum_{j=1}^{\nu}q_j\right)
+ \left(\sum_{j=1}^{\nu}c_j\right)
+ \overset{\eqref{eq:ugc-child-source-bounds}}{\leq}qc.
 \end{equation}
-We now add the prefix and child costs. The prefix and the
-triangular terms in~\eqref{eq:total-depth-child-bound} satisfy
-\[
-\begin{aligned}
- &\frac{|P|(|P|+1)}2+|P|\sum_jN_j+\frac12\sum_j(N_j^2+N_j)\\
- &\qquad=\frac{(|P|+\sum_jN_j)^2+|P|+\sum_jN_j}{2}
-             -\sum_{i<j}N_iN_j
- =\frac{N^2+N}{2}-\sum_{i<j}N_iN_j.
-\end{aligned}
-\]
-Thus the triangular cost of one chain on all $N$ vertices loses
-one unit for each pair in different children. To bound this loss
-together with the terms $L_j^2/2$, use $N_j\le L_j$ and
-$\sum_jL_j\le S+A$:
-\[
- \sum_{i<j}N_iN_j+\frac12\sum_jL_j^2
- \le\sum_{i<j}L_iL_j+\frac12\sum_jL_j^2
- =\frac12\Bigl(\sum_jL_j\Bigr)^2\le\frac{(S+A)^2}{2}.
-\]
-Lemma~\ref{lem:ugc-total-depth-accounting} therefore yields
+Consequently,
+\begin{equation}\label{eq:total-depth-support-bounds}
+S=\sum_{j=1}^{\nu} q_jc_j
+   \leq\Bigl(\sum_{j=1}^{\nu} q_j\Bigr)\Bigl(\sum_{j=1}^{\nu} c_j\Bigr)
+   \overset{\eqref{eq:total-depth-child-resources}}{\leq}qc,\qquad \sum_{j=1}^{\nu} L_j=\sum_{j=1}^{\nu} q_jn_j
+   \overset{\eqref{eq:ugc-child-source-bounds}}{\leq}
+   S+\alphaI(G)\sum_{j=1}^{\nu} q_j
+   \overset{\eqref{eq:ugc-child-source-bounds}}{\leq}S+A.
+\end{equation}
+
+For each $j\in[\nu]$, restore the $M_j=L_j-N_j$ missing vertices of child $j$ above
+its roots, obtaining a forest $\widetilde F_j$ of
+$S_{q_j}(G[U_j])$ by Lemma~\ref{lem:restore-total-depth}.
+Since $q_j\overset{\text{Lem.~\ref{lem:ugc-layer-usage}}}{<}q$,
+induction bounds its total depth below by $3W_j^2/7+L_j/2$.
+Restoration preserves incomparable pairs, so
+\begin{equation}\label{eq:total-depth-child-bound}
+ \iota(F_j)
+ \overset{\text{Lem.~\ref{lem:incomparable-pair-accounting}}}{=}
+ \frac{L_j(L_j+1)}2-\totd(\widetilde F_j)
+ \overset{\text{induction}}{\leq}\frac{L_j^2}{2}-\frac37W_j^2.
+\end{equation}
+The additional incomparable pairs lie in different children.
+Since $N_j\leq L_j$, their contribution and the squared terms
+in~\eqref{eq:total-depth-child-bound} satisfy
+\begin{equation}\label{eq:total-depth-cross-child-loss}
+\sum_{1\leq i<j\leq\nu}N_iN_j+\frac12\sum_{j=1}^{\nu} L_j^2
+ \overset{\text{Lem.~\ref{lem:ugc-child-restriction}}}{\leq}
+ \sum_{1\leq i<j\leq\nu}L_iL_j+\frac12\sum_{j=1}^{\nu} L_j^2 =\frac12\Bigl(\sum_{j=1}^{\nu} L_j\Bigr)^2
+ \overset{\eqref{eq:total-depth-support-bounds}}{\leq}\frac{(S+A)^2}{2}.
+\end{equation}
+Subtracting all incomparable pairs from the chain cost yields
 \begin{equation}\label{eq:total-depth-combined-children}
 \begin{aligned}
- \totd(F)&\geq\frac{N^2+N}{2}-\sum_{i<j}N_iN_j
-             -\frac12\sum_jL_j^2+\frac37\sum_jW_j^2\\
- &\geq\frac{N^2+N}{2}-\frac{(S+A)^2}{2}+\frac37\sum_jW_j^2.
+ \totd(F)&\overset{\text{Lem.~\ref{lem:incomparable-pair-accounting};
+ \eqref{eq:total-depth-child-bound}}}{\geq}
+ \frac{N^2+N}{2}-\sum_{1\leq i<j\leq\nu}N_iN_j
+             -\frac12\sum_{j=1}^{\nu} L_j^2+\frac37\sum_{j=1}^{\nu} W_j^2\\
+ &\overset{\eqref{eq:total-depth-cross-child-loss}}{\geq}
+ \frac{N^2+N}{2}-\frac{(S+A)^2}{2}+\frac37\sum_{j=1}^{\nu} W_j^2.
 \end{aligned}
 \end{equation}
-The terms involving only the $W_j$ can be grouped into the
-left-hand side of Lemma~\ref{lem:quadratic-branching}. Applying it,
-then Cauchy--Schwarz to $\sqrt{q_j},\sqrt{c_j}$, gives
+The terms involving only the $W_j$ can be grouped as
 \[
-\begin{aligned}
- \frac{S^2}{2}-\frac37\sum_jW_j^2
- &=\frac1{14}\left(\sum_jW_j^2+14\sum_{i<j}W_iW_j\right)
- \leq\frac1{14}\left(\sum_j\sqrt{W_j}\right)^4\\
- &\leq\frac1{14}\left(\sum_j\sqrt{q_j}\sqrt{c_j}\right)^4
- \leq\frac1{14}\left(\sum_jq_j\right)^2\left(\sum_jc_j\right)^2
- \leq\frac{q^2c^2}{14}.
-\end{aligned}
+ \frac{S^2}{2}-\frac37\sum_{j=1}^{\nu}W_j^2
+ =\frac1{14}\left(\sum_{j=1}^{\nu}W_j^2
+                  +14\sum_{1\leq i<j\leq\nu}W_iW_j\right).
 \]
-The second inequality uses $W_j=q_jc_j$. The third is
-Cauchy--Schwarz applied to the sequences $(\sqrt{q_j})_j$ and
-$(\sqrt{c_j})_j$.
-Expand $(S+A)^2$ in~\eqref{eq:total-depth-combined-children}, apply
-this estimate, and use $AS\le Aqc$. Finally, substitute $N=qc+A$:
+Apply Lemma~\ref{lem:quadratic-branching}, then Cauchy--Schwarz using
+$\sqrt{W_j}=\sqrt{q_j}\sqrt{c_j}$:
+\begin{equation}\label{eq:total-depth-quadratic-estimate}
+\frac{S^2}{2}-\frac37\sum_{j=1}^{\nu} W_j^2
+ \overset{\text{Lem.~\ref{lem:quadratic-branching}}}{\leq}
+ \frac1{14}\left(\sum_{j=1}^{\nu} \sqrt{W_j}\right)^4 \overset{\text{Cauchy--Schwarz}}{\leq}
+ \frac1{14}\left(\sum_{j=1}^{\nu} q_j\right)^2\left(\sum_{j=1}^{\nu} c_j\right)^2
+ \overset{\eqref{eq:total-depth-child-resources}}{\leq}\frac{q^2c^2}{14}.
+\end{equation}
+Since $N=qc+A$ and $A\geq0$, the bound $S\leq qc$ gives
 \[
-\begin{aligned}
- \totd(F)&\geq\frac{N^2+N}{2}
- -\left(\frac{S^2}{2}-\frac37\sum_jW_j^2\right)-AS-\frac{A^2}{2}
- \geq\frac{N^2+N}{2}-\frac{q^2c^2}{14}-Aqc-\frac{A^2}{2}\\
- &=\frac{q^2c^2+2Aqc+A^2+N}{2}-\frac{q^2c^2}{14}-Aqc-\frac{A^2}{2}
+ N^2-(S+A)^2=q^2c^2-S^2+2A(qc-S)
+ \overset{\eqref{eq:total-depth-support-bounds}}{\geq}q^2c^2-S^2.
+\]
+Substituting this into~\eqref{eq:total-depth-combined-children}
+leaves only the quadratic estimate:
+\[
+ \totd(F)\overset{\eqref{eq:total-depth-combined-children},\,
+ \eqref{eq:total-depth-support-bounds}}{\geq}
+ \frac N2+\frac{q^2c^2}{2}
+ -\left(\frac{S^2}{2}-\frac37\sum_{j=1}^{\nu} W_j^2\right)
+ \overset{\eqref{eq:total-depth-quadratic-estimate}}{\geq}
+ \frac N2+\frac{q^2c^2}{2}-\frac{q^2c^2}{14}
  =\frac37q^2c^2+\frac N2.
-\end{aligned}
 \]
 \end{proof}
+
+\subsubsection{Sharpness of the structural coefficient}
+
+The coefficient $3/7$ cannot be increased in a bound of the form
+\eqref{eq:total-depth-structural} valid for every $G$ and $q$.
+The following forests approach equality even when the source
+independence number is a vanishing fraction of its order.
+
+\begin{proposition}\label{prop:total-depth-structural-sharpness}
+Let $k\geq0$ and $t\geq2$ be integers, put $q=2^k$, and let $G$
+be the disjoint union of $q$ copies of $K_t$. Write $n=qt$ and
+$N=qn$. There is an elimination forest $F$ of $S_q(G)$ with
+\[
+ \totd(F)=\frac N2+
+ \left(\frac37+\frac{1}{14\cdot8^k}\right)N^2.
+\]
+Consequently, if a constant $\beta$ satisfies
+$\totd(S_q(G))\geq\beta q^2\vc(G)^2+qn/2$ for every finite simple
+graph $G$ and every integer $q\geq1$, then $\beta\leq3/7$.
+\end{proposition}
+
+% \begin{proof}
+% We construct the forest recursively. For $k=0$, the output is
+% $K_t$, and a chain has total depth $t(t+1)/2$.
+% For $k\geq1$, partition the layer indices into equal sets $I_1,I_2$
+% and the source clique-components into equal groups, whose vertex
+% sets are $U_1,U_2$. Put all vertices in
+% $(U_1\times I_2)\cup(U_2\times I_1)$ on a common prefix.
+% Its length is $N/2$. Below this prefix put separate forests on
+% $U_1\times I_1$ and $U_2\times I_2$, each of order $N/4$.
+% No output edge joins these two sets: their layers differ and no
+% source edge joins $U_1$ to $U_2$. Each induced child graph has
+% $q/2$ layers over a disjoint union of $q/2$ copies of $K_t$, so
+% the recursive construction applies. Every edge incident with the
+% prefix has comparable endpoints, proving that the forest is valid.
+%
+% For fixed $t$, let $T_k$ be its total depth and $N_k=4^kt$ its
+% order. The prefix contributes its own depths and $N_k/2$ to the
+% depth of each of the $N_k/2$ child vertices. Thus
+% \[
+% \begin{aligned}
+%  T_k
+%  &\overset{\text{Lem.~\ref{lem:ugc-total-depth-accounting}}}{=}
+%  \frac{(N_k/2)(N_k/2+1)}2+\frac{N_k^2}{4}+2T_{k-1}\\
+%  &=\frac{3N_k^2}{8}+\frac{N_k}{4}+2T_{k-1}.
+% \end{aligned}
+% \]
+% Writing $T_k=N_k/2+a_kN_k^2$ and using $N_{k-1}=N_k/4$ gives
+% \[
+%  a_0=\frac12,\qquad
+%  a_k=\frac38+\frac{a_{k-1}}8,\qquad
+%  a_k-\frac37=\frac18\left(a_{k-1}-\frac37\right).
+% \]
+% Iterating the last identity yields
+% $a_k=3/7+1/(14\cdot8^k)$, proving the formula.
+%
+% Here $\alphaI(G)=q$ and $\vc(G)=q(t-1)$. The proposed universal
+% bound and the constructed forest would imply
+% \[
+%  \beta
+%  \overset{\text{assumed bound}}{\leq}
+%  \frac{\totd(S_q(G))-N/2}{q^2\vc(G)^2}
+%  \overset{\totd(S_q(G))\leq\totd(F)}{\leq}
+%  \left(\frac37+\frac{1}{14\cdot8^k}\right)
+%  \frac{t^2}{(t-1)^2}.
+% \]
+% Letting $t$ tend to infinity and then $k$ tend to infinity gives
+% $\beta\leq3/7$. Also $\alphaI(G)/n=1/t$, as claimed.
+% \end{proof}
+
+This sharpness statement concerns the universal structural bound;
+it does not rule out stronger hardness from additional source
+properties or a different construction.
 
 \subsubsection{The approximation gap}
 \label{subsec:ugc-total-depth-gap}
 
-\begin{proof}[Dense total-depth gap]
-Fix $1\leq r<8/7$. For the source promise of Theorem~\ref{thm:bounded-degree-kr-source},
+\begin{proof}[Dense total-depth gap: proof sketch]
 Lemma~\ref{lem:total-depth-completeness} and
-Theorem~\ref{thm:total-depth-structural} give the coefficients
-$A^{\Sigma}_{q,\eta}=(q^2-q(q-1)(1/2-\eta)^2)/2$ and
-$B^{\Sigma}_{q,\eta}=(3/7)q^2(1-\eta)^2$.
-The corresponding output satisfies
-\[
- \begin{array}{ll}
- \textup{YES:}&\totd(S_q(G))\leq A^{\Sigma}_{q,\eta}n^2+qn/2,\\
- \textup{NO:}&\totd(S_q(G))\geq B^{\Sigma}_{q,\eta}n^2+qn/2.
- \end{array}
-\]
-At $\eta=0$, the ratio of the quadratic NO and YES coefficients
-is $24q/(7(3q+1))$, which approaches $8/7$ as $q$ increases.
-Thus every fixed $r<8/7$ leaves a positive separation for large
-enough $q$. A sufficiently small positive source error preserves
-that separation, and a large enough source order makes the
-quadratic terms dominate the linear terms.
-To verify these choices, take a fixed integer
-$q>7r/(24-21r)$. At $\eta=0$,
-\[
-\begin{aligned}
- A^{\Sigma}_{q,0}
- &=\frac{q^2-q(q-1)/4}{2}=\frac{q(3q+1)}8,\\
- B^{\Sigma}_{q,0}-rA^{\Sigma}_{q,0}
- &=\frac{3q^2}{7}-\frac{rq(3q+1)}8
-   =\frac{q\bigl(24q-7r(3q+1)\bigr)}{56}>0.
-\end{aligned}
-\]
-Indeed,
-$24q-7r(3q+1)=(24-21r)q-7r>0$ by the choice of $q$.
-The coefficients are continuous in $\eta$, so choose a fixed rational
-$\eta\in(0,1/10)$ with
-$B^{\Sigma}_{q,\eta}>rA^{\Sigma}_{q,\eta}$. For these choices the
-YES and NO bounds have gap
-\[
- \left(B^{\Sigma}_{q,\eta}n^2+\frac{qn}{2}\right)
- -r\left(A^{\Sigma}_{q,\eta}n^2+\frac{qn}{2}\right)
- =\left(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta}\right)n^2
-   -\frac{(r-1)qn}{2}>0
-\]
-whenever
-$n>q(r-1)/(2(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta}))$.
-Take a fixed number of disjoint copies of the source graph before
-applying $S_q$, large enough that the new source order satisfies this
-size bound. Both the independence number and the order scale by the
-same factor, so the source promise remains unchanged. The resulting
-source has the same maximum degree as the original, and the
-reduction has gap greater than $r$.
-All parameters and the number of copies are fixed, so the reduction
-is polynomial.
+Theorem~\ref{thm:total-depth-structural} give zero-error quadratic
+coefficients $q(3q+1)/8$ in the YES case and $3q^2/7$ in the NO
+case, with the same linear term $qn/2$. Their ratio
+$24q/(7(3q+1))$ tends to $8/7$. For a fixed $1\leq r<8/7$,
+choose a fixed $q$ and then a small
+source error so that the quadratic coefficients have ratio greater
+than $r$. A fixed number of disjoint source copies
+makes the quadratic gap dominate the linear term while preserving
+the independent-set promise and maximum degree.
+Appendix~\ref{app:dense-ugc-total} gives the coefficient expansion,
+parameter choices, and explicit replication count.
 \end{proof}
-
-\begin{remark}[Asymptotic sharpness of the structural constants]
-Let $q=2^s$ and let $G$ be the disjoint union of $q$ cliques of order
-$\ell$. View $S_q(G)$ as a $q\times q$ array of $\ell$-vertex cells,
-indexed by layers and source cliques. Put the two off-diagonal
-quadrants on a common chain and recurse on the two diagonal quadrants,
-ending with a chain in each cell. At a subproblem of side length $t\ge2$,
-the common chain contains $t^2\ell/2$ vertices, while the two
-diagonal subproblems each have side length $t/2$. If $H(t)$ and
-$T(t)$ denote the height and total depth of this recursive forest,
-then
-\[
- H(t)=\frac{t^2\ell}{2}+H(t/2),\qquad
- T(t)=\frac{3t^4\ell^2}{8}+\frac{t^2\ell}{4}+2T(t/2),
-\]
-with $H(1)=\ell$ and $T(1)=\ell(\ell+1)/2$. The height recurrence
-sums the common-chain lengths along one root-to-leaf path, and the
-total-depth recurrence adds the chain's triangular cost, the depth
-shift of the two child subproblems, and their total depths. Iterating
-the recurrences for $q=2^s$ gives
-\[
- \begin{aligned}
- H(q)&=\ell+\frac{q^2\ell}{2}\sum_{i=0}^{s-1}4^{-i}
-      =\frac23q^2\ell+\frac\ell3,\\
- T(q)&=\frac{q\ell(\ell+1)}2
-   +\frac{3q^4\ell^2}{8}\sum_{i=0}^{s-1}8^{-i}
-   +\frac{q^2\ell}{4}\sum_{i=0}^{s-1}2^{-i}\\
-   &=\frac37q^4\ell^2+\frac{q^2\ell}{2}+\frac{q\ell^2}{14}.
- \end{aligned}
-\]
-Since $N=q^2\ell$, these are the displayed height and total-depth
-values.
-Together with Theorems~\ref{thm:ugc-structural} and~\ref{thm:total-depth-structural},
-this gives $\td(S_q(G))/N\to2/3$ and $\totd(S_q(G))/N^2\to3/7$
-as $q,\ell\to\infty$, although $\alphaI(G)/|V(G)|=1/\ell\to0$.
-\end{remark}

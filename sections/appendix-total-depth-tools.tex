@@ -1,0 +1,254 @@
+\subsection{Total-depth normalization and the three paths}
+\label{app:total-depth-tools}
+
+Let $G$ be a simple tripartite graph with specified nonempty
+independent parts $A,B,C$, and put $N=|V(G)|$. Complete each part
+to a clique by setting
+\[
+ \widehat G=\left(V(G),\ E(G)\cup
+                 \bigcup_{X\in\{A,B,C\}}\binom{X}{2}\right).
+\]
+For an integer $M\ge1$, obtain
+$H^\Sigma_M(G)$ from $\widehat G$ by adding disjoint independent
+sets $T_A,T_B,T_C$, with
+\[
+ |T_X|=M,\qquad N_{H^\Sigma_M(G)}(t)=X
+ \qquad(X\in\{A,B,C\},\ t\in T_X).
+\]
+Depths in a rooted
+forest start at one, and ancestor includes the vertex itself. An
+elimination forest has one node per graph vertex and makes the
+endpoints of every edge comparable in the ancestor order.
+Write $\totd(F)$ for the sum of vertex depths in $F$, and
+$\totd(J)$ for its minimum over elimination forests of a graph $J$.
+
+In any elimination forest $F_G$ of $\widehat G$, the vertices of a
+part are pairwise comparable because they form a clique. They lie
+on one ancestor path and have a unique deepest vertex $y_X$. Define
+\[
+ W(F_G)=\sum_{X\in\{A,B,C\}}
+             \bigl(\operatorname{depth}_{F_G}(y_X)+1\bigr),
+ \qquad W(G)=\min_{F_G}W(F_G).
+\]
+Here and below, minima over $F_G$ range over all elimination forests
+of $\widehat G$.
+For a choice of part $X$, let $Y,Z$ be the other two parts. Write
+$\vc(J)$ for the minimum cardinality of a vertex cover of $J$, and
+define
+\[
+ \operatorname{cost}_X(G)=\min_{S_0}
+ \left(2|S_0|+\vc\bigl(G[(Y\cup Z)\setminus S_0]\bigr)\right),
+\]
+where $S_0\subseteq V(G)$ covers every $X$--$(Y\cup Z)$ edge.
+All cover graphs below refer to $G$, before clique completion.
+
+\begin{lemma}[Moving one added vertex]
+\label{lem:added-vertex-move}
+For any $X\in\{A,B,C\}$ and $u\in T_X$, every elimination forest
+of $H^\Sigma_M(G)$ can be changed so that $u$ is a leaf child of
+the deepest vertex in $X$, without increasing total depth or changing
+the ancestor order among vertices of $G$.
+\end{lemma}
+
+\begin{proof}
+Let $F$ be the given elimination forest and $y_X$ the deepest vertex
+of $X$ in $F$. The edge $uy_X$ makes $u$
+and $y_X$ comparable. Delete $u$, attaching its children to its
+parent, or making them roots if $u$ was a root. Reinsert $u$ as a
+leaf child of $y_X$, and call the resulting forest $F_{\rm new}$.
+Deletion preserves the ancestor order among
+the remaining vertices. Every neighbor of $u$ belongs to $X$ and
+is ancestral to $y_X$, so reinsertion preserves every edge as well.
+
+Write $d=\operatorname{depth}_F(u)$, $e=\operatorname{depth}_F(y_X)$,
+and let $D_F(u)$ be the old proper descendants of $u$. Deleting $u$
+reduces each of their depths by one; reinserting it as a leaf affects
+no other depth. Its new depth $d'$ satisfies $d'\le d+|D_F(u)|$:
+if $u$ was below $y_X$, then $d'=e+1\le d$; otherwise $d'=e$,
+and the old path from just below $u$ through $y_X$ contains
+$e-d$ vertices of $D_F(u)$. The single accounting identity
+\[
+ \totd(F_{\rm new})-\totd(F)=d'-d-|D_F(u)|\le0
+\]
+therefore proves the claim.
+\end{proof}
+
+\begin{restatedlemma}{Lemma~\ref{lem:np-total-depth-added-vertices}}
+Every elimination forest of $H^\Sigma_M(G)$ can be transformed without
+increasing total depth so that, for every $X\in\{A,B,C\}$, all
+vertices of $T_X$ are leaf children of the deepest vertex in $X$.
+Consequently,
+\[
+\totd(H^\Sigma_M(G))
+ =\min_{F_G}\bigl(\totd(F_G)+MW(F_G)\bigr),\quad MW(G)
+ \le\totd(H^\Sigma_M(G))
+ \le MW(G)+\frac{N(N+1)}2.
+\]
+\end{restatedlemma}
+
+\begin{proof}[Proof of Lemma~\ref{lem:np-total-depth-added-vertices}]
+Apply Lemma~\ref{lem:added-vertex-move} to every added vertex.
+Previously moved vertices remain leaf children of their respective
+deepest vertices, so this gives the stated normalization.
+
+Deleting the added leaves gives an elimination forest $F_G$ of
+$\widehat G$, and their total contribution is $MW(F_G)$.
+Conversely, every $F_G$ extends by these leaves to an elimination
+forest of $H^\Sigma_M(G)$. This proves the identity.
+
+The lower bound follows from $\totd(F_G)\geq0$ and
+$W(F_G)\geq W(G)$. For the upper bound,
+choose $F_G$ minimizing $W$. Its total depth equals $N$ plus the
+number of strict ancestor pairs, so
+$\totd(F_G)\leq N+\binom N2=N(N+1)/2$.
+Substituting this forest in the minimization identity proves the
+upper bound.
+\end{proof}
+
+Fix an elimination forest $F_G$ of $\widehat G$. For $v\in V(G)$, put
+\[
+\begin{gathered}
+c(v)=|\{X\in\{A,B,C\}:v\text{ is ancestral to }y_X\}|,\\S_0=\{v\in V(G):c(v)=3\},\qquad
+ S_1=\{v\in V(G):c(v)=2\}.
+\end{gathered}
+\]
+These sets record the shared prefixes of the three clique paths.
+
+\begin{lemma}[The same pair of descendants]
+\label{lem:clique-path-pair}
+If $S_1$ is nonempty, all its vertices are ancestral to the same two
+vertices among $y_A,y_B,y_C$.
+\end{lemma}
+
+\begin{proof}
+For two vertices of a rooted forest, their sets of descendants among
+$y_A,y_B,y_C$ are disjoint or one contains the other. The sets for
+vertices in $S_1$ have size two, so any two intersect and must be equal.
+\end{proof}
+
+When $S_1$ is nonempty, write $X$ for the part outside this common
+pair and $Y,Z$ for the other parts. When $S_1$ is empty, choose any
+part as $X$ and let $Y,Z$ be the other two parts.
+
+For a choice of $X,Y,Z$ and sets $S_0,S_1$, write
+$\Gamma_X(S_0,S_1)=2|S_0|+|S_1|$.
+This is the cost of a feasible pair of covers. Equivalently,
+$\operatorname{cost}_X(G)$ is the minimum of $\Gamma_X(S_0,S_1)$
+over sets $S_0$ covering the $X$--$(Y\cup Z)$ edges and sets
+$S_1\subseteq(Y\cup Z)\setminus S_0$ covering
+$G[(Y\cup Z)\setminus S_0]$.
+
+\begin{lemma}[Covers from the three paths]
+\label{lem:clique-path-covers}
+The set $S_0$ covers the $X$--$(Y\cup Z)$ edges of $G$, and
+$S_1\subseteq Y\cup Z$ covers $G[(Y\cup Z)\setminus S_0]$.
+Moreover,
+\[
+ W(F_G)=N+3+\Gamma_X(S_0,S_1)
+ \ge N+3+\operatorname{cost}_X(G).
+\]
+\end{lemma}
+
+\begin{proof}
+Every vertex of a part is ancestral to its deepest vertex. A vertex
+of $S_1$ has precisely $y_Y,y_Z$ as descendants among the three
+deepest vertices, so it cannot belong to $X$. A vertex of
+$X\setminus S_0$ is ancestral only to $y_X$, whereas a vertex of
+$(Y\cup Z)\setminus S_0$ has a nonempty descendant set contained in
+$\{y_Y,y_Z\}$. These sets are disjoint, so the vertices are
+incomparable and cannot be adjacent. Hence $S_0$ covers the first
+set of edges. Likewise, a $YZ$-edge outside $S_0$ with neither
+endpoint in $S_1$ would join vertices ancestral only to $y_Y$ and
+only to $y_Z$, which are incomparable. This proves the second cover
+claim.
+
+The sum of the three depths counts each vertex $v$ exactly $c(v)$
+times. Every vertex belongs to its own part's path, so $c(v)\geq1$.
+The definitions of $S_0,S_1$ therefore give
+\[
+ \sum_{X\in\{A,B,C\}}\operatorname{depth}_{F_G}(y_X)
+ =\sum_{v\in V(G)}c(v)=N+2|S_0|+|S_1|.
+\]
+Adding the three terminal offsets gives the identity; the cover
+claims give the inequality.
+\end{proof}
+
+\begin{restatedlemma}{Lemma~\ref{lem:np-total-depth-path-cost}}
+For every tripartite graph $G$ with nonempty specified parts,
+\[
+ W(G)=N+3+\min\{\operatorname{cost}_A(G),
+                 \operatorname{cost}_B(G),
+                 \operatorname{cost}_C(G)\}.
+\]
+\end{restatedlemma}
+
+\begin{proof}[Proof of Lemma~\ref{lem:np-total-depth-path-cost}]
+The lower bound is
+\[
+ W(G)=\min_{F_G}W(F_G)
+ \overset{\text{Lem.~\ref{lem:clique-path-covers}}}{\ge}
+ N+3+\min_{X\in\{A,B,C\}}\operatorname{cost}_X(G).
+\]
+
+For the converse, choose a part $X$ attaining the minimum, and let
+$Y,Z$ be the other two parts. Choose a cover $S_0$ attaining
+$\operatorname{cost}_X(G)$ and a minimum-cardinality cover $S_1$
+of $G[(Y\cup Z)\setminus S_0]$. Put $S_0$ on a common chain.
+Below it, put the remaining $X$ vertices on one chain. On the other
+branch put $S_1$ on a chain, followed by separate chains for the
+remaining $Y$ and $Z$ vertices. Empty chains are omitted. Each part
+lies on one ancestor path. Every cross-part edge either meets
+$S_0$ or is a remaining $YZ$-edge meeting $S_1$, so this is an
+elimination forest of $\widehat G$.
+
+The path through $S_0$ to the $X$-chain and the two paths through
+$S_0,S_1$ to the $Y$- and $Z$-chains contain every vertex of their
+respective parts. If a final chain is empty, end its path at the
+preceding shared chain. The depth of each part's deepest vertex is
+at most its path length. Counting these three path lengths counts
+every vertex once, every vertex of $S_0$ twice more, and every
+vertex of $S_1$ once more. Hence
+\[
+ W(F_G)\le N+3+\Gamma_X(S_0,S_1).
+\]
+The last term equals $\operatorname{cost}_X(G)$, proving the upper bound.
+\end{proof}
+
+\begin{lemma}[Normalizing successive covers]
+\label{lem:total-depth-cover-normalization}
+Let $X,Y,Z$ be the specified parts of $G$. Suppose that $S_0$ covers
+the $X$--$(Y\cup Z)$ edges and that
+$S_1\subseteq(Y\cup Z)\setminus S_0$ covers
+$G[(Y\cup Z)\setminus S_0]$. An independent block of vertices in
+one part with identical neighborhoods can be made wholly contained
+in $S_0$, wholly contained in $S_1$, or disjoint from both, without
+increasing $\Gamma_X(S_0,S_1)$. The $S_1$ state is unavailable
+for a block in $X$.
+
+Moreover, if $v\in S_0$ and every neighbor of $v$ across the
+$X$--$(Y\cup Z)$ cut already belongs to $S_0$, then $v$ can be
+removed from $S_0$ without increasing the cost. If $v\in Y\cup Z$,
+it suffices to add $v$ to $S_1$, decreasing the cost by one.
+If $v\in X$, deleting it decreases the cost by two.
+\end{lemma}
+
+\begin{proof}
+Give each vertex state $0$, $1$, or $2$ according as it belongs to
+$S_0$, to $S_1$, or to neither; these states cost $2$, $1$, and $0$.
+For a nonempty block $D$, choose a vertex of minimum state cost in
+$D$, and give every vertex of $D$ its state. This cannot increase
+$\Gamma_X$. It also preserves both covers: every edge from $D$
+to a vertex outside $D$ now has the same endpoint states as the
+existing edge from the chosen vertex to that neighbor. The first
+cover requires a state-$0$ endpoint on each first-cut edge; the second
+requires a state-$0$ or state-$1$ endpoint on each $YZ$-edge.
+These conditions held on the representative edge, and $D$ has no
+internal edges. A block in $X$ cannot acquire state $1$, because
+none of its vertices had that state. An empty block needs no change.
+
+For the last assertion, deleting $v$ preserves the first cover by
+the stated condition. If $v\in X$, the residual graph is unchanged
+and the cost decreases by two. Otherwise, every new residual edge
+is incident with $v$, so moving $v$ to $S_1$ covers all such edges
+and replaces cost two by cost one.
+\end{proof}

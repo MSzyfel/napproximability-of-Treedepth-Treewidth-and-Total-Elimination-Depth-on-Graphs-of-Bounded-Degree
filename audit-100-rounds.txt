@@ -1,0 +1,1403 @@
+100-ROUND MANUSCRIPT AUDIT
+22 October 2026
+
+Method: 100 focused review passes over named scopes, not 100 complete rereadings.
+Rounds 1-90 are nine groups of ten mathematical and editorial passes.
+Rounds 91-100 integrate the findings and check dependencies, notation, source accuracy,
+changes, references, compilation, all rendered pages, and independent final reviews.
+No change was made merely to produce an edit. Finite-precision arithmetic was excluded
+at the user's request. Computational checks supplement the mathematical review.
+
+MAIN CHANGES
+- Repaired the minor-monotonicity contraction proof using forest restriction.
+- Clarified source domains and the opposite-side convention for bipartite holes.
+- Made induction scope, NP construction provenance, auxiliary counts, and constants explicit.
+- Added a formal proof of the exact integrity comparisons used in the applications.
+- Corrected McNaughton's hypotheses and removed undefined TSS graph symbols.
+- Explained the RST normalization and finite sampler rationality without new notation.
+- Removed a repeated star-decomposition construction by invoking the new lemma.
+- Kept the weighted source theorem cases together and one equality chain unbroken.
+
+PRESERVED
+- Introduction: byte-for-byte unchanged.
+- Approximation factors and reduction constructions: unchanged.
+- Full expander definitions, mapping construction, and no-hole proof: unchanged.
+- Cited AKS density theorem: unchanged.
+- All nine required appendix statement copies remain complete before their proofs.
+- Alternative incidence treedepth proof and dependent text remain commented out.
+
+FINAL VERIFICATION
+- PDF: 78 pages, 755832 bytes.
+- latexmk returned 0. No final warnings or overfull/underfull boxes.
+- No duplicate labels, unresolved references, or unresolved citations.
+- All 78 pages viewed. All 17 pages changed by the final polish viewed again.
+- Corrected contraction proof: 5,913 forests, 38,203 contractions, 259,330 mapped edges.
+- Three independent critical-change reviews passed.
+- Final main.pdf equals the verified isolated output.
+- PDF SHA256: 2902513afb9833b6143f0071eaaa73080f71d1ec0dc25791c692e603c2076c8e
+- Introduction SHA256: 07a774cba1fd54df13dcdaf3b9b6eabc5a45f622ee3466267a93be9ebfec3315
+
+Evidence: tmp/audit-100 contains the baseline, original round records, complete
+consolidated JSON, source diff, reproducible global checks, final review reports,
+build log, rendered pages, visual reports, and image hashes.
+
+ROUND-BY-ROUND RECORD
+
+Round 001: Parameter definitions and forest conventions
+Scope: sections/02-preliminaries.tex | sections/03-ugc-hardness.tex:44-105 | sections/03-ugc-hardness.tex:253-269
+Check: Re-read the definitions of ancestors, restriction, height, total depth, tree decomposition, and minor monotonicity. Roots are at depth one, h(empty)=td(empty)=0, and restriction preserves the ancestor relation between surviving vertices.
+Check: Checked that total depth adds over components by restricting any forest to each component, then taking the disjoint union of component optima. The analogous treedepth operation takes the maximum.
+Check: Checked the height-restoration lemma when X is empty, H-X is empty, and both are nonempty. Placing d restored vertices above all component roots gives exactly h(F)+d in all cases.
+Check: Found a counterexample to the stated contraction operation: use forest chain u,a,v,w and graph edges uv and aw. Moving v's child w directly below u makes a and w incomparable, although aw survives contraction.
+Check: Verified the replacement operation. Restricting the forest to V(H) minus v preserves every surviving original edge. A former neighbor of v is either an ancestor of v, hence lies on the same ancestor chain as u, or a descendant of v, hence remains below u. Thus its new edge to the contracted vertex u is valid, with no height increase.
+Check: Checked the treewidth contraction argument independently. T_u and T_v intersect on an edge bag, so their union is connected, all contracted edges remain covered, and bag sizes do not increase.
+Outcome: One material proof defect, with a local correction. The minor-monotonicity lemma and all stated parameter conventions remain valid.
+Decision: Applied. Forest restriction preserves intermediate ancestor relations and repairs the contraction proof.
+Detailed evidence: tmp/audit-100/rounds/01-10-ugc.json
+Source: Own counterexample and proof of the corrected restriction operation.
+Source: https://arxiv.org/html/2105.12093, Definition 1 and its vertex-depth convention, checked as primary support for the VPT-sum terminology and roots at depth one.
+
+Round 002: Source promise, parameter order, and imported quantifiers
+Scope: sections/03-ugc-hardness.tex:8-30 | sections/appendix-bounded-degree-source.tex:13-95 | sections/appendix-bounded-degree-source.tex, final restatement and proof
+Check: Re-read the bounded-degree source theorem as a common input specification followed by explicit YES and NO cases. The same simple unweighted n-vertex graph with maximum degree at most d_eta is used on both sides.
+Check: Checked the quantifier order: eta is an arbitrary fixed rational in (0,1/10), d_eta depends only on eta, and the deterministic reduction is polynomial for fixed eta. Later q and eta are fixed from the requested approximation factor before the graph is constructed.
+Check: Compared the appendix's regular Unique Games promise with primary AKS Conjecture 2.4. Its YES quantity is the largest right-vertex fraction whose incident constraints admit one common labeling, and its NO quantity is the satisfied-edge fraction. Regularity is common to both cases. These match VOPT and OPT, respectively.
+Check: Compared the cited AKS density theorem with primary Theorem 3.1. For fixed bias q and analytic error, sufficiently small gamma gives independent-set weight at least q-gamma in YES and the all-beta Gaussian density guarantee in regular NO instances.
+Check: Verified from the primary BSS statement that the sparsifier is a reweighted subgraph, is deterministically polynomial-time constructible, and has the displayed spectral sandwich and linear edge bound. The manuscript does not silently identify this deterministic construction with AKS's randomized final sampling step.
+Check: Cross-checked the final appendix proof: deleting edges preserves the YES independent set, while positive retained internal weight for every set of size at least eta N implies alpha(J)<eta N. The source theorem is restated immediately before its appendix proof.
+Outcome: No change. The main source statement is properly separated into common conditions and explicit YES/NO promises, and its quantifiers agree with the cited primary sources and the appendix derivation.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/01-10-ugc.json
+Source: https://theoryofcomputing.org/articles/v007a003/v007a003.pdf, Conjecture 2.4, Theorem 3.1, and Section 4. Primary source checked on this pass.
+Source: https://arxiv.org/abs/0808.0163, primary BSS statement and deterministic construction claim.
+Source: Own audit of the theorem interfaces. This round does not claim a replacement for the separate full audit of the normalization appendix.
+
+Round 003: Layered graph adjacency, size, degree, and connectivity
+Scope: sections/03-ugc-hardness.tex:44-69 | sections/01-introduction.tex:241-247 | sections/bounded-degree-corollaries.tex, UGC treedepth proof
+Check: Re-read the exact adjacency biconditional. For distinct output vertices, same-layer pairs are precisely the clique edges. For different layers, an edge exists precisely when the two source vertices are adjacent. Copies of the same source vertex in different layers are nonadjacent because the source is simple.
+Check: Counted q binomial(n,2) within-layer edges. Each source edge produces two cross edges for each unordered layer pair, hence q(q-1)|E(G)| cross edges, with no overlap between the two classes.
+Check: For each copy v_i, counted degree n-1+(q-1)deg_G(v), giving the stated maximum degree formula for n at least one. In particular the source degree bound controls only the cross-layer part.
+Check: Checked connectivity without imposing it on the structural theorem. If G has an edge uv, the edge u_i v_j joins every distinct pair of clique layers, so S_q(G) is connected. If G is edgeless, the q layers may be separate components. The introduction explicitly handles the always-YES edgeless source by mapping it to K_1 for the connected-output application.
+Check: Verified that the later sparse UGC application retains all cross-layer edges and gives retained maximum degree at most (q-1)d_eta, exactly as the construction paragraph says.
+Check: Ran independent exact enumeration on all simple source graphs of order 0 through 4 and q in {1,2,3}, totaling 228 outputs. Every generated output had the stated edge count and, when n was positive, the stated maximum degree.
+Check: Checked the contextual comparison against Bonnet's primary Section 3.1. Its construction indeed has three clique parts. The manuscript claims only this contextual relationship and proves its own arbitrary-q bound.
+Outcome: No change. All graph formulas and the limited connectivity claim hold, including n=0 and n=1 where the degree formula is explicitly restricted as needed.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/01-10-ugc.json
+Source: Own adjacency count, degree calculation, connectivity argument, and exact enumeration output: 228 instances, zero violations.
+Source: https://arxiv.org/html/2406.11628v2, Section 3.1, primary contextual construction check.
+
+Round 004: The YES elimination forest and coefficient
+Scope: sections/03-ugc-hardness.tex:109-134
+Check: Re-read the forest construction vertex by vertex. The top chain contains precisely q(n-|I|) copies of vertices outside I. Each of the q lower chains contains precisely |I| copies, all from one layer, so every output vertex occurs once.
+Check: Checked all edge types. Edges with an endpoint on the top chain have comparable endpoints. Edges within a lower chain have comparable endpoints. Edges between different lower chains would require a source edge internal to I, which does not exist.
+Check: Checked q=1, I=V(G), and n=0 separately. With one layer the construction has height n. If the top chain is empty and n>0, the specified q separate lower chains are valid roots. If n=0 the forest is empty with height zero.
+Check: Calculated the height q(n-|I|)+|I|=qn-(q-1)alpha(G). Substituting alpha(G)>=(1/2-eta)n yields q-(q-1)(1/2-eta)=(q+1)/2+(q-1)eta, the displayed A_{q,eta}.
+Check: Used exact treedepth dynamic programming on the same 228 small outputs. Every optimum was at most qn-(q-1)alpha(G). This supplements the general edge-by-edge proof and does not replace it.
+Outcome: No change. The forest, edge verification, empty cases, and YES coefficient are correct.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/01-10-ugc.json
+Source: Own construction audit and exact treedepth recurrence on all 228 small outputs, with zero upper-bound violations.
+
+Round 005: First-branch partition, empty prefix, and local depth conventions
+Scope: sections/03-ugc-hardness.tex:71-105 | sections/03-ugc-hardness.tex:158-172 | sections/03-ugc-hardness.tex:237-248
+Check: Re-read the two definitions of P. With multiple roots P is empty and the rooted components are exactly the child trees. With one root and a non-chain finite tree, following the unique child must eventually reach a vertex with at least two children, which is included in P.
+Check: Verified that there are no omitted side subtrees above the first branch. Every earlier prefix vertex has exactly one child, so P and the selected child trees partition all qn output vertices.
+Check: Checked h(F)=|P|+max_j h(F_j) with child root depths reset to one. The equation holds both for a nonempty prefix and for the empty-prefix, multiple-root case.
+Check: Each child is nonempty, so its layer set I_j is nonempty. A clique layer cannot occur in two different children because such vertices would be incomparable yet adjacent. Consequently the I_j are disjoint, nu<=sum q_j<=q, and q_j<=q-nu+1<q.
+Check: Checked the extreme one-source-vertex case. S_q(G) consists of q isolated vertices, so a forest with q roots is allowed, P may be empty, every child uses one layer, and the later induction requirements still hold.
+Check: Verified that M_j=q_j n_j-N_j is nonnegative because the actual child vertices form a subset of U_j times I_j. No assumption that every represented source vertex occurs in every represented layer is made.
+Outcome: No change. The first-branch construction partitions the full forest and supplies all strict induction inequalities without a connectedness assumption.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/01-10-ugc.json
+Source: Own finite-forest and clique-layer arguments.
+
+Round 006: Child support isolation, overlap counts, cover additivity, and missing pairs
+Scope: sections/03-ugc-hardness.tex:174-235 | sections/03-ugc-hardness.tex:299-317
+Check: Re-read the support proof with source vertices distinguished from output copies. For distinct u in U_i and v in U_j, i!=j, their selected copies lie in disjoint layer sets. A source edge uv would force a cross-layer output edge between incomparable child trees, which is impossible.
+Check: For u in D and arbitrary distinct v in the union of supports, chose a support containing v and another support containing u. This proves u has no neighbor anywhere in the union, including vertices sharing a support with u. Thus D is isolated there and is independent in G.
+Check: Verified the exact multiplicity identity sum n_j=|union U_j|+sum over v in D of (multiplicity(v)-1). Since each multiplicity is at most nu, the stated n+(nu-1)alpha(G) bound follows, and nu<=q gives the remaining inequalities.
+Check: Checked cover additivity after removing D. The sets U_j minus D are disjoint and anticomplete, while D contributes no edge in the union. Therefore the child cover numbers sum exactly to the cover number of the induced union. Restricting a cover of G to this union proves that number is at most vc(G).
+Check: Checked the child completion graph. Relabeling I_j does not affect whether layer indices are equal, so the adjacency rule on the child agrees with S_{q_j}(G[U_j]). The only missing vertices are the M_j pairs outside the child, with no extra edge edits.
+Check: Checked the use n_j=vc(G[U_j])+alpha(G[U_j])<=c_j+alpha(G). Independence in the induced subgraph is also independence in G, so the bound is in the needed direction even when the U_j overlap.
+Outcome: No change. The stronger isolation claim justifies the exact cover identity, and missing pairs are accounted for without an unjustified full-product assumption.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/01-10-ugc.json
+Source: Own support, multiplicity, and induced-subgraph arguments.
+
+Round 007: Branching inequality and validity of the induction
+Scope: sections/03-ugc-hardness.tex:148-157 | sections/03-ugc-hardness.tex:253-317 | sections/appendix-auxiliary-proofs.tex, subsection The branching inequality
+Check: Re-read the branching inequality and its full appendix proof. Setting x_j=sqrt(q_j n_j), Cauchy-Schwarz gives (sum q_j)(sum n_j)>=(sum x_j)^2. Keeping only pairs involving a maximum x_k gives at least sum x_j^2+2x_k sum_{j!=k}x_j.
+Check: Since 0<=x_j<=x_k, each x_k x_j>=x_j^2. Substitution gives exactly 3 sum q_j n_j-2 max(q_j n_j), with no sign reversal. The proof also covers nu=1 and all n_j=0.
+Check: Confirmed that the appendix restates the exact branching lemma before proving it. The positive q_j and nonnegative n_j hypotheses in the main statement and restatement agree.
+Check: Re-read the structural theorem's induction quantifier. The assertion is for every finite simple source graph, so applying it to G[U_j] is legitimate. The induction is on q alone, and every child satisfies 1<=q_j<q.
+Check: Checked the base cases n=0, q=1, and forests that are a single chain. They respectively give 0=0, n>=2vc(G)/3, and qn>=2qvc(G)/3.
+Check: Applied restoration in the precise direction td(S_child)<=h(F_j)+M_j, then combined it with the induction lower bound to obtain h(F_j)>=(2/3)q_j c_j-M_j. Negative lower bounds on an individual child are permitted and cause no logical problem.
+Outcome: No change. The branching inequality is proved under exactly the hypotheses used by the structural induction, with complete zero and base cases.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/01-10-ugc.json
+Source: Own line-by-line inequality verification and induction audit.
+
+Round 008: Structural lower-bound arithmetic and cancellation
+Scope: sections/03-ugc-hardness.tex:320-362
+Check: Re-read the combination proof independently of the preceding prose. Choosing k to maximize q_j c_j need not maximize child height. The inequality h(F)>=|P|+h(F_k) holds for any selected child, which is all the argument uses.
+Check: Expanded qn-sum N_j+(2/3)q_k c_k-M_k with N_j=q_j n_j-M_j. The missing-pair terms become sum_{j!=k}M_j, so discarding them is valid. There is no uncancelled negative M_k term.
+Check: Put a=alpha(G), n=c+a, and n_j<=c_j+a. Then qn-sum q_j n_j>=qc-sum q_j c_j+a(q-sum q_j)>=qc-sum q_j c_j. Both discarded factors in the final nonnegative term have the required signs.
+Check: Combined the selected-child contribution into qc-(1/3)(3 sum q_j c_j-2 max_j q_j c_j), then applied the branching lemma with its n_j inputs replaced by c_j. Nonnegative cover numbers satisfy that lemma's hypotheses.
+Check: Checked the final product bound (sum q_j)(sum c_j)<=qc from two nonnegative upper bounds. It gives h(F)>=qc-qc/3=(2/3)qc as claimed.
+Check: Converted the source NO condition alpha(G)<eta n into vc(G)>(1-eta)n. Multiplication by 2q/3 is positive, so the displayed strict lower bound B_{q,eta}n is correct.
+Check: Exact treedepth dynamic programming on all 228 small layered outputs gave 3td(S_q(G))>=2q(n-alpha(G)) in every instance. This checks the stated structural constant on exhaustive small cases alongside the general proof.
+Outcome: No change. All cancellations, inequality directions, strictness, and the coefficient 2q/3 are correct.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/01-10-ugc.json
+Source: Own symbolic expansion, sign audit, and exhaustive exact treedepth calculation on 228 instances.
+
+Round 009: Strict approximation gap and size thresholds
+Scope: sections/03-ugc-hardness.tex:129-134 | sections/03-ugc-hardness.tex:357-390 | sections/bounded-degree-corollaries.tex, UGC treedepth proof
+Check: Re-read the YES and NO inequalities together. A factor-r feasible forest in YES has height at most r A_{q,eta} n. Every feasible forest in NO has height greater than B_{q,eta} n, so B_{q,eta}>r A_{q,eta} gives a valid separating threshold for every n>=1.
+Check: At eta=0, divided (2q/3) by (q+1)/2 to obtain 4q/(3(q+1)). Solving this ratio>r gives q(4-3r)>3r, equivalently the stated q>3r/(4-3r). The denominator is positive for 1<=r<4/3.
+Check: Expanded B-rA to [q(4-3r)-3r]/6-[2q/3+r(q-1)]eta. The constant term is positive by the q choice and the eta coefficient is positive, so a sufficiently small rational eta in (0,1/10) exists.
+Check: Checked r=1 explicitly. The q choice gives q>=4 and the same positive-error construction works. As r approaches 4/3 from below, q may grow but remains a constant fixed before the input instance.
+Check: Verified that this dense height gap has no additive term, so no amplification or minimum source-size threshold is missing. The n>=1 source condition suffices.
+Check: Cross-read the later sparse transfer. It deliberately chooses an intermediate r'>r, fixes q and eta for r', and charges the loss through n<=td(S_q(G))<=Y in YES. Thus the strict dense gap is strong enough for its stated downstream use.
+Outcome: No change. The strict gap is valid at every promised source size, and all reduction parameters depend only on the excluded approximation factor.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/01-10-ugc.json
+Source: Own ratio calculation, explicit threshold argument, and sparse-transfer interface check.
+
+Round 010: Notation, proof flow, formality, and defensible simplification
+Scope: sections/02-preliminaries.tex | sections/03-ugc-hardness.tex | sections/appendix-auxiliary-proofs.tex, active branching subsection | sections/appendix-bounded-degree-source.tex, final restatement
+Check: Re-read the section's narrative in order: source promise, layered construction, first-branch notation, YES forest, support lemmas, structural induction, and strict gap. Each technical object is introduced before its use, and the three emphasized stages of the induction correspond to actual logical dependencies.
+Check: Checked the distinct roles of layer sets I_j, source supports U_j, represented sizes N_j, support sizes n_j, and missing-pair counts M_j. The argument does not interchange the number of source vertices with the number of output copies.
+Check: Checked that OPT is the satisfied-edge objective and VOPT is the right-vertex subset objective in the dependent source definition. No cosmetic renaming is warranted.
+Check: Searched the two assigned files for literal semicolons. There are none. The proposed contraction correction also introduces none.
+Check: Considered shortening the repeated cover/independence complement identity. Retained it because its named equation is used in the structural proof and in the total-depth section, and moving the label to preliminaries would create cross-file churn with little reader benefit.
+Check: Considered merging the short child-completion and forest-accounting lemmas. Retained them because total depth reuses the first-branch framework, and separate references keep the induction's graph and height operations explicit.
+Check: Checked the appendix interfaces in scope. The bounded-degree source theorem and branching lemma are fully restated immediately before their appendix proofs. The structural treedepth theorem is proved where stated, so it needs no duplicate appendix statement.
+Check: Kept the introduction outside the proposed edit set and did not propose altering the expander definitions or construction. The only proposed manuscript edit from these ten rounds repairs a genuine proof defect.
+Outcome: No further change. The proof flow and notation support the shared treedepth/total-depth machinery. Conservative retention is preferable to cosmetic compression.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/01-10-ugc.json
+Source: Own reread, literal-semicolon search, cross-reference audit, and comparison of active main statements with appendix restatements.
+
+Round 011: Total-depth conventions and notation
+Scope: sections/02-preliminaries.tex total-depth definition | sections/total-depth-hardness.tex cover-first, accounting, restoration, and structural statements
+Check: Re-read the objective with roots at depth one and confirmed that the forest objective and graph optimum use the same totd notation with the argument distinguishing them.
+Check: Checked that each vertex contributes one for itself plus one for each proper ancestor, so total depth equals N plus the number of unordered comparable pairs.
+Check: Checked that local child depths restart at one and that prefix shifts therefore add exactly |P|N_j for child j.
+Check: Checked n=0, an empty common prefix, several roots, and a single rooted chain against the definitions.
+Check: Confirmed that all formulas retain the linear term qn/2 required by the depth-one convention.
+Outcome: Pass. The convention is consistent throughout the audited proof and its two reused accounting lemmas.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/11-20-total.json
+Source: sections/02-preliminaries.tex, total depth and forest restriction definitions
+Source: sections/total-depth-hardness.tex, lem:total-depth-completeness, lem:ugc-total-depth-accounting, lem:restore-total-depth
+
+Round 012: YES cost exact sum and normalization
+Scope: sections/total-depth-hardness.tex lem:total-depth-completeness and Dense total-depth gap | sections/03-ugc-hardness.tex lem:ugc-completeness
+Check: Reconstructed the cover-first forest with q(n-alpha(G)) prefix vertices and q lower chains each containing alpha(G) vertices.
+Check: Counted its incomparable pairs as binom(q,2) alpha(G)^2, including the empty-prefix and q=1 cases.
+Check: Verified N+binom(N,2)-binom(q,2)alpha(G)^2 = [qn(qn+1)-q(q-1)alpha(G)^2]/2.
+Check: Verified that substituting alpha(G) >= (1/2-eta)n has the correct inequality direction because its squared term is subtracted.
+Check: Confirmed the normalized YES coefficient A^Sigma_(q,eta) and the separate qn/2 term.
+Check: Ran exact subset dynamic programming for every simple source graph with 0<=n<=4 and 1<=q<=3. All 228 layered instances satisfy this upper bound.
+Outcome: Pass. The YES sum and quadratic/linear normalization are exact for the displayed forest.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/11-20-total.json
+Source: sections/03-ugc-hardness.tex, lem:ugc-completeness
+Source: sections/total-depth-hardness.tex, lem:total-depth-completeness and subsec:ugc-total-depth-gap
+Source: Inline exact subset-DP computation in this audit, 228 instances, all assertions passed
+
+Round 013: Child weights and local solution restriction
+Scope: sections/03-ugc-hardness.tex first-branch notation and support lemmas | sections/total-depth-hardness.tex child-restoration step
+Check: Checked that I_j are disjoint and nonempty, so q_j<q follows even if the original forest has multiple roots.
+Check: Checked that repeated source vertices are isolated in the union of the U_j and therefore do not cause cover numbers to be counted twice.
+Check: Verified sum c_j <= c and n_j = c_j+alpha(G[U_j]) <= c_j+alpha(G).
+Check: Checked that F_j is an elimination forest of the induced child graph and that the adjacency rule identifies this graph with S_(q_j)(G[U_j]) after M_j vertex deletions.
+Check: Verified that L_j=q_j n_j, M_j=L_j-N_j>=0, and W_j=q_j c_j are nonnegative analytic quantities, with W_j introducing no vertex weighting.
+Check: Checked S<=qc and sum L_j<=S+A using only nonnegative terms and the already established support bounds.
+Outcome: Pass. The local restriction and restoration apply to the actual child forest, and the support overlap is handled correctly.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/11-20-total.json
+Source: sections/03-ugc-hardness.tex, subsec:ugc-branch-notation, lem:ugc-layer-usage, lem:ugc-source-supports, lem:ugc-child-restriction
+Source: sections/total-depth-hardness.tex, thm:total-depth-structural
+
+Round 014: Combined-children recurrence and cancellation
+Scope: sections/total-depth-hardness.tex lem:restore-total-depth through eq:total-depth-combined-children
+Check: Recomputed restoration cost M_j N_j+M_j(M_j+1)/2 as [L_j(L_j+1)-N_j(N_j+1)]/2.
+Check: Subtracted the restoration cost from the inductive lower bound 3W_j^2/7+L_j/2 and checked that all L_j-linear terms cancel.
+Check: Expanded prefix cost plus sum (N_j^2+N_j)/2 to (N^2+N)/2-sum_(i<j)N_iN_j using |P|+sum N_j=N.
+Check: Checked that replacing N_iN_j by L_iL_j is permitted by 0<=N_j<=L_j.
+Check: Verified sum_(i<j)L_iL_j+(1/2)sum L_j^2=(1/2)(sum L_j)^2 and the subsequent bound by (S+A)^2/2.
+Check: Checked that the inequalities give a lower bound after the loss terms are subtracted.
+Outcome: Pass. The combined-child bound follows with the displayed signs and all missing-vertex costs accounted for.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/11-20-total.json
+Source: sections/total-depth-hardness.tex, lem:restore-total-depth, eq:total-depth-child-bound, eq:total-depth-combined-children
+Source: sections/03-ugc-hardness.tex, lem:ugc-forest-accounting
+
+Round 015: Quadratic inequality complete proof
+Scope: sections/total-depth-hardness.tex lem:quadratic-branching | sections/appendix-auxiliary-proofs.tex app:total-depth-branching
+Check: Matched the appendix restatement to the main lemma, including positive integer nu and nonnegative W_j.
+Check: Expanded (sum x_j)^4 and verified coefficients 4 for x_i^3x_j and x_ix_j^3 and 6 for x_i^2x_j^2.
+Check: Checked that every discarded monomial has at least three distinct indices and a nonnegative coefficient.
+Check: Verified 4x_ix_j(x_i^2+x_j^2)>=8x_i^2x_j^2, giving total pair coefficient 14.
+Check: Checked nu=1, all-zero inputs, and the equality case with exactly two equal positive W_j.
+Check: Evaluated all 1,364 choices x_j in {0,1,2,3} with 1<=nu<=5 and W_j=x_j^2. Every inequality passed.
+Outcome: Pass. The appendix contains a complete elementary proof and a faithful restatement.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/11-20-total.json
+Source: sections/total-depth-hardness.tex, lem:quadratic-branching
+Source: sections/appendix-auxiliary-proofs.tex, app:total-depth-branching
+Source: Inline exhaustive integer-square-root check in this audit, 1,364 cases, all assertions passed
+
+Round 016: Combinatorial and analytic induction
+Scope: sections/total-depth-hardness.tex thm:total-depth-structural proof
+Check: Checked that induction must assert the claim for every finite simple source graph because child j uses G[U_j].
+Check: Checked n=0 and q=1 separately and verified the single-chain bound from c<=n and 1/2>=3/7.
+Check: Verified that q_j<q makes every child application inductive and that restoring missing vertices yields a feasible forest of the full smaller-layer graph.
+Check: Checked that the proof establishes a bound for every elimination forest and hence for the minimum total-depth objective.
+Check: Noted that F is used later without an explicit initial declaration. The intended arbitrary-forest quantifier and simultaneous induction are recoverable from context but can be stated directly.
+Outcome: Pass mathematically, with one modest formality improvement proposed.
+Decision: Applied. The induction now covers every finite simple source graph, handles the empty graph, and fixes an arbitrary forest.
+Detailed evidence: tmp/audit-100/rounds/11-20-total.json
+Source: sections/total-depth-hardness.tex, thm:total-depth-structural
+Source: sections/03-ugc-hardness.tex, thm:ugc-structural proof for the neighboring explicit induction formulation
+
+Round 017: Lower-bound arithmetic and extremal cases
+Scope: sections/total-depth-hardness.tex analytic combination and asymptotic-sharpness remark
+Check: Verified S^2/2-(3/7)sum W_j^2 = [sum W_j^2+14sum_(i<j)W_iW_j]/14.
+Check: Checked the quadratic branching bound followed by Cauchy-Schwarz gives at most q^2c^2/14.
+Check: Expanded N=qc+A and verified exact cancellation of Aqc and A^2/2, leaving 3q^2c^2/7+N/2.
+Check: Checked zero cover number and zero child cover numbers, for which the lemma allows vanishing W_j without division.
+Check: Reconstructed the quadrant forest for G equal to q disjoint cliques. The two remaining diagonal quadrants have no edges between them.
+Check: Verified H(t)=t^2 ell/2+H(t/2) and T(t)=3t^4 ell^2/8+t^2 ell/4+2T(t/2), including their bases and the closed forms.
+Check: Ran 63 recurrence checks with q=2^s, 0<=s<=6, and 1<=ell<=9. Also exact-checked the structural lower bound on all 228 small layered instances.
+Outcome: Pass. The constants 3/7 and 2/3, the additive linear term, and the stated joint asymptotic limits are consistent.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/11-20-total.json
+Source: sections/total-depth-hardness.tex, thm:total-depth-structural and Asymptotic sharpness of the structural constants remark
+Source: Inline exact subset-DP and recurrence computations in this audit, all assertions passed
+
+Round 018: 8/7 gap quantifiers and strictness
+Scope: sections/total-depth-hardness.tex subsec:ugc-total-depth-gap | sections/03-ugc-hardness.tex thm:bounded-degree-kr-source
+Check: Verified A^Sigma_(q,0)=q(3q+1)/8 and B^Sigma_(q,0)=3q^2/7, giving coefficient ratio 24q/[7(3q+1)].
+Check: Checked that 24-21r>0 for 1<=r<8/7, so a fixed integer q>7r/(24-21r) exists and gives a strictly positive coefficient separation.
+Check: Checked that continuity and density of the rationals yield a fixed rational eta in (0,1/10), as required by the source promise.
+Check: Recomputed the linear-term correction as -(r-1)qn/2 and the strict source-order threshold.
+Check: Checked r=1, for which the threshold is n>0 and the positive quadratic separation suffices.
+Check: Verified fixed disjoint copies preserve the independence fraction, maximum degree, simple unweighted graph status, and strict NO promise.
+Check: Checked that the number of copies can be fixed from the threshold because every source has n>=1, so the reduction remains polynomial.
+Outcome: Pass. The proof gives every fixed factor strictly below 8/7 and does not claim hardness at the endpoint.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/11-20-total.json
+Source: sections/total-depth-hardness.tex, subsec:ugc-total-depth-gap
+Source: sections/03-ugc-hardness.tex, thm:bounded-degree-kr-source
+
+Round 019: Compatibility with the sparse-loss module
+Scope: sections/total-depth-hardness.tex dense gap | sections/general-sparsification.tex thm:total-depth-sparsification | sections/bounded-degree-corollaries.tex UGC total-depth transfer | sections/bounded-degree-hardness.tex total-depth comparison and gap preservation
+Check: Matched dense output order N=qn to the sparsification loss tau N^2.
+Check: Checked the layered factor description: q clique supports, one support per vertex, and retained cross-layer degree at most (q-1)d_eta.
+Check: Verified L=q n(n+1)/2 is a dense lower bound by summing the depth-one chain bound separately over the q layer cliques.
+Check: Checked L>=N^2/(2q), so tau N^2<=2q tau L<=2q tau Y at the YES scale.
+Check: Verified that tau<(r'-r)/(2q(r+1)) is sufficient for the stated gap-preservation lemma and that all resulting degree parameters are fixed.
+Check: Matched the exact restoration cost to the comparison formula N|D|-|D|(|D|-1)/2<=N|D|.
+Check: Checked that sparse YES bounds can only decrease, NO bounds lose at most tau N^2, and fixed-copy source enlargement remains available.
+Outcome: Pass. Dense total-depth normalization and fixed-parameter quantifiers match the sparse transfer without any change to the no-hole construction or expander definitions.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/11-20-total.json
+Source: sections/total-depth-hardness.tex, subsec:ugc-total-depth-gap and lem:restore-total-depth
+Source: sections/general-sparsification.tex, thm:total-depth-sparsification
+Source: sections/bounded-degree-corollaries.tex, cor:total-depth-bounded-degree UGC proof
+Source: sections/bounded-degree-hardness.tex, lem:gap-preservation and lem:total-depth-comparison
+
+Round 020: Proof flow, justified simplifications, and notation
+Scope: sections/total-depth-hardness.tex full subsection | sections/appendix-auxiliary-proofs.tex quadratic branching subsection
+Check: Re-read the proof in order: YES forest, prefix accounting, restoration, quadratic inequality, structural induction, approximation gap, and sharpness example.
+Check: Checked that every loss simplification is justified at its use and that L_j, N_j, M_j, W_j, S, A, c, and c_j are defined before their formulas.
+Check: Confirmed that the main quadratic branching lemma is restated before its appendix proof.
+Check: Confirmed that the visible quadratic proof is independent of the archived APW incidence proof and does not require exposing the commented material.
+Check: Found one harmless presentation issue: the substitution sqrt(W_j)=sqrt(q_j)sqrt(c_j) is printed as an inequality, followed by prose calling it the second inequality.
+Check: Kept the introduction, source promises, full own proofs, and sparse-replacement constructions outside the proposed edit scope.
+Outcome: Pass, with a small equality/prose cleanup proposed. No proof removal or mathematical change is warranted.
+Decision: Applied. The exact square-root substitution is marked as equality and the following explanation names Cauchy-Schwarz directly.
+Detailed evidence: tmp/audit-100/rounds/11-20-total.json
+Source: sections/total-depth-hardness.tex, display immediately following eq:total-depth-combined-children
+Source: sections/appendix-auxiliary-proofs.tex, app:total-depth-branching
+
+Round 021: Graph and input definitions, including empty parts
+Scope: sections/treewidth-hardness.tex:26-46 | sections/treewidth-hardness.tex:58-63 | sections/treewidth-hardness.tex:120-146 | sections/02-preliminaries.tex:4-16
+Check: {'check': 'Reread the complete K_R(G) definition and compare it with the graph conventions', 'evidence': 'The vertex set is V(G) x [R]. Within each X*=X x [R] all distinct pairs are edges. Between different parts only same-copy source edges are added.', 'result': 'This is a finite simple co-tripartite graph with R|V(G)| vertices. Global completion adds edges across different copies only within the same part.'}
+Check: {'check': 'Check empty parts and edgeless nonempty inputs', 'evidence': 'The central-bag proof explicitly chooses u_X arbitrarily when X*=empty. The completed-step decomposition formula and final bag X* remain meaningful when X is empty or S is empty.', 'result': 'No nonempty-part assumption is needed for the transfer lemmas. Since V(G) is nonempty, the decomposition tree has a node from which arbitrary u_X can be chosen.'}
+Check: {'check': 'Check that all source edges are cross-part edges', 'evidence': 'A,B,C are specified independent parts, so the source-copy union is precisely the set of inter-part edges retained in K_R(G).', 'result': 'The lower-bound cover graph is the intended disjoint union, with cover number R vc(G).'}
+Outcome: Pass. The transfer construction and proofs already handle empty parts correctly. The separate promise-statement positive-order clarification is recorded in round 26.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/21-30-treewidth.json
+Source:  
+Source:  
+
+Round 022: Every-decomposition central-bag guarantee and exact Bonnet provenance
+Scope: sections/treewidth-hardness.tex:48-72 | references.bib:46-55
+Check: {'check': 'Reread the lemma with its every-decomposition quantifier', 'evidence': 'For arbitrary (T,(B_t)), every nonempty clique X* lies in a bag at u_X. The median u lies on each pairwise u_X-u_Y path.', 'result': 'No restriction to optimal, claw-shaped, or normalized decompositions enters the argument.'}
+Check: {'check': 'Verify the edge-to-cover step', 'evidence': 'For a source edge xy with endpoints in distinct parts X*,Y*, T_x and T_y intersect by edge coverage. Their connected union contains u_X and u_Y, hence their connecting path and u.', 'result': 'At least one endpoint of every source edge lies in B_u. Thus B_u itself meets all edges and has size at least R vc(G). Degenerate coincidences among u_A,u_B,u_C cause no difficulty.'}
+Check: {'check': 'Verify citation numbering against the primary version', 'evidence': 'Bonnet arXiv:2406.11628v2 Lemma 4 is clique containment. Lemma 6 gives an optimal subdivided-claw decomposition with its central bag covering all inter-clique edges.', 'result': 'The manuscript correctly cites the proof of Lemma 6 as the argument being used and supplies its own median formulation for the stronger every-decomposition statement.'}
+Outcome: Pass. The source citation is exact and the manuscript proves the stronger quantifier rather than assuming it from the stated external lemma.
+Decision: Declined. The existing proof already fixes an arbitrary tree decomposition and cites the proof of Bonnet Lemma 6. Added attribution wording would duplicate this scope.
+Detailed evidence: tmp/audit-100/rounds/21-30-treewidth.json
+Source: Bonnet, Treewidth Inapproximability and Tight ETH Lower Bound, arXiv:2406.11628v2 https://arxiv.org/html/2406.11628v2
+Source:  
+
+Round 023: Replicated YES decomposition axioms
+Scope: sections/treewidth-hardness.tex:74-118
+Check: {'check': 'Reread the three paths as an explicit tree construction', 'evidence': 'Use a common center S*. On the X-path, step j adds I_j intersect X_j before removing S_j minus X_j. There is one inserted bag between every pair B^X_{j-1},B^X_j.', 'result': 'The construction is a tree with three paths meeting only at their center. Duplicate or empty bags are allowed by the decomposition definition.'}
+Check: {'check': 'Check vertex occurrence connectivity', 'evidence': 'A cover vertex in S_j intersect X_j occurs at the center and along the full X-path. On either other path it occurs from the center until its removal at step j. A vertex in I_j intersect X_j appears only on the X-path from its insertion onward.', 'result': 'Every vertex has a nonempty connected trace, including when its insertion or a removal changes no other vertices.'}
+Check: {'check': 'Check every edge type', 'evidence': 'Every global clique edge is covered at X*. An inter-part edge with both endpoints in S* is covered at the center. Otherwise it has endpoints in I_j intersect X_j and S_j minus X_j, both present in the inserted bag for copy j on the X-path.', 'result': 'The cover property excludes two independent-set endpoints. Processing another copy cannot remove the endpoint needed at step j. Thus every edge is covered.'}
+Outcome: Pass. The manuscript's own copied-instance upper-bound construction and its axiom verification are complete and should remain.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/21-30-treewidth.json
+Source:  
+Source: Bonnet, Treewidth Inapproximability and Tight ETH Lower Bound https://arxiv.org/html/2406.11628v2
+
+Round 024: Replicated bag-size bounds and width conversion
+Scope: sections/treewidth-hardness.tex:92-146
+Check: {'check': 'Reread and count completed-step bags', 'evidence': 'The unions in B^X_j are disjoint across source copies, giving |B^X_j|=j|X|+(R-j)|S| <= R max{|S|,|X|}.', 'result': 'No factor R multiplies the temporary insertion cost.'}
+Check: {'check': 'Count inserted bags', 'evidence': 'The newly inserted vertices are exactly I_j intersect X_j, disjoint from the preceding bag. Their count is |I intersect X| <= n_max.', 'result': 'All bags have size at most R max{|S|,n_max}+n_max, including center and leaves.'}
+Check: {'check': 'Check both lower bounds and the maximum', 'evidence': 'Every decomposition has some clique bag of size R n_max and some source-cover bag of size at least R vc(G). These bags need not be the same.', 'result': 'Their existence gives a largest bag of size at least R max{vc(G),n_max}. Subtracting one on each side yields the displayed treewidth interval.'}
+Check: {'check': 'Check fixed-parameter polynomial size', 'evidence': 'K_R(G) has R|V(G)| vertices, O(R^2|V(G)|^2) edges, and the explicit decomposition uses O(R) bags.', 'result': 'For fixed R both graph construction and the cover-to-decomposition map are polynomial.'}
+Outcome: Pass. Both the additive n_max term and all minus-one width terms are correct. No tightening is needed for the hardness applications.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/21-30-treewidth.json
+Source:  
+
+Round 025: Multipartite independent-set product proof
+Scope: sections/treewidth-hardness.tex:158-179
+Check: {'check': 'Reread the product definition and lower bound', 'evidence': 'The k layers are independent, each of size n. All copies of a source independent set contain no allowed inter-layer source edge.', 'result': 'alpha(P_k(G)) >= k alpha(G), with exactly kn output vertices.'}
+Check: {'check': 'Check repeated-source-vertex counting', 'evidence': 'Let m_v be the number of copies of v in an independent set and D={v:m_v>=2}. If adjacent u,v were both in D, one chosen u_i would be adjacent to one of the at least two chosen copies of v having a different layer.', 'result': 'D is independent. Vertices outside D contribute at most one each and those in D at most k, giving sum m_v <= n+(k-1)|D| <= n+(k-1)alpha(G).'}
+Check: {'check': 'Check the exact degree identity and boundary parameter', 'evidence': 'A copy v_i has one distinct neighbor for each pair consisting of a source neighbor u and a different layer j. Thus deg(v_i)=(k-1)deg(v).', 'result': 'The maximum-degree identity is exact. The stated positive-integer range includes k=1, where the graph is edgeless, the lower bound is valid, and the upper bound is n.'}
+Outcome: Pass. The independent-set product proof is self-contained and correct, including the multiplicity argument. Preserve it in full.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/21-30-treewidth.json
+Source:  
+
+Round 026: Constant-degree multipartite source normalization and quantifiers
+Scope: sections/treewidth-hardness.tex:181-204 | sections/appendix-source-normalizations.tex:15-77 | sections/appendix-bounded-degree-source.tex, restated bounded-degree independent-set source
+Check: {'check': 'Reread parameter substitution and common source input', 'evidence': 'For fixed integer k>=3 and fixed rational 0<zeta<1/12, eta=zeta/2 lies in (0,1/24), inside the source range (0,1/10). P_k(G) has N=kn vertices and k parts of size n.', 'result': 'D_{k,zeta}=(k-1)d_{zeta/2} depends only on fixed parameters. The product and source reduction are deterministic and polynomial for those parameters.'}
+Check: {'check': 'Check YES conversion', 'evidence': 'alpha(G)>=(1/2-eta)n gives alpha(P_k(G))>=(1/2-eta)N and vc(P_k(G))<=(1/2+eta)N<=(1/2+zeta)N.', 'result': 'The weaker stated YES threshold is valid.'}
+Check: {'check': 'Check NO conversion and strictness', 'evidence': 'alpha(G)<eta n gives alpha(P_k(G))<n+(k-1)eta n, hence vc(P_k(G))>(1-1/k-(k-1)eta/k)N. Since (k-1)eta/k<zeta, this implies the stated non-strict NO threshold.', 'result': 'The NO implication and degree normalization are correct.'}
+Check: {'check': 'Check literal promise disjointness at zero order', 'evidence': "Both the main theorem and its appendix restatement say only 'on N vertices'. If N=0 is allowed, vc=0 satisfies both displayed YES and NO conditions. The actual proved outputs satisfy N=kn>=k because the source has n>=1.", 'result': 'Add a positive-order condition to the two synchronized statements. This excludes no output of the reduction.'}
+Outcome: Minor formal statement clarification recommended. The normalized reduction, constants, and both inequalities are sound.
+Decision: Applied in both locations. N >= k rules out the empty graph while preserving every actual product output.
+Detailed evidence: tmp/audit-100/rounds/21-30-treewidth.json
+Source:  
+Source:  
+Source:  
+
+Round 027: UGC strict factor below 4/3
+Scope: sections/treewidth-hardness.tex:208-240
+Check: {'check': 'Reread parameter choices with endpoint quantifiers', 'evidence': 'For fixed 1<=r<4/3, delta=2/3-r/2>0. Choose positive rational zeta<min{1/12,delta/(1+r)} and then fixed R with r/(3R)<delta-(1+r)zeta.', 'result': 'These choices imply exactly 2/3-zeta>r(1/2+zeta+1/(3R)). All constants depend only on the target factor.'}
+Check: {'check': 'Check use of the maximum in the replication lemma', 'evidence': 'n_max=N/3. The YES upper threshold (1/2+zeta)N and NO lower threshold (2/3-zeta)N both exceed N/3.', 'result': 'In YES, max{vc(G),N/3} is at most the YES threshold. In NO it is at least the NO threshold. No unjustified lower bound on the actual YES cover is used.'}
+Check: {'check': 'Check additive constants for width and bag size separately', 'evidence': 'Let gamma=R(2/3-zeta)-r(R(1/2+zeta)+1/3)>0. The NO width bound minus r times the YES width bound is gamma N+r-1. For maximum bag size the corresponding difference is gamma N.', 'result': 'Both are strictly positive for N>0 and r>=1. The proof validly handles the minus-one terms and excludes the endpoint 4/3.'}
+Check: {'check': 'Check output class and scale', 'evidence': 'The output has RN vertices and three equal specified cliques of size RN/3. R is fixed before receiving an input.', 'result': 'The construction is polynomial and the dense graph has precisely the structure required later for three clique factors.'}
+Outcome: Pass. The strict UGC gap, including the independent maximum-bag-size claim, is correct.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/21-30-treewidth.json
+Source:  
+
+Round 028: NP strict factor below 12/11 and additive terms
+Scope: sections/np-treewidth-hardness.tex:1-59 | sections/np-hardness.tex, witness-cover lemma and normalized parity source
+Check: {'check': 'Reread the exact imported witness properties', 'evidence': 'The witness graph has order 9m, three parts of size 3m, retained degree at most 3b_epsilon, and vc(G_F)=13m/2-OPT(F). OPT(F)<=m gives vc(G_F)>=11m/2>3m.', 'result': 'The replication maximum is governed by cover size for every source instance. The imported degree and identity match Lemma lem:xor-cover.'}
+Check: {'check': 'Substitute the parity YES and NO cases independently', 'evidence': 'YES gives vc(G_F)<=13m/2-(1-epsilon)m=(11/2+epsilon)m. NO gives vc(G_F)>=13m/2-(1/2+epsilon)m=(6-epsilon)m.', 'result': 'The displayed cover thresholds have the correct directions and constants.'}
+Check: {'check': 'Check fixed choices and strictness for every m', 'evidence': 'For r<12/11, 6-(11/2)r>0. Choose rational epsilon so a=6-epsilon-r(11/2+epsilon)>0 and choose integer R with Ra>3r. The gap difference is [R(6-epsilon)-r(R(11/2+epsilon)+3)]m+(r-1).', 'result': 'Its coefficient of m is positive, so the width gap is strict for all m>=1 and r>=1. The additive 3m cost is correctly controlled by R and the minus-one constants are retained.'}
+Check: {'check': 'Check size amplification and output sizes', 'evidence': 'Disjoint parity copies on fresh variables scale both m and OPT(F), preserve the source fraction and normalized occurrences, and preserve balanced right-hand sides. The dense output has 9Rm vertices and global clique size 3Rm.', 'result': 'The amplification sentence is valid and remains useful for later bounded-degree transfers, even though the dense inequality already holds for every m>=1.'}
+Outcome: Pass. The 12/11 ratio, all additive terms, and all imported source data are consistent.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/21-30-treewidth.json
+Source:  
+Source:  
+
+Round 029: Integration with bounded-degree completion
+Scope: sections/treewidth-hardness.tex:13-22,145-156,196-204,238-239 | sections/bounded-degree-corollaries.tex, proof of cor:tw-bounded-degree | sections/general-sparsification.tex, thm:tw-sparsification
+Check: {'check': 'Reread the dense graph as factors plus retained edges', 'evidence': 'K_R(G) consists of the three disjoint global clique factors X* and the union of source-copy edges. Every vertex lies in exactly one clique factor. There are no biclique factors.', 'result': 'The applicable parameters are d_1=1 with all biclique anchoring conditions vacuous. Completion applies to arbitrary sparse decompositions and does not require them to have the dense central-bag structure.'}
+Check: {'check': 'Check retained degrees', 'evidence': 'For NP, source-copy edges have degree at most 3b_epsilon. For UGC, source copies of P_3(G) have degree at most 2d_eta=D_{3,zeta}, with eta=zeta/2.', 'result': 'Replication does not increase retained degree because distinct copies have disjoint source vertices. The only dense edges being replaced are the three global cliques.'}
+Check: {'check': 'Check NP additive-loss calculation', 'evidence': 'The dense order is 9Rm, so the sparsification loss is at most 9 tau Rm. With gamma=R(6-epsilon)-r(R(11/2+epsilon)+3)>0 and tau<gamma/(18R), the gap difference exceeds gamma m/2+r-1.', 'result': 'The NP bounded-degree gap survives for every m>=1.'}
+Check: {'check': 'Check UGC loss scale and parameter order', 'evidence': "Choose r<r'<4/3 and dense zeta,R first. For source order n, the dense order is 3Rn and a global clique gives Y>=Rn-1. When Rn>=2, 3 tau Rn<=6 tau Y. Taking tau<(r'-r)/(6(r+1)) meets the gap-preservation requirement.", 'result': 'The degree bound depends only on the excluded factor. Any required fixed source-size threshold is preserved by disjoint source copies. The current corollary uses the same source normalization and balanced product as the dense proof.'}
+Outcome: Pass. The dense proof, retained bounded-degree edges, factor supports, and additive completion losses integrate correctly.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/21-30-treewidth.json
+Source:  
+Source:  
+Source:  
+
+Round 030: Flow, notation, restatements, and cited versus manuscript reasoning
+Scope: sections/treewidth-hardness.tex:1-240 | sections/np-treewidth-hardness.tex:1-59 | sections/appendix-source-normalizations.tex:12-77 | references.bib:46-55,141-152
+Check: {'check': 'Reread the dependency and ownership narrative', 'evidence': 'The section first defines K_R, proves the central-bag and cover-to-decomposition lemmas, combines them into replication, then proves the multipartite product and invokes the appendix normalization before calculating the UGC gap. The NP section reuses the same replication lemma.', 'result': 'The logic is modular. The text already marks the replicated upper bound as an adaptation and supplies its own proof. The product proof is explicit. No background deletion is justified.'}
+Check: {'check': 'Check related-work description against a primary source', 'evidence': 'Berczi et al. arXiv:1612.00156v2 Sections 3.5-3.6 use vertex weights c(v), establish a k-partite cover gap approaching 2(k-1)/k, and reduce from Unique Games.', 'result': 'The related weighted-gap citation is accurate. It is not being used as a black box for balanced, unweighted, bounded-degree output, which the manuscript proves independently.'}
+Check: {'check': 'Check local notation and source cases', 'evidence': 'The cover number is vc, the independence number is alpha, replica count is R, product layer count is k, source order is n and product order is N=kn. OPT(F) is defined by the parity source. Main and appendix multipartite statements share their common input and YES/NO thresholds.', 'result': 'No mixed-case optimum notation or VOPT issue occurs in this assigned scope. Preserve ordinary OPT(F), as confirmed by the parent. The full appendix restatement and proof remain necessary.'}
+Check: {'check': 'Check punctuation constraint', 'evidence': 'The assigned treewidth sections and multipartite appendix proof contain no literal prose semicolon. The occurrences of backslash-semicolon in displayed unions are TeX spacing commands.', 'result': 'No punctuation edit is required. Mathematical spacing should remain.'}
+Outcome: Pass with one optional precision edit to the related-work sentence. No structural rewrite, proof deletion, or introduction change is warranted.
+Decision: Declined. Weighted Vertex Cover already refers to vertex weights here. Its paragraph explicitly contrasts the unweighted product source, so no extra wording is needed.
+Detailed evidence: tmp/audit-100/rounds/21-30-treewidth.json
+Source: Berczi, Chandrasekaran, Kiraly, Lee, Xu, Global and fixed-terminal cuts in digraphs, arXiv:1612.00156v2 https://arxiv.org/html/1612.00156v2
+Source:  
+Source:  
+Source:  
+
+Round 031: Weighted graph, loop, and parallel-edge conventions
+Scope: sections/04-sseh-hardness.tex:26–41 | sections/appendix-source-normalizations.tex:131–150
+Check: Checked sum_v deg_G(v)=2W with loops counted twice and checked vol_G(A)=2w(E(G[A]))+w(cut_G(A)). Parallel occurrences remain separate throughout.
+Check: Matched the source's random oriented-edge measure to mu_G(A)=vol_G(A)/(2W). Its oriented boundary probability is w(cut_G(A))/(2W), so the ratio defining expansion is exactly Phi_G(A).
+Check: Checked that each unweighted host occurrence becomes one line-graph vertex. A loop yields one output vertex and shares adjacency with every other edge at its endpoint, while no output self-loop is created.
+Check: Checked that isolated host vertices have zero volume and can be assigned to any YES class.
+Outcome: Passed. No factor-of-two or loop error found. One optional normalization clarification would make the source correspondence explicit.
+Decision: Applied without new notation. Sampling an edge in proportion to its weight and orienting it uniformly gives the exact volume and boundary probabilities.
+Detailed evidence: tmp/audit-100/rounds/31-40-sse.json
+Source: RST, Section 5 graph-expansion conventions https://arxiv.org/pdf/1011.2586#page=14
+
+Round 032: Exact RST Theorem 3.5 and quantifiers uniform in q
+Scope: sections/appendix-source-normalizations.tex:136–211 | sections/04-sseh-hardness.tex:43–60
+Check: Verified Theorem 3.5 against the primary source. Its quantifiers allow every fixed q and positive error parameters, with q equal-measure disjoint YES classes and a NO inequality for all sets.
+Check: Compared the displayed completeness expression term by term with RST Lemma 6.2. The expression has no q-dependent coefficient.
+Check: Verified the substitutions u<=epsilon'/2+3epsilon'^2, 2u+u^2<=epsilon'+7epsilon'^2, and (1-rho^2)beta/rho^2<=epsilon'^2.
+Check: Checked the dependence of auxiliary source parameters. q may affect the fixed source hardness parameters and polynomial exponent, while the displayed completeness bound and epsilon_0 remain absolute.
+Check: Checked that the total class volume is q(1/q)=1, so disjoint classes cover all positive-volume vertices and form a full partition after adding isolated vertices.
+Outcome: Passed. The proof correctly repairs the potentially nonuniform epsilon+o(epsilon) shorthand by using the explicit completeness expression. No manuscript change proposed.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/31-40-sse.json
+Source: RST Theorem 3.5 https://arxiv.org/pdf/1011.2586#page=8
+Source: RST Lemma 6.2 https://arxiv.org/pdf/1011.2586#page=20
+Source: RST Section 6.3 parameter choices https://arxiv.org/pdf/1011.2586#page=25
+
+Round 033: Gaussian medium-measure separation
+Scope: sections/appendix-source-normalizations.tex:82–128 | sections/appendix-bounded-degree-source.tex:55–63
+Check: Verified that the shared notation defines Gamma_xi(mu) as the joint lower-threshold probability, so mu-Gamma_xi(mu)=Pr[X<=t<Y].
+Check: Checked t in [Psi^{-1}(1/10),0], sigma<=1, and [t-sigma,t] contained in the fixed compact interval [t_0-1,0]. The normal density has a positive minimum there.
+Check: Recomputed the event implication Y>xi(t-sigma)+sigma=t+(1-xi)(sigma-t)>=t, using xi>=0 and t<=0.
+Check: Checked independence of the interval event for X and Z>1. Their probability is at least c_*sigma.
+Check: Recomputed sigma^2=1-xi^2>=1-xi=epsilon'/2>=epsilon/4 and hence sigma>=sqrt(epsilon)/2. The resulting a=c_*/2 is absolute.
+Outcome: Passed. The elementary probability argument proves the required absolute square-root lower bound without a missing endpoint or sign case.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/31-40-sse.json
+Source: Local Gaussian definitions and self-contained proof local:sections/appendix-bounded-degree-source.tex:55
+
+Round 034: Rational parameters, finite output encoding, and rounding size
+Scope: sections/appendix-source-normalizations.tex:153–161 | sections/appendix-source-normalizations.tex:204–210 | sections/appendix-source-normalizations.tex:278–307
+Check: Checked existence of rational rho strictly between sqrt(1-epsilon/2) and sqrt(1-epsilon/4). It gives rational epsilon'=2(1-rho^2) in (epsilon/2,epsilon). A rational gamma satisfying its upper bound also exists.
+Check: Inspected the finite sampler in RST Figure 1 and its resampling operators. Rational input weights and rational probability parameters give rational edge probabilities by finite products and sums.
+Check: Checked that all sampler dimensions and auxiliary parameters are fixed for a selected promise, so explicit output enumeration and rational bit lengths are polynomial in the source input.
+Check: Checked that M=ceil(k/theta), r_e=floor(Mw_e/W), and W are exactly computable from rational input. The construction does not clear a possibly huge common denominator by making that many edge copies.
+Check: Verified m<=M=O(k/theta), M-sum_e omega_e=m, and m>M-k>=(1-theta)M>0. For fixed q and epsilon, theta is fixed.
+Outcome: Passed. The rational output claim is justified by the source construction, but the phrase 'rational-parameter version' names no separately stated result. An optional local replacement would expose the actual reason.
+Decision: Applied only the short exact-rationality explanation from the finite sampler. Finite-precision and encoding-complexity discussion is excluded by the user instruction.
+Detailed evidence: tmp/audit-100/rounds/31-40-sse.json
+Source: RST Section 6 and Figure 1 finite sampler https://arxiv.org/pdf/1011.2586#page=19
+
+Round 035: Cut and volume rounding inequalities
+Scope: sections/appendix-source-normalizations.tex:297–390
+Check: Recomputed the volume difference edge by edge. The incidence coefficient divided by two is in {0,1/2,1}, including coefficient one for a loop in A, so 0<=mu_G(A)-vol_{G*}(A)/(2M)<=theta.
+Check: Recomputed the cut estimate from the exact sum of floor losses. Only crossing edges lose cut multiplicity, giving |cut_{G*}(A)|>=M(w(cut_G(A))/W-theta).
+Check: Checked YES volume bounds using m/M in [1-theta,1] and theta<=epsilon/(2q). Checked 1/(1-theta)<=1+epsilon from theta<=epsilon/(1+epsilon).
+Check: Checked the YES expansion denominator stays positive because q theta<=epsilon/2. The resulting bound 2epsilon/(1-epsilon/2)<=40epsilon/19<3epsilon is valid for epsilon<=1/10.
+Check: Checked NO interval transfer from rounded measure [1/4,3/4] to source measure [(1-theta)/4,3/4+theta] contained in [1/10,9/10]. Checked theta<=epsilon^2<=(c/2)sqrt(epsilon) and M>=m preserve the final cut threshold.
+Check: Executed exact Fraction arithmetic on all 728 nonempty three-vertex weighted hosts with each possible loop or edge weight in {0,1/7,2/3}. All 5,824 vertex-subset checks passed for volume error, cut error, and the medium-volume interval transfer at theta=1/20.
+Outcome: Passed. All inequality directions, normalization denominators, and rounding losses are consistent. No change proposed.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/31-40-sse.json
+Source: Self-contained rounding proof in the manuscript local:sections/appendix-source-normalizations.tex:297
+
+Round 036: YES partition edge counts and elimination forest
+Scope: sections/04-sseh-hardness.tex:67–128 | sections/04-sseh-hardness.tex:251–270
+Check: Verified 2w(D)=sum_i w(cut_G(V_i)) since each crossing occurrence is counted at its two endpoint classes and internal loops are never counted.
+Check: Verified 2w(E_i)+w(cut_G(V_i))=vol_G(V_i), so w(E_i)<=vol_G(V_i)/2 even with loops and parallel occurrences.
+Check: Checked the common D-chain is comparable with every class chain and that host edges internal to different classes share no endpoint. Every line-graph edge is therefore covered by comparability.
+Check: Checked empty D and empty internal-edge classes. A missing common prefix leaves separate rooted class chains and the same height expression.
+Check: Recomputed the dense YES bound using |D|<=3epsilon m, |E_i|<=(1+epsilon)m/q, and 1/q<=epsilon/2. The coefficient is (7/2+epsilon/2)epsilon<4epsilon.
+Outcome: Passed. The counting and forest argument work for the exact multigraph conventions and all empty-chain cases.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/31-40-sse.json
+Source: Self-contained crossing counts and forest construction local:sections/04-sseh-hardness.tex:67
+
+Round 037: Recovering a host cut from a line-graph separator
+Scope: sections/04-sseh-hardness.tex:130–198
+Check: Checked the separator-size split at |S|=(3/4-rho)m and the surviving order m-|S|>(1/4+rho)m.
+Check: Checked the component grouping for every rho in [1/2,3/4). An existing component in [m/4,rho m] works, while otherwise greedy accumulation first reaches m/4 below m/2<=rho m.
+Check: Recomputed |Y|=m-|S|-|X|>m/4 using |X|<=rho m. Endpoint sets of surviving component unions are disjoint, since a common endpoint would create a line-graph edge across components.
+Check: Checked endpoint-volume inequalities for loops. X contributes exactly two incidences per occurrence inside A, and Y contributes two inside disjoint B. Thus mu_G(A) lies in [1/4,3/4].
+Check: Checked that an edge crossing A cannot survive outside S. It cannot belong to X and its other surviving class Y has all endpoints in B disjoint from A.
+Check: Exhaustively checked all 728 nonempty three-vertex multigraphs with each loop or edge multiplicity in {0,1,2}. Across rho=1/2,3/5,7/10, all 268,703 balanced-separator cases satisfied the claimed min{(3/4-rho)m,beta m} bound, using the exact minimum medium-volume host cut.
+Outcome: Passed. The grouping interval, loop treatment, strict inequalities, and deleted-edge containment all hold.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/31-40-sse.json
+Source: Self-contained host-cut to line-graph separator proof local:sections/04-sseh-hardness.tex:148
+
+Round 038: Balanced separators, treedepth height, and total depth
+Scope: sections/04-sseh-hardness.tex:136–146 | sections/04-sseh-hardness.tex:200–233 | sections/bounded-degree-corollaries.tex:332–341
+Check: Verified APW Lemma 5.3 states the stronger bound using the maximum separator number over vertex subsets. Taking the subset to be all vertices gives precisely b(H)<=tw(H)+1.
+Check: Checked the forest-path construction uses the fixed threshold N/2 from the original graph. At most one root or child subtree can exceed that threshold.
+Check: Checked that after the final path vertex is deleted all remaining forest subtrees have order at most N/2, and graph edges cannot join distinct such subtrees because their endpoints are incomparable.
+Check: Checked the empty graph and the case where every root subtree is already small. Then the empty separator gives b(H)=0.
+Check: Checked that the original subtree rooted at the final path vertex has more than N/2 vertices, all at depth at least |P|>=b(H). This proves total depth >=(N/2)b(H) for every elimination forest.
+Check: Checked downstream use: YES total depth <=N(4eta N), NO total depth >=beta N^2/2, and the sparse comparison subtracts at most tau N^2.
+Outcome: Passed. The APW citation supports the stated corollary, and both forest lower bounds are self-contained and valid for disconnected graphs.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/31-40-sse.json
+Source: APW Definition 5.2 and Lemma 5.3 https://www.cs.toronto.edu/~toni/Papers/treewidth.pdf#page=23
+
+Round 039: Choosing q(epsilon), the approximation gap, and bounded-degree interface
+Scope: sections/04-sseh-hardness.tex:235–283 | sections/bounded-degree-corollaries.tex:15–58
+Check: Checked the order of fixed choices: select target C, then fixed rational epsilon satisfying the source threshold and sqrt(epsilon)<c/(8C), then the constant q=ceil(2/epsilon). This does not require an input-dependent q.
+Check: Recomputed the NO coefficient beta=(c/2)sqrt(epsilon). The imposed c sqrt(epsilon)<=1/4 ensures beta<1/4, so the cut term is the active separator lower bound.
+Check: Verified beta/(4epsilon)=c/(8sqrt(epsilon))>C and the target is a simple unweighted line graph with exactly m vertices.
+Check: Checked the incidence-clique interface: every non-loop output vertex belongs to its two endpoint supports and every loop output vertex belongs to one. Thus d_1<=2, d_0=0, no bicliques, and sum_v |U_v|<=2m independently of host degree.
+Check: Checked overlap from parallel edges is allowed by the factor framework. Repeating each host edge by a fixed parallel multiplicity preserves normalized volumes and cut ratios and scales m, permitting fixed source-size thresholds.
+Check: Checked that later sparsification can choose its loss parameter after the dense gap because beta/epsilon tends to infinity. No maximum-degree assumption on the host is used.
+Outcome: Passed. The source quantifiers, target gap, and degree-reduction handoff are compatible. No change proposed.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/31-40-sse.json
+Source: RST Theorem 3.5 fixed-parameter quantifiers https://arxiv.org/pdf/1011.2586#page=8
+Source: Local line-graph incidence-clique interface local:sections/bounded-degree-corollaries.tex:15
+
+Round 040: Flow, notation, and preservation of the requested presentation
+Scope: sections/04-sseh-hardness.tex | sections/appendix-source-normalizations.tex, global SSE subsection only
+Check: Followed the argument in manuscript order: weighted conventions, unweighted source promise, YES edge counting, line-graph construction, NO separator extraction, forest consequences, and fixed-factor parameter choice.
+Check: Checked that the appendix states the weighted normalized theorem immediately before its proof and restates Lemma lem:sse-unweighted-gap in full, with explicit YES and NO cases, immediately before the rounding proof.
+Check: Checked W denotes weighted undirected mass, M is the rounding scale, and m is the output host-edge count. The proof consistently distinguishes vol_{G*}(A)/(2M) from mu_{G*}(A)=vol_{G*}(A)/(2m).
+Check: Checked that the requested OPT and VOPT distinction needs no new notation in this SSE subsection because its objective is written directly as td, totd, and b.
+Check: Confirmed no prose semicolons occur in the audited SSE material. The alternative APW incidence-treedepth reference in Section 4 remains entirely inside TeX comments and must stay invisible.
+Check: Checked that neither optional clarification requires an introduction edit, a deletion of original reasoning, a new reduction, or any change to the expander and no-hole construction.
+Outcome: Passed. The current flow already preserves the own proofs and explicit source cases. No broader rewriting or cuts are recommended.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/31-40-sse.json
+Source: Audited manuscript and preserved baseline local:tmp/audit-100/baseline/sections/04-sseh-hardness.tex
+
+Round 041: Exact bounded-occurrence parity source and normalization
+Scope: sections/np-hardness.tex:27-65, thm:xor-source | sections/appendix-source-normalizations.tex:427-523, lem:parity-balance and normalized-source proof | references.bib, HazanSafraSchwartz2003 and Hastad1997
+Check: Re-read the common source input separately from the YES and NO promises. Distinct Boolean variables, unweighted equation multiplicities, positive equation count, and the meaning of OPT are explicit.
+Check: Verified Theorem 10 in the authors' primary ECCC report. It states the gap with two constant occurrence counts and no variable repeated inside an equation. Theorem numbering was checked in that report. The conference publication metadata was checked on the publisher page.
+Check: Checked the epsilon/2 invocation: YES >= 1-epsilon/2 implies the displayed YES bound, and strict NO < 1/2+epsilon/2 implies the displayed non-strict NO bound.
+Check: Recomputed complementing all three values modulo two. Since three is odd, the copied equation with opposite right-hand side has exactly the same satisfaction status.
+Check: Checked that fresh variable sets make optima additive, and that sixfold repetition gives m=12m_0 and OPT(F)=12OPT(F_0). Both promise ratios are preserved.
+Check: Checked preservation of at most two occurrence counts. Copying duplicates the existing counts, removing unused variables removes only zero counts, and repetition multiplies each remaining count by six. The occurrence bound remains a constant depending only on epsilon.
+Check: Verified d_x is a positive multiple of six, sum_x d_x=3m, and each right-hand side appears m/2 times. All operations have fixed-factor size growth.
+Outcome: Pass. The normalized source follows from the verified primary formulation and all displayed additional promises are preserved.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/41-50-parity.json
+Source: Hazan, Safra, and Schwartz, primary ECCC report TR03-020, Definition 8 and Theorem 10, printed page 4, https://eccc.weizmann.ac.il/report/2003/020/download, verified 2026-10-22
+Source: Springer conference publication metadata, https://link.springer.com/chapter/10.1007/978-3-540-45198-3_8, verified 2026-10-22
+Source: sections/appendix-source-normalizations.tex, lem:parity-balance and proof of thm:xor-source
+
+Round 042: Truth-block integrality and exact truth budget
+Scope: sections/np-hardness.tex:46-83, eq:xor-normalization and eq:xor-truth-budget | sections/np-hardness.tex:175-194, filled truth-block accounting
+Check: Re-read the truth-block construction independently of the witnesses. Each block has size 5d_x/6, which is a positive integer because d_x is a positive multiple of six.
+Check: Checked that the two blocks of one variable are nonempty, independent, and joined completely, so an independent set can meet at most one of them.
+Check: Recomputed the total size of one selected block per variable as (5/6)sum_x d_x=5m/2 and the total truth-vertex count as 5m.
+Check: Checked integrality of 5m/2 independently: sum_x d_x=3m and six-divisibility imply m is even. Right-hand-side balance also implies this.
+Check: For an omitted-variable set U, rederived the lost truth budget as (5/6)D_U. The remaining truth contribution is exactly 5m/2-5D_U/6.
+Check: Checked that filling a met truth block preserves independence because all its vertices have identical complete neighborhoods, including every equation occurrence and every repeated equation gadget.
+Outcome: Pass. All block sizes, budgets, and loss terms are integral where required and are counted exactly.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/41-50-parity.json
+Source: sections/np-hardness.tex, eq:xor-normalization, eq:xor-truth-budget, and proof of lem:xor-cover
+Source: Direct algebra from the normalized occurrence identities
+
+Round 043: Witness placement, star edges, tripartition, and degrees
+Scope: sections/np-hardness.tex:85-122, equation gadgets and eq:xor-equal-parts
+Check: Enumerated the four satisfying triples for each right-hand side. The special triple is 000 for right-hand side zero and 111 for right-hand side one, so its opposite truth-block neighbors belong to the other truth part.
+Check: Checked every edge type against the proposed partition: truth-block edges run from A to B, witness-to-truth edges from C run to A or B, and star edges run from the special witness in A or B to C.
+Check: Checked that the witness star is K_(1,3), with independence number three. Witnesses from different equation occurrences have no edges between them.
+Check: Recomputed |A|=5m/2+m/2=3m, |B|=3m, and |C|=3m. The total order is 9m.
+Check: For each variable coordinate and each right-hand side, enumeration gives exactly two satisfying triples for either value of that coordinate. Thus a truth vertex has exactly 2d_x witness neighbors plus 5d_x/6 opposite-block neighbors, giving degree 17d_x/6.
+Check: Recomputed the witness degree bound as (5/6)(d_x+d_y+d_z)+3 <= 5b_epsilon/2+3 <= 3b_epsilon, using b_epsilon>=6. The truth-vertex bound is also at most 3b_epsilon.
+Check: Checked simplicity under repeated equations. Each occurrence receives fresh witnesses, and all added edges join distinct vertices.
+Outcome: Pass. The construction is simple, unweighted, tripartite with equal parts, and has the stated bounded maximum degree.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/41-50-parity.json
+Source: sections/np-hardness.tex, tripartite construction and eq:xor-equal-parts
+Source: Inline enumeration of both parity predicates and all coordinate values, all assertions passed
+
+Round 044: Partial-assignment witness cases
+Scope: sections/np-hardness.tex:129-165, lem:xor-witness-excess
+Check: Re-read the partial-assignment setup and checked that selected witnesses must agree with every fixed variable, since disagreement creates a neighbor in a nonempty selected truth block.
+Check: Reconstructed the r_j=0 case for both satisfied and unsatisfied fixed equations. At most one witness survives in the former case and none in the latter, giving w_j-p_j<=0.
+Check: For r_j>=1, checked that toggling one free coordinate pairs satisfying and unsatisfying completions. Hence p_j=1/2 and exactly 2^(r_j-1) satisfying witnesses are consistent.
+Check: Verified that both restrictions apply simultaneously: w_j is at most the number of consistent witnesses and at most three because of the star.
+Check: Exhaustively checked both right-hand sides and all 27 partial assignments in {unassigned,0,1}^3, for 54 local states. Maximum values of w_j-p_j for r_j=0,1,2,3 were exactly 0, 1/2, 3/2, and 5/2.
+Check: Checked all four maxima against 5r_j/6. The all-unassigned case is tight, while the one-free and two-free cases have slack. No independence among different equations is used in this local bound.
+Outcome: Pass. The witness bound covers every possible partial assignment, including the tight all-unassigned case.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/41-50-parity.json
+Source: sections/np-hardness.tex, lem:xor-witness-excess and its complete case proof
+Source: Inline exact enumeration using rational arithmetic, 54 local states, all assertions passed
+
+Round 045: Exact independent-set and vertex-cover optimum
+Scope: sections/np-hardness.tex:167-211, lem:xor-cover
+Check: Re-read the upper bound from an arbitrary independent set, including the initial twin-block filling and its transfer back to the original set.
+Check: Checked sum_j r_j=D_U by counting equation occurrences. Repeated equations contribute separately on both sides.
+Check: Recomputed the witness excess sum and verified the exact cancellation of -(5/6)D_U with +(5/6)sum_j r_j.
+Check: Checked the expectation step carefully. Linearity does not require equations to be independent, and every completion satisfies at most OPT(F), so sum_j p_j<=OPT(F).
+Check: Checked the reverse construction edge by edge. One truth block per variable and the unique witness for each satisfied equation avoid truth conflicts, star conflicts, and inter-equation conflicts.
+Check: Recomputed alpha(G_F)=5m/2+OPT(F) and vc(G_F)=9m-alpha(G_F)=13m/2-OPT(F).
+Check: Independently optimized every filled truth-block state for 164 multisets of one to three equations on four variables. The weighted twin quotient used truth weight 5d_x/6 and exact star independent sets. Every case agreed with the displayed identity. This computation supplements the full proof and includes repeated equations.
+Outcome: Pass. Both bounds establish the exact optimum identities, with no unproved assumption that every variable is assigned by a maximum independent set.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/41-50-parity.json
+Source: sections/np-hardness.tex, lem:xor-cover and eq:xor-truth-budget
+Source: sections/02-preliminaries.tex, vc(G)=|V(G)|-alpha(G)
+Source: Inline exact weighted-quotient optimization, 164 systems, all assertions passed
+
+Round 046: Anchor definition and imported BNS facts against primary source
+Scope: sections/np-hardness.tex:216-244, H_ell(G) and cor:max-part-anchor | sections/appendix-auxiliary-proofs.tex:198-234, lem:bns-anchor, lem:anchor-path, and lem:anchor-pair-cover
+Check: Compared the explicit vertex and edge definitions with the primary BNS Lemma 6. The graph has three new anchor cliques and one associated vertex per part, with no extra source-to-anchor or cross-anchor edges.
+Check: Verified that the imported identity requires nonempty specified independent parts, positive integer anchor length, and length at least vc(G). The manuscript's use at L=max{ell,vc(G)} satisfies all of them.
+Check: Matched the path lower bound with BNS Claim 7. The excluded anchor and associated vertex ensure that the counted sets are disjoint.
+Check: Read the proof of BNS Claim 9, not just its surrounding contradiction setup. Its chosen edge argument only requires incomparability of the selected pair, so the manuscript correctly uses a pair-cover consequence without requiring all three anchors to be incomparable.
+Check: Checked the cover-first upper bound directly and against BNS. It remains valid at every positive integer anchor length, including an empty cover.
+Check: Identified one minor statement-domain omission: the local BNS identity restatement leaves positive integrality of L implicit in the earlier definition of H_L. Its applications are valid, but the imported statement can be made fully standalone.
+Outcome: Pass with one minor precision recommendation. The imported facts and their uses are sound.
+Decision: Applied. The standalone BNS anchor statement explicitly requires a positive integer length.
+Detailed evidence: tmp/audit-100/rounds/41-50-parity.json
+Source: Bonnet, Neuen, and Sokolowski, primary IPEC 2025 paper, Lemma 6 and Claims 7 and 9, https://drops.dagstuhl.de/storage/00lipics/lipics-vol358-ipec2025/html/LIPIcs.IPEC.2025.17/LIPIcs.IPEC.2025.17.html, verified 2026-10-22
+Source: Independent delegated proof audit of the same primary source and manuscript subsection, no flaw found
+
+Round 047: Shorter-anchor extension and exhaustive forest cases
+Scope: sections/appendix-auxiliary-proofs.tex:236-338, incomparable extension, arbitrary-length bounds, and proof of cor:max-part-anchor
+Check: Re-read the extension with L=max{ell,vc(G)} and d=L-ell. Inserting the new chain immediately above the deepest old clique vertex makes it comparable with every old clique vertex and every required source or associated neighbor.
+Check: Checked that insertion preserves all old ancestor relations. Pairwise incomparable deepest anchor vertices ensure that no root-to-leaf path acquires more than one inserted chain, so the new height is at most h(F)+d.
+Check: Checked the three-case split as a statement about three vertices in a rooted forest. It includes forests with multiple roots and the case of one anchor above two incomparable anchors.
+Check: In the all-comparable case, verified that both shallower anchor cliques lie above the deepest vertex and contribute 2ell distinct additional vertices to its path bound.
+Check: In the mixed case, verified the relabeling v_A above v_B with v_B incomparable to v_C, the bipartite cover bound on S, and the disjoint union R=S union K_A. This gives exactly 2ell+vc_2(G)+1.
+Check: Recomputed vc(G)<=2ell and vc(G)<=vc_2(G)+ell when ell is at least the largest part. These make ell+vc(G) attain the minimum in the arbitrary-length bound.
+Check: Ran exact treedepth subset dynamic programming for all 80 anchor outputs arising from every tripartite source with part sizes (1,1,1) or (1,1,2) and ell in {1,2}. All arbitrary-length bounds passed. All 48 instances satisfying the largest-part condition attained the exact corollary value, including empty and disconnected source graphs.
+Outcome: Pass. The shorter-anchor extension, all three lower-bound cases, and the resulting largest-part corollary are valid.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/41-50-parity.json
+Source: sections/appendix-auxiliary-proofs.tex, lem:incomparable-anchor-extension, lem:arbitrary-anchor, and complete proof of cor:max-part-anchor
+Source: sections/02-preliminaries.tex, ancestor order and elimination-forest conventions
+Source: Inline exact treedepth dynamic programming, 80 graphs of order at most 13, all assertions passed
+Source: Independent delegated anchor-extension audit, no flaw found
+
+Round 048: Exact treedepth identity and the 18/17 gap
+Scope: sections/np-hardness.tex:239-292, prop:xor-treedepth-identity and Dense treedepth gap
+Check: Re-read the use of the strengthened anchor corollary. Every source part has size 3m, so ell=3m is eligible even though vc(G_F)>=11m/2 from OPT(F)<=m.
+Check: Substituted the cover identity to obtain td(H)=3m+13m/2-OPT(F)+1=19m/2-OPT(F)+1.
+Check: Recounted output vertices as 9m+3(3m)+3=18m+3. Anchor cliques and joins create O(m^2) edges, so the graph is constructible in polynomial time.
+Check: Checked the YES upper threshold (17/2+epsilon)m+1 and the NO lower threshold (9-epsilon)m+1, with the correct inequality reversal when subtracting OPT(F).
+Check: For every fixed 1<=r<18/17, verified positivity of 9-17r/2 and existence of a fixed rational epsilon with gamma=9-epsilon-r(17/2+epsilon)>0.
+Check: Checked the disjoint-copy amplification before constructing the anchor graph. It preserves the at-most-two occurrence counts, maximum occurrence bound, right-hand-side balance, and source ratio. A fixed sufficiently large copy count suffices because gamma and r are fixed.
+Check: Recomputed the separation including the additive constant: NO_lower-r*YES_upper=gamma*m+1-r>0. The limiting ratio is 9/(17/2)=18/17, and the strict target factor stays below it.
+Outcome: Pass. The exact identity, polynomial output size, and strict approximation gap follow with all additive terms retained.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/41-50-parity.json
+Source: sections/np-hardness.tex, lem:xor-cover, cor:max-part-anchor, prop:xor-treedepth-identity, and Dense treedepth gap
+Source: Direct threshold algebra and preservation checks for disjoint source copies
+
+Round 049: Appendix restatements, assumptions, and cross-reference consistency
+Scope: sections/np-hardness.tex, complete section | sections/appendix-source-normalizations.tex:390-523, provenance and parity normalization | sections/appendix-auxiliary-proofs.tex:198-338, anchor-length subsection | sections/02-preliminaries.tex, graph and forest conventions | main.tex, OPT macro and appendix inclusion order
+Check: Compared the appendix restatement of thm:xor-source with its main statement, including common input, two occurrence counts, six-divisibility, equal right-hand-side counts, and explicit YES and NO cases. They agree.
+Check: Compared both statements of cor:max-part-anchor. Both require specified nonempty independent parts and anchor length at least the largest part, which also makes the length positive.
+Check: Traced every local theorem, lemma, equation, and appendix reference. The parity normalization and anchor proof labels resolve to the intended complete derivations.
+Check: Checked the ancestor convention against preliminaries. A vertex is its own ancestor, clique vertices lie on one path, and each set used in an additive path count is disjoint from its anchor and associated vertex.
+Check: Checked that OPT continues to mean a source equation count, with repeated equations counted separately. No VOPT notation or conflicting objective definition is introduced in the audited material.
+Check: Checked provenance against the construction: inherited truth-block and witness machinery is distinguished from the parity star, 5d_x/6 budget, balancing, and shorter-anchor analysis. All own proofs remain present.
+Check: Confirmed that the three audited manuscript files exactly match their audit-100 baseline hashes. No manuscript edit was made. The sole precision recommendation is recorded once in round 46.
+Outcome: Pass. Restatements, definitions, labels, and assumptions agree throughout the parity and anchor arguments.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/41-50-parity.json
+Source: sections/np-hardness.tex and the corresponding appendix restatements
+Source: sections/02-preliminaries.tex and main.tex
+Source: Repository-wide rg reference trace for all parity and anchor labels
+Source: SHA-256 comparison with tmp/audit-100/baseline, all three audited manuscript files matched
+
+Round 050: Exposition and notation simplification without proof loss
+Scope: sections/np-hardness.tex, source-to-graph-to-treedepth exposition | sections/appendix-source-normalizations.tex:390-523, parity provenance and normalization exposition | sections/appendix-auxiliary-proofs.tex:198-338, anchor-length exposition
+Check: Re-read the argument in reader order: common source promise, integral blocks, four witnesses and the star, partial-assignment estimate, exact cover optimum, anchor definition, exact treedepth identity, and approximation separation.
+Check: Checked that each nonstandard quantity is introduced before use: d_x, T_x^a, D_U, r_j, w_j, p_j, H_ell(G), K_X, z_X, v_X, and vc_2(G).
+Check: Checked repeated setup around the witness lemma and cover proof. It keeps the local estimate intelligible and makes the arbitrary-independent-set argument explicit, so deleting it would offer little benefit.
+Check: Checked the explanatory paragraph before the arbitrary-anchor bound against the formal three cases. It accurately previews all three mechanisms without replacing any proof step.
+Check: Checked the normalization exposition for the distinction between fresh complemented copies and repeated equations. Both operations and both effects on the optimum remain explicit.
+Check: Searched the audited files for prose semicolons and found none. The audit proposes no notation renaming, introduction change, proof deletion, or weakening of source input or YES and NO statements.
+Check: Found no further conservative simplification with a clear benefit. The only warranted local wording change remains the explicit positive-integer domain recorded in round 46.
+Outcome: Pass. The exposition is already direct and the proof detail is useful. No additional change is proposed.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/41-50-parity.json
+Source: Fresh exposition-focused reread of the complete audited parity and anchor passages
+Source: rg checks of notation definitions, labels, and semicolons in the three audited files
+
+Round 051: Cubic source from XOR, exact optimum shift, and port paths
+Scope: sections/appendix-source-normalizations.tex:545–587 | sections/np-hardness.tex:116–211
+Check: Re-read the normalized parity promise at epsilon=1/12 and the witness identity. Adding 5m/2 to the YES value 11m/12 gives 41m/12, and adding it to the NO value 7m/12 gives 37m/12.
+Check: Verified the no-isolated-vertex precondition directly from the truth-block and witness adjacencies. This permits d_v>=1 in every replacement path.
+Check: Checked both directions of alpha(Q)=alpha(G_F)+sum_v(d_v-1). A path of order 2d_v-1 has the unique maximum independent set consisting of all odd ports. Full paths therefore identify an independent set of the original graph. Selecting even positions in every other path proves the reverse bound.
+Check: Exhaustively enumerated independent sets of the paths for d=1 through 8 and verified the unique maximum consists of the ports.
+Check: Exhaustively checked all 814 nonisolated simple graphs on 2–5 vertices. The explicit port replacement had maximum degree at most three and exact optimum shift 2e_0-n_0 in every case.
+Check: Recomputed |V(Q)|=sum_v(2d_v-1)=4e_0-n_0 and |E(Q)|=sum_v(2d_v-2)+e_0=5e_0-2n_0.
+Outcome: Pass. Both the lower and upper bounds are exact, including degree-one source vertices. No change is needed.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/51-60-np-total.json
+Source:  
+Source:  
+Source:  
+
+Round 052: K4 attachments, regular degree, and threshold constants
+Scope: sections/appendix-source-normalizations.tex:584–645 | sections/np-total-depth-hardness.tex:7–30
+Check: Recomputed the deficit r=3|V(Q)|-2|E(Q)|=2e_0+n_0. Every deficit unit gets a distinct fresh attachment, so deficient vertices receive exactly the required number of new incident edges.
+Check: Verified the subdivided-K4 attachment has five vertices, seven internal edges, and one attachment edge. Its four original vertices have degree three, the subdivision vertex has degree three after attachment, and its conditional optimum is two whether that subdivision vertex is available or forbidden.
+Check: The independent pair {a,b} avoids the attachment vertex. Thus any independent set of Q extends by two vertices per attachment, and every independent set of J contains at most two vertices in each attachment. This proves the exact additive shift.
+Check: Recomputed |V(J)|=14e_0+4n_0 and s=(2e_0-n_0)+2r=6e_0+n_0. Explicitly constructed cubic completions for all 814 checked source graphs and verified simplicity and degree exactly three.
+Check: Checked K=s+ceil(41m/12), the NO loss of at least m/3, K<=(27D+161/12)m, and delta_0=1/(81D+41). The margin is strict because (81D+41)/3-(27D+161/12)=1/4.
+Check: Checked 1<=K<|V(J)| using |V(J)|-K>=8e_0+283m/12-1>0. The output is nonempty, cubic, simple, and has at least four vertices.
+Check: Compared the main theorem with the appendix restatement. Common input conditions and both YES/NO cases agree.
+Check: Verified the historical Alimonti–Kann attribution against the author-paper PDF. Theorem 3.2 gives maximum-degree-three independent-set hardness, and Section 3 ends by extending the results to graphs of degree exactly three.
+Outcome: Pass. The cubic completion and rational threshold gap are correct, with slack in every rounding estimate. Preserve the self-contained derivation and the complete restatement.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/51-60-np-total.json
+Source:  
+Source:  
+Source:  
+Source: Alimonti and Kann, Hardness of Approximating Problems on Cubic Graphs https://www.cs.yale.edu/homes/aspnes/pinewiki/attachments/MarkovChains/alimanti-mis-cubic.pdf
+
+Round 053: Completed parts, added-vertex construction, and graph size
+Scope: sections/np-total-depth-hardness.tex:32–78 | sections/np-total-depth-hardness.tex:264–298 | sections/np-total-depth-hardness.tex:527–548
+Check: Re-read the distinction between the tripartite graph G, its clique completion widehat G, and H^Sigma_M(G). All later arguments require H to retain the clique edges of widehat G.
+Check: Checked that all sets are disjoint, nonempty parts supply a well-defined deepest vertex, M is a positive integer, and each added vertex has exactly its corresponding part as neighborhood.
+Check: Recomputed the source construction: |A|=2n, |B|=|C|=m+3n=9n/2, |V(G(J))|=11n, and the retained graph has maximum degree three.
+Check: Checked the five edges for every oriented source edge and the 3n added matching edges. Each auxiliary vertex is adjacent to the two copies of exactly one source endpoint and to its unique middle-edge partner.
+Check: Checked M=ceil(N(N+1)/(2epsilon_0 n))=Theta(n) for fixed epsilon_0 and N=11n. Thus H has N+3M=O(n) vertices and O(n^2) edges, which is polynomial in the source size.
+Check: Verified the +1 in W(F_G) is necessary because roots have depth one and each added leaf lies one level below its deepest neighbor.
+Outcome: Pass. One definition can state the starting graph explicitly to remove a possible ambiguity in the words 'Obtain H'.
+Decision: Applied. The added-vertex graph is explicitly obtained from the completed graph, preserving its clique edges.
+Detailed evidence: tmp/audit-100/rounds/51-60-np-total.json
+Source:  
+Source:  
+Source: Bonnet, Treewidth Inapproximability and Tight ETH Lower Bound, full version v2 https://arxiv.org/html/2406.11628v2
+
+Round 054: Moving and normalizing added vertices
+Scope: sections/np-total-depth-hardness.tex:80–143
+Check: Re-read both ancestor-order cases in the single-vertex move. If u lies below y_X, reinsertion cannot increase its depth. If u lies above y_X, its increase equals the old u-to-y_X distance and is canceled by one-unit decreases for the vertices on that path.
+Check: Checked deletion at a root, at an internal node, and at an existing leaf. Reattaching children preserves all ancestor relations between surviving vertices.
+Check: Checked edge preservation after reinsertion. Every neighbor of u belongs to X, and the clique forces every vertex of X to be ancestral to y_X, including y_X itself.
+Check: Checked that later moves preserve every earlier moved vertex as a leaf child of an original vertex. No moved added vertex can become the parent of another moved vertex.
+Check: Exhaustively applied 47,040 single-vertex moves to all valid six-vertex forests for all eight cross-edge patterns on three singleton parts with one added vertex per part. Every move preserved graph validity and original-vertex ancestor order and did not increase total depth.
+Check: Checked 15,680 complete normalizations and the exact identity totd(F)=totd(F_G)+MW(F_G) in those finite cases.
+Check: Verified the minimization identity in both directions and the bounds MW(G)<=totd(H)<=MW(G)+N(N+1)/2. The upper bound uses a W-minimizing forest and the total number of strict ancestor pairs, so it does not assume that this forest separately minimizes total depth.
+Outcome: Pass. The move proof and iterative normalization are correct, and no rewrite is needed.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/51-60-np-total.json
+Source:  
+Source:  
+Source:  
+
+Round 055: Clique paths and all descendant-pair cases
+Scope: sections/np-total-depth-hardness.tex:145–262
+Check: Re-read the laminar-descendant-set argument. Two size-two subsets of the three deepest vertices must intersect, and forest laminarity then forces equality.
+Check: Checked the S_1-empty case separately. Every non-S_0 vertex then has exactly one deepest descendant, so any choice of X is permitted.
+Check: Checked the cover implications using the reflexive ancestor convention. Nonempty disjoint deepest-descendant sets force incomparability, excluding the asserted cross-part edges.
+Check: Verified every original vertex is counted at least once in the sum of the three deepest-vertex depths. This proves the exact multiplicities N+3+2|S_0|+|S_1| even when deepest vertices are mutually comparable or lie in different tree components.
+Check: Re-read the reverse construction with arbitrary covers S_0 and S_1. Checked empty common chains, an empty two-part chain, and empty final part chains. Omitting an empty chain gives a valid forest, and each designated path still contains every vertex of its part.
+Check: Exhaustively checked the exact W formula, both cover properties, the common-pair property, and the optimal path-cost identity on all 296 tripartite graphs with part sizes (1,1,1), (2,1,1), and (2,2,1). This covered 45,703 valid elimination forests.
+Outcome: Pass. All descendant-pair and empty-chain cases are covered, and the two-sided path-cost formula is exact.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/51-60-np-total.json
+Source:  
+Source:  
+Source: Bonnet, Treewidth Inapproximability and Tight ETH Lower Bound, full version v2 https://arxiv.org/html/2406.11628v2
+
+Round 056: Cover normalization and the encoded independent-set optimum
+Scope: sections/np-total-depth-hardness.tex:300–397
+Check: Re-read the singleton-copy deletion. The absent copy forces every auxiliary neighbor into S_0, so deleting the other copy preserves the cross-edge cover and leaves the residual BC graph unchanged.
+Check: Checked removal of every unforced auxiliary or added matching vertex. Restoring one residual vertex raises the vertex-cover number by at most one while lowering 2|S_0| by two, so the objective cannot increase.
+Check: Checked the count 3|S| carefully. Auxiliary neighbors of different source vertices are disjoint because a_e belongs only to the copies of the tail and c_e only to the copies of the head.
+Check: Recomputed the residual matching size m-3|S|+|E(J[S])|+3n and the resulting total 7n+m-|S|+|E(J[S])|.
+Check: Verified max_S(|S|-|E(J[S])|)=alpha(J) by deleting an endpoint of each surviving internal edge and by taking S to be a maximum independent set.
+Check: Checked cost_A=17n/2-alpha(J), the matching lower bounds cost_B,cost_C>=9n, and W=39n/2+3-alpha(J). The strict comparison selects A for every nonempty cubic source.
+Check: Checked all 1,680 source subsets across K4, K3,3, the triangular prism, the cube, two disjoint K4 graphs, and the Petersen graph. The cover identity and independent-set deletion bound held in every case.
+Check: Checked 6,000 arbitrary admissible first covers across those cubic examples. Every normalization deletion was nonincreasing in cost, and every final cover obeyed the exact formula.
+Outcome: Pass. The only proposed clarification makes the disjoint-neighborhood reason for the cardinality calculation explicit.
+Decision: Applied. Disjoint auxiliary neighborhoods now justify the exact union count 3|S|.
+Detailed evidence: tmp/audit-100/rounds/51-60-np-total.json
+Source:  
+Source:  
+
+Round 057: Extraction from arbitrary forests and cost arithmetic
+Scope: sections/np-total-depth-hardness.tex:399–445
+Check: Re-read the exclusion of wrong descendant pairs and of S_1 empty. Either case gives W(F_G)>=20n+3, whereas the hypothesis gives W(F_G)<W(G)+n/2<=20n+3. The strict hypothesis supplies the contradiction.
+Check: Checked that the surviving pair must be y_B,y_C, so S_0 covers exactly the A-to-(B union C) edges needed by the cover-normalization lemma.
+Check: Checked that S_1 is a feasible cover of the original residual graph, yielding vc(residual)<=|S_1| before the normalization modifies S_0.
+Check: Followed the entire cost chain with the original and normalized S_0 distinguished. The normalized value is at most W(F_G)-N-3, so |S|-|E(J[S])|>=7n+m+N+3-W(F_G)=39n/2+3-W(F_G).
+Check: Checked that the extraction is algorithmic. It scans ancestor relations, performs the stated cover deletions, and deletes endpoints of surviving internal source edges. It does not need an oracle for a minimum vertex cover or a maximum independent set.
+Check: Reused the exhaustive cover and independent-set-deletion checks to verify the combinatorial step without assuming that the input forest is optimal.
+Outcome: Pass. The hypothesis, strict inequalities, polynomial extraction, and additive bound are all correct.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/51-60-np-total.json
+Source:  
+Source:  
+Source:  
+
+Round 058: The (1+epsilon) transfer and explicit threshold use
+Scope: sections/np-total-depth-hardness.tex:447–549
+Check: Re-read the approximation input and normalized objective identity. Dropping the nonnegative original-vertex contribution proves W(F_G)<=totd(F)/M.
+Check: Checked every inequality in W(F_G)<=(1+epsilon)(W(G)+epsilon n). The chosen M controls the original-vertex overhead, and normalization only improves the returned solution.
+Check: Checked W(G)<=21n for n>=4, then W(F_G)-W(G)<=(22+epsilon)epsilon n<=23epsilon n. For epsilon<=1/100, 23epsilon<1/2, so the extraction lemma applies with its strict hypothesis.
+Check: Checked the greedy bound alpha(J)>=n/4 and the conversion of the additive 23epsilon n loss into the multiplicative 92epsilon loss.
+Check: Checked that epsilon_0 can be chosen rational and strictly below both 1/100 and delta_0/92, and that the M rounding preserves its required inequality and polynomial size.
+Check: Verified the threshold comparison uses the supplied K, not the unknown source optimum. YES produces an independent set larger than (1-delta_0)K, while every independent set in NO has size at most that rational threshold.
+Check: Checked that exact rational comparison is polynomial time because delta_0 is fixed rational and the extracted set size and K are integers.
+Outcome: Pass. The total-depth approximation transfer and the final decision reduction preserve a fixed positive gap.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/51-60-np-total.json
+Source:  
+Source:  
+Source:  
+
+Round 059: Sparse-loss integration and asymptotic bounds
+Scope: sections/np-total-depth-hardness.tex:447–549 | sections/bounded-degree-corollaries.tex:266–310 | sections/general-sparsification.tex:Total-depth sparsification
+Check: Re-read the dense family against the actual total-depth sparsification hypotheses. Retained edges have maximum degree three, each original vertex lies in its clique and its added biclique, and each added vertex lies in one biclique. Thus d_0=3 and d_1=2.
+Check: Checked part sizes 2n,9n/2,9n/2 and M bounds 121n/(2epsilon_0)<=M<=64n/epsilon_0. The biclique side ratio is at most 32/epsilon_0.
+Check: Recomputed c_*=[121/(2epsilon_0)]/(11+192/epsilon_0)^2 and Mn/N_output^2>=c_*. Thus tau<=epsilon_0 c_* gives tau N_output^2<=epsilon_0 Mn.
+Check: Checked totd(H)>=MW(G)>=M(37n/2+3)>=Mn. Applying the solution-lifting lemma with a=1, L=Mn, r=1+epsilon_0, and eta=epsilon_0 yields factor 1+2epsilon_0.
+Check: Checked the lower bound totd(H')>=totd(H)-tau N_output^2>=(1-epsilon_0)Mn=Omega(N_output^2), as needed by the later regular-graph transfer.
+Check: Verified explicitly that epsilon_0<min{1/200,delta_0/184} makes the chosen dense family hard within 1+2epsilon_0. Apply the extraction lemma with epsilon=2epsilon_0. Its M condition holds because the displayed M gives the stronger overhead bound epsilon_0 n.
+Check: Used exact rational arithmetic on 18 representative size/epsilon pairs, including n=4 and epsilon=1/100000, to check the M, c_*, and overhead bounds. Five additional D values checked the cubic threshold margin.
+Check: Noted that the connected corollary temporarily uses N for |V(G(J))| and later for |V(H)|. This is mathematically recoverable from the displayed definitions but can be made clearer without introducing any new notation.
+Outcome: Pass. There is no sparse-transfer defect. The connected corollary can expose its constant choice and reserve N for the output order. This proposal is outside the two primary owned files and should be coordinated by the parent.
+Decision: Applied. The constant choice and extraction lemma now justify the stronger dense gap and the M formula avoids reassigning N.
+Detailed evidence: tmp/audit-100/rounds/51-60-np-total.json
+Source:  
+Source:  
+Source:  
+Source:  
+
+Round 060: Proof flow and simpler notation with no guarantee loss
+Scope: sections/np-total-depth-hardness.tex:1–549 | sections/appendix-source-normalizations.tex:525–645
+Check: Re-read the full chain in proof order: threshold source, graph definitions, added-vertex normalization, exact path cost, cover normalization, encoded optimum, arbitrary-forest extraction, approximation transfer, and source-case threshold comparison.
+Check: Confirmed each lemma is used under all its stated hypotheses. Nonempty specified parts, positive integer M, exact source degree three, and epsilon<=1/100 are present where needed.
+Check: Checked the appendix restatement against the main theorem and retained common input conditions before the YES/NO cases. No source promise, threshold, or optimum notation needs to be renamed.
+Check: Confirmed the appendix supplies the exact degree normalization and deterministic polynomial reduction instead of relying on an implicit consequence of APX-hardness.
+Check: Checked all proposed text for unchanged constants, labels, vertex names, and claims. No introduction, expander, no-hole, or unrelated source text is proposed for modification.
+Check: Located a comma ending the cost_A display before the new sentence 'To justify the minimization identity'. A full stop is the correct punctuation.
+Check: Noted that the extraction lemma assumes a given qualifying forest, so its opening sentence can refer directly to that input. The remainder of the objective explanation can remain intact.
+Outcome: Pass. The proof chain is complete and readable. Only a small input-description clarification and a punctuation correction are proposed in this final pass.
+Decision: Applied both local edits. The forest is the given input, and the cost identity ends with a period. Also defined G=G(J) explicitly in the final dense proof.
+Detailed evidence: tmp/audit-100/rounds/51-60-np-total.json
+Source:  
+Source:  
+Source:  
+Source:  
+
+Round 061: Factor model, retained edges, factor incidence, and side-specific no-hole definitions
+Scope: sections/bounded-degree-hardness.tex:6–35, 348–363 | sections/general-sparsification.tex:11–63
+Check: Re-read the edge-union definition. Clique supports are nonempty, biclique sides are nonempty and disjoint, the two factor index sets are disjoint, and overlaps between different factors or E_0 are explicitly permitted.
+Check: Checked that replacement edges remain within each factor's specified edge set and E_0 is retained, which proves J is a spanning subgraph of H even when supports or edges overlap.
+Check: Double-counted the pairs (v,f) with v in U_f. The per-vertex bound d_1 gives sum_f |U_f| <= d_1 N, and nonempty supports imply at most d_1 N factors.
+Check: Compared the generic hole definition with the clique and biclique conditions. The intended biclique guarantee concerns one set on each prescribed side. Definition factor-comparison states these quantified conditions correctly.
+Check: Identified a literal ambiguity in the common-replacements lemma: a bipartite replacement may contain large holes entirely inside one side, so its statement should refer to the corresponding factor condition.
+Outcome: The factor model and incidence calculation are correct. One statement should clarify the intended no-hole condition.
+Decision: Applied. The common factor lemma invokes each factor-specific no-hole condition.
+Detailed evidence: tmp/audit-100/rounds/61-70-sparse.json
+Source:  
+
+Round 062: Clique completion in an elimination forest, including empty and threshold-one cases
+Scope: sections/bounded-degree-hardness.tex:124–177 | sections/02-preliminaries.tex:25–42
+Check: Re-read the entire DFS proof and the definitions of ancestor path and forest restriction. The preliminaries explicitly allow the empty path, so U empty and |U| < t are covered.
+Check: Verified that introduced and unforgotten vertices form one root-to-current-vertex path even when non-U vertices occur between U vertices. Traversing separate forest components consecutively leaves an empty current path between components.
+Check: Checked both reasons that a forgotten vertex and an unintroduced vertex are incomparable, hence anticomplete in J.
+Check: At the t-th U-forgetting event, |L| = t forces |R| <= t-1. Immediately before the same event, |L| = t-1 while R is unchanged, giving the claimed 2(t-1) exceptions.
+Check: For t = 1 the argument places every U vertex on the selected ancestor path. Oversized thresholds are handled by the initial |U| < t case. No connectedness assumption on J is used.
+Outcome: Pass. The proof, constant 2(t-1), and edge cases are sound.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/61-70-sparse.json
+Source:  
+
+Round 063: Clique completion in a tree decomposition and the sink/component grouping argument
+Scope: sections/bounded-degree-hardness.tex:179–222 | sections/02-preliminaries.tex:53–60
+Check: Re-read the whole decomposition proof. Each vertex occurrence set T_v is nonempty and connected by the preliminaries, so it cannot lie in both sides of a deleted decomposition-tree edge.
+Check: If both sides of an edge are heavy, the selected t-sets have disjoint occurrence subtrees and therefore cannot have an edge of J between them. This validates the orientation rule.
+Check: A finite tree with one orientation for each edge has a sink. At a sink every component of T-u contains complete occurrence subtrees of at most t-1 vertices of U.
+Check: Every U vertex outside B_u has its entire occurrence subtree in one component of T-u. For t = 1 this already forces no outside vertices.
+Check: For t >= 2, assuming |W| >= 3t-2 permits greedy grouping with t <= |W_1| <= 2t-2 and |W_2| >= t. Different component groups are anticomplete. The resulting integer bound is |W| <= 3t-3.
+Check: Checked one-node decompositions, |U| < t, U empty, and components with zero contribution. None requires an extra assumption.
+Outcome: Pass. The 3(t-1) deletion bound and the proof's integer endpoints are correct.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/61-70-sparse.json
+Source:  
+
+Round 064: Forest biclique completion, interval ordering, and König's theorem
+Scope: sections/bounded-degree-hardness.tex:224–280
+Check: Re-read the full biclique proof. Distinct introduction and forgetting times give nested intervals for comparable vertices and disjoint intervals for incomparable vertices, including vertices in different forest trees.
+Check: The auxiliary obstruction graph K has the given disjoint sides A and B. Its edges divide into exactly two chronological types.
+Check: A matching of size 4t-3 has at least 2t-1 edges of one type. Ordering by the earlier side's forgetting times yields i <= j for the first t and last t matched edges, hence complete incomparability across the chosen sets.
+Check: The middle matched edge may belong to both index ranges when m_0 = 2t-1. This causes no collision because X lies in A and Y lies in the disjoint side B.
+Check: König's equality applies to the bipartite obstruction graph, giving a cover of size at most 4t-4. Removing that cover leaves every surviving cross-pair comparable.
+Check: Checked t = 1, empty sides, and sides smaller than t. The lemma proof remains valid, but the phrase 'no (t,t) hole' should explicitly carry the opposite-side convention.
+Outcome: The proof and 4(t-1) bound are sound. A shared terminology clarification would remove the remaining side ambiguity in both biclique completion statements.
+Decision: Applied as a shared definition. A bipartite hole uses opposite sides, so the two biclique lemmas need no repeated hypotheses.
+Detailed evidence: tmp/audit-100/rounds/61-70-sparse.json
+Source:  
+Source: Diestel, Graph Theory, author-hosted chapter 2 preview https://www.math.uni-hamburg.de/home/diestel/books/graph.theory/preview/Ch2.pdf
+
+Round 065: Treewidth biclique completion, subtree projection, and matching endpoints
+Scope: sections/bounded-degree-hardness.tex:282–344 | sections/general-sparsification.tex:95–165
+Check: Re-read the anchored two-bag lemma. If x = y all cross-pairs already share the anchor bag, so D empty is valid.
+Check: For x != y, each A trace is a nonempty prefix of the x-to-y path, and each B trace is a nonempty suffix. Checked the projection equivalence directly: an intersection off the path projects to a path vertex lying in both connected subtrees.
+Check: Verified the ordering argument for a matching of size at least 2t-1. A_i's prefix endpoint precedes its matched B_i suffix start, so every first-t prefix is disjoint from every last-t suffix.
+Check: Disjoint occurrence subtrees imply anticompleteness in J. König's theorem therefore provides at most 2t-2 exceptional vertices and surviving pairs remain together in a restricted bag.
+Check: Re-read the general treewidth theorem's subdivision of factors into at most s^2 sub-bicliques. It constructs J from the original balanced factors first, so no side-ratio bound is incorrectly assumed for potentially unbalanced sub-bicliques.
+Check: Original thresholds t_f are deliberately reused for every sub-biclique. Restriction inherits the required condition, including cases where a smaller side has fewer than t_f vertices and the condition is vacuous.
+Outcome: Pass, subject only to the shared side-convention clarification recorded in round 64. Projection and the max{3,2s^2} budget are correct.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/61-70-sparse.json
+Source:  
+Source: Bonnet, Treewidth Inapproximability and Tight ETH Lower Bound https://arxiv.org/html/2406.11628v2
+Source: Diestel, Graph Theory, author-hosted chapter 2 preview https://www.math.uni-hamburg.de/home/diestel/books/graph.theory/preview/Ch2.pdf
+
+Round 066: Simultaneous factor completion and additive height, width, and total-depth losses
+Scope: sections/bounded-degree-hardness.tex:346–518 | sections/general-sparsification.tex:167–193 | sections/03-ugc-hardness.tex:257–270 | sections/total-depth-hardness.tex:68–86
+Check: Re-read all three comparison proofs. Taking the union of per-factor deletion sets is valid despite overlapping factors, because every completion is preserved by further deletion.
+Check: Checked the complete edge classification: surviving clique pairs, surviving biclique cross-pairs, and retained E_0 edges exhaust E(H-D). Forest restriction preserves all relevant ancestor comparisons.
+Check: Recomputed the exception sums: 2 sum_C(t_f-1) + 4 sum_B(t_f-1) for forests and 3 sum_C(t_f-1) + 2 sum_B(t_f-1) for anchored tree decompositions.
+Check: For treewidth, clique deletions are chosen first, biclique sides stay in their clique-anchor bags, and no-hole conditions survive restriction. Adding the union D to all bags restores every edge while preserving connected occurrence sets.
+Check: Recomputed the exact total-depth restoration term for d = |D|: d(N-d) + d(d+1)/2 = Nd - d(d-1)/2 <= Nd. Comparing the restricted forest to the original only weakens the upper bound.
+Check: Checked d = 0, deletion of all vertices, empty factor sets, and the passage from arbitrary solutions to optimal parameter inequalities. The total-depth sparsification loss is epsilon N^2 as claimed.
+Outcome: Pass. All simultaneous-completion bounds and total-depth additive losses are valid.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/61-70-sparse.json
+Source:  
+
+Round 067: Degree and runtime bounds, threshold rounding, and approximation-gap preservation
+Scope: sections/general-sparsification.tex:11–193 | sections/bounded-degree-hardness.tex:33–122 | sections/bounded-degree-corollaries.tex:5–55
+Check: Re-read the common replacement proof. A vertex receives at most d_{zeta,kappa} neighbors per incident factor, so degree at most d_0 + d_1 d_{zeta,kappa} follows even if edges are repeated across factors.
+Check: Checked t_f = ceil(zeta |U_f|) >= 1 and t_f-1 < zeta |U_f|. The strict summed inequality needs a factor to be present, exactly as stated. The later non-strict budgets also cover the empty-factor case.
+Check: Recomputed zeta = epsilon/(4d_1) for treedepth and total depth and zeta = epsilon/(d_1 max{3,2s^2}) for treewidth.
+Check: The supplied factor description avoids any need to find a factorization or bag anchors algorithmically. Nonempty supports give O(N) factors, and fixed-parameter expander construction per support gives deterministic polynomial runtime.
+Check: Re-read the gap lemma. epsilon_NO + r epsilon_YES < r'-r implies r(1+epsilon_YES) < r'-epsilon_NO, including r = 1. The applications retain explicit source YES/NO bounds and explain arbitrarily large orders through source copies or parallel host-edge copies.
+Check: The overview announces three steps, but its enumerate environment contains two items. The third ingredient appears after the gap lemma without an explicit step number.
+Outcome: The degree, runtime, rounding, and gap calculations pass. The overview's step count needs a small editorial repair.
+Decision: Applied using a two-step construction overview followed by the existing loss-control lemma.
+Detailed evidence: tmp/audit-100/rounds/61-70-sparse.json
+Source:  
+
+Round 068: Spectral definitions, loops, mixing, walk powers, and the starting family
+Scope: sections/bounded-degree-hardness.tex:548–749 | sections/appendix-expander-replacements.tex:12–28, 156–165
+Check: Re-read the full edge-expansion and spectral-development subsection. The outgoing-step convention counts a loop once and parallel occurrences separately, matching the explicitly defined symmetric adjacency matrix and row sum.
+Check: Checked e(S,T) = 1_S^T A 1_T for overlapping sets, the zero-sum invariant subspace, exclusion of only the chosen constant eigenvector, and the absolute eigenvalue bound.
+Check: Verified the cited spectral edge-expansion implication and mixing inequality against the author-hosted journal version of HLW. The positivity argument needs t > (lambda/d)M, and that strict inequality is retained.
+Check: Re-read the walk definition. A^k counts distinct step choices, reversal makes it symmetric, the row sum is d^k, and the nonconstant bound becomes lambda^k. This needs the absolute bound already defined.
+Check: Verified Construction 8.1 and Theorem 8.2 of HLW for the square-order eight-regular family and the stated spectral constant. The theorem's universal positive-integer order convention covers nu = 1.
+Check: For M = 1 the orthogonal subspace is zero-dimensional, so the bound is vacuous and the later connectedness argument still works. All powers retain a strict spectral ratio below one.
+Outcome: Pass. Preserve every expander, adjacency, eigenvalue, mixing, and walk-power definition as requested.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/61-70-sparse.json
+Source:  
+Source: Hoory, Linial, and Wigderson, Expander Graphs and Their Applications, author-hosted journal PDF https://www.math.ias.edu/~avi/PUBLICATIONS/MYPAPERS/HLW06/hlw06.pdf
+
+Round 069: Prescribed-size mappings, no-hole proof, connectedness, runtime, and appendix restatement
+Scope: sections/bounded-degree-hardness.tex:751–767 | sections/appendix-expander-replacements.tex:1–194
+Check: Re-read the appendix in full. The balanced group construction gives onto maps with preimage sizes between one and ceil(M/n). Square rounding yields M <= 4n or M <= 4 max{n_A,n_B}.
+Check: Recomputed the degree estimates on both bipartite sides, using incoming steps for B. The fixed ratio kappa gives the claimed common bound ceil(4kappa)8^k.
+Check: Checked the no-hole thresholds with lambda_0^k < zeta/4. For cliques, lambda_0^k M < zeta n <= ceil(zeta n). For bicliques it is below zeta(n_A+n_B) <= the stated threshold.
+Check: For cliques, disjoint output sets have disjoint preimages, so an auxiliary step cannot collapse to a discarded loop. For bicliques the separate preimages may overlap, and an auxiliary loop still maps to a valid edge between the disjoint prescribed sides.
+Check: Verified vacuous threshold cases, singleton supports, singleton sides, simplification of parallel images, and exact agreement between the main lemma and its appendix restatement.
+Check: Rechecked connectedness of the powered graph from absence of extra eigenvalue d and of eigenvalue -d. The one-set quotient preserves walks. For two sides, an odd closed auxiliary walk provides both parities and the alternating-map argument reaches all images.
+Check: Explicit walk enumeration has at most M8^k directed steps. Since k depends only on the fixed zeta and M is linear in the largest support size, deterministic construction and deduplication are polynomial.
+Outcome: Pass. The detailed no-hole and connectedness construction is complete and must remain.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/61-70-sparse.json
+Source:  
+Source: Hoory, Linial, and Wigderson, author-hosted journal PDF https://www.math.ias.edu/~avi/PUBLICATIONS/MYPAPERS/HLW06/hlw06.pdf
+
+Round 070: Every bounded-degree corollary application, regularization, subdivisions, exposition, and notation
+Scope: sections/bounded-degree-corollaries.tex:1–602 | sections/np-hardness.tex:175–294 | sections/np-treewidth-hardness.tex | sections/03-ugc-hardness.tex:365–end | sections/treewidth-hardness.tex:149–end | sections/total-depth-hardness.tex:212–274 | sections/np-total-depth-hardness.tex:112–143, 351–398, 447–end | sections/04-sseh-hardness.tex:43–61, 141–end | sections/05-applications.tex:20–48
+Check: Re-read all three main bounded-degree corollary proofs and compared their numerical bounds to the dense source sections. NP treedepth uses d_1=2, d_0=3b_epsilon, kappa=1, deletion loss 3, order 18m, and the displayed gamma calculation. NP treewidth uses three global clique factors, d_1=1, order 9Rm, and the correct -1 constants.
+Check: UGC treedepth and total depth retain cross-layer degree (q-1)d_eta and use d_1=1. Their lower scales n and q n(n+1)/2 justify the tau choices. UGC treewidth retains degree 2d_eta, uses the valid product-source eta=zeta/2, and has loss at most 6tau Y for Rn>=2.
+Check: SSE line-graph factors cover each edge occurrence at most twice, including loops. E_0 is empty. Checked YES height 4eta N and NO separator beta N, then the treedepth, treewidth, and total-depth transfers with their respective additive losses.
+Check: For NP total depth, checked the source graph degree three, factor incidence two, M bounds 121n/(2epsilon_0) <= M <= 64n/epsilon_0, side ratio <=32/epsilon_0, positive constant c_*, and solution lifting from factor 1+epsilon_0 to 1+2epsilon_0.
+Check: Re-read the solution-lifting lemma and both branches of its algebra. The NP argument correctly uses the r+eta branch because sparsification only deletes edges.
+Check: Re-read the regularization gadget in all parity cases t even, t odd at least three, and t=1. Every final degree is d, each gadget is connected, the order range is correct, and connected representative sets prove both projection and total-depth lower scaling.
+Check: Re-read the subdivision proof. Even path length gives bipartiteness, degree and girth claims follow, and the explicit bags preserve treewidth in all cases. The treedepth increase is ceil(log_2 ell). For total depth, odd regular degree gives even source order, so an auxiliary perfect matching exists. Euler orientation gives outdegree at least (d-1)/2, the connected-set projection is valid, and the factor-three upper/lower comparison suffices for the unbounded SSE gap.
+Check: Checked completion transfer through adjusted cost, all source YES/NO language, use of OPT, and absence of semicolon punctuation in the owned files. No claim is extended to NP/UGC total depth on the subdivision class.
+Check: Verified the contextual external claims: the cited bounded-degree conjecture is Conjecture 1 of the MFCS paper, the weighted degree-ten result appears in the cited v2 paper, and APW Theorem 1.1 states the unrestricted SSE treewidth hardness.
+Check: Notation issue: the NP total-depth paragraph first sets N=11n for the base graph, then resets N=11n+3M for the output. The M choice and c_* denominator are mathematically consistent only when those two meanings are distinguished.
+Outcome: All hardness applications and structural transfers pass. Clarify the two graph orders in the NP total-depth paragraph. No serious mathematical defect found in these ten rounds.
+Decision: Resolved by round 59. The formula uses 11n directly, keeping N for the output order and avoiding a new N_0 symbol.
+Detailed evidence: tmp/audit-100/rounds/61-70-sparse.json
+Source:  
+Source: Schirrmacher, Siebertz, and Vigny, Elimination Distance to Dominated Clusters https://drops.dagstuhl.de/storage/00lipics/lipics-vol345-mfcs2025/LIPIcs.MFCS.2025.90/LIPIcs.MFCS.2025.90.pdf
+Source: Dirks et al., Weighted Treedepth is NP-complete on Graphs of Bounded Degree https://arxiv.org/html/2510.18584v2
+Source: Wu, Austrin, Pitassi, and Liu, Inapproximability of Treewidth, One-Shot Pebbling, and Related Layout Problems https://www.cs.toronto.edu/~toni/Papers/treewidth.pdf
+
+Round 071: Regular Unique Games definitions and the exact source promise
+Scope: sections/appendix-bounded-degree-source.tex:12-43, thm:regular-ug-source | sections/03-ugc-hardness.tex:14-30, thm:bounded-degree-kr-source
+Check: Compared the definitions with AKS2011 Definitions 2.2 and 2.3 and Conjecture 2.4. The manuscript's OPT is the satisfied fraction of constraint edges, including multiplicity. Its VOPT is the same quantity that AKS calls IndOpt, with the user-requested notation preserved.
+Check: A labeling of U together with the selected right vertices extends arbitrarily to the other right vertices. Thus the manuscript's formulation using one labeling and all constraints incident to V_0 is equivalent to the partial-labeling formulation.
+Check: Biregularity means a common degree within each side. It does not require the common left degree to equal the common right degree. Parallel constraints are included in both the degree counts and the objective.
+Check: The source has a common input description followed by YES and NO alternatives. The YES condition concerns wholly satisfied right vertices, while the NO condition concerns satisfied edges. These conditions have not been conflated.
+Check: The AKS passage immediately following Conjecture 2.4 attributes equivalence with the ordinary UGC to Khot and Regev. The manuscript cites both sources and does not assume an additional strengthened conjecture.
+Outcome: Pass. The definitions and the regular source promise agree with the primary source, and the requested OPT/VOPT distinction is retained. No change is warranted.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/71-80-aks.json
+Source: Austrin, Khot, and Safra, Theory of Computing 7 (2011), Section 2.1 https://theoryofcomputing.org/articles/v007a003/v007a003.pdf
+
+Round 072: AKS density theorem guarantees and normalization
+Scope: sections/appendix-bounded-degree-source.tex:45-95, thm:aks-density-source
+Check: Compared the manuscript's theorem with AKS2011 Theorem 3.1, retaining fixed q in (0,1/2), fixed analytic error, sufficiently small gamma, the weighted independent-set completeness bound q-gamma, and soundness for every beta in [0,1].
+Check: Regularity remains an explicit soundness hypothesis. Every use in the subsequent reduction receives a regular instance from thm:regular-ug-source, and alphabet padding does not change that instance's graph.
+Check: Checked the correlation rho=-q/(1-q), the separate normalization of total vertex and edge weights, and the claimed running time as functions of the source graph and fixed alphabet.
+Check: For a regular input, endpoint marginals give deg_G(v)=2a_v. The loop convention is necessary here: a loop contributes one unit of edge weight but two incidences. The displayed factor 2 is consequently correct.
+Check: Substituting beta=a(S) in a bound quantified over every beta gives the displayed setwise inequality without discretization, an extra error, or a change in inequality direction.
+Outcome: Pass. The cited analytic theorem and all guarantees actually used later are correctly recorded. No manuscript change is proposed.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/71-80-aks.json
+Source: Austrin, Khot, and Safra (2011), Theorem 3.1 https://theoryofcomputing.org/articles/v007a003/v007a003.pdf
+
+Round 073: Positivity, monotonicity, and convexity of the Gaussian function
+Scope: sections/appendix-bounded-degree-source.tex:55-65 and 97-109
+Check: For q in (0,1/2), the correlation lies strictly between -1 and 0. The covariance matrix is therefore positive definite and the joint normal density is positive on every finite rectangle of positive area. This proves Gamma_rho(s)>0 for 0<s<1.
+Check: Independently differentiated F(t,t), with t=Psi^{-1}(s). Each of the two boundary derivatives is phi(t) times Psi((1-rho)t/sqrt(1-rho^2)), and dt/ds=1/phi(t). Their sum is exactly the displayed derivative 2Psi(sqrt((1-rho)/(1+rho))Psi^{-1}(s)).
+Check: The coefficient multiplying Psi^{-1}(s) is positive. Since both Psi and its inverse are increasing, the derivative is nonnegative and increasing. This proves monotonicity and convexity on the open interval.
+Check: As s tends to 0 or 1, the defining joint probabilities tend to 0 or 1. The endpoint assignments are consequently continuous extensions. Convexity extends to the closed interval by limits, permitting Jensen's inequality even when a random set is empty or full.
+Check: The proof is a local derivation from the definition, so the manuscript need not add an external convexity citation or replace its explanation with an unexplained assertion.
+Outcome: Pass. The derivative, the endpoint treatment, and every analytic property used in the cloning proof are valid.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/71-80-aks.json
+Source: Austrin, Khot, and Safra (2011), Gaussian notation and density proof https://theoryofcomputing.org/articles/v007a003/v007a003.pdf
+
+Round 074: Alphabet padding and the loop probability bound
+Scope: sections/appendix-bounded-degree-source.tex:113-174, lem:aks-loop-removal
+Check: Padding labels from [ell] to [ell] times [t] sends a constraint to the product of its old permutation and the identity. Projection to the first coordinate maps every satisfied padded constraint to a satisfied original one, so OPT cannot increase. An original YES labeling extends by a common second coordinate, preserving its satisfied right vertices.
+Check: The padded instance has exactly the same vertices and constraints, including parallel constraints. Hence it remains regular and its YES and NO promises are preserved.
+Check: The three nonzero probabilities in the manuscript sum to 1, have Bernoulli-q marginals, and exclude the pair (1,1), matching the primary AKS edge sampler.
+Check: Conditional on the two sampled constraints, endpoint equality requires string equality in each coordinate block. At a fixed output coordinate, the two selected inputs either coincide, giving equality probability 1-2q, or differ, giving independent Bernoulli-q bits and equality probability c=q^2+(1-q)^2. The latter is the larger bound because their difference is 2q^2.
+Check: The padded permutations do not mix the t blocks, and the coordinate-pair samples are independent across blocks. Thus full equality has probability at most c^t. If the two right endpoints are different, a loop is already impossible, which can only improve this upper bound.
+Check: Since 0<c<1, a fixed t makes c^t smaller than the fixed loop-loss budget. Deleting loops subtracts at most this budget from the internal weight of any set, decreases degrees, preserves the YES independent set, and does not renormalize the remaining edge weights.
+Outcome: Pass. The loop estimate remains valid for parallel constraints with different permutations. The manuscript's own padding argument is needed and should be preserved.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/71-80-aks.json
+Source: Austrin, Khot, and Safra (2011), edge sampling construction https://theoryofcomputing.org/articles/v007a003/v007a003.pdf
+
+Round 075: Exact rational vertex unweighting and clone counts
+Scope: sections/appendix-bounded-degree-source.tex:176-202 | sections/appendix-bounded-degree-source.tex:285-292
+Check: For rational q=a_0/a_1 and fixed padded alphabet R, the numerator a_0^{|x|}(a_1-a_0)^{R-|x|} is a positive integer. Multiplication by N_cl=|V|a_1^R therefore gives positive integral clone counts for every original vertex.
+Check: The binomial theorem gives sum_x a_0^{|x|}(a_1-a_0)^{R-|x|}=a_1^R. Summing over the |V| right vertices proves that the total number of clones is exactly N_cl, rather than merely bounded by it.
+Check: With the bias denominator and R fixed, N_cl is linear in |V| up to a fixed constant. The complete bipartite clone replacement has at most N_cl^2 edges, so explicit enumeration remains polynomial.
+Check: For each original edge uv, the m_um_v clone pairs receive total weight w_uv. The total edge weight remains at most 1. A single u-clone receives weighted degree deg_{G^-}(u)/m_u, which is at most 2/N_cl.
+Check: After loop removal, original endpoints are distinct. Combining parallel weights before cloning gives at most one edge for each clone pair and no edges within a clone block. Thus the clone graph is simple and every listed edge has positive weight.
+Check: The rational finite AKS distribution can be enumerated exactly. For regular input, its source-choice denominator divides |U| times the square of the common left degree, and coordinate factors have fixed denominators. All resulting weights have polynomial encoding length before sparsification. This discrete rational-count check does not reopen finite precision arithmetic.
+Outcome: Pass. The clone count, ordinary input size, rationality, simplicity, and weighted-degree normalization are justified without rounding vertex weights.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/71-80-aks.json
+Source: Austrin, Khot, and Safra (2011), vertex distribution and replication https://theoryofcomputing.org/articles/v007a003/v007a003.pdf
+
+Round 076: Clone density, independent vertex selection, and Jensen's inequality
+Scope: sections/appendix-bounded-degree-source.tex:204-251, lem:aks-clone-density
+Check: For an arbitrary clone subset S', each f_u lies in [0,1] and m_uf_u is an integer. Selecting source vertices independently with probabilities f_u is consequently well defined, including probabilities 0 and 1.
+Check: Since m_u=N_cl a_u, linearity gives E[a(S)]=sum_u a_uf_u=|S'|/N_cl. No independence assumption is needed for this first expectation.
+Check: For an original edge uv, deletion of loops ensures u and v are distinct. Their selection events are independent and the expected internal contribution is w_uv f_uf_v. The clone set contributes precisely the same amount, because it contains m_uf_u times m_vf_v clone pairs of weight w_uv/(m_um_v).
+Check: Summing over edges proves E[e_{G^-}(S)]=e_{G_1}(S'). The argument would fail for loops under the independent-clone replacement, so the explicit ordering of loop deletion before cloning has substantive content.
+Check: Applied pointwise to every realized S, the source inequality loses only the fixed sum epsilon_dens+epsilon_loop. Taking expectations preserves that sum. Convexity on [0,1] yields E[Gamma_rho(a(S))]>=Gamma_rho(E[a(S)]) in the required direction.
+Check: The citation identifies the AKS replication/Jensen template, while the proof supplies the needed loopless justification and the exact clone-weight calculation. It should remain visible.
+Outcome: Pass. The density guarantee survives exact vertex unweighting with exactly the two stated additive error budgets.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/71-80-aks.json
+Source: Austrin, Khot, and Safra (2011), Section 4 Step 1 https://theoryofcomputing.org/articles/v007a003/v007a003.pdf
+
+Round 077: Normalized density promise and the eta, g, gamma quantifiers
+Scope: sections/appendix-bounded-degree-source.tex:253-292, lem:normalized-density-source
+Check: The parameter eta is fixed and rational in (0,1/10), so q=1/2-eta/4 is a fixed rational bias in (0,1/2). Its associated Gaussian function is positive at eta.
+Check: By density of the rationals, one can choose a fixed positive rational g satisfying 4g<Gamma_rho(eta). This choice occurs before gamma, the source alphabet, or the padding factor are fixed, so the parameter choices are not circular.
+Check: Choose epsilon_dens<=g and epsilon_loop=g, then gamma small enough for the density theorem and gamma<=eta/4. The regular source supplies its own fixed alphabet. The subsequent fixed padding preserves its promise, and the AKS theorem's admissible gamma threshold depends on the analytic parameters rather than the alphabet size.
+Check: The completeness chain is q-gamma>=1/2-eta/2>=1/2-eta. The proof deliberately leaves slack and does not require gamma=eta/4.
+Check: For |S|>=eta N, monotonicity and the clone bound give e(S)>=Gamma_rho(eta)-2g>2g>g. Thus zeta_eta=g is rational and strictly positive, and the lemma's weak lower bound e(S)>=zeta_eta follows.
+Check: Every output condition is common to YES and NO: the graph is simple, vertices are unweighted, listed edge weights are positive rationals, total edge weight is at most 1, and every weighted degree is at most 2/N. The proof retains all of them without a final normalization that would change the degree bound.
+Check: All large parameter values are constants for fixed eta. The reduction is polynomial in the original instance size, with no assertion of uniform polynomial dependence on 1/eta.
+Outcome: Pass. The order of choices, strict inequalities, rational constant, and common input conditions are sound.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/71-80-aks.json
+Source: Austrin, Khot, and Safra (2011), Theorem 3.1 https://theoryofcomputing.org/articles/v007a003/v007a003.pdf
+
+Round 078: Exact BSS theorem, support, spectral constant, and declared computational scope
+Scope: sections/appendix-bounded-degree-source.tex:298-337, thm:bss-spectral-sparsification | sections/appendix-bounded-degree-source.tex:353-366
+Check: Opened the primary 2012 SIAM journal paper in addition to the cited full arXiv version. Its Theorem 1.1 has the same edge bound, one-sided Laplacian sandwich, and reweighting convention as the manuscript.
+Check: The output uses only original edges and retains the full vertex set. Reweighting is allowed, so the statement is about support containment rather than an assertion that original numerical weights are unchanged.
+Check: The graph theorem requires no regularity or bounded input degree. Disconnected graphs can be handled on the image of the Laplacian, whose rank is at most N-1. N=1 returns an empty support, consistent with the statement.
+Check: With q=theta^{-2}, sqrt(q)=1/theta because theta>0. The ratio is ((1+theta)/(1-theta))^2=1+4theta/(1-theta)^2. For theta<=1/12, 4/(1-theta)^2<=576/121<5, proving the current strict upper bound 1+5theta.
+Check: The edge estimate ceil(q(N-1))<=ceil(q)N is valid for every N>=1. The resulting d=ceil(q) depends only on the fixed approximation parameter.
+Check: Checked that the cited construction is deterministic and that its stated polynomial operation bound is consistent with this use as a black box. The source uses matrix arithmetic to analyze its algorithm. Per the user's explicit instruction not to bother about finite precision arithmetic, no finite precision objection or rational-BSS implementation repair is included in this audit.
+Outcome: Pass within the requested scope. Retain the original BSS theorem and the current 1+5theta algebra. No manuscript change about finite precision or bit complexity is recommended.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/71-80-aks.json
+Source: Batson, Spielman, and Srivastava, SIAM Journal on Computing 41 (2012) https://www.cs.yale.edu/homes/spielman/PAPERS/77287.pdf
+Source: Twice-Ramanujan Sparsifiers, full arXiv version https://arxiv.org/html/0808.0163v3
+
+Round 079: Threshold deletion, weighted-to-ordinary degree, and gap preservation
+Scope: sections/appendix-bounded-degree-source.tex:339-405, lem:deterministic-density-sparsification | sections/appendix-bounded-degree-source.tex:420-427 | sections/03-ugc-hardness.tex:14-25
+Check: Independently expanded x^T L_G x and the indicator-vector identities. Singleton indicators give weighted degree, set indicators give boundary weight, and 2e_G(S)=vol_G(S)-w(cut_G(S)) holds because the graph is loopless.
+Check: The lower spectral bound controls each degree from below, hence controls every set's volume from below. The upper spectral bound controls each cut from above. Combining opposite directions in the internal-edge identity yields e_{G'}(S)>=e_G(S)-(5theta/2)w(cut_G(S)).
+Check: Every cut weight is at most the original total edge weight 1. The current theta<=zeta/14 implies 5theta/2<=5zeta/28<=zeta/4. Thus every qualifying set has e_{G'}(S)>=3zeta/4.
+Check: There are at most dN retained sparsifier edges before thresholding. Removing edges of weight below zeta/(4dN) loses total weight at most zeta/4 over the entire graph. This bound applies simultaneously to all subsets, so each qualifying set retains internal weight at least zeta/2>0.
+Check: Using a weak threshold >= includes equality and avoids losing any edge of exactly the threshold weight. Every surviving edge has positive weight, and positive retained internal weight forces at least one ordinary edge.
+Check: For each vertex, ordinary degree times zeta/(4dN) is at most its surviving incident weighted sum and hence at most deg_{G'}(v). This gives the displayed bound 4(1+5theta)C_0d/zeta, independent of N and eta except through the fixed density constants.
+Check: Support containment gives E(J) subset E(G), so deleting edges preserves every YES independent set. In NO, every subset of cardinality at least eta N contains an edge, yielding alpha(J)<eta N exactly, including nonintegral eta N.
+Check: Substituting C_0=2 and zeta=zeta_eta establishes the main theorem's constant degree bound and the same common YES/NO input. No random sampling is introduced.
+Outcome: Pass. The spectral-to-internal-density conversion, threshold loss, ordinary-degree bound, and strict NO promise all hold with the current constants.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/71-80-aks.json
+Source: Batson, Spielman, and Srivastava (2012), Theorem 1.1 https://www.cs.yale.edu/homes/spielman/PAPERS/77287.pdf
+
+Round 080: Proof flow, notation, attribution, and exact restatement of the main source theorem
+Scope: sections/appendix-bounded-degree-source.tex, entire subsection | sections/03-ugc-hardness.tex:8-30
+Check: The appendix separates the cited regular UG source, the cited weighted density theorem, its own loop removal and exact clone normalization, the cited BSS theorem, and its own density-to-degree argument. This accurately distinguishes inputs imported from the literature from the new derivations.
+Check: The opening correctly identifies random sampling in AKS Section 4 Steps 2-3 and explains why the manuscript supplies a deterministic alternative. The cloning lemma cites Step 1 while still displaying the calculations needed for its loopless application.
+Check: Checked the progression of symbols: Lambda denotes the UG input, G the weighted AKS output, G^- the loopless graph, G_1 the clone graph, G' the sparsifier, and J the final simple unweighted graph. The local reuse of q for the BSS tradeoff parameter occurs in a separate subsection and creates no ambiguous formula.
+Check: All error budgets survive with their stated names. The loop graph and clone graph keep total edge weight at most 1, which is exactly the later cut estimate's assumption. Vertex weights disappear only after cloning.
+Check: Compared the main source theorem and its appendix restatement line by line. Both quantify fixed rational eta in (0,1/10), give the same simple unweighted n-vertex input and maximum degree d_eta, use the same weak YES and strict NO independence inequalities, and retain deterministic polynomial time.
+Check: The main text directs the reader to the appendix proof and names its two external ingredients. The appendix concludes with the restated theorem followed by its proof, as requested.
+Check: No semicolons occur in this appendix. No change to the introduction, expander definitions, no-hole proof, or archived alternative APW treedepth proof is needed. Current appendix contents match the saved audit baseline by SHA-256, and this audit made no manuscript edits.
+Outcome: Pass. The existing organization is precise and appropriately explicit. No changes are proposed solely to meet a quota.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/71-80-aks.json
+Source: Austrin, Khot, and Safra (2011) https://theoryofcomputing.org/articles/v007a003/v007a003.pdf
+Source: Batson, Spielman, and Srivastava (2012) https://www.cs.yale.edu/homes/spielman/PAPERS/77287.pdf
+Source: Saved audit baseline 
+
+Round 081: Completion identity, approximation adjustment, and solution extraction
+Scope: sections/05-applications.tex, lines 11–77, cross-read with cor:total-depth-bounded-degree and lem:solution-lifting
+Check: Counted one closure edge for every proper ancestor. Therefore a generating forest F has total depth |V(J)| + |E(closure(F))|, and minimization gives the displayed completion identity even for disconnected inputs.
+Check: For an actual completion of cost z, verified totd(J) <= z+n+m <= C(f(J)+n+m) for C >= 1. The offset is nonnegative and does not require f(J)>0.
+Check: A supplied trivially perfect supergraph admits a polynomially recoverable generating forest, obtained by recursively choosing a universal vertex in each connected component. Its depth sum is exactly z+n+m. Thus the solution extraction required by the NP total-depth reduction remains available.
+Check: The output graph is the unchanged bounded-degree total-depth instance. Hence the NP absolute factor, every UGC factor below 8/7, and every fixed SSE factor inherit the asserted degree dependence.
+Check: Checked Høgemo et al. Theorem 8 against the primary full version, its following NP-hardness attribution, and Bliznets et al. Theorem 1.1 for the parameter k and the exponent k^(1/4)/log^c(k).
+Outcome: Pass. The adjusted-cost transfer and all three approximation guarantees are sound.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/81-90-apps.json
+Source:  https://arxiv.org/html/2105.12093
+Source:  https://arxiv.org/html/1508.05282
+Source:  
+
+Round 082: Vertex-integrity YES upper and NO lower bounds
+Scope: sections/05-applications.tex, vertex-integrity paragraph
+Check: The chain construction gives td(J) <= vi(J), including the choice S=V(J).
+Check: Deleting every layered copy of a source vertex cover leaves q disconnected cliques, each of order alphaI(G). Thus vi(S_q(G)) <= q(n-alphaI(G))+alphaI(G). At zero source error the same coefficients as the treedepth proof give 4q/(3(q+1)), approaching 4/3.
+Check: For the common SSE output J=L(G*), crossing-edge deletion gives |D| <= 3 epsilon N and c_J(D) <= (1+epsilon)N/q. With q=ceil(2/epsilon) and epsilon<=1 their sum is at most 4 epsilon N.
+Check: At rho=2/3 the separator lemma gives min(N/12,beta N). The explicit beta<=1/12 hypothesis selects beta N. If c_J(S)>N/2, the integrity objective exceeds beta N. Otherwise S is a 2/3-balanced separator. This exhausts all deletion sets.
+Check: The NO/YES ratio is beta/(4 epsilon)=c/(8 sqrt(epsilon)), so every fixed factor is obtained with fixed rational epsilon in the source range. The argument uses no disjoint-union amplification of the global SSE cut promise.
+Outcome: Pass. UGC hardness below 4/3 and SSE hardness at every fixed factor follow with the stated constants.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/81-90-apps.json
+Source:  
+Source:  
+Source:  https://arxiv.org/html/2311.05892v3
+
+Round 083: Fracture and starwidth constants, additive one, and source amplification
+Scope: sections/05-applications.tex, lines 161–194
+Check: Verified fr <= vi <= 2fr directly by comparing max(|S|,c_J(S)) with their sum and minimizing.
+Check: Verified sw+1 <= vi by using S as the star center and S union C as a leaf bag for each component C. Conversely, in any width-k star decomposition, deleting its center bag leaves each remaining component inside one leaf bag. Hence vi <= 2(k+1).
+Check: The fracture gap has YES <=4 epsilon N and NO >=beta N/2. For starwidth, YES <=4 epsilon N-1 and NO >=beta N/2-1, giving the advertised asymptotic ratio beta/(8 epsilon).
+Check: Parallel replication of every host edge multiplies degrees, volumes, cuts, and line-graph order by the same t, including loops. Both normalized host promises therefore survive exactly. For fixed epsilon and target factor, a fixed large t absorbs the additive one in polynomial time.
+Check: Gima et al. Section 1.3 states constant-factor equivalence but does not display or prove these four exact inequalities. The mathematics is correct, while the present phrase 'are proved in' is too strong. The cited logarithmic approximation and line-graph NP-hardness match Theorem 5.1 and Corollary 4.11.
+Outcome: Minor citation correction. The exact comparisons should be justified directly. No hardness claim changes.
+Decision: Applied as a formal elementary lemma with a proof of all four exact comparisons. The subsequent starwidth argument now invokes that lemma instead of repeating its construction.
+Detailed evidence: tmp/audit-100/rounds/81-90-apps.json
+Source:  https://arxiv.org/html/2311.05892v3
+Source:  
+Source:  
+
+Round 084: General customizable-label lower bound and YES ancestor cover
+Scope: sections/05-applications.tex, customizable-label paragraph through the SSE gap
+Check: The manuscript definition agrees with customizable labels, including the self-label requirement supplied by the zero-length path.
+Check: For any path in a forest closure, its minimum-depth vertex z is an ancestor of every vertex on the path. Checked the induction when the next vertex is an ancestor of the current vertex, using comparability on the current root path. Thus ancestor labels cover every path.
+Check: Postorder places each vertex before its proper ancestors, so these labels satisfy the manuscript hierarchy convention. Their maximum, and therefore their average, is at most the YES forest height 4 epsilon N.
+Check: Combining the primary general-label lower bound with the manuscript separator bound gives NO average at least c sqrt(epsilon)N/8. Its ratio to 4 epsilon N exceeds C under sqrt(epsilon)<c/(32C). Maximum general label size dominates average. Total size multiplies both bounds by the same output order.
+Outcome: Pass. Average and maximum general labels, average hierarchical labels, and corresponding total-size gaps are justified.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/81-90-apps.json
+Source:  https://arxiv.org/html/2208.08709v1
+Source:  
+
+Round 085: Hierarchical labels and CCH containment and equality scope
+Scope: sections/05-applications.tex, CCH claims and final equivalent-formulations paragraph
+Check: The manuscript upward search space includes its start vertex and uses the unweighted elimination fill graph oriented toward later vertices. This is the metric-independent CCH vertex search space relevant to the imported results.
+Check: Primary Lemma 4 identifies each CCH search space with the canonical hierarchical customizable label for its order. Primary Lemma 2 makes that canonical label vertexwise minimal among hierarchical customizable labels for the same order. The manuscript correctly claims containment for its possibly larger ancestor labels.
+Check: Primary Corollary 5 gives equality of the optimal average objectives, and also of the optimal maximum objectives. The manuscript uses the average equality within its proper scope and the maximum equality in its treedepth formulations.
+Check: The lower bound applies to every CCH search-space labeling and the postorder supplies the YES upper bound. No claim is made for metric-pruned search spaces or ordinary metric-dependent hub labeling.
+Outcome: Pass. The citations support both the vertexwise containment and the optimization equalities used here.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/81-90-apps.json
+Source:  https://arxiv.org/html/2208.08709v1
+
+Round 086: Automata, star height, cycle-rank normalization, minimality, and binary degree
+Scope: sections/05-applications.tex, Automata and restricted cycle rank
+Check: Under roots-at-depth-one normalization, symmetric loopless conversion gives cycle rank td(H)-1. Adding a universal vertex gives td(G+a)=td(G)+1, so the combined graph-to-language step preserves td(G) exactly.
+Check: Unique arc letters give determinism in both directions. Strong connectivity and initial=sole-final=a imply trimness. Minimality also follows directly because reverse determinism makes the nonempty right languages of distinct trim states disjoint.
+Check: Checked Gruber's primary Theorem 23 binary encoding. Trimming unused encoding states is polynomial, keeps the initial/sole-final state, and preserves the language. Trimness with initial=final makes the remaining transition digraph strongly connected. Binary bideterminism bounds indegree and outdegree by two.
+Check: Primary Theorem 20 requires a bideterministic language and its minimal trim DFA. The manuscript's standalone sentence currently states the equality for an unrestricted regular language. Its actual constructed languages satisfy the missing hypotheses.
+Check: The normalization, exact binary language-height preservation, and bounded-degree cycle-rank consequence therefore retain all three inherited approximation gaps.
+Outcome: Scope correction needed in the statement of McNaughton's theorem. The transfer itself is valid.
+Decision: Applied. The source equality is restricted to bideterministic languages and minimal trim DFAs.
+Detailed evidence: tmp/audit-100/rounds/81-90-apps.json
+Source:  https://dmtcs.episciences.org/583/pdf
+
+Round 087: Simple bipartite edge-ranking factor-two transfer
+Scope: sections/05-applications.tex, Edge ranking
+Check: Replacing each loop occurrence by an edge from its original endpoint to its own pendant vertex preserves all line-graph adjacencies, including among multiple loop or parallel occurrences.
+Check: Subdividing every remaining edge occurrence once yields a simple bipartite graph. Distinct occurrences use distinct subdivision vertices and loop replacement has already made every pre-subdivision edge have distinct endpoints.
+Check: In L(B), the two vertices from each subdivided edge form a disjoint contractible pair. Contracting every pair recovers exactly L(G*), so minor monotonicity proves the lower bound.
+Check: Replacing each elimination-forest vertex by a two-vertex chain gives a valid elimination forest of L(B). All adjacencies are within a pair or between pairs whose original host edges intersect. The height is at most twice the source height.
+Check: Verified the ranking identity in the primary Rankings of Graphs, Remark 2.3. Hence a source gap exceeding 2C yields a target gap exceeding C. The primary HKU record confirms Lam and Yue's ICS 1996 attribution.
+Outcome: Pass. SSE hardness at every fixed factor on simple bipartite graphs is fully supported.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/81-90-apps.json
+Source:  https://citeseerx.ist.psu.edu/document?doi=3a20b18bb2196abad0f4f615502d5b96d64bacd0&repid=rep1&type=pdf
+Source:  https://hub.hku.hk/handle/10722/93097
+Source:  
+
+Round 088: Clone-pair hypergraph width for all three parameters and the special condition
+Scope: sections/05-applications.tex, Hypergraph widths and binary queries
+Check: Expanded source bags consist of whole adjacent clone pairs. Pair edges cover the bag at cost equal to the source bag size, and every chosen guard is contained in that bag. This explicitly satisfies ordinary hypertree width's special condition.
+Check: For any fractional bag cover of weight at most w, rank two implies bag size at most 2w. Retaining a source vertex precisely where both clones occur leaves bags of size at most w.
+Check: The two clone subtrees intersect because the pair is an edge. Their intersection is connected. Four clones of a source edge form a clique, and the tree-subtree Helly property gives one bag containing all four. Thus the retained bags form a valid source tree decomposition.
+Check: The lower bound tw(G)+1 <= fhw(G[K_2]) and the relaxation order fhw<=ghw<=hw combine with the shared upper bound to give all three exact equalities. Isolated source vertices remain covered by their clone-pair edge.
+Check: Primary definitions 2.4–2.7 confirm the special condition and fractional relaxation. The cited Marx treewidth reduction is a prior strategy, while the adjacent-pair proof here is self-contained and distinct. Its primary author PDF was partially verified through indexed proof text because direct opening timed out.
+Check: Adding one to the linear NP and UGC width thresholds preserves their strict factors after a fixed size threshold. The SSE factor can absorb it after choosing a larger fixed source gap. Binary query atoms with distinct relation symbols preserve the asserted structural widths.
+Outcome: Pass. The rank-two equality and NP, UGC, and SSE consequences retain their full scope.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/81-90-apps.json
+Source:  https://arxiv.org/pdf/2002.05239
+Source:  https://www.cs.bme.hu/~dmarx/papers/marx-fractional-talg.pdf
+Source:  
+Source:  
+
+Round 089: Junction-tree table-size bounds and exponential approximation exponents
+Scope: sections/05-applications.tex, Binary junction-tree total state space
+Check: The definition sums dense binary assignment counts over bags. A minimum-width decomposition can be reduced to at most n bags, so TSS(G)<=n 2^(tw(G)+1). Every decomposition has one bag of size at least tw(G)+1, proving the reverse bound.
+Check: Checked the cited primary Lemmas 2 and 4 and Theorem 32. Lemma 4 actually gives at most n-tw(G) bags, so the manuscript's weaker n-bag bound is valid.
+Check: Recomputed the NP difference as Rm(1/2-2epsilon)-3m. Dividing by the same construction's output order n=9Rm gives 1/18-2epsilon/9-1/(3R).
+Check: Recomputed the UGC difference as RN(1/6-2zeta)-N/3. With common output order n=RN this gives 1/6-2zeta-1/(3R).
+Check: For each exponent strictly below its limiting coefficient, fixed epsilon or zeta and then fixed R leave delta>0. The two bag-size +1 terms cancel, and 2^(delta n)/n eventually exceeds one. Fixed source copies preserve the NP clause fraction or UGC independence/cover fractions before applying the connected output construction.
+Outcome: Pass mathematically. A small optional notation improvement would make the common-input YES/NO comparison explicit.
+Decision: Applied. Common-input YES and NO thresholds replace undefined G_N and G_Y symbols.
+Detailed evidence: tmp/audit-100/rounds/81-90-apps.json
+Source:  https://fedorvf.github.io/articles/2005/2005b.pdf
+Source:  
+Source:  
+
+Round 090: Application exposition, definitions, notation, and guarantee scope
+Scope: Active content of sections/05-applications.tex and referenced preliminary definitions
+Check: Definitions of closure, integrity, fracture number, starwidth, customizable labels, cycle rank, edge ranking, all three hypergraph widths, and binary TSS specify the conventions required by their proofs.
+Check: Ancestor labels use the earlier inclusive-ancestor convention. The cycle-rank normalization is spelled out through the universal-vertex step. Hypergraph width is guard count rather than bag size, and the explicit clone-pair proof bridges that distinction.
+Check: Checked that every transferred guarantee is assigned to the proper hypothesis and input restriction. Bounded maximum degree is claimed for completion, simple bipartite inputs for edge ranking, rank two for the three hypergraph widths, and binary variables for the TSS exponents.
+Check: NP total-depth completion uses a solution-producing reduction, and the forest extraction sentence supplies its required witness. Other application promises use a common output with separate YES and NO value bounds.
+Check: No lowercase opt notation or prose semicolons occur in the active application section. The only OPT use is the established approximation citation. Every proof in this section remains local, with the external exact equalities explicitly attributed.
+Check: The final equivalent-formulations paragraph concerns height or maximum objectives. It does not accidentally transfer the total-depth factor to those maxima. The maximum hierarchical/CCH equivalence is within customizable metric-independent scope.
+Outcome: Pass apart from the two precise wording corrections recorded in rounds 83 and 86. No substantial introduction change or deletion of an own transfer is warranted.
+Decision: No manuscript edit proposed in this pass. Retained the checked argument.
+Detailed evidence: tmp/audit-100/rounds/81-90-apps.json
+Source:  
+Source:  
+Source:  https://arxiv.org/html/2208.08709v1
+Source:  https://dmtcs.episciences.org/583/pdf
+
+Round 091: Global dependencies, source promise domains, and headline guarantees
+Scope: All active sources, abstract, introduction result table, and bounded-degree corollaries
+Check: Matched the NP, UGC, and SSE ranges for all three parameters between the abstract, result table, dense arguments, and bounded-degree corollaries.
+Check: Rechecked the source-to-dense-to-sparse dependency chain. Treewidth starts from the constant-degree multipartite source and later sparsifies its dense target factors.
+Check: For regular Unique Games with a nonempty edge set, OPT >= VOPT. The domain 0 < gamma < 1/2 gives disjoint displayed cases and includes every use.
+Check: Excluded zero-order multipartite source instances with N >= k in both statement copies.
+Outcome: Pass. Headline factors and ordinary-UGC assumptions are unchanged. Two source-domain clarifications applied.
+Decision: Root integration and verification completed as recorded.
+
+Round 092: Notation scope and justified symbol reduction
+Scope: Total-depth and treewidth reductions, source notation, applications
+Check: Checked OPT for edge constraints and VOPT for wholly satisfied right vertices.
+Check: Removed the immediate N reassignment in the sparse NP total-depth argument through a direct M formula, without adding N_0.
+Check: Used common-input TSS thresholds instead of introducing G_N and G_Y.
+Check: Kept the Sigma superscript distinguishing the total-depth construction and local proof variables needed to explain the estimates.
+Check: The simplified starwidth transfer explicitly defines N as the graph order before using it.
+Outcome: Pass. Reduced unnecessary notation while retaining symbols that carry distinct mathematical roles.
+Decision: Root integration and verification completed as recorded.
+
+Round 093: Independent verification of the repaired minor argument and extremal cases
+Scope: Preliminaries minor monotonicity proof | tmp/audit-100/global_checks.py
+Check: Confirmed the old reattachment fails on the chain u-a-v-w with graph edges uv and aw.
+Check: Checked all 5,913 recursively labeled rooted forests of orders 1 through 7. Every rooted forest shape has such an increasing labeling.
+Check: For all 38,203 ancestor-edge contractions, restriction and identification preserve comparability for 259,330 mapped closure edges and never increase height.
+Check: Using closure edges verifies the argument for every subgraph covered by each forest. Rechecked empty graphs and q=1 in the total-depth induction.
+Outcome: Pass. The faulty proof operation is repaired without changing minor monotonicity or any downstream theorem.
+Decision: Root integration and verification completed as recorded.
+Source: local:tmp/audit-100/global-checks.json
+
+Round 094: Synthesis of source theorem and citation checks
+Scope: AKS and Khot-Regev normalization, RST normalization, applications, bibliography
+Check: Kept the cited AKS density theorem statement unchanged and retained all separately derived loop, clone, density, and bounded-degree consequences.
+Check: Matched weighted RST expansion to the random oriented-edge convention. The finite sampler directly explains rational edge weights.
+Check: The exact integrity constants now have a proof, rather than an attribution to a source that states only constant-factor equivalence.
+Check: McNaughton is stated for bideterministic languages and their minimal trim DFA.
+Check: Checked the primary Anand record supporting the existing O(log n) treedepth approximation citation. Conference keys with full-version notes need no change.
+Check: Finite-precision arithmetic is excluded by the user instruction. No BSS implementation appendix or constant change was made.
+Outcome: Pass. Source qualifications are precise and manuscript-specific deductions remain proved.
+Decision: Root integration and verification completed as recorded.
+Source: https://arxiv.org/abs/2610.17237
+Source: local:tmp/audit-100/final-review-apps.json
+
+Round 095: Definitions before use, construction provenance, and proof flow
+Scope: All changed proof passages and their neighboring statements
+Check: The NP added-vertex graph explicitly retains the completed part cliques.
+Check: The cubic-cover count explains why auxiliary neighborhoods of distinct selected source vertices do not overlap.
+Check: The extraction proof starts with the given feasible forest, and the final reduction defines G=G(J).
+Check: The total-depth induction quantifies over every finite simple source graph, handles n=0, and fixes F before its first case.
+Check: The degree-reduction overview announces its two listed steps and leaves loss control with the existing gap lemma.
+Check: The BNS anchor identity states its positive integer domain explicitly.
+Outcome: Pass. Applied narrow exposition changes without deleting reasoning or construction details.
+Decision: Root integration and verification completed as recorded.
+
+Round 096: Conservative change decisions and elimination of new repetition
+Scope: Every proposed edit in rounds 1-90 | Baseline-to-final source diff
+Check: Reviewed every nonempty proposal and recorded an explicit accept, decline, or subsumption decision.
+Check: Declined optional Bonnet attribution expansion and weighted-Vertex-Cover rewording because current prose already states the required scope.
+Check: Resolved the N_0 proposal through a direct formula, avoiding an additional symbol.
+Check: After proving the integrity comparisons, replaced a repeated star-decomposition construction with a lemma reference.
+Check: Restricted edits to local proofs, domains, citation accuracy, notation, and layout. The introduction is byte-for-byte unchanged.
+Outcome: Pass. No argument or guarantee was removed. The expander definitions and complete construction file are unchanged.
+Decision: Root integration and verification completed as recorded.
+
+Round 097: Automated global references, statement copies, and style audit
+Scope: 21 active TeX files | references.bib | Introduction baseline hash
+Check: Checked 168 labels with no duplicates or unresolved references and checked citations against unique bibliography keys.
+Check: Verified all nine main-text results proved in the appendix have full preceding restatements. Six match after display normalization, and three have only manually verified harmless wording differences.
+Check: No prose semicolons, old mixed-case OPT commands, or active references to the archived incidence-treedepth argument remain.
+Check: Checked the introduction SHA256 against the saved baseline and checked the full expander replacement file for byte equality.
+Outcome: Pass. All global checks succeeded.
+Decision: Root integration and verification completed as recorded.
+Source: local:tmp/audit-100/global-checks.json
+
+Round 098: Final isolated LaTeX build and regression evidence
+Scope: tmp/audit-100/build/main.pdf | tmp/audit-100/build/main.log | Focused computational evidence
+Check: Final latexmk subprocess returned 0 and produced a 78-page PDF.
+Check: The final log contains no warnings, overfull or underfull boxes, unresolved references, or unresolved citations.
+Check: Re-ran global checks after final source edits.
+Check: Reviewed the agents' exact small-instance evidence for layered reductions, parity witnesses, cubic-source normalization, rounding losses, and line-graph separators. These checks support the respective proofs and are not a general correctness certificate.
+Outcome: Pass. Build and relevant mathematical regression checks passed.
+Decision: Root integration and verification completed as recorded.
+Source: local:tmp/audit-100/build-output.txt
+Source: local:tmp/audit-100/rounds/
+
+Round 099: Full rendered PDF visual inspection and final layout polish
+Scope: All 78 rendered pages at 100 dpi | Final changed-page image comparisons
+Check: Every page was individually viewed using view_image, distributed across nine reviewers.
+Check: Kept the weighted SSE source statement together and prevented the regularization equality chain from splitting across pages.
+Check: Re-rendered after final edits. The 17 changed pages were individually viewed again, and the other 61 page images are byte-identical to the first reviewed render.
+Check: Confirmed source cases, lemma restatements, equations, headings, footers, and the complete expander construction render without clipping or overlap.
+Outcome: Pass. Both concrete layout observations were resolved and all final pages are visually covered.
+Decision: Root integration and verification completed as recorded.
+Source: local:tmp/audit-100/visual-*.json
+
+Round 100: Independent critical-change review, scope preservation, and delivery
+Scope: Three independent final diff reviews | Baseline comparison | Audit ledger and final PDF
+Check: Independent reviewers rechecked the contraction/induction changes, sparse-interface/source-domain changes, and application/source-normalization changes. No remaining issue was reported.
+Check: Verified that the introduction and expander construction file remain byte-identical to the baseline and that the AKS density theorem statement is unchanged.
+Check: Verified exactly 100 unique sequential focused-round records, with an explicit decision for every proposal.
+Check: Copied the verified isolated PDF to main.pdf and checked equal hashes. Kept the original baseline and reproducible evidence in tmp/audit-100.
+Outcome: Pass. The revised manuscript and documented audit are ready.
+Decision: Root integration and verification completed as recorded.
+Source: local:tmp/audit-100/final-review-ugc.json
+Source: local:tmp/audit-100/final-review-sparse.json
+Source: local:tmp/audit-100/final-review-apps.json
+

@@ -1,28 +1,44 @@
 \section{Preliminaries}
 \label{sec:preliminaries}
 
-All graphs produced by our reductions are finite, simple, and
+All target graphs produced by our reductions are finite, simple, and
 unweighted. Source graphs may have weights, parallel edges, or loops
-when explicitly stated. An \emph{independent set} contains no adjacent
-pair. A \emph{clique} has every pair of distinct vertices adjacent.
+when explicitly stated. We write $V(G)$ and $E(G)$ for the vertex and
+edge sets of a graph $G$. An \emph{independent set} contains no edge,
+including a loop. A \emph{clique} has every pair of distinct vertices adjacent.
 A \emph{vertex cover} meets every edge. For an unweighted graph $G$,
 let $\alphaI(G)$ denote the maximum independent-set size and
 $\vc(G)$ the minimum vertex-cover size.
-Taking complements gives $\vc(G)=|V(G)|-\alphaI(G)$.
-We write $G[U]$ for the subgraph induced by $U$, $G-U$ for
-$G[V(G)\setminus U]$, $\Delta(G)$ for maximum degree, and
-$[q]=\{1,\ldots,q\}$. A spanning subgraph retains all vertices
+Taking complements gives
+\begin{equation}\label{eq:cover-independent-complement}
+ \vc(G)=|V(G)|-\alphaI(G).
+\end{equation}
+For an optimization instance $I$, write $\OPT(I)$ for its optimum
+objective value.
+A factor-$r$ approximation for a minimization problem, where $r\ge1$,
+returns a feasible solution of cost at most $r\OPT(I)$.
+In each reduction the approximation factor and all auxiliary constants
+are fixed before the input instance.
+
+For $U\subseteq V(G)$, write $G[U]$ for the subgraph induced by $U$
+and $G-U$ for $G[V(G)\setminus U]$. Write $\Delta(G)$ for maximum
+degree, $[q]=\{1,\ldots,q\}$ for a positive integer $q$, and
+$\binom{U}{2}$ for the set of unordered pairs of distinct elements of $U$.
+A spanning subgraph retains all vertices
 and some of the edges. A \emph{matching} is a set of edges with
 pairwise disjoint endpoints. A matching is \emph{perfect} if it meets
-every vertex. A graph is \emph{cubic} if every
-vertex has degree three.
+every vertex.
 
-For $S\subseteq V(G)$, the \emph{edge boundary} $\cut_G(S)$ consists
-of the edges with one endpoint in $S$ and the other in
-$V(G)\setminus S$. In a multigraph, it is a multiset, counting
-parallel edge occurrences separately.
+For $S\subseteq V(G)$, the \emph{edge boundary} is
+\[
+ \cut_G(S)=\{uv\in E(G):u\in S,\ v\in V(G)\setminus S\}.
+\]
+In a multigraph, this is a multiset, counting parallel edge
+occurrences separately.
 
-In a rooted forest, two vertices are \emph{comparable} if one is
+In a rooted forest $F$, the depth $\operatorname{depth}_F(v)$ of a
+vertex $v\in V(F)$ is the number of vertices on its root-to-$v$ path.
+Thus roots have depth one. Two vertices are \emph{comparable} if one is
 an ancestor of the other. We count a vertex as its own ancestor
 and descendant. A \emph{proper} ancestor is a different vertex.
 The subtree rooted at a vertex consists of that vertex and all
@@ -42,8 +58,8 @@ We set $\td(\varnothing)=0$. For
 disconnected graphs, treedepth is the maximum treedepth of a component.
 
 The \emph{total depth} of an elimination forest $F$ is
-$\totd(F)=\sum_{v\in V(F)}\operatorname{depth}_F(v)$, with roots at
-depth one. Let $\totd(G)$ be the minimum total depth of an
+$\totd(F)=\sum_{v\in V(F)}\operatorname{depth}_F(v)$.
+Let $\totd(G)$ be the minimum total depth of an
 elimination forest of $G$. This objective is also called
 \emph{VPT-sum}~\cite{HogemoEtAl2021}. For disconnected graphs,
 $\totd$ is the sum of its values on the components. Restricting a forest
@@ -56,8 +72,40 @@ $T_v=\{t\in V(T):v\in B_t\}$ for the set of nodes whose bags contain
 $v$. We require each $T_v$ to be nonempty and to induce a connected
 subtree of $T$, and $T_u\cap T_v\ne\varnothing$ for every edge
 $uv\in E(H)$. Its width is
-$\max_t|B_t|-1$, and the \emph{treewidth} $\operatorname{tw}(H)$ is
+$\max_{t\in V(T)}|B_t|-1$, and the \emph{treewidth} $\operatorname{tw}(H)$ is
 the minimum such width.
+
+\begin{lemma}[Helly property for subtrees]
+\label{lem:subtree-helly}
+Let $S_1,\ldots,S_k$ be a nonempty finite family of nonempty
+connected subtrees of a tree $T$. If $S_i\cap S_j\ne\varnothing$
+for every $i,j\in[k]$, then $\bigcap_{i=1}^k S_i\ne\varnothing$.
+\end{lemma}
+
+\begin{proof}
+Root $T$, and let $r_i$ be the vertex of $S_i$ nearest the root.
+Connectedness makes $r_i$ unique and an ancestor of every vertex
+of $S_i$. Choose $r_j$ of maximum depth and put $z=r_j$.
+For each $i\in[k]$, choose $x\in S_i\cap S_j$. Both $r_i$ and $z$ are
+ancestors of $x$, and $z$ is at least as deep as $r_i$. Thus $z$
+lies on the $r_i$--$x$ path, which is contained in $S_i$.
+Hence $z$ belongs to every $S_i$.
+\end{proof}
+
+\begin{lemma}[Three paths in a tree]
+\label{lem:three-tree-paths}
+For any three vertices $a,b,c$ of a tree, not necessarily distinct,
+the three paths joining their pairs have exactly one common vertex.
+Here the path from a vertex to itself consists of that vertex.
+\end{lemma}
+
+\begin{proof}
+Let $z$ be the first vertex on the $c$--$a$ path that belongs to
+the $a$--$b$ path. Uniqueness of paths forces the $c$--$b$ path
+to consist of the $c$--$z$ path followed by the $z$--$b$ path.
+The $z$--$a$ and $z$--$b$ portions of the $a$--$b$ path have only
+$z$ in common, so the three paths intersect exactly at $z$.
+\end{proof}
 
 \begin{lemma}[Minor monotonicity of treedepth and treewidth]
 \label{lem:minor-monotonicity}
@@ -71,15 +119,32 @@ $\operatorname{tw}(H')\leq\operatorname{tw}(H)$.
 For treedepth, vertex deletion is handled by restricting an
 elimination forest, and edge deletion leaves it valid. For an edge
 contraction $uv$, its endpoints are comparable in any elimination
-forest. Suppose $u$ is above $v$. Delete $v$ and make the roots of its
-child subtrees children of $u$. Every neighbor of $v$ was either an
-ancestor of $v$ or a descendant of $v$, so after the contraction it
-remains comparable with $u$. This gives a valid forest without
-increasing height.
+forest. Suppose $u$ is above $v$. Restrict the forest to
+$V(H)\setminus\{v\}$, using $u$ for the contracted vertex. All
+edges not incident with $v$ retain comparable endpoints. Every
+ancestor of $v$ is comparable with $u$, and every descendant of $v$
+is a descendant of $u$, so the edges transferred from $v$ to $u$
+also have comparable endpoints. Restriction does not increase height.
 
 For treewidth, delete vertices from every bag or leave the bags
 unchanged when deleting edges. To contract $uv$, replace $u$ and $v$
 by the contracted vertex in every bag. The node sets $T_u,T_v$
 intersect because $uv$ is an edge, so their union is connected. All
 edges remain covered and no bag grows.
+\end{proof}
+
+\begin{lemma}[An ancestor in a connected set]
+\label{lem:connected-set-ancestor}
+Let $F$ be an elimination forest of $H$, and let
+$\varnothing\ne U\subseteq V(H)$ induce a connected subgraph.
+The vertex of $U$ with minimum depth in $F$ is unique and is an
+ancestor of every vertex of $U$.
+\end{lemma}
+
+\begin{proof}
+Choose a minimum-depth vertex $r\in U$. If a path in $H[U]$ starting
+at $r$ left its forest subtree, the first edge leaving it would join
+a descendant of $r$ to a proper ancestor of $r$, since its endpoints
+are comparable. This contradicts the choice of $r$. Thus all of $U$
+lies below $r$, which also proves uniqueness.
 \end{proof}

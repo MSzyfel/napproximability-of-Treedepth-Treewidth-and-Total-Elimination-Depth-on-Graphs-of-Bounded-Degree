@@ -1,0 +1,468 @@
+Undefined-notation audit -- latest revision, 23 October 2026
+
+Audited the current manuscript in ten parallel scopes, with independent
+reciprocal reviews. The baseline includes the author's intervening source,
+proof-sketch, application, and appendix revisions; these were preserved.
+
+The quoted A.1 passage now explicitly introduces a loopless weighted graph
+G, an edge submultiset F subset E(G), and a vertex set S subset V(G) before
+defining w(F) and vol_G(S). It also defines indicator-vector components,
+the common vertex space for Laplacian comparisons, and the reweighted sum
+w'(F), used consistently for cuts of G'. The incident-constraint notation
+E_Lambda(z) is defined for both sides of the source, removing a free index
+from the endpoint-marginal calculation.
+
+Other verified fixes:
+  - Preliminaries define graph sets, OPT as optimum objective value,
+    set-valued binomial notation, positive-integer index sets, and depth.
+  - UGC and treewidth proofs state copy/part/child domains, prefix size,
+    forest membership, first-branch conditions, and coefficient domains.
+  - SSE statements identify the input graph, unit-weight convention,
+    edge counts, partition indices, vertex-set domains, and constants.
+  - NP proofs distinguish block-valued head/tail from their states, define
+    indexed states and nonempty cost-minimization domains, and state the
+    forest domain and integer replication constant.
+  - Sparsification and regularization proofs identify traversal times,
+    walk lengths, source orders, spectral spaces, and objective bounds.
+  - Appendix gap calculations introduce their source graphs, orders,
+    errors, constants, and objective interpretation; coefficient formulas
+    explicitly allow the zero-error limiting value.
+  - Application notation specifies graph orders, component vertex sets,
+    the vertex-integrity optimum, and the tripartite source k=3. The
+    introduction identifies edge weights and ranking notation and expands
+    the CCH abbreviation; the approved diagram itself is unchanged.
+
+No hardness threshold or construction guarantee changed. No new labels
+or results were needed. README records the domain and weight conventions.
+
+Validation: 27 active TeX inputs, 343 distinct labels, 801 resolved
+references, 125 citation calls, and 116 formal statements/definitions,
+including restatements. Inputs/citation keys resolve, environments balance,
+and no forbidden macros or above-sign statement annotations were found.
+The standard latexmk build succeeds without unresolved references,
+citations, box warnings, or oversized floats. All 98 final PDF pages were
+rendered and inspected in ten parallel scopes; no overlap, clipping, or
+display overflow was found. The saved baseline PDF has 97 pages.
+
+Baseline: tmp/notation-audit-before-20261023.
+QA: tmp/pdfs/notation-audit-20261023.
+
+Earlier revision records (retained for provenance)
+
+Sampling event defined at first use -- preceding revision, 22 October 2026
+
+Defined the outcome-event family C_{u,e1,e2} alongside its exact sampling
+probability, for u in U and e1,e2 in E_Lambda(u). The loop calculation now
+only abbreviates the selected event as C. An independent review verified
+the unchanged probability law and conditioning. The 99-page PDF builds
+cleanly; only pages 72--73 changed, and both were rendered and inspected.
+Baseline: tmp/sampling-event-before-20261022.
+QA: tmp/pdfs/sampling-event.
+
+Earlier revision records (retained for provenance)
+
+Explicit loop-agreement events -- preceding revision, 22 October 2026
+
+Replaced the prose-only block argument in Lemma A.3 with an explicit
+conditional calculation. The proof fixes the sampled constraint triple,
+defines its conditioning event C, specifies i_s = pi_{e_s}^{-1}(1), and
+identifies the input bits appearing at output coordinate (1,j). It defines
+their equality event A_j, states its exact probability in both index cases,
+and explains independence using the disjoint coordinate-pair indices.
+The conditional loop bound is multiplied over j and then averaged to give
+the unchanged total loop-weight bound c^t. Two reusable equation labels
+support the transitions. No change to the construction or its guarantees.
+
+Two independent reviewers checked the argument, including conditional
+independence, possible repeated constraints, and diagonal edge weights.
+The 99-page PDF builds without warnings. Seventy-six page layouts match
+the previous reviewed version apart from page numbers; all 23 changed
+pages were rendered and inspected, with no overlap, clipping, or overflow.
+Baseline: tmp/loop-events-before-20261022.
+QA: tmp/pdfs/loop-events.
+
+Earlier revision records (retained for provenance)
+
+Coordinate reindexing notation -- preceding revision, 22 October 2026
+
+Appendix A.1 now defines the whole-string operator explicitly:
+for x indexed by [ell] x [t] and a bijection sigma of that coordinate
+set, x circ sigma := (x_{sigma(k)})_k. The accompanying text identifies
+circ as function composition when x is viewed as k -> x_k and explains
+which old bit occupies each new coordinate. An independent review checked
+the inverse-permutation endpoints and the consistent RST convention.
+
+The 98-page PDF builds cleanly. Eighty-eight page layouts match the
+previously reviewed version apart from page numbers; all ten reflowed
+pages (72--81) were rendered and inspected. No overlaps, clipping, or
+display overflow were found. Mathematical content is unchanged.
+Baseline: tmp/coordinate-operator-before-20261022.
+QA: tmp/pdfs/coordinate-operator.
+
+Earlier revision records (retained for provenance)
+
+Explicit constructions and source definitions -- preceding revision, 22 October 2026
+
+Simplified the introduction figure to 11 nodes in aligned source columns,
+one shared parameter-gap node, one bounded-degree node, and three primary
+application branches. Specialized applications remain in the prose and
+Section 7. The author approved this diagram; its design was then retained.
+
+Appendix A.1 now explicitly defines the constraint-permutation family,
+its direction and inverse, a labeling, its edge-satisfaction equation,
+the satisfied-constraint set, OPT, and regularity. Alphabet padding states
+the satisfaction condition on both coordinates. The unchanged AKS source
+construction is credited before giving the actual assignments: the random
+constraint triple law, bit-pair distribution, random endpoints, ordered
+probability P, vertex weights, and unordered edge weights, including loops.
+The preceding explanation of what padding and loop deletion change remains.
+
+Six agents audited disjoint mathematical scopes and made targeted edits:
+  - clone blocks, graph edges, clone weights, and independent sampling;
+  - layered/product graphs, support sets, bag sizes, and copy counts;
+  - parity occurrence bounds, degrees, pair weights, and ancestor counts;
+  - RST endpoint masses, noise kernels/base measures, walk law, and sampler;
+  - factor incidence, expander adjacency, and regularization degrees;
+  - application labels, guards, automata, and decomposition assignments.
+Independent reciprocal reviews checked the new formulas against the prior
+arguments. They caught and resolved a random-assignment notation clash and
+implicit base measures/independence in the RST sampler. No hardness bound,
+source guarantee, construction parameter, or theorem conclusion changed.
+
+Final validation:
+  - 23 active TeX inputs, 300 distinct labels, 716 resolved references,
+    and 97 formal statements/definitions, including restatements.
+  - All inputs and citation keys resolve; labels are unique and environments
+    balance. No above-sign annotations in formal statements, substack,
+    or framed bounds. The NP total-depth threshold remains 63/62.
+  - Standard latexmk build succeeds with no unresolved references/citations,
+    box warnings, or oversized floats. All 98 PDF pages were rendered and
+    inspected in eight parallel scopes; no overlap, clipping, or display
+    overflow was found. Minor readable cross-page statement continuations
+    were left unchanged.
+
+The README records the explicit-assignment and source-attribution convention.
+Baseline: tmp/intro-ugc-clarity-before-20261022 (latest edited files and PDF);
+tmp/graph-statements-before-20261022 (other source files, before the prior
+statement-style correction).
+QA: tmp/pdfs/intro-ugc-clarity.
+
+Earlier revision records (retained for provenance)
+
+Introduction graph and statement-style audit -- preceding revision, 22 October 2026
+
+Replaced the introduction's separate transformation chains with one
+connected directed graph containing 21 shared source, construction,
+objective, and application nodes. Cited arrows show the transformations;
+hypothesis tags restrict application branches. The graph preserves all
+nine hardness factors, the typed bounded-degree transfers, and the dense
+linear NP/UGC requirement for binary junction-tree table size. Independent
+semantic and visual reviews checked the merged routes and crossings.
+
+Removed above-relation references from the statements of Lemmas 3.5 and
+3.15. The supporting references remain in their proofs. All 97 active
+formal statements and definitions, including restatements, were audited:
+none contains an overset, stackrel, or underset annotation. Updated the
+README to record both presentation conventions.
+
+Final source checks:
+  - 23 active TeX inputs, 299 distinct labels, 727 resolved references,
+    139 citation calls, and 308 above-relation proof annotations.
+  - No missing inputs/citation keys, duplicate labels, substack, or
+    framed bounds. Mathematical claims and parameters are unchanged.
+  - The 93-page PDF builds without unresolved references, citations,
+    box warnings, or oversized floats. Of its page layouts, 89 match
+    previously reviewed layouts apart from page numbers; the four changed
+    layouts (pages 7, 11, 12, and 20) were rendered and checked. The final
+    graph routing adjustment was rendered and independently checked again.
+
+Baseline: tmp/graph-statements-before-20261022.
+QA: tmp/pdfs/graph-statements.
+
+Earlier revision records (retained for provenance)
+
+Above-transition reference audit -- preceding revision, 22 October 2026
+
+Applied the author's convention throughout the proofs and appendices:
+nontrivial equality/inequality transitions carry their supporting result
+or equation reference above the relation sign. Standard named tools such
+as Cauchy--Schwarz and Jensen are named there. Direct arithmetic,
+definitions, and counting proved in place remain plain.
+
+Ten parallel scopes covered UGC, NP, SSE, source normalizations,
+completion/sparsification, regularization/subdivision, applications,
+branching/anchor tools, and expanders. Independent reciprocal reviews
+checked that each reference supplies the precise transition, its
+hypotheses apply, and no proof cites its own desired conclusion.
+
+Final source checks:
+  - 310 above-relation annotations; 116 new reusable equation labels.
+  - All new labels have active manuscript references. Two unused new
+    application labels were removed and their displays kept unnumbered.
+  - 23 active TeX inputs, 299 distinct labels, 728 resolved references,
+    139 citation calls, and 177 explicitly indexed summations.
+  - No missing inputs/citation keys, duplicate labels, environment errors,
+    equation self-references, broad Section-based oversets, substack,
+    framed bounds, or stale rational-appendix references.
+  - All hardness bounds, construction parameters, source guarantees,
+    and finite-domain conventions are preserved, including 63/62.
+
+The standard latexmk build succeeds with no unresolved references,
+citations, box warnings, or oversized floats. The final PDF has 93 pages.
+The first complete 94-page render was inspected by the team; after
+pagination refinements, 71 final page layouts match already reviewed
+layouts exactly (apart from page numbers), and all 22 changed layouts
+were rendered and checked again. Source promises stay together, and
+annotated comparison formulas no longer split awkwardly across lines.
+Closing prose was tightened to avoid a nearly empty final body page.
+
+The convention is also recorded in README.md for subsequent edits.
+Baseline: tmp/transition-citations-before-20261022.
+QA: tmp/pdfs/transition-citations.
+
+Earlier revision records (retained for provenance)
+
+Notation, disclosure, and reduction-map audit -- 22 October 2026
+
+Ten parallel review scopes covered all active manuscript sections, with
+independent second checks of the resulting edits and a complete visual
+review of the 84-page PDF.
+
+Implemented changes:
+  - Every active sum has an explicit finite domain. Related maxima,
+    minima, unions, variable sets, equation indices, vector coordinates,
+    hyperedges, and tree-decomposition bags are explicitly scoped.
+  - Removed the unused cubic-graph definition, supp/UGC/SSEH macros,
+    remark environment, and temporary local aliases. Removed unused SSE
+    degree/history/denominator symbols after deleting implementation prose.
+  - Expanded the AI acknowledgement to state the extensive mathematical
+    development, substantial proof/manuscript drafting, ten-agent research
+    and audits, source inspection, computational checks, and document work.
+    It distinguishes these checks from formal proof verification and
+    describes the author's direction and responsibility.
+  - Added a two-panel introduction overview with five source/construction
+    routes, the common bounded-degree transfer, and seven separately
+    qualified application routes. References appear above every arrow.
+    Independent semantic review checked all source promises and factors.
+  - Removed rational-implementation and bit-complexity discussion from the
+    active paper. The BSS step now invokes published Theorem 1.1 and derives
+    the same support, distortion, density, and degree bounds explicitly.
+    Necessary mathematical rationality assumptions, integer clone counts,
+    finite SSE cases, and edge-copy rounding bounds remain.
+  - The removed numerical BSS proof is preserved outside the manuscript:
+    partial-results-and-notes/
+    ARCHIVE-2026-10-22-rational-sparsification.tex.
+  - Simplified total-depth amplification to M=m ceil(9900r/gamma), proving
+    the required bound from N(N+1)<=9900m^2. No extra shorthand is needed.
+    The target remains every fixed r<63/62, including bounded degree.
+
+Independent comparison against tmp/notation-disclosure-before-20261022
+found no changed hardness bound or lost mathematical justification. The
+new overview also corrected the introductory multipartite-product order
+and the APW hardness theorem locator. The actual binary-automata encoding
+is retained; it is unrelated to numerical implementation commentary.
+
+Final static checks: 23 active TeX inputs, 183 distinct labels, 412 resolved
+references, 136 citation calls, 171 explicitly indexed sums, 39 local
+reduction arrows, and 18 overview arrows. No missing inputs/citation keys,
+duplicate labels, unbalanced environments, boxed/fbox/substack, or stale
+rational-appendix references remain. All remaining preamble macros and
+theorem environments have active uses.
+
+The standard and isolated builds have no unresolved references/citations,
+box warnings, or oversized floats. The standard build's text layout
+matches the reviewed isolated build exactly. All 84 pages were rendered
+and inspected.
+Final layout repairs affected only pages 7, 30, and 44; these were rendered
+and checked again. All other pages retained the reviewed text layout.
+
+Earlier revision records (retained for provenance)
+
+Second general simplicity audit -- 22 October 2026
+
+Ten reviewers used rotated scopes, then independently checked edits made
+by other reviewers against tmp/simplicity-audit-2-before-20261022.
+
+Structural simplifications:
+  - Shared prefix accounting now states both height and total-depth
+    identities once, with one proof.
+  - Shared vertex restoration now states both exact forest costs and
+    both minimization inequalities once. Existing labels remain aliases;
+    empty forests/deleted sets and separate minimizers are explicit.
+  - A single interval-completion lemma proves the matching argument
+    used for forest and two-bag bicliques, retaining deletion bounds
+    4(t-1) and 2(t-1), respectively.
+  - Witness counting uses two cases; the parity-pair proof uses direct
+    endpoint cases and equation-local notation n_e. All table values,
+    OR averaging, charging, degree bounds and exact identities remain.
+  - Quadratic branching uses an exact nonnegative pair identity.
+    Multipartite YES/NO comparisons and expander preimage arguments
+    share their common algebra.
+  - AKS parameters are listed in dependency order; the rational BSS
+    state is defined before use, and deterministic choices are explicit.
+  - Application separator cases, CCH exposition, and TSS offsets use
+    fewer auxiliary variables. All application guarantees remain.
+
+No hardness bound, source guarantee, hypothesis, citation key, existing
+label, or reduction flow was removed. The sharpness remark stays removed;
+no framed display or substack was introduced. Independent review found
+no lost justification or changed guarantee, including boundary cases.
+
+Final checks: 23 active TeX inputs, 183 labels, 383 references and
+39 reduction arrows; all inputs/references/citations resolve, with no
+duplicate labels or environment errors. The 84-page PDF builds without
+reference/citation or box warnings and passed a complete visual review.
+The final inline-math wrap adjustment affected page 25 only, which was
+rendered and checked again.
+
+Earlier revision records
+
+Clarity and general audit -- 22 October 2026
+
+Removed the frame around the total-depth proposition's W identity.
+No boxed or framed mathematical display remains in the active paper.
+
+First pass: ten reviewers simplified the exposition in disjoint areas.
+Removed repeated setup, roadmap paragraphs, duplicate algebra narration,
+and unused asides. Preserved all hardness ranges, source guarantees,
+construction details, cited flow diagrams, and necessary proof steps.
+The asymptotic-sharpness remark was subsequently removed at the author's
+request; an independent dependency check confirmed that no later result
+uses it. The paper was rebuilt and the affected transition checked.
+A connected-set ancestor fact is now proved once in preliminaries
+and invoked in the anchor, labeling, regularization, and subdivision
+arguments. The NP total-depth proof explicitly reduces to rational target
+factors before selecting its exact amplification multiplier.
+
+Second pass: reviewers independently checked sections they did not edit.
+Coverage includes all source hypotheses/normalizations, graph gadgets,
+first-branch and path proofs, degree reduction and gap budgets, regular
+and subdivision transfers, every application, notation, restatements,
+references, bibliography versions, and overview/result consistency.
+Independent enumerations checked 128 parity-omission configurations,
+162 rival-pair configurations, 54 witness-gadget partial states, and
+164 small parity systems (11,340 partial assignments).
+
+One computational detail was repaired: the BSS step now explicitly has
+rational output and polynomial binary running time. Appendix B gives
+the barrier-lemma derivation, a fixed rational mesh, and bit bounds.
+The update margin is theta^2; the applied spectral factor 1+5 theta
+and support bound ceil(theta^-2) N are unchanged. The new proof received
+an independent mathematical review. No hardness result was weakened.
+
+Final integration: 23 active TeX files, 182 labels, 380 references,
+39 reduction arrows; no missing inputs/references/citation keys,
+duplicate labels, unbalanced environments, boxed/fbox/substack, or
+unresolved TODO markers. The 85-page PDF builds without unresolved
+references/citations or box warnings and passed a full rendered-page
+visual check.
+
+Earlier revision records (retained for provenance)
+
+Current presentation revision -- 22 October 2026
+
+The active total-depth result is hardness for every fixed r < 63/62,
+including bounded-degree and regular instances. The direct parity
+construction reuses the normalized bounded-occurrence source already
+needed for the paper's NP treedepth and treewidth reductions.
+
+Fixed construction and analysis:
+  |A_x^0| = |A_x^1| = 9 d_x / 2; 2 d_x opposite pairs per variable;
+  12 equation pairs per equation; 18 m padding pairs;
+  |A| = 27 m, |B| = |C| = 36 m, N = 99 m;
+  Delta(G_F^Sigma) <= 14 b_epsilon;
+  cost_A = 93 m - 6 OPT(F); cost_B, cost_C >= 90 m;
+  W(G_F^Sigma) = 192 m - 6 OPT(F) + 3.
+The leading YES and NO coefficients are 186 and 189. The terminal
+multiplier M = Theta(m) controls the additive core cost. The dense
+quadratic floor is at least M m and the chosen sparse floor is M m / 2.
+
+The whole proof is simpler than the previously active optimized
+independent-set route: it removes a separate NP source derivation and
+its normalization appendix. Its local parity calculation is more
+involved; an explicit savings table and balanced charging proof now
+give the complete argument. Independent checks verified the analytic
+proof and enumerated all 128 local omission cases and 1458 rival cases.
+
+Source-normalization presentation:
+  - Choose c = q^2 + (1-q)^2 in (0,1) and an integer t >= 1 with
+    c^t < epsilon_loop before defining the padded Unique Games instance.
+    The final proof also explicitly imports this padding integer.
+  - State the unchanged AKS analytic parameters and the precise loop
+    deletion loss; retain the clone and rational-encoding guarantees.
+  - Distinguish BSS Laplacian sparsification of the AKS graph from the
+    MGG expanders used to replace dense clique and biclique factors.
+  - State the MGG family and its h-th walk-power bound once in
+    thm:auxiliary-expander-family; the replacement appendix invokes it.
+  - State the source properties used, define parameters before use,
+    and add reduction-flow diagrams with citations above the arrows.
+  - Give parity balancing/repetition and finite SSE strengthening their
+    own lemmas; keep generic derivations in the source appendix.
+  - Remove all uses of substack.
+
+Ten agents covered AKS, its independent source audit, SSE, XOR,
+expanders, fixed parity construction, independent mathematics,
+unit-terminal tools, bounded-degree/application transfers, and global
+presentation. Static checks cover 22 active TeX inputs, 179 labels,
+all references/citations, environments, and 39 reduction arrows.
+Final verification: latexmk completes successfully; the 86-page PDF has
+no unresolved references/citations or box warnings. Every page was
+visually reviewed, and pages affected by the final pagination edits
+were rendered and checked again.
+
+The previous source and optimization sections are preserved outside
+the paper in partial-results-and-notes:
+  ARCHIVE-2026-10-22-np-independent-set-source.tex
+  ARCHIVE-2026-10-22-total-depth-optimization.tex
+
+Earlier audit record (source choices and optimization below are historical)
+Proof-dependency and construction audit -- 22 October 2026
+
+Scope: ten parallel audit areas covering all active manuscript sections,
+with independent second checks of the SSE source and NP source interfaces.
+
+Implemented repairs
+
+1. AKS source: explicit regular-input hypothesis; exact alphabet padding;
+   equality of the original and padded game promises; full sampling rule;
+   unchanged vertex/nonloop-edge weights after loop deletion; no hidden
+   renormalization; exact clone counts and uniform weights. The text states
+   which AKS rounding and edge-conversion operations are omitted and proves
+   the resulting completeness, density, degree, and runtime properties.
+
+2. NP source: precise DKKMS weighted-game interface and citations; field,
+   coordinate spaces, legitimate tuples, subspaces, folding maps, local
+   sampling and valid-edge normalization defined explicitly. The published
+   normalized valid-game soundness result is the stated external black box.
+   The manuscript separately derives bounded right degree, port replacement,
+   induced completeness, squared-game list decoding, and exact unweighting.
+   A standalone KMS long-code definition and transfer lemma state the precise
+   analytic properties and explain the adaptations used here.
+
+3. SSE source: formal hypothesis and hardness quantifiers; explicit finite
+   source interface; Gaussian and ordered/unordered weight normalizations;
+   complete parameter order and integer rounding; rational encoding and
+   exact edge-copy conversion. A finite strengthening of the SSE promise
+   includes factor-two slack, exact subset sampling, loops, and bounded-size
+   exceptions rather than asserting an unrestricted identity reduction.
+
+4. Anchor and sparsification tools: local proofs for the strengthened BNS
+   pair-cover statement, anchor-path bound, and tree-path projection;
+   explicit MGG steps and walk enumeration; fixed-size quantifier for the
+   designated-vertex restoration loss.
+
+5. Total-depth reduction: explicit block-normalization effects, competing
+   branch identities, orientation conventions, and baseline algebra.
+   Parameter optimization now includes a reproducible rational interval
+   certificate and derivative bounds.
+
+6. Applications and notation: supplied completion-to-forest reconstruction;
+   precise completion-hardness attribution; automaton trimming/minimality;
+   subtree Helly argument; parity needed for the subdivision matching;
+   independent sets exclude loops. Corrected the HSS theorem-version
+   reference and narrowed the introduction's provenance statements.
+
+The hardness thresholds are unchanged. The introduction retains 63/62.
+No active source uses substack. The final LaTeX build has no unresolved
+references/citations or box warnings; active-input, label, citation,
+environment, whitespace, and introduction checks passed.

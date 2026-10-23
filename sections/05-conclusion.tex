@@ -1,28 +1,21 @@
 \section{Open questions}
 \label{sec:conclusion}
 
-The main approximation question for treedepth remains the gap
-between the $O(\log n)$ upper bound~\cite{Anand2026} and
-constant-factor hardness. Our SSE result excludes every fixed
-constant factor, while leaving an $o(\log n)$ approximation
-possible. A superconstant hardness bound would further clarify
-this gap.
+Can treedepth hardness be made superconstant? Our SSE result excludes
+every fixed factor but leaves an $o(\log n)$ approximation possible,
+while the upper bound is $O(\log n)$~\cite{Anand2026}.
 
-Several hardness thresholds remain open. For treedepth, can the
-NP-hardness factor exceed
-$18/17$, or can ordinary UGC exclude all fixed constant factors?
-For treewidth, the corresponding thresholds proved here are
-$12/11$ and $4/3$, whereas all fixed factors are already excluded
-under SSEH~\cite{APW}.
+Can treedepth's NP-hardness factor exceed $18/17$, or can ordinary
+UGC exclude every fixed factor? For treewidth, our factors are
+$12/11$ and $4/3$; SSEH excludes every fixed factor~\cite{APW}.
 
-For total elimination depth, the $8/7$ ordinary-UGC lower bound
-remains far from the $O(\sqrt{\log n})$ approximation inherited
-from average-case graph search~\cite{Szyfelbein2025GraphSearch}.
-The NP-hardness construction gives an absolute factor above one.
-Obtaining a larger NP-hardness gap is a separate question from
-improving the UGC bound.
+For total depth, the $8/7$ UGC lower bound remains far from the
+$O(\sqrt{\log n})$ approximation inherited from average-case graph
+search~\cite{Szyfelbein2025GraphSearch}, with the confirming-query
+convention handled by~\eqref{eq:search-identification-offset}.
+NP-hardness below $63/62$
+holds even at bounded degree
+(Corollary~\ref{cor:total-depth-bounded-degree}).
 
-Finally, our degree bounds depend on the excluded approximation
-ratio. Preserving comparable gaps on graphs of a prescribed small
-maximum degree would sharpen the distinction between hardness of
-computing the optimum and approximation hardness in sparse graphs.
+Our degree bounds depend on the approximation ratio. Can comparable
+gaps be proved for graphs of a prescribed small maximum degree?

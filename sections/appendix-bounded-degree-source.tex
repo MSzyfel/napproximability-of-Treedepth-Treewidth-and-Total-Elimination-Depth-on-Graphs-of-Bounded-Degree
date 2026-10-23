@@ -1,33 +1,58 @@
 \subsection{Degree reduction for the UGC independent-set source}
 \label{app:bounded-degree-ugc-source}
 
-We derive Theorem~\ref{thm:bounded-degree-kr-source} from the
-weighted density theorem of Austrin, Khot, and Safra. Their later
-bounded-degree reduction uses random sampling
-\cite[Section~4, Steps~2--3]{AKS2011}. We instead obtain bounded
-degree deterministically by spectral sparsification. We state the
-cited density theorem first, then derive the loop removal, vertex
-unweighting, and degree bounds needed here.
+We derive Theorem~\ref{thm:bounded-degree-kr-source} from the weighted
+density theorem of Austrin, Khot, and Safra. Their bounded-degree
+reduction uses random sampling~\cite[Section~4, Steps~2--3]{AKS2011};
+we obtain bounded degree deterministically through loop removal,
+vertex unweighting, and BSS sparsification
+(Lemma~\ref{lem:bss-sparsification-bound}).
 
 \subsubsection{The AKS density theorem}
 
 A bipartite \emph{Unique Games instance}
 $\Lambda=(U,V,E_\Lambda,\Pi,[\ell])$ consists of a bipartite
-multigraph with left vertices $U$, right vertices $V$, and a label
-set $[\ell]$. Each edge $e=uv$ has a permutation $\pi_e\in\Pi$
-and requires the label at $v$ to be $\pi_e$ applied to the label at
-$u$. Write $\OPT(\Lambda)$ for the maximum fraction
-of satisfied constraints, counting parallel constraints separately.
+multigraph with left vertices $U$, right vertices $V$, and nonempty
+edge set $E_\Lambda$, a label set $[\ell]=\{1,\ldots,\ell\}$ for a
+positive integer $\ell$, and a family
+$\Pi=(\pi_e)_{e\in E_\Lambda}$ of bijections
+$\pi_e:[\ell]\to[\ell]$. For an edge $e=uv$, we always take
+$u\in U$ and $v\in V$, so $\pi_e$ maps labels at $u$ to labels at $v$.
+A \emph{labeling} is a map $\lambda:U\cup V\to[\ell]$.
+It \emph{satisfies} the constraint on $e=uv$ precisely when
+\[
+ \lambda(v)=\pi_e(\lambda(u)),
+ \qquad\text{equivalently}\qquad
+ \lambda(u)=\pi_e^{-1}(\lambda(v)).
+\]
+Thus either endpoint's label uniquely determines the label required
+at the other endpoint. Let
+$S_\lambda=\{e=uv\in E_\Lambda:\lambda(v)=\pi_e(\lambda(u))\}$.
+The optimum satisfied fraction is
+\[
+ \OPT(\Lambda)=\max_{\lambda:U\cup V\to[\ell]}
+ \frac{|S_\lambda|}{|E_\Lambda|}.
+\]
+All constraints have equal weight; parallel constraints are counted
+separately and may have different permutations.
 Write $\operatorname{VOPT}(\Lambda)$ for the largest fraction
-$|V_0|/|V|$ for which a labeling satisfies every constraint incident
-to $V_0\subseteq V$. The instance is \emph{regular} if all left
-vertices have the same degree and all right vertices have the same
-degree. The two degrees may differ.
+$|V_0|/|V|$ such that a single labeling satisfies every constraint
+incident to $V_0\subseteq V$.
+For $z\in U\cup V$, put
+$E_\Lambda(z)=\{e\in E_\Lambda:z\text{ is an endpoint of }e\}$ and
+$d_\Lambda(z)=|E_\Lambda(z)|$, counting parallel constraints separately.
+The instance is \emph{regular} if there are positive integers $d_U,d_V$
+such that
+\[
+ d_\Lambda(u)=d_U\quad(u\in U),\qquad
+ d_\Lambda(v)=d_V\quad(v\in V).
+\]
+The two degrees may differ.
 
 \begin{theorem}[Regular Unique Games source
 {\cite[Conjecture~2.4]{AKS2011} and \cite{KhotRegev}}]
 \label{thm:regular-ug-source}
-For every fixed $\gamma>0$, there is a fixed alphabet size $\ell$
+For every fixed $0<\gamma<1/2$, there is a fixed alphabet size $\ell$
 such that it is UGC-hard to distinguish regular bipartite Unique
 Games instances $\Lambda$ with alphabet $[\ell]$ satisfying the
 following cases.
@@ -42,15 +67,22 @@ following cases.
 \end{description}
 \end{theorem}
 
-For a vertex- and edge-weighted graph $G$, let $a_v$ denote a
-vertex weight and $w_e$ an edge weight, normalized so that each
-of the two total weights is one. Put
-$a(S)=\sum_{v\in S}a_v$ and let $e_G(S)$ be the total weight of
-edges with both endpoints in $S$. We allow loops, counted once in
-$e_G(S)$ and twice in the weighted degree $\deg_G(v)$.
+For a vertex- and edge-weighted graph $G$, let $a_v$ denote the weight
+of $v\in V(G)$ and $w_e$ the weight of $e\in E(G)$, normalized by
+\[
+ \sum_{v\in V(G)}a_v=1,\qquad \sum_{e\in E(G)}w_e=1.
+\]
+For $S\subseteq V(G)$ and $v\in V(G)$, put
+\[
+ a(S)=\sum_{v\in S}a_v,\qquad
+ e_G(S)=\sum_{e\in E(G[S])}w_e,\qquad
+ \deg_G(v)=\sum_{e\in E(G)}m_v(e)w_e,
+\]
+where $m_v(e)$ is the number of endpoints of $e$ equal to $v$.
+Thus a loop is counted once in $e_G(S)$ and twice in $\deg_G(v)$.
 For $\beta\in[0,1]$ and a real $\delta$, the graph is
-\emph{$(\beta,\delta)$-dense} if $a(S)\geq\beta$ implies
-$e_G(S)\geq\delta$.
+\emph{$(\beta,\delta)$-dense} if $e_G(S)\geq\delta$ for every
+$S\subseteq V(G)$ with $a(S)\geq\beta$.
 
 Let $\Psi$ be the standard normal cumulative distribution function.
 For $-1<\rho<1$, let $X,Y$ be jointly normal with mean zero,
@@ -61,70 +93,91 @@ variance one, and covariance $\rho$, and define
  \qquad(0<s<1).
 \]
 Set $\Gamma_\rho(0)=0$ and $\Gamma_\rho(1)=1$.
-Fix a bias $q\in(0,1/2)$ and an analytic error
-$\varepsilon_{\mathrm{dens}}>0$, and put $\rho=-q/(1-q)$.
+For a bias $q\in(0,1/2)$, put $\rho=-q/(1-q)$.
 
 \Needspace{11\baselineskip}
 \begin{theorem}[AKS density theorem {\cite[Theorem~3.1]{AKS2011}}]
 \label{thm:aks-density-source}
-For all sufficiently small $\gamma>0$, an algorithm maps a Unique
-Games instance $\Lambda$ to a vertex- and edge-weighted graph $G$
-with the following properties.
+For every fixed bias $q\in(0,1/2)$ and error tolerance
+$\varepsilon_{\mathrm{dens}}>0$, there is a constant
+$\gamma_0=\gamma_0(q,\varepsilon_{\mathrm{dens}})>0$ such that,
+for every $0<\gamma<\gamma_0$, an algorithm maps a Unique Games
+instance $\Lambda$ to a vertex- and edge-weighted graph $G$ with
+the following properties.
 \begin{description}
 \item[YES:] If $\operatorname{VOPT}(\Lambda)\geq1-\gamma$, then
- $G$ has an independent set of vertex weight at least $q-\gamma$.
+ $G$ has an independent set $I$ with $a(I)\geq q-\gamma$.
 \item[NO:] If $\OPT(\Lambda)\leq\gamma$ and
  $\Lambda$ is regular, then $G$ is
  $(\beta,\Gamma_\rho(\beta)-\varepsilon_{\mathrm{dens}})$-dense
  for every $\beta\in[0,1]$.
 \end{description}
-Vertex weights are proportional to weighted degrees.
-The running time is polynomial in $|U|,|V|,|E_\Lambda|$ and
-exponential in $\ell$.
+For regular $\Lambda$, the weights satisfy
+$\deg_G(v)=2a_v$ for every $v\in V(G)$.
 \end{theorem}
 
-For a regular input, the proportionality gives
-$\deg_G(v)=2a_v$: the weighted degrees sum to twice the total edge
-weight, whereas the vertex weights sum to one. Equivalently, each
+The additive NO error $\varepsilon_{\mathrm{dens}}$ and bias $q$
+are fixed before the Unique Games promise parameter $\gamma$.
+The running time in Theorem~3.1 of~\cite{AKS2011}
+is polynomial in $|U|,|V|,|E_\Lambda|$ and exponential in $\ell$.
+In our application $q,\varepsilon_{\mathrm{dens}},\gamma$, and $\ell$
+are fixed independently of the input size, so the reduction is
+polynomial in $|U|+|V|+|E_\Lambda|$.
+
+For regular input, each
 endpoint marginal of the AKS edge distribution is $a_v$, with a
 loop contributing twice. Thus the NO conclusion, applied with
 $\beta=a(S)$, is
-\[
- e_G(S)\geq\Gamma_\rho(a(S))-\varepsilon_{\mathrm{dens}}
+\begin{equation}\label{eq:aks-density-pointwise}
+ e_G(S)\overset{\text{Thm.~\ref{thm:aks-density-source}}}{\geq}
+ \Gamma_\rho(a(S))-\varepsilon_{\mathrm{dens}}
  \qquad(S\subseteq V(G)).
-\]
+\end{equation}
 
-We will use positivity, monotonicity, and convexity of $\Gamma_\rho$.
-For completeness, these follow directly from its definition. The
-joint normal density is positive, so $\Gamma_\rho(s)>0$ for
+\begin{lemma}[Gaussian density properties]\label{lem:aks-gaussian-properties}
+For $-1<\rho<0$, the function $\Gamma_\rho$ is nondecreasing and
+convex on $[0,1]$, and $\Gamma_\rho(s)>0$ for $0<s<1$.
+\end{lemma}
+
+\begin{proof}
+The joint normal density is positive, so $\Gamma_\rho(s)>0$ for
 $0<s<1$. Differentiating the bivariate distribution function along
 its diagonal, using symmetry of $X,Y$ and the conditional normal
 law, gives
-\[
- \Gamma_\rho'(s)=
+\begin{equation}\label{eq:aks-gaussian-derivative}
+ \Gamma_\rho'(s)\overset{\text{conditional normal law}}{=}
  2\Psi\!\left(\sqrt{\frac{1-\rho}{1+\rho}}\,\Psi^{-1}(s)\right).
-\]
+\end{equation}
 The right-hand side is nonnegative and increasing in $s$.
 Consequently $\Gamma_\rho$ is nondecreasing and convex, including
 at the endpoints by continuity.
+\end{proof}
 
 \subsubsection{Removing loops and vertex weights}
 
-Fix a rational bias $q$ from now on. The AKS sampling construction
-can produce loops. We remove them before replacing vertices by
-independent copies, so that the density argument can use
-independent choices of distinct original vertices. Let
-$\varepsilon_{\mathrm{loop}}>0$ be a fixed loop-loss budget.
-The following alphabet padding makes the total loop weight smaller
-than this budget.
+Fix a bias $q$ and a loop-loss budget
+$\varepsilon_{\mathrm{loop}}>0$. We remove AKS loops before vertex
+unweighting so that the density argument can select distinct source
+vertices independently. The next lemma pads the Unique Games alphabet,
+applies the unchanged AKS construction, and deletes its loops. Padding
+bounds the lost edge weight.
 
 \begin{lemma}[Removing loops by alphabet padding]\label{lem:aks-loop-removal}
-For every fixed $\varepsilon_{\mathrm{loop}}>0$, a fixed alphabet padding followed by the
-AKS construction and deletion of all loops gives a loopless graph $G^-$
-with vertex weights $a_v$ of total one, total edge weight at most
-one, and weighted degrees at most $2a_v$.
-Its YES independent-set weight is at least $q-\gamma$, and in the
-NO case
+Fix $\varepsilon_{\mathrm{dens}},\varepsilon_{\mathrm{loop}}>0$ and
+$0<\gamma<\min\{1/2,\gamma_0(q,\varepsilon_{\mathrm{dens}})\}$.
+Let $\Lambda$ be a regular instance satisfying the promise of
+Theorem~\ref{thm:regular-ug-source}. A fixed alphabet padding,
+the AKS construction, and deletion of all loops give a loopless
+graph $G^-$. Its vertex weights $a_v$ and surviving edge weights $w_e$
+are inherited unchanged from the AKS output on the padded instance,
+without renormalization, and satisfy
+\[
+ \sum_{v\in V(G^-)}a_v=1,\qquad
+ \sum_{e\in E(G^-)}w_e\le1,\qquad
+ \deg_{G^-}(v)\le2a_v\quad(v\in V(G^-)).
+\]
+In the YES case there is an independent set $I$ with
+$a(I)\geq q-\gamma$. In the NO case,
 \begin{equation}\label{eq:aks-loop-free-density}
  e_{G^-}(S)\ge\Gamma_\rho(a(S))-\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}
  \qquad(S\subseteq V(G^-)).
@@ -133,296 +186,498 @@ The reduction is deterministic and polynomial for fixed parameters.
 \end{lemma}
 
 \begin{proof}
-To control possible loops even when the Unique Games instance has
-parallel constraints with different permutations, first pad its
-alphabet from $[\ell]$ to $[\ell]\times[t]$, replacing every
-constraint $\pi$ by $(i,j)\mapsto(\pi(i),j)$.
-Projecting any satisfying padded label pair to its first coordinate
-shows that padding cannot increase the NO optimum. A YES labeling
-extends by giving every labeled vertex the same second coordinate.
-Regularity and the YES fraction are unchanged.
+Put $c=q^2+(1-q)^2\in(0,1)$.
+Choose a positive integer $t$ such that
+\begin{equation}\label{eq:aks-padding-choice}
+ c^t<\varepsilon_{\mathrm{loop}}.
+\end{equation}
+Such a fixed $t$ exists since $c<1$.
+Define $\Lambda^{[t]}$
+on the same sets $U,V,E_\Lambda$, with alphabet $[\ell]\times[t]$
+and constraint
+$\pi_e^{[t]}(i,j)=(\pi_e(i),j)$ on each edge $e$.
+A padded constraint is satisfied exactly when the first-coordinate
+labels satisfy the original constraint and the second-coordinate
+labels agree.
+Projecting a padded labeling to its first coordinate, and extending
+an original labeling with one common second coordinate, give
+\[
+ \OPT(\Lambda^{[t]})=\OPT(\Lambda),\qquad
+ \operatorname{VOPT}(\Lambda^{[t]})=\operatorname{VOPT}(\Lambda).
+\]
+The source graph and its regularity are unchanged. Run the AKS
+construction on $\Lambda^{[t]}$ with the same
+parameters $q,\rho,\varepsilon_{\mathrm{dens}},\gamma$: padding changes
+the input alphabet and constraints, not the AKS construction.
+Call its weighted output $G$. Delete its loops to obtain $G^-$,
+retaining every vertex, every vertex weight, and every nonloop edge
+weight. The remaining edge weights are not renormalized.
 
-The AKS edge distribution~\cite[proof of Theorem~3.1]{AKS2011}
-first chooses two constraints incident with the same left vertex,
-then samples independent coordinate pairs $(x_j,y_j)$ with
-probabilities $\Pr[x_j=0,y_j=0]=1-2q$,
-$\Pr[x_j=0,y_j=1]=\Pr[x_j=1,y_j=0]=q$, and
-$\Pr[x_j=1,y_j=1]=0$. It then permutes the endpoint strings by
-the two constraints.
+We spell out the original AKS sampling construction
+\cite[proof of Theorem~3.1]{AKS2011} on the padded instance,
+including its vertex and edge weights.
+Its vertex set is $W=V\times\{0,1\}^{[\ell]\times[t]}$.
+Choose a random triple $(\mathbf u,\mathbf e_1,\mathbf e_2)$.
+For $u\in U$ and $e_1,e_2\in E_\Lambda(u)$, define its outcome event
+and prescribe its probability by
+\[
+\mathcal C_{u,e_1,e_2}
+ =\{(\mathbf u,\mathbf e_1,\mathbf e_2)=(u,e_1,e_2)\},
+ \qquad \Pr[\mathcal C_{u,e_1,e_2}]=\frac{1}{|U|d_\Lambda(u)^2}.
+\]
+Thus parallel constraints are separate choices, and the two constraints
+may coincide. Independently of this triple, sample strings
+$X,Y\in\{0,1\}^{[\ell]\times[t]}$ whose coordinate pairs are independent
+and, for every $k\in[\ell]\times[t]$, have distribution
+\[
+\begin{aligned}
+ \Pr[X_k=0,Y_k=0]&=1-2q,& \Pr[X_k=1,Y_k=1]&=0,\\
+ \Pr[X_k=0,Y_k=1]&=q,& \Pr[X_k=1,Y_k=0]&=q.
+\end{aligned}
+\]
+For a string $x=(x_k)_{k\in[\ell]\times[t]}$ and a bijection
+$\sigma:[\ell]\times[t]\to[\ell]\times[t]$, define the \emph{reindexed string}
+$x\circ\sigma:=(x_{\sigma(k)})_{k\in[\ell]\times[t]}$.
+Here $\circ$ denotes function composition after viewing the string $x$
+as the map $k\mapsto x_k$: coordinate $k$ of the new string receives
+the bit at coordinate $\sigma(k)$ of the original string.
+Writing $\mathbf e_i=(\mathbf u,\mathbf v_i)$ for $i\in\{1,2\}$,
+define the random endpoints by
+\[
+ Z_1=(\mathbf v_1,X\circ(\pi_{\mathbf e_1}^{[t]})^{-1}),\qquad
+ Z_2=(\mathbf v_2,Y\circ(\pi_{\mathbf e_2}^{[t]})^{-1}).
+\]
+Their ordered-pair probabilities and vertex weights are
+\[
+P(z,z')=\Pr[Z_1=z,\ Z_2=z']\quad(z,z'\in W),\quad a_{(v,x)}=\frac{1}{|V|}
+ \prod_{k\in[\ell]\times[t]}q^{x_k}(1-q)^{1-x_k}
+ \quad((v,x)\in W).
+\]
+For $v\in V$ and $i\in\{1,2\}$, regularity gives
+\[
+ \Pr[\mathbf v_i=v]
+ \overset{\text{triple distribution}}{=}
+ \sum_{e\in E_\Lambda(v)}\frac1{|U|d_U}
+ =\frac{d_V}{|U|d_U}
+ \overset{|U|d_U=|V|d_V}{=}\frac1{|V|}.
+\]
+Conditional on each sampled constraint, reindexing preserves the
+same product bit distribution. Hence
+$\Pr[Z_1=z]=\Pr[Z_2=z]=a_z$ for $z\in W$.
+For an unordered pair $zz'$ (allowing $z=z'$), assign edge weight
+\[
+ w_{zz'}=
+ \begin{cases}
+  P(z,z')+P(z',z),&z\ne z',\\
+  P(z,z),&z=z',
+ \end{cases}
+ \qquad
+ E(G)=\{zz':z,z'\in W,\ w_{zz'}>0\}.
+\]
+These are exactly the vertex and edge weights of the AKS construction
+for $\Lambda^{[t]}$. The formula for $w_{zz'}$ combines ordered sampler
+outcomes that give the same undirected edge.
+Thus Theorem~\ref{thm:aks-density-source} applies
+to $G$ with these weights and gives its YES and NO guarantees before
+loop deletion. The graph $G^-$ retains the same vertex weights and
+nonloop edge weights, without renormalization.
+In particular, for every $z\in W$,
+\[
+ \deg_G(z)
+ =\sum_{z'\in W\setminus\{z\}}\bigl(P(z,z')+P(z',z)\bigr)+2P(z,z)
+ \overset{\text{endpoint marginals}}{=}2a_z.
+\]
+For fixed parameters, the weighted graph is constructed
+deterministically in polynomial time from this distribution.
 
-The coordinates $[\ell]\times\{j\}$, for a fixed $j\in[t]$,
-form one coordinate block. Put $c=q^2+(1-q)^2<1$. Conditional on any choice of the two
-constraints, a loop requires equality of the two permuted strings
-in every one of the $t$ coordinate blocks. In each block, full
-string equality implies equality at a fixed output coordinate. If
-the two permutations select the same input coordinate there, equality
-has probability $1-2q$. If they select different input coordinates,
-the bits are independent with marginal probability $q$, so equality
-has probability $c=q^2+(1-q)^2$. Both bounds are at most $c$.
-Indeed, $c-(1-2q)=2q^2>0$.
-The coordinate blocks are independent, so the probability of full
-string equality, and hence the total loop weight, is at most $c^t$.
-Choose a fixed $t$ with $c^t<\varepsilon_{\mathrm{loop}}$, and delete all loops.
-This loses at most $\varepsilon_{\mathrm{loop}}$ internal edge weight in any set,
-preserves the YES independent set, and does not increase weighted
-degrees. Alphabet padding preserves the source promise and
-regularity, so the construction above has the stated bounds.
-All operations are deterministic, and $t$ is fixed.
+Fix $u\in U$ and $e_1,e_2\in E_\Lambda(u)$, and abbreviate
+$\mathcal C=\mathcal C_{u,e_1,e_2}$.
+Put $i_s=\pi_{e_s}^{-1}(1)$ for $s\in\{1,2\}$. Padding gives
+\[
+ (\pi_{e_s}^{[t]})^{-1}(1,j)=(i_s,j)
+ \qquad(s\in\{1,2\},\ j\in[t]).
+\]
+Thus, conditional on $\mathcal C$, the bits at coordinate $(1,j)$
+of the two endpoint strings are $X_{(i_1,j)}$ and $Y_{(i_2,j)}$.
+Define their agreement event by
+$A_j=\{X_{(i_1,j)}=Y_{(i_2,j)}\}\qquad(j\in[t])$.
+When $i_1=i_2$, the displayed bit-pair distribution gives agreement
+probability $(1-2q)+0$. When $i_1\ne i_2$, the two bits belong to
+distinct independent coordinate pairs and each equals one with
+probability $q$. Hence
+\begin{equation}\label{eq:aks-coordinate-agreement}
+ \Pr[A_j\mid\mathcal C]=1-2q\le c\quad(i_1=i_2),\qquad \Pr[A_j\mid\mathcal C]=(1-q)^2+q^2=c\quad(i_1\ne i_2).
+\end{equation}
+where $c-(1-2q)=2q^2>0$.
+A loop requires agreement at every coordinate $(1,j)$, so it implies
+all events $A_j$. Conditional on $\mathcal C$, these events depend on
+disjoint sets of the independent coordinate pairs $(X_k,Y_k)$:
+event $A_j$ uses only indices $(i_1,j)$ and $(i_2,j)$.
+Consequently
+\begin{equation}\label{eq:aks-loop-conditional}
+\Pr[Z_1=Z_2\mid\mathcal C]
+ \le\Pr\!\left[\bigcap_{j=1}^{t}A_j\,\middle|\,\mathcal C\right]
+ \overset{\text{independence}}{=}
+ \prod_{j=1}^{t}\Pr[A_j\mid\mathcal C]
+ \overset{\eqref{eq:aks-coordinate-agreement}}{\le}c^t.
+\end{equation}
+This bound holds for every sampled triple. Averaging over the triple,
+and using $w_{zz}=P(z,z)$, gives, for the set $L$ of loops,
+\begin{equation}\label{eq:aks-loop-mass}
+ \sum_{e\in L}w_e=\Pr[Z_1=Z_2]
+ \overset{\eqref{eq:aks-loop-conditional}}{\leq}c^t.
+\end{equation}
+Thus, in the NO case, every $S\subseteq V(G)$ satisfies
+\[
+ e_{G^-}(S)
+ =e_G(S)-\sum_{e\in L\cap E(G[S])}w_e \overset{\eqref{eq:aks-density-pointwise},\,\eqref{eq:aks-loop-mass}}{\geq}
+ \Gamma_\rho(a(S))-\varepsilon_{\mathrm{dens}}-c^t
+  \overset{\eqref{eq:aks-padding-choice}}{\ge}
+ \Gamma_\rho(a(S))-\varepsilon_{\mathrm{dens}}
+      -\varepsilon_{\mathrm{loop}}.
+\]
+Deleting loops preserves the YES independent set and can only decrease
+weighted degrees. The normalization and degree identity in
+Theorem~\ref{thm:aks-density-source} therefore give the displayed bounds.
+The padded alphabet size $R=\ell t$ is fixed, so the AKS runtime
+remains polynomial. Alphabet padding and loop deletion are deterministic.
 \end{proof}
 
 \subsubsection{Vertex unweighting and uniform degree bounds}
 
-Write the padded alphabet size as $R$ and the fixed bias as
-$q=a_0/a_1$, with positive integers $a_0<a_1$. For a binary
-string $x\in\{0,1\}^R$, let $|x|$ be its
-number of coordinates equal to one. The vertex weights in the AKS
-construction, indexed by right vertices $v\in V$ and strings $x$,
-have the form
-\[
- a_{(v,x)}=
- \frac{a_0^{|x|}(a_1-a_0)^{R-|x|}}{|V|a_1^R},
- \qquad v\in V,\quad x\in\{0,1\}^R.
-\]
-Thus $N_{\mathrm{cl}}=|V|a_1^R$ is polynomial in the Unique Games
-instance, since $a_1$ and $R$ are fixed. Replace each original vertex
-$u$ by $m_u=N_{\mathrm{cl}}a_u$ independent copies, called
-\emph{clones}, labeled
-$(u,1),\ldots,(u,m_u)$. These copies form the \emph{clone block} of $u$.
-If several source edges join the same pair of vertices, combine their
-weights. For every resulting edge $uv$ of weight $w_{uv}$ in $G^-$,
-join each clone of $u$ to each clone of $v$ by an edge of weight
-$w_{uv}/(m_um_v)$. There are no other edges.
-Denote this edge-weighted, vertex-unweighted
-graph by $G_1$. It has $N_{\mathrm{cl}}$ vertices, total edge weight
-at most one, and weighted degree at most $2/N_{\mathrm{cl}}$ at each vertex.
-
-A clone of $u$ has weighted degree
-$\deg_{G^-}(u)/m_u\le2a_u/(N_{\mathrm{cl}}a_u)=2/N_{\mathrm{cl}}$.
-The YES independent set becomes one of the same normalized size by
-selecting all its clone blocks.
+The vertex-unweighting construction of
+\cite[Section~4, Step~1]{AKS2011} is as follows.
+Let $F$ be a loopless vertex- and edge-weighted graph with
+$a_u>0$ and $\sum_{u\in V(F)}a_u=1$. Choose positive integers
+$N,n_u$ such that $n_u=Na_u$ for every $u\in V(F)$.
+Replace each $u$ by $n_u$ independent copies, each of weight $1/N$,
+and each source pair $uv$ of total edge weight $w_{uv}$ by all
+edges between their copies, each of weight $w_{uv}/(n_un_v)$.
+Let $H$ be the resulting graph.
 
 \begin{lemma}[Density after vertex unweighting
 {\cite[Section~4, Step~1]{AKS2011}}]
-\label{lem:aks-clone-density}
-If $G^-$ satisfies~\eqref{eq:aks-loop-free-density}, then its
-clone graph $G_1$ satisfies, for every $S'\subseteq V(G_1)$,
-\begin{equation}\label{eq:aks-clone-density}
- e_{G_1}(S')\ge\Gamma_\rho(|S'|/N_{\mathrm{cl}})
- -\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}.
-\end{equation}
+\label{lem:aks-unweighting-density}
+For the construction above, if, for some $\varepsilon\ge0$,
+\[
+ e_F(S)\ge\Gamma_\rho(a(S))-\varepsilon
+ \qquad(S\subseteq V(F)),
+\]
+then
+\[
+ e_H(T)\ge\Gamma_\rho(|T|/N)-\varepsilon
+ \qquad(T\subseteq V(H)).
+\]
 \end{lemma}
 
-\begin{proof}
-For a chosen set $S'\subseteq V(G_1)$, let $f_u$ be the fraction of
-clones of $u$ in $S'$. The cited argument forms a random set
-$S\subseteq V(G^-)$ by selecting each source vertex $u$ independently
-with probability $f_u$. Since $a_u=m_u/N_{\mathrm{cl}}$,
-each clone represents source weight $1/N_{\mathrm{cl}}$. The loop
-removal in Lemma~\ref{lem:aks-loop-removal} makes the two endpoints
-of each edge distinct, so their selection events are independent.
-For an edge $uv$ of weight $w_{uv}$, each of the $m_um_v$ clone pairs
-has weight $w_{uv}/(m_um_v)$. The set $S'$ contains $m_uf_u$ clones
-of $u$ and $m_vf_v$ of $v$, so these clone pairs contribute
-$(m_uf_u)(m_vf_v)w_{uv}/(m_um_v)=w_{uv}f_uf_v$. Thus the expected
-source weight and expected internal edge weight are
+Apply this construction to the graph $G^-$ of
+Lemma~\ref{lem:aks-loop-removal}.
+Write $G_1$ for the resulting graph, $N$ for its number of vertices,
+and $(u,i)$ for the $i$th copy of $u$, where $i\in[n_u]$.
+For fixed source parameters this construction is deterministic
+and polynomial time.
+The graph $G_1$ is simple, edge-weighted, and vertex-unweighted, with
 \[
- \mathbb E[a(S)]=\sum_u a_uf_u=\frac{|S'|}{N_{\mathrm{cl}}},
- \qquad
- \mathbb E[e_{G^-}(S)]=\sum_{uv}w_{uv}f_uf_v=e_{G_1}(S').
+ |V(G_1)|=N,\qquad
+ \sum_{e\in E(G_1)}w_e=\sum_{e\in E(G^-)}w_e\le1.
 \]
-Applying the source density bound and then convexity of $\Gamma_\rho$
-gives
-\[
- \begin{aligned}
- e_{G_1}(S')
- &=\mathbb E[e_{G^-}(S)]\\
- &\geq\mathbb E[\Gamma_\rho(a(S))]
-       -\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}\\
- &\geq\Gamma_\rho\!\left(\mathbb E[a(S)]\right)
-       -\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}\\
- &=\Gamma_\rho(|S'|/N_{\mathrm{cl}})
-       -\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}.
- \end{aligned}
-\]
-This is the claimed bound.
-\end{proof}
+For every copy $(u,i)$,
+\begin{equation}\label{eq:aks-unweighting-degree}
+ \deg_{G_1}((u,i))=\frac{\deg_{G^-}(u)}{n_u}
+ \overset{\text{Lem.~\ref{lem:aks-loop-removal}}}{\leq}
+ \frac{2a_u}{Na_u}=\frac2N.
+\end{equation}
+Every independent set $I\subseteq V(G^-)$ lifts to an independent
+set in $G_1$ of relative size $a(I)$.
 
-For the normalized promise, fix a rational $0<\eta<1/10$.
-Let $N$ denote the number of output vertices. The positive rational
-constant $\zeta_\eta$ below may depend on $\eta$.
+In the NO case, Lemma~\ref{lem:aks-loop-removal} supplies the density
+premise with $\varepsilon=\varepsilon_{\mathrm{dens}}+\varepsilon_{\mathrm{loop}}$,
+so Lemma~\ref{lem:aks-unweighting-density} gives
+\begin{equation}\label{eq:aks-unweighting-density}
+ e_{G_1}(S')\ge\Gamma_\rho(|S'|/N)
+ -\varepsilon_{\mathrm{dens}}-\varepsilon_{\mathrm{loop}}
+ \qquad(S'\subseteq V(G_1)).
+\end{equation}
+
+For the normalized promise, fix $0<\eta<1/10$.
+The positive constant $\zeta_\eta$ below may depend on $\eta$.
 
 \begin{lemma}[Normalized density promise]
 \label{lem:normalized-density-source}
 There is a choice of $\zeta_\eta$ for which it is UGC-hard to
-distinguish simple edge-weighted graphs on $N$
-vertices, with positive rational edge weights, total edge weight
-at most one, and weighted degree at most $2/N$, satisfying
-\begin{description}
-\item[YES:] There is an independent set of size at least $(1/2-\eta)N$.
-\item[NO:] Every set of at least $\eta N$ vertices has internal edge
- weight at least $\zeta_\eta$.
-\end{description}
+distinguish simple edge-weighted graphs $G$ on $N$
+vertices, with positive edge weights satisfying
+\[
+ \sum_{e\in E(G)}w_e\le1,\qquad
+ \deg_G(v)\le\frac2N\quad(v\in V(G)),
+\]
+and the following promise.
+\textbf{YES:} There is an independent set of size at least $(1/2-\eta)N$;
+\textbf{NO:} every $S\subseteq V(G)$ with $|S|\ge\eta N$ satisfies
+$e_G(S)\ge\zeta_\eta$.
 The reduction is deterministic and polynomial time.
 \end{lemma}
 
 \begin{proof}
-Set $q=1/2-\eta/4$ and $\rho=-q/(1-q)$. Choose a positive rational
-$g$ with $4g<\Gamma_\rho(\eta)$, take
-$\varepsilon_{\mathrm{dens}}\leq g$ and
-$\varepsilon_{\mathrm{loop}}=g$, and choose $\gamma\leq\eta/4$
-small enough for Theorem~\ref{thm:aks-density-source}.
+Choose the fixed parameters in this order:
+\begin{enumerate}
+\item Choose a fixed integer $k>4/\eta$, and put
+ $q=1/2-1/k$ and $\rho=-q/(1-q)$.
+\item By Lemma~\ref{lem:aks-gaussian-properties}, choose $\zeta_\eta>0$ with
+ $4\zeta_\eta<\Gamma_\rho(\eta)$,
+ and set $\varepsilon_{\mathrm{dens}}=\varepsilon_{\mathrm{loop}}=\zeta_\eta$.
+\item Choose $0<\gamma<\min\{\gamma_0(q,\zeta_\eta),\eta/4\}$ and take the
+ source alphabet size $\ell$ from Theorem~\ref{thm:regular-ug-source}.
+ With $c=q^2+(1-q)^2$, choose an integer $t\ge1$ with $c^t<\zeta_\eta$
+ as in~\eqref{eq:aks-padding-choice}, and put $R=\ell t$.
+\end{enumerate}
+These parameters are fixed before the input size varies.
 Apply the regular source of Theorem~\ref{thm:regular-ug-source},
-then the loop removal and clone construction above.
-The YES independent-set density is at least
-$q-\gamma\geq1/2-\eta/2\geq1/2-\eta$. For $|S|\geq\eta N$,
-equation~\eqref{eq:aks-clone-density} and monotonicity give
+then remove loops and vertex weights as above.
+The YES independent-set density from Lemma~\ref{lem:aks-loop-removal} is at least
+$q-\gamma\geq1/2-\eta/2\geq1/2-\eta$.
+In the NO case, for $S\subseteq V(G_1)$ with $|S|\geq\eta N$,
+equation~\eqref{eq:aks-unweighting-density} and
+Lemma~\ref{lem:aks-gaussian-properties} give
 \[
- e_{G_1}(S)\geq\Gamma_\rho(\eta)-2g>2g>g.
+e_{G_1}(S)\overset{\eqref{eq:aks-unweighting-density}}{\geq}
+ \Gamma_\rho(|S|/N)-2\zeta_\eta
+ \overset{\text{Lem.~\ref{lem:aks-gaussian-properties}}}{\geq}
+ \Gamma_\rho(\eta)-2\zeta_\eta>\zeta_\eta.
 \]
-Thus we may take $\zeta_\eta=g$.
 
-The loop removal makes the clone graph simple after parallel edge
-weights are combined. Its total edge weight and degree bounds were
-proved above. Rational bias gives rational probabilities in the
-finite AKS edge distribution. Enumerating the choices computes the
-edge weights exactly. The clone weights are then rational as well.
-For fixed $\eta$, all alphabet sizes, denominators of the bias,
-and padding factors are constants. The displayed clone count is
-therefore polynomial, and all operations are deterministic.
+The graph $G_1$ is simple after parallel edge weights are combined.
+Each source edge retains its total weight, and
+equation~\eqref{eq:aks-unweighting-degree} supplies the degree bound.
+For fixed $\eta$, the construction is deterministic and polynomial
+by Theorem~\ref{thm:aks-density-source} and the cited
+vertex-unweighting step.
 \end{proof}
 
 \subsubsection{Deterministic sparsification of a dense-set promise}
 
-To obtain bounded ordinary degree, we sparsify the weighted graph
-and discard edges of very small weight. There will be few enough
-edges that discarding them loses little total weight. Every remaining
-edge then has a lower weight bound, so a bound on weighted degree
-limits the number of incident edges. We use spectral sparsification
-to preserve the internal weight of large vertex sets throughout this
-process.
+We now want to turn the weighted graph obtained above into a simple
+unweighted graph of bounded maximum degree, while preserving its
+independent-set gap. Deleting edges preserves the large independent
+set in the YES case. In the NO case, we must leave an edge inside
+every set of at least $\eta N$ vertices. The lower bound on the
+weight inside each such set gives us room to delete edges, but the
+weighted degree bound alone does not control their number: a vertex
+may have many incident edges of very small weight.
 
-For a loopless weighted graph $G$,
-let $w_{uv}$ be the total weight of edges between distinct vertices
-$u,v$. Its \emph{Laplacian} is the symmetric matrix with
-$L_G(u,u)=\deg_G(u)$ and $L_G(u,v)=-w_{uv}$ for $u\ne v$.
-Expanding the quadratic form gives
+We first apply BSS sparsification to reduce the graph to $O(N)$
+edges. BSS also controls weighted degrees and cut weights. Since
+the weight inside a set is determined by its volume and cut weight,
+these guarantees will let us show that every large set still
+contains a fixed positive amount of edge weight. We can then delete
+all edges below a sufficiently small threshold proportional to
+$1/N$. There are only $O(N)$ edges to delete, so their total weight
+is too small to remove every edge from any large set. Each retained
+edge now contributes at least the threshold to its endpoint's
+weighted degree, which remains $O(1/N)$. Thus only a constant number
+of retained edges can meet any vertex, and forgetting their weights
+gives the required graph.
+
+For a loopless weighted graph $G$, use the notation of
+Section~\ref{sec:sseh}: for an edge submultiset $F\subseteq E(G)$
+and a vertex set $S\subseteq V(G)$, put
 \[
- x^{\mathsf T}L_Gx
- =\sum_{uv\in E(G)}w_{uv}(x_u-x_v)^2.
+ w(F)=\sum_{e\in F}w_e,\qquad
+ \vol_G(S)=\sum_{v\in S}\deg_G(v).
 \]
-For $S\subseteq V(G)$, the quadratic form counts boundary edge
-weight, so
-$\mathbf1_S^{\mathsf T}L_G\mathbf1_S=w(\cut_G(S))$ and
-$\mathbf1_{\{v\}}^{\mathsf T}L_G\mathbf1_{\{v\}}=\deg_G(v)$.
-The notation $L_G\preceq L_H$ means that
-$x^{\mathsf T}L_Gx\le x^{\mathsf T}L_Hx$ for every vector $x$.
+Write $\mathbf1_S=(\mathbf1_{\{v\in S\}})_{v\in V(G)}
+\in\mathbb R^{V(G)}$ for the indicator vector of $S$.
+For distinct $u,v\in V(G)$, put
+$w_{uv}=\sum_{e\in E(G):\,e=uv}w_e$.
+The \emph{Laplacian} of $G$ is the symmetric matrix with
+$L_G(u,u)=\deg_G(u)$ and $L_G(u,v)=-w_{uv}$ for $u\ne v$.
+For $x\in\mathbb R^{V(G)}$, expanding the quadratic form gives
+\begin{equation}\label{eq:aks-laplacian-form}
+ x^{\mathsf T}L_Gx
+ =\sum_{e=uv\in E(G)}w_e(x_u-x_v)^2.
+\end{equation}
+For $S\subseteq V(G)$ and $v\in V(G)$, the quadratic form gives
+\begin{equation}\label{eq:aks-indicator-forms}
+\mathbf1_S^{\mathsf T}L_G\mathbf1_S
+ \overset{\eqref{eq:aks-laplacian-form}}{=}w(\cut_G(S)),
+ \qquad \mathbf1_{\{v\}}^{\mathsf T}L_G\mathbf1_{\{v\}}
+ \overset{\eqref{eq:aks-laplacian-form}}{=}\deg_G(v).
+\end{equation}
+For loopless weighted graphs $G,H$ on the same vertex set, the notation
+$L_G\preceq L_H$ means that
+$x^{\mathsf T}L_Gx\le x^{\mathsf T}L_Hx$ for every
+$x\in\mathbb R^{V(G)}$.
 A \emph{spectral sparsifier} is a weighted subgraph with fewer
 edges whose Laplacian preserves these quadratic forms within
-multiplicative bounds. Finally,
-$2e_G(S)=\vol_G(S)-w(\cut_G(S))$: an internal edge
-contributes twice to the volume, while a crossing edge contributes
-once to both the volume and the cut.
+multiplicative bounds. An internal edge contributes twice to the
+volume, while a crossing edge contributes once to both the volume
+and the cut. Hence
+\begin{equation}\label{eq:aks-volume-cut}
+ 2e_G(S)=\vol_G(S)-w(\cut_G(S)).
+\end{equation}
 
-\begin{theorem}[BSS spectral sparsification
-{\cite[Theorem~1.1]{BSS2012}}]
+\begin{theorem}[BSS sparsification {\cite[Theorem~1.1]{BSS2012}}]
 \label{thm:bss-spectral-sparsification}
-For every fixed $q>1$, a loopless undirected weighted graph $G$
-on $N\geq1$ vertices has a reweighted spanning subgraph $G'$ with
-at most $\lceil q(N-1)\rceil$ edges such that
+For every $d>1$, a loopless undirected weighted graph $G$ on $N\ge1$
+vertices, with positive edge weights, has a reweighted spanning
+subgraph $G'$ with at most
+$\lceil d(N-1)\rceil$ edges such that
 \[
  L_G\preceq L_{G'}\preceq
- \frac{q+1+2\sqrt q}{q+1-2\sqrt q}L_G.
+ \frac{d+1+2\sqrt d}{d+1-2\sqrt d}\,L_G.
 \]
-Such a graph can be constructed deterministically in polynomial time.
+For fixed $d$, the construction is deterministic and polynomial time.
 \end{theorem}
+
+\input{sections/appendix-spectral-sparsification}
 
 \begin{lemma}\label{lem:deterministic-density-sparsification}
 Fix positive constants $C_0,\zeta,\eta$. Let $G$ be a loopless
-edge-weighted graph on $N\ge1$ vertices, with parallel edge weights
-already combined, of total edge weight at most one and weighted degree
-at most $C_0/N$ at every vertex. Suppose that
-every set of at least $\eta N$ vertices has internal edge weight
-at least $\zeta$. There is a deterministic polynomial-time
+graph on $N\ge1$ vertices with positive edge weights
+and parallel edge weights already combined, satisfying
+\begin{equation}\label{eq:aks-sparsification-input}
+ \sum_{e\in E(G)}w_e\le1,\qquad
+ \deg_G(v)\le\frac{C_0}N\quad(v\in V(G)).
+\end{equation}
+There is a deterministic polynomial-time
 construction of a simple unweighted graph $J$ with
 $V(J)=V(G)$ and $E(J)\subseteq E(G)$, whose
 maximum degree is bounded by a constant depending only on
-$C_0,\zeta$, and whose independent sets all have size less than
-$\eta N$.
+$C_0,\zeta$. If, in addition,
+\begin{equation}\label{eq:aks-sparsification-density-input}
+ e_G(S)\ge\zeta\quad(S\subseteq V(G),\ |S|\ge\eta N),
+\end{equation}
+then every independent set of $J$ has size less than $\eta N$.
 \end{lemma}
 
 \begin{proof}
-Choose a fixed rational $0<\theta\le\min\{1/12,\zeta/14\}$,
-and put $q=\theta^{-2}$ and $d=\lceil q\rceil$.
-Apply Theorem~\ref{thm:bss-spectral-sparsification} to obtain a
-reweighted subgraph $G'$ with at most
-$\lceil q(N-1)\rceil\leq dN$ edges and the stated spectral bounds.
-Substituting $q=\theta^{-2}$ gives
-\[
- \frac{q+1+2\sqrt q}{q+1-2\sqrt q}
- =\left(\frac{1+\theta}{1-\theta}\right)^2
- =1+\frac{4\theta}{(1-\theta)^2}
- \le1+\frac{576}{121}\theta<1+5\theta,
-\]
-since $\theta\le1/12$.
+Set $\theta=\min\{1/12,\zeta/14\}$,
+and put $d=\lceil\theta^{-2}\rceil$.
+Apply Lemma~\ref{lem:bss-sparsification-bound} to obtain a reweighted subgraph
+$G'$ with
+\begin{equation}\label{eq:aks-bss-bounds}
+|E(G')|\overset{\text{Lem.~\ref{lem:bss-sparsification-bound}}}{\leq}dN,
+ \qquad L_G\overset{\text{Lem.~\ref{lem:bss-sparsification-bound}}}{\preceq}L_{G'}
+ \overset{\text{Lem.~\ref{lem:bss-sparsification-bound}}}{\preceq}(1+7\theta)L_G.
+\end{equation}
 
-Applying this sandwich to $\mathbf1_{\{v\}}$ gives
-$\deg_G(v)\le\deg_{G'}(v)\le(1+5\theta)C_0/N$. Summing the lower
-bounds over $v\in S$ gives
-$\operatorname{vol}_{G'}(S)\ge\operatorname{vol}_G(S)$.
-Applying the sandwich to $\mathbf1_S$ gives
-$w(\cut_{G'}(S))\le(1+5\theta)w(\cut_G(S))$. Every cut has weight at most the total edge weight, so
-$w(\cut_G(S))\le1$. Also $\theta\le\zeta/14$ gives
-$5\theta/2\leq5\zeta/28\leq\zeta/4$. Therefore, whenever $|S|\ge\eta N$,
-\begin{align*}
- 2e_{G'}(S)&=\operatorname{vol}_{G'}(S)-w(\cut_{G'}(S))\\
- &\ge\operatorname{vol}_G(S)-(1+5\theta)w(\cut_G(S))\\
- &=2e_G(S)-5\theta w(\cut_G(S)),\\
- e_{G'}(S)&\ge e_G(S)-\tfrac{5\theta}{2}w(\cut_G(S))
- \ge\zeta-\tfrac{5\theta}{2}\ge3\zeta/4.
-\end{align*}
-Write $w'_e$ for the weight of $e\in E(G')$. Define the unweighted
-graph $J$ by $V(J)=V(G)$ and
-$E(J)=\{e\in E(G'):w'_e\ge\zeta/(4dN)\}$.
-The edges in $E(G')\setminus E(J)$ have total weight at most
-$|E(G')|\zeta/(4dN)\le\zeta/4$.
+Apply the sandwich to the indicator vectors
+in~\eqref{eq:aks-indicator-forms}. For each $v\in V(G)$,
+\begin{equation}\label{eq:aks-sparse-degrees}
+\deg_G(v)\overset{\eqref{eq:aks-bss-bounds}}{\leq}\deg_{G'}(v)
+  \overset{\eqref{eq:aks-bss-bounds}}{\leq}(1+7\theta)\deg_G(v)
+ \overset{\eqref{eq:aks-sparsification-input}}{\leq}(1+7\theta)C_0/N.
+\end{equation}
+Write $w'_e$ for the weight of $e\in E(G')$ and
+$w'(F)=\sum_{e\in F}w'_e$ for each edge set $F\subseteq E(G')$. Define
+the simple unweighted graph $J$ by $V(J)=V(G)$ and
+\begin{equation}\label{eq:aks-threshold-set}
+ E(J)=\{e\in E(G'):w'_e\ge\zeta/(4dN)\}.
+\end{equation}
+Every retained edge has weight at least $\zeta/(4dN)$, so
+for every $v\in V(J)$,
+\begin{equation}\label{eq:aks-final-degree}
+ \deg_J(v)\overset{\eqref{eq:aks-threshold-set}}{\leq}
+ \frac{4dN}{\zeta}\deg_{G'}(v)
+ \overset{\eqref{eq:aks-sparse-degrees}}{\leq}
+ \frac{4(1+7\theta)C_0d}{\zeta}.
+\end{equation}
+This constant bound and the construction do not require the density
+assumption.
+
+Now assume~\eqref{eq:aks-sparsification-density-input}.
+For $S\subseteq V(G)$, summing the lower degree bounds and testing the sandwich on
+$\mathbf1_S$ give, respectively,
+\begin{equation}\label{eq:aks-sparse-volume-cut}
+\vol_{G'}(S)\overset{\eqref{eq:aks-sparse-degrees}}{\geq}\vol_G(S),
+ \qquad w'(\cut_{G'}(S))
+ \overset{\eqref{eq:aks-bss-bounds},\,\eqref{eq:aks-indicator-forms}}{\leq}
+ (1+7\theta)w(\cut_G(S)).
+\end{equation}
+Every cut has weight at most the total edge weight, so
+\begin{equation}\label{eq:aks-cut-weight-bound}
+ w(\cut_G(S))\le\sum_{e\in E(G)}w_e
+ \overset{\eqref{eq:aks-sparsification-input}}{\leq}1.
+\end{equation}
+Also $\theta\le\zeta/14$ gives $7\theta/2\leq\zeta/4$.
+Therefore, whenever $|S|\ge\eta N$,
+\begin{equation}\label{eq:aks-sparse-density}
+\begin{gathered}
+ 2e_{G'}(S)\overset{\eqref{eq:aks-volume-cut}}{=}
+ \vol_{G'}(S)-w'(\cut_{G'}(S)) \overset{\eqref{eq:aks-sparse-volume-cut}}{\geq}
+ \vol_G(S)-(1+7\theta)w(\cut_G(S))
+  \overset{\eqref{eq:aks-volume-cut}}{=}2e_G(S)-7\theta w(\cut_G(S)),\\
+ e_{G'}(S)\ge e_G(S)-\tfrac{7\theta}{2}w(\cut_G(S))
+  \overset{\eqref{eq:aks-sparsification-density-input},\,\eqref{eq:aks-cut-weight-bound}}{\geq}
+ \zeta-\tfrac{7\theta}{2}\ge3\zeta/4.
+\end{gathered}
+\end{equation}
+The discarded edges satisfy
+\begin{equation}\label{eq:aks-discarded-weight}
+ \sum_{e\in E(G')\setminus E(J)}w'_e
+ \overset{\eqref{eq:aks-threshold-set}}{\leq}|E(G')|\frac{\zeta}{4dN}
+ \overset{\eqref{eq:aks-bss-bounds}}{\leq}\frac\zeta4.
+\end{equation}
 Thus every $S\subseteq V(G)$ with $|S|\ge\eta N$ satisfies
 \[
- \sum_{\substack{e\in E(J)\\e\subseteq S}}w'_e
+\sum_{e\in E(J[S])}w'_e
  \ge e_{G'}(S)-\sum_{e\in E(G')\setminus E(J)}w'_e
- \ge\frac{3\zeta}{4}-\frac\zeta4=\frac\zeta2>0.
+  \overset{\eqref{eq:aks-sparse-density},\,\eqref{eq:aks-discarded-weight}}{\geq}
+ \frac{3\zeta}4-\frac\zeta4=\frac\zeta2>0.
 \]
-Consequently $J[S]$ contains an edge.
-Thus every independent set of $J$ has size less than $\eta N$.
+Thus $J[S]$ contains an edge, so every independent set of $J$ has
+size less than $\eta N$.
 
-For $v\in V(J)$, every $e\in E(J)$ incident with $v$ has
-$w'_e\ge\zeta/(4dN)$. Hence
-\[
- \deg_J(v)\le\frac{4dN}{\zeta}\deg_{G'}(v)
- \le\frac{4(1+5\theta)C_0d}{\zeta},
-\]
-a constant depending only on $C_0,\zeta$. The construction is
-deterministic and polynomial time by
-Theorem~\ref{thm:bss-spectral-sparsification}.
 \end{proof}
 
+\Needspace{14\baselineskip}
 \begin{restatedtheorem}{Theorem~\ref{thm:bounded-degree-kr-source}}
-For every fixed rational $0<\eta<1/10$, there is a constant
+For every fixed $0<\eta<1/10$, there is a constant
 $d_\eta$ such that the following promise problem is Unique Games-hard.
 The input is a simple unweighted graph $G$ on $n\geq1$ vertices
 of maximum degree at most $d_\eta$. Distinguish the following cases:
-\begin{description}
- \item[YES:] $\alphaI(G)\geq(1/2-\eta)n$.
- \item[NO:] $\alphaI(G)<\eta n$.
-\end{description}
+\textbf{YES:} $\alphaI(G)\geq(1/2-\eta)n$;
+\textbf{NO:} $\alphaI(G)<\eta n$.
 The reduction is deterministic and polynomial time.
 \end{restatedtheorem}
 
 \begin{proof}[Proof of Theorem~\ref{thm:bounded-degree-kr-source}]
-Take the graph from Lemma~\ref{lem:normalized-density-source} and
-apply Lemma~\ref{lem:deterministic-density-sparsification} with
-$C_0=2$ and $\zeta=\zeta_\eta$. Deleting edges preserves the YES
-independent set. In the NO case, every set of at least $\eta N$
+Use the parameters from Lemma~\ref{lem:normalized-density-source}.
+Let $\Lambda$ be the regular input of
+Theorem~\ref{thm:regular-ug-source}, $t\ge1$ the padding integer of
+Lemma~\ref{lem:aks-loop-removal}, and $\Lambda^{[t]}$ the padded instance.
+Write $G$ for its AKS output, $G^-$ for its loop deletion, and $G_1$
+for the graph after vertex unweighting. Apply
+Lemma~\ref{lem:deterministic-density-sparsification}
+to $G_1$ with $C_0=2$ and $\zeta=\zeta_\eta$, obtaining a reweighted
+subgraph $G'$ and a thresholded simple unweighted graph
+$J$. The construction and its degree guarantee apply in both cases;
+only the independent-set bound uses the additional NO density premise.
+The reduction is the chain
+\begin{equation}\label{eq:aks-construction-flow}
+ \Lambda
+ \xrightarrow{\text{pad}}
+ \Lambda^{[t]}
+ \xrightarrow{\text{AKS}}
+ G
+ \xrightarrow{\text{delete loops}}
+ G^-
+ \xrightarrow{\text{unweight vertices}}
+ G_1
+ \xrightarrow{\text{BSS}}
+ G'
+ \xrightarrow{\text{threshold}}
+ J.
+\end{equation}
+The AKS step is Theorem~\ref{thm:aks-density-source}; vertex unweighting
+and BSS sparsification use Lemmas~\ref{lem:aks-unweighting-density}
+and~\ref{lem:bss-sparsification-bound}, respectively. The padding, loop deletion,
+and thresholding steps are the lemmas specified above.
+Here $G_1,G',J$ have the same $N$ vertices.
+Lemma~\ref{lem:normalized-density-source} supplies the required
+weighted promise for $G_1$. Deleting edges preserves the YES independent set.
+In the NO case, every set of at least $\eta N$
 vertices still contains an edge, so every independent set has size
 less than $\eta N$. The output degree depends only on $\eta$.
-Both constructions are deterministic and polynomial time.
+Every step is deterministic and polynomial time.
 \end{proof}

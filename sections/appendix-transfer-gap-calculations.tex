@@ -1,0 +1,362 @@
+\section{Gap calculations for transfers and applications}
+\label{app:transfer-gap-calculations}
+
+This appendix gives the parameter choices used in
+Section~\ref{subsec:bounded-degree-consequences} and the regularization
+and subdivision corollaries, followed by the state-space application.
+In each sparsification calculation,
+$\tau>0$ is the fixed error parameter in the appropriate general
+sparsification theorem, and $r,r'\geq1$ are approximation factors,
+with $r<r'$ whenever both occur. All source enlargements are those described
+in Section~\ref{subsec:bounded-degree-consequences}; constants are
+chosen before the source order is enlarged.
+In the NP calculations, $F$ denotes the normalized source system from
+Theorem~\ref{thm:xor-source}, with $m\geq1$ equations. In the UGC
+layer calculations, $G$ is the independent-set source and $n=|V(G)|$.
+In the SSE calculations, let $G^*$ be the host from
+Lemma~\ref{lem:sse-unweighted-gap}, applied with source error
+$\varepsilon=\eta$ and $q=\lceil2/\eta\rceil$, and let $c>0$ be its
+absolute constant; then
+$N=|V(\mathcal L(G^*))|=|E(G^*)|$ is the dense output order.
+
+\subsection{Bounded-degree treedepth}
+\label{app:transfer-td}
+Use the constructions and factor descriptions in
+Corollary~\ref{cor:td-bounded-degree}.
+
+\subsubsection{NP-hardness}
+\label{app:transfer-td-np}
+Deleting $z_A,z_B,z_C$ lowers treedepth by at most $3$, by
+Lemma~\ref{lem:restore-vertices}. The resulting graph has order
+$18m$, so sparsification lowers treedepth by at most $18\tau m$.
+The resulting YES bound is $(17/2+\epsilon)m+1$, and the NO lower
+bound is $(9-\epsilon)m-2-18\tau m$. Fix a target factor
+$r<18/17$ and let
+$\gamma=9-\epsilon-r(17/2+\epsilon)>0$, using the choice of
+$\epsilon$ in Section~\ref{subsec:np-td-gap}. Choose
+\begin{equation}\label{eq:bounded-td-np-choices}
+ \tau<\gamma/36,\qquad m>2(2+r)/\gamma,
+\end{equation}
+taking enough source copies for the second condition. Then
+\[
+(9-\epsilon)m-2-18\tau m
+ -r\bigl((17/2+\epsilon)m+1\bigr)
+ \overset{\eqref{eq:bounded-td-np-choices}}{\ge}
+ \frac{\gamma m}{2}-(2+r)
+ \overset{\eqref{eq:bounded-td-np-choices}}{>}0,
+\]
+so the gap survives both losses.
+
+\subsubsection{UGC hardness}
+\label{app:transfer-td-ugc}
+Fix $r<r'<4/3$ and the parameters $q,\eta$ chosen in
+Section~\ref{subsec:ugc-td-gap} for $r'$. Write $Y$ for
+the dense YES upper bound. A layer clique gives
+\begin{equation}\label{eq:bounded-td-ugc-layer}
+ n\le\td(S_q(G))\le Y\qquad\text{in the YES case}.
+\end{equation}
+The sparsification loss is therefore at most
+$\tau qn\overset{\eqref{eq:bounded-td-ugc-layer}}{\le}\tau qY$.
+Choose $\tau<(r'-r)/(q(r+1))$. Lemma~\ref{lem:gap-preservation}
+then transfers the dense factor-$r'$ gap to factor $r$.
+
+\subsubsection{SSE hardness}
+\label{app:transfer-td-sse}
+The dense YES and NO treedepth bounds are $4\eta N$ and $\beta N$,
+where $\beta=(c/2)\sqrt\eta$, and sparsification loses at most $\tau N$.
+For a target factor $r$, choose $\eta$
+small enough that $\gamma:=\beta-4r\eta>0$, which is possible
+since $\beta=(c/2)\sqrt{\eta}$. Choose
+\begin{equation}\label{eq:bounded-td-sse-choice}
+ \tau<\gamma.
+\end{equation}
+The sparse NO bound exceeds $r$ times the YES bound by at least
+${(\gamma-\tau)N\overset{\eqref{eq:bounded-td-sse-choice}}{>}0}$.
+
+\subsection{Bounded-degree treewidth}
+\label{app:transfer-tw}
+Use the constructions and factor descriptions in
+Corollary~\ref{cor:tw-bounded-degree}.
+
+\subsubsection{NP-hardness}
+\label{app:transfer-tw-np}
+Fix a target factor $r<12/11$. The dense gap calculation in
+Section~\ref{subsec:np-treewidth} chooses $\epsilon,R$ so that
+\begin{equation}\label{eq:bounded-tw-np-gap}
+ \gamma=R(6-\epsilon)-r\bigl(R(11/2+\epsilon)+3\bigr)>0.
+\end{equation}
+The dense YES and NO bounds are respectively
+$R(11/2+\epsilon)m+3m-1$ and $R(6-\epsilon)m-1$,
+using Lemma~\ref{lem:tw-replication}.
+Since the output order is $9Rm$, sparsification preserves the YES
+upper bound and lowers the NO bound by at most $9\tau Rm$. Choose
+\begin{equation}\label{eq:bounded-tw-np-choice}
+ \tau<\gamma/(18R).
+\end{equation}
+The sparse NO lower bound minus $r$ times the
+sparse YES upper bound is
+\[
+(\gamma-9\tau R)m+(r-1)
+ \overset{\eqref{eq:bounded-tw-np-choice}}{>}
+ \frac{\gamma m}{2}+r-1
+ \overset{\eqref{eq:bounded-tw-np-gap}}{>}0.
+\]
+
+\subsubsection{UGC hardness}
+\label{app:transfer-tw-ugc}
+Fix $r<r'<4/3$ and the parameters $\zeta,R$ used for the dense
+factor-$r'$ gap in Section~\ref{subsec:ugc-tw-gap}.
+Let $n$ be the order of the independent-set source $G$, so $P_3(G)$
+has $3n$ vertices.
+The dense graph has global cliques of size $Rn$, so its treewidth is
+at least $Rn-1$. Write $Y$ for the dense YES upper bound, so
+\begin{equation}\label{eq:bounded-tw-ugc-scale}
+ Y\ge Rn-1.
+\end{equation}
+Since the graph has order $3Rn$, the sparsification
+loss, when $Rn\ge2$, is at most
+\[
+ 3\tau Rn\le6\tau(Rn-1)
+ \overset{\eqref{eq:bounded-tw-ugc-scale}}{\le}6\tau Y.
+\]
+Choose
+$\tau<(r'-r)/(6(r+1))$. Lemma~\ref{lem:gap-preservation} then
+transfers the dense factor-$r'$ gap to factor $r$.
+
+\subsubsection{SSE hardness}
+\label{app:transfer-tw-sse}
+For target factor $r$, the sparse NO bound is $\beta N-1-\tau N$
+and the YES bound is $4\eta N$, with $\beta=(c/2)\sqrt\eta$.
+Fix $\eta$ so that $\gamma:=\beta-4r\eta>0$, which is possible
+because $\beta=(c/2)\sqrt\eta$. Choose
+\begin{equation}\label{eq:bounded-tw-sse-choices}
+ \tau<\gamma/2,\qquad N>2/\gamma,
+\end{equation}
+taking sufficiently many parallel copies for the second condition. Then
+\[
+ \beta N-1-\tau N
+ \overset{\eqref{eq:bounded-tw-sse-choices}}{>}
+ (\beta-\gamma)N=4r\eta N,
+\]
+so the sparse NO width exceeds $r$ times the YES bound.
+
+\subsection{Bounded-degree total depth}
+\label{app:transfer-total-depth}
+Use the constructions and factor descriptions in
+Corollary~\ref{cor:total-depth-bounded-degree}.
+
+\subsubsection{NP-hardness}
+\label{app:transfer-total-np}
+Fix $1\le r<r'<63/62$ and the dense graph
+$H=H^\Sigma_M(G_F^\Sigma)$ from
+Theorem~\ref{thm:np-total-depth-dense-gap}; $F$ has $m$ equations
+and $M=\Theta(m)$.
+Write $N=99m+3M$ for the output order and $Y$ for the dense YES
+upper bound. Proposition~\ref{prop:np-total-depth-parity-identity}
+and~\eqref{eq:np-total-depth-added-vertices-bounds} give
+\begin{equation}\label{eq:bounded-total-depth-np-dense-lower}
+ \totd(H)
+ \overset{\eqref{eq:np-total-depth-added-vertices-bounds},\,
+             \eqref{eq:np-total-depth-parity-W}}{\ge}
+ M(186m+3)\ge Mm.
+\end{equation}
+Since $M=\Theta(m)$ and $N=\Theta(m)$, fix $c_*>0$ such that
+\begin{equation}\label{eq:bounded-total-depth-np-scale}
+ Mm\ge c_*N^2,\qquad Y\ge Mm.
+\end{equation}
+The second inequality follows because $Y$ is an upper bound on
+the dense YES optimum. Choose
+\begin{equation}\label{eq:bounded-total-depth-np-choice}
+ 0<\tau<c_*\min\{r'-r,1/2\}.
+\end{equation}
+Sparsification preserves the YES
+upper bound $Y$ and reduces the NO lower bound by at most
+\[
+\tau N^2
+ \overset{\eqref{eq:bounded-total-depth-np-scale}}{\le}
+ (\tau/c_*)Mm
+ \overset{\eqref{eq:bounded-total-depth-np-choice}}{<}
+ (r'-r)Mm
+ \overset{\eqref{eq:bounded-total-depth-np-scale}}{\le}(r'-r)Y.
+\]
+Hence it preserves the factor-$r$ gap.
+Moreover, writing $H'$ for the sparse graph gives
+\begin{equation}\label{eq:bounded-total-depth-np-sparse}
+\totd(H')
+ \overset{\text{Thm.~\ref{thm:total-depth-sparsification};\,
+                   \eqref{eq:bounded-total-depth-np-dense-lower}}}{\ge}
+ Mm-\tau N^2
+  \overset{\eqref{eq:bounded-total-depth-np-scale},\,
+              \eqref{eq:bounded-total-depth-np-choice}}{\ge}Mm/2.
+\end{equation}
+This is $\Omega(N^2)$ by~\eqref{eq:bounded-total-depth-np-scale},
+as needed for the regular-graph transfer below.
+
+\subsubsection{UGC hardness}
+\label{app:transfer-total-ugc}
+Fix $r<r'<8/7$ and the dense parameters $q,\eta$ from
+Section~\ref{subsec:ugc-total-depth-gap}, with $N=qn$.
+Each layer is a clique, so its $n$ vertices lie on one ancestor
+path and have depths at least $1,2,\ldots,n$. Summing over all $q$
+layers gives the lower bound
+\begin{equation}\label{eq:bounded-total-depth-ugc-scale}
+L:=q\,\frac{n(n+1)}2\le\totd(S_q(G)),
+ \qquad L\ge\frac{qn^2}{2}=\frac{N^2}{2q},\quad N=qn.
+\end{equation}
+Write $Y$ for the dense YES upper bound. In the YES case, the following
+bounds control the sparsification loss:
+\begin{equation}\label{eq:bounded-total-depth-ugc-yes}
+L\overset{\eqref{eq:bounded-total-depth-ugc-scale}}{\le}
+ \totd(S_q(G))\le Y,\qquad \tau N^2
+ \overset{\eqref{eq:bounded-total-depth-ugc-scale}}{\le}2q\tau L
+ \overset{\eqref{eq:bounded-total-depth-ugc-yes}}{\le}2q\tau Y.
+\end{equation}
+Choose
+$\tau<(r'-r)/(2q(r+1))$. Lemma~\ref{lem:gap-preservation} then
+transfers the dense factor-$r'$ gap to factor $r$.
+
+\subsubsection{SSE hardness}
+\label{app:transfer-total-sse}
+The dense YES and NO total-depth bounds are $4\eta N^2$ and
+$\beta N^2/2$, where $\beta=(c/2)\sqrt\eta$. Sparsification loses
+at most $\tau N^2$.
+For a target factor $r$, choose $\eta$
+small enough that $\gamma:=\beta/2-4r\eta>0$, which is possible
+since $\beta=(c/2)\sqrt{\eta}$. Choose
+\begin{equation}\label{eq:bounded-total-depth-sse-choice}
+ \tau<\gamma.
+\end{equation}
+After
+sparsification, the NO lower bound minus $r$ times the YES upper
+bound is
+$(\gamma-\tau)N^2\overset{\eqref{eq:bounded-total-depth-sse-choice}}{>}0$.
+
+\subsection{Regularization}
+\label{app:transfer-regular}
+Fix a target factor $r$ and a larger factor $r'$ in the same
+hardness range. For NP-hardness of total depth, take
+$1\le r<r'<63/62$.
+Choose an odd $d$ larger than the maximum degree of the
+bounded-degree source family. We may increase $d$ further, then
+require a sufficiently large source order $n$, using the
+enlargements described in Section~\ref{subsec:bounded-degree-consequences}.
+Write $G$ for a graph in this family, $n=|V(G)|$, and $R$ for its
+$d$-regular output from Proposition~\ref{prop:regularization}.
+
+For treedepth and treewidth, Proposition~\ref{prop:regularization}
+changes the promise bounds by at most the fixed constant $d+2$.
+Writing $Y$ for their YES upper bound, $Y=\Theta(n)$, so this is $o(Y)$ as the source
+order grows. Lemma~\ref{lem:gap-preservation} preserves the
+factor-$r$ gap.
+
+A chain on all $n$ vertices is always an elimination forest, so
+\begin{equation}\label{eq:total-depth-order-upper}
+ \totd(G)\le\frac{n(n+1)}2.
+\end{equation}
+For total depth, Proposition~\ref{prop:regularization} gives
+\begin{equation}\label{eq:regularization-normalized-error}
+0\overset{\text{Prop.~\ref{prop:regularization}}}{\le}
+ \frac{\totd(R)}{d+2}-\totd(G)
+ \overset{\text{Prop.~\ref{prop:regularization}}}{\le}
+ \frac{\totd(G)}{d+2}+\frac{d+3}{2}n \overset{\eqref{eq:total-depth-order-upper}}{\le}
+ \frac{n(n+1)}{2(d+2)}+\frac{d+3}{2}n.
+\end{equation}
+For the UGC and SSE total-depth families, let $Y=\Theta(n^2)$ be
+the YES upper bound. For any fixed
+$\epsilon>0$, choose $d$ large enough that the first term in the
+last bound is at most $\epsilon Y/2$ for all sufficiently large $n$,
+then choose $n$ large enough that the second term is at most
+$\epsilon Y/2$. The normalized error is then at most $\epsilon Y$,
+and the NO bound does not decrease. Choosing
+$\epsilon<(r'-r)/(r+1)$, Lemma~\ref{lem:gap-preservation}
+preserves the factor-$r$ gap.
+
+For the NP total-depth family, let $G=H'$ be the sparse instance
+from Corollary~\ref{cor:total-depth-bounded-degree}, and write
+$s=|V(G)|=99m+3M$, with $m$ and $M$ as defined
+there. In this calculation, $\OPT(J)=\totd(J)$ for every graph $J$.
+Appendix~\ref{app:transfer-total-np} gives
+$\OPT(G)=\totd(H')
+\overset{\eqref{eq:bounded-total-depth-np-sparse}}{\geq}Mm/2=:L$.
+Since $M=\Theta(m)$,
+we have $s=\Theta(m)$ and $L=\Omega(s^2)$. Choose $\epsilon>0$
+such that
+\begin{equation}\label{eq:regular-total-depth-np-factor}
+ r(1+\epsilon)<r'.
+\end{equation}
+Use
+\eqref{eq:regularization-normalized-error} with $n=s$, and fix
+$c>0$ such that
+\begin{equation}\label{eq:regular-total-depth-np-scale}
+ L\geq cs^2
+\end{equation}
+throughout this family. For $s\geq1$, the first term is at most
+$s^2/(d+2)\overset{\eqref{eq:regular-total-depth-np-scale}}{\leq}
+L/(c(d+2))$. Choose an odd $d$, also larger than the maximum degree
+of $G$, and then a source order $s$ such that
+\begin{equation}\label{eq:regular-total-depth-np-choices}
+ \frac1{c(d+2)}\leq\frac\epsilon2,\qquad
+ s\geq\frac{d+3}{c\epsilon}.
+\end{equation}
+For these choices, each term in the last bound
+of~\eqref{eq:regularization-normalized-error} is at most
+$\epsilon L/2$, using~\eqref{eq:regular-total-depth-np-scale}
+for the second. Therefore
+\begin{equation}\label{eq:regular-total-depth-np-error}
+\frac{\totd(R)}{d+2}-\totd(G)
+ \overset{\eqref{eq:regularization-normalized-error},\,
+             \eqref{eq:regular-total-depth-np-scale},\,
+             \eqref{eq:regular-total-depth-np-choices}}{\leq}\epsilon L,\qquad \OPT(R)\overset{\eqref{eq:regular-total-depth-np-error}}{\leq}
+ (d+2)\OPT(G)+(d+2)\epsilon L.
+\end{equation}
+The projection in Proposition~\ref{prop:regularization} converts
+every forest of $R$ of cost $z$ into one of $G$ of cost at most
+$z/(d+2)$. In particular, if $z\leq r\OPT(R)$, the projected
+forest $\overline F$ satisfies
+\[
+\totd(\overline F)
+ \overset{\text{Prop.~\ref{prop:regularization}}}{\leq}
+ z/(d+2)\leq r\OPT(R)/(d+2)
+  \overset{\eqref{eq:regular-total-depth-np-error}}{\leq}
+ r\OPT(G)+r\epsilon L
+ \leq r(1+\epsilon)\OPT(G).
+\]
+The last inequality uses $L\leq\OPT(G)$. Thus an $r$-approximation
+on regular graphs yields factor $r(1+\epsilon)
+\overset{\eqref{eq:regular-total-depth-np-factor}}{<}r'$
+on the source family.
+
+\subsection{Subdivision}
+\label{app:transfer-subdivision}
+Let $G$ be a $d$-regular source graph, and let $G_\ell$ be obtained
+by replacing each edge of $G$ with a path of length $\ell$.
+Use the structural bounds proved in
+Corollary~\ref{cor:subdivision-hardness}:
+\[
+s\totd(G)\le\totd(G_\ell)\le3s\totd(G)+Cn,
+ \qquad s=1+(\ell-1)(d-1)/2,\qquad C=h(\ell-1)d/2,
+\]
+where $h=\lceil\log_2\ell\rceil$ and $n=|V(G)|$.
+First fix a target factor
+$r$ and any fixed $r'>r$, and choose a regular SSE source family with
+NO bound $Z$ and YES upper bound $Y$ satisfying $Z>3r'Y$.
+This fixes the odd degree $d$. Fix the required even subdivision
+length $\ell$, and hence $h,s,C$, before enlarging the source.
+Choose $c_Y>0$ such that $Y\geq c_Yn^2$ throughout this family,
+and take $n>rC/[3s(r'-r)c_Y]$. These choices give
+\begin{equation}\label{eq:subdivision-sse-choices}
+ Z>3r'Y,\qquad 3s(r'-r)Y>rCn.
+\end{equation}
+The subdivided
+instance has YES bound at most $3sY+Cn$ and NO bound at least $sZ$.
+Therefore the NO lower bound minus $r$ times the YES upper bound is
+at least
+\[
+sZ-r(3sY+Cn)
+ \overset{\eqref{eq:subdivision-sse-choices}}{>}
+ 3s(r'-r)Y-rCn
+ \overset{\eqref{eq:subdivision-sse-choices}}{>}0
+\]
+Such orders are obtained from
+parallel host-edge copies as described in
+Section~\ref{subsec:bounded-degree-consequences}.

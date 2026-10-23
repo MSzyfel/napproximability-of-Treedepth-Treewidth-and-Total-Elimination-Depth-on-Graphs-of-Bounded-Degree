@@ -1,0 +1,58 @@
+\Needspace{6\baselineskip}
+\subsection{Binary junction-tree total state space}
+\label{app:state-space-gap}
+
+We give the gap calculation used in
+Section~\ref{subsec:total-state-space}. Fix $0<\chi<1/18$ for the
+NP reduction, or $0<\chi<1/6$ for the UGC reduction.
+
+\begin{proof}[State-space gap]
+Let $G$ be the output graph, put $n=|V(G)|$, and let $R\ge1$ be the
+integer number of copies. In the NP reduction, $m$ is the number of
+source parity equations and $\epsilon$ its error parameter from
+Section~\ref{subsec:np-treewidth}. In the UGC reduction, $N$ is the
+source graph order and $\zeta$ the error parameter in
+Theorem~\ref{thm:ugc-tripartite-cover} with $k=3$.
+Let $w_Y$ be the YES treewidth upper bound and $w_N$ the NO treewidth
+lower bound. Their differences are
+\begin{equation}\label{eq:state-space-width-gaps}
+\begin{aligned}
+ \textup{NP:}\quad w_N-w_Y
+ &\overset{\text{Lem.~\ref{lem:tw-replication}},\,\eqref{eq:np-treewidth-cover-gap}}{=}
+ Rm(1/2-2\epsilon)-3m
+  =\bigl(1/18-2\epsilon/9-1/(3R)\bigr)n,
+   \qquad n=9Rm,\\
+ \textup{UGC:}\quad w_N-w_Y
+ &\overset{\text{Lem.~\ref{lem:tw-replication}, Thm.~\ref{thm:ugc-tripartite-cover}}}{=}
+ RN(1/6-2\zeta)-N/3
+  =\bigl(1/6-2\zeta-1/(3R)\bigr)n,
+   \qquad n=RN.\end{aligned}
+\end{equation}
+For NP hardness, choose $0<\epsilon<1/4$ so that
+$1/18-2\epsilon/9>\chi$, then take $R$ large enough that
+$1/(3R)<1/18-2\epsilon/9-\chi$. For UGC, choose
+$0<\zeta<1/12$ so that $1/6-2\zeta>\chi$, then take $R$ large enough that
+$1/(3R)<1/6-2\zeta-\chi$. In either case, let $\delta>0$ be the
+remaining margin, so
+\begin{equation}\label{eq:state-space-gap-margin}
+ w_N-w_Y\overset{\eqref{eq:state-space-width-gaps}}{\geq}(\chi+\delta)n.
+\end{equation}
+The bag bounds give
+\[
+ \textup{YES:}\quad\operatorname{TSS}(G)
+       \overset{\eqref{eq:binary-state-width-bounds}}{\leq}n2^{w_Y+1},\qquad
+ \textup{NO:}\quad\operatorname{TSS}(G)
+       \overset{\eqref{eq:binary-state-width-bounds}}{\geq}2^{w_N+1}.
+\]
+The ratio of the NO threshold to the YES threshold satisfies
+\[
+ \frac{2^{w_N+1}}{n2^{w_Y+1}}
+ =\frac{2^{w_N-w_Y}}n
+ \overset{\eqref{eq:state-space-gap-margin}}{\geq}
+       \frac{2^{(\chi+\delta)n}}n>2^{\chi n}
+\]
+for all sufficiently large $n$, since $2^{\delta n}>n$ then.
+The source instances may be replaced by any fixed number of disjoint
+copies without changing their promise fractions. Taking enough copies
+therefore ensures that every output order lies in this range.
+\end{proof}

@@ -4,8 +4,8 @@
 
 The source derivations follow the order in which the paper uses them:
 the bounded-degree independent-set promise, the multipartite UGC
-promise, the global SSE promise, and the NP-hardness provenance and
-parity normalization.
+promise, the global SSE promise, and the NP-hardness provenance
+and parity normalization.
 
 \input{sections/appendix-bounded-degree-source}
 
@@ -13,264 +13,181 @@ parity normalization.
 \label{app:multipartite-normalization}
 
 \begin{restatedtheorem}{Theorem~\ref{thm:ugc-tripartite-cover}}
-For every fixed integer $k\geq3$ and fixed rational
+For every fixed integer $k\geq3$ and fixed
 $0<\zeta<1/12$, there is a constant $D_{k,\zeta}$ such that the
 following promise problem is Unique Games-hard. The input is a
-simple unweighted $k$-partite graph $G$ on $N$ vertices, of maximum
+simple unweighted $k$-partite graph $G$ on $N\geq k$ vertices, of maximum
 degree at most $D_{k,\zeta}$,
 with a specified partition into $k$ independent parts each of size
 $N/k$.
-\begin{description}
- \item[YES:] $\vc(G)\leq(1/2+\zeta)N$.
- \item[NO:] $\vc(G)\geq(1-1/k-\zeta)N$.
-\end{description}
+\[
+ \textup{YES:}\quad\vc(G)\leq(1/2+\zeta)N,
+ \qquad
+ \textup{NO:}\quad\vc(G)\geq(1-1/k-\zeta)N.
+\]
 The reduction is deterministic and polynomial time.
 \end{restatedtheorem}
 
 \begin{proof}[Proof of Theorem~\ref{thm:ugc-tripartite-cover}]
 Apply the bounded-degree source of Theorem~\ref{thm:bounded-degree-kr-source} with
-$\eta=\zeta/2$. This is an admissible fixed rational parameter,
+$\eta=\zeta/2$. This is an admissible parameter,
 since $0<\zeta<1/12$ gives $0<\eta<1/24<1/10$.
 For a source graph $G$ on $n$ vertices, form $P_k(G)$ as in
 Lemma~\ref{lem:multipartite-product}. It has $N=kn$ vertices,
 with $n=N/k$ vertices in each of its $k$ independent layers.
 The degree identity in the same lemma gives
 \[
- \Delta(P_k(G))=(k-1)\Delta(G)
- \leq(k-1)d_{\zeta/2}=:D_{k,\zeta},
+ \Delta(P_k(G))
+ \overset{\text{Lem.~\ref{lem:multipartite-product}}}{=}(k-1)\Delta(G)
+ \overset{\text{Thm.~\ref{thm:bounded-degree-kr-source}}}{\leq}
+ (k-1)d_{\zeta/2}=:D_{k,\zeta},
 \]
 which is constant for fixed $k,\zeta$.
 
-In the YES case, $\alphaI(G)\geq(1/2-\eta)n$.
-Taking all $k$ copies of a source independent set gives
+The independent-set bounds in Lemma~\ref{lem:multipartite-product} are
+\begin{equation}\label{eq:multipartite-product-alpha}
+ k\alphaI(G)
+ \overset{\text{Lem.~\ref{lem:multipartite-product}}}{\leq}\alphaI(P_k(G))
+ \overset{\text{Lem.~\ref{lem:multipartite-product}}}{\leq}
+ n+(k-1)\alphaI(G).
+\end{equation}
+The source bounds are
+\begin{equation}\label{eq:multipartite-source-alpha}
+ \textup{YES:}\quad
+ \alphaI(G)\overset{\text{Thm.~\ref{thm:bounded-degree-kr-source}}}{\geq}
+ (1/2-\eta)n,
+ \qquad
+ \textup{NO:}\quad
+ \alphaI(G)\overset{\text{Thm.~\ref{thm:bounded-degree-kr-source}}}{<}\eta n.
+\end{equation}
+Taking complements and using
+$N=kn$ therefore gives both cover thresholds:
 \[
- \alphaI(P_k(G))\geq k\alphaI(G)
- \geq k(1/2-\eta)n=(1/2-\eta)N.
+\begin{aligned}
+ \textup{YES:}\quad\vc(P_k(G))
+ &\overset{\eqref{eq:multipartite-product-alpha},\,\eqref{eq:multipartite-source-alpha}}{\leq}
+ N-k(1/2-\eta)n
+ =(1/2+\eta)N\leq(1/2+\zeta)N,\\
+ \textup{NO:}\quad\vc(P_k(G))
+ &\overset{\eqref{eq:multipartite-product-alpha},\,\eqref{eq:multipartite-source-alpha}}{>}
+ N-n-(k-1)\eta n
+  =\left(1-\frac1k-\frac{k-1}{k}\eta\right)N
+ \geq\left(1-\frac1k-\zeta\right)N.\end{aligned}
 \]
-Taking complements, we obtain
-\[
- \vc(P_k(G))=N-\alphaI(P_k(G))
- \leq(1/2+\eta)N\leq(1/2+\zeta)N.
-\]
-The last inequality uses $\eta=\zeta/2\leq\zeta$.
-
-In the NO case, $\alphaI(G)<\eta n$, and the upper bound from
-Lemma~\ref{lem:multipartite-product} yields
-\[
- \alphaI(P_k(G))\leq n+(k-1)\alphaI(G)
- <n+(k-1)\eta n.
-\]
-Subtracting this strict upper bound from $N=kn$ gives
-\[
- \vc(P_k(G))
- >kn-n-(k-1)\eta n
- =\left(1-\frac1k-\frac{k-1}{k}\eta\right)N
- \geq\left(1-\frac1k-\zeta\right)N.
-\]
-Here $(k-1)\eta/k\leq\eta=\zeta/2<\zeta$, so the claimed
-non-strict NO threshold follows in particular. The product has no
+Here $\vc(P_k(G))\overset{\eqref{eq:cover-independent-complement}}{=}N-\alphaI(P_k(G))$ and
+$(k-1)\eta/k\leq\eta=\zeta/2<\zeta$, so the strict NO estimate
+implies the stated non-strict threshold. The product has no
 loops because edges require distinct layer indices, and no parallel
 edges because $G$ is simple. Its $k$ is fixed, so its size is
 polynomial in that of $G$. Both the independent-set source reduction
-and the product construction are deterministic. This proves the
-stated balanced, simple, unweighted, bounded-degree promise.
+and the product construction are deterministic.
+Writing $\Lambda$ for the Unique Games input, this normalization is
+\[
+ \Lambda
+ \xrightarrow{\text{Theorem~\ref{thm:bounded-degree-kr-source}, $\eta=\zeta/2$}}G
+ \xrightarrow{\text{Lemma~\ref{lem:multipartite-product}}}P_k(G).
+\]
 \end{proof}
 
 \subsection{The global SSE partition promise}
 \label{app:sse-normalization}
 
-We use the Gaussian notation $\Gamma_\xi$ and $\Psi$ introduced
-before Theorem~\ref{thm:aks-density-source}.
+\subsubsection{The RST partition theorem}
 
-We prove the only Gaussian estimate needed here.
+Use the weighted graph notation of Section~\ref{sec:sseh} and the
+Gaussian function $\Gamma_\xi$ defined in
+Section~\ref{app:bounded-degree-ugc-source}. We invoke the following
+source theorem directly.
 
-\begin{lemma}[Gaussian separation at medium measure]
+\begin{theorem}[RST partition theorem
+{\cite[Theorem~3.5 and Section~6.3]{RST}}]
+\label{thm:rst-partition}
+There is an absolute $\varepsilon_*>0$ such that, for every fixed
+integer $q\geq2$, $0<\varepsilon<\varepsilon_*$, and $\gamma>0$,
+it is SSE-hard to distinguish the following cases for a finite
+undirected weighted graph $G$ with total edge weight $W=w(E(G))>0$.
+\begin{description}
+\item[YES:] There is a partition
+ $V(G)=V_1\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}V_q$ with
+ $\mu_G(V_i)=1/q$ and
+ $\Phi_G(V_i)\leq\varepsilon+O(\varepsilon^2)$ for every $i\in[q]$.
+ The implied constant is absolute.
+\item[NO:] Every $A\subseteq V(G)$ with $\mu_G(A)>0$ satisfies
+ \[
+  \Phi_G(A)\geq
+  1-\frac{\Gamma_{1-\varepsilon/2}(\mu_G(A))+\gamma}{\mu_G(A)}.
+ \]
+\end{description}
+\end{theorem}
+
+\begin{lemma}[Gaussian separation at medium measure
+{\cite[proof of Corollary~A.4]{RST}}]
 \label{lem:gaussian-medium-separation}
-There are absolute constants $a,\varepsilon_{\mathrm G}>0$ such that, for
-$0<\varepsilon<\varepsilon_{\mathrm G}$, $\varepsilon'\in[\varepsilon/2,\varepsilon]$,
-and $1/10\le\mu\le1/2$,
-$\mu-\Gamma_{1-\varepsilon'/2}(\mu)\ge a\sqrt\varepsilon$.
+There are absolute constants $a,\varepsilon_{\mathrm G}>0$ such that,
+for $0<\varepsilon<\varepsilon_{\mathrm G}$ and
+$1/10\leq\mu\leq1/2$,
+\[
+ \mu-\Gamma_{1-\varepsilon/2}(\mu)\geq a\sqrt\varepsilon.
+\]
 \end{lemma}
 
-\begin{proof}
-Let $X,Z$ be independent standard normal random variables, put
-$\xi=1-\varepsilon'/2$, and write
-$Y=\xi X+\sqrt{1-\xi^2}\,Z$. Then $X,Y$ are standard normal
-with correlation $\xi$. If $\Pr[X\leq t]=\mu\in[1/10,1/2]$,
-the threshold $t$ lies in a fixed bounded interval with $t\leq0$.
-Moreover, $\mu-\Gamma_\xi(\mu)=\Pr[X\leq t<Y]$.
-We may decrease $\varepsilon_{\mathrm G}$ so that
-$\varepsilon_{\mathrm G}\leq1$. Then $0\leq\xi<1$ and
-$\sigma:=\sqrt{1-\xi^2}\leq1$. Put $t_0=\Psi^{-1}(1/10)$.
-The interval $[t-\sigma,t]$ is contained in the fixed interval
-$[t_0-1,0]$. Let
-$c_*:=\Pr[Z>1]\min_{x\in[t_0-1,0]}\varphi(x)>0$, where $\varphi$
-is the standard normal density. On the event
-$t-\sigma\leq X\leq t$ and $Z>1$,
-we have $X\leq t$ and
-\[
- \begin{aligned}
- Y&>\xi(t-\sigma)+\sigma
-  =\xi t+(1-\xi)\sigma
-  =t+(1-\xi)(\sigma-t)\geq t.
- \end{aligned}
-\]
-The last inequality uses $t\leq0$ and $\xi\leq1$. The interval
-event for $X$ has probability at least
-$\sigma\min_{x\in[t_0-1,0]}\varphi(x)$, and it is independent of
-$Z>1$. Hence
-\[
- \mu-\Gamma_\xi(\mu)
- \geq c_*\sigma
- \geq\frac{c_*}{2}\sqrt{\varepsilon},
-\]
-where $1-\xi^2=(1-\xi)(1+\xi)\geq1-\xi=\varepsilon'/2
-\geq\varepsilon/4$. Taking $a=c_*/2$ proves the lemma.
-\end{proof}
-
-We use the weighted graph notation of Section~\ref{sec:sseh} for
-the total edge weight $W$, weighted degree $\deg_G$, volume
-$\vol_G$, normalized volume $\mu_G$, expansion $\Phi_G$, and cut
-weight $w(\cut_G(A))$.
-
-\begin{theorem}[Global SSE partition gap, weighted normalized form {\cite[Theorem~3.5]{RST}}]
+\begin{theorem}[Global SSE partition gap, weighted normalized form]
 \label{thm:sse-source}
 There are absolute constants $c>0$ and $\varepsilon_0>0$ such that,
 for every fixed integer $q\geq2$ and every fixed
 $0<\varepsilon<\varepsilon_0$, the following promise on finite
-undirected graphs with positive rational edge weights is SSE-hard.
-Parallel edges and loops are allowed, with $W>0$.
+undirected graphs $G$ with positive edge weights is SSE-hard.
+Parallel edges and loops are allowed, with $W=w(E(G))>0$.
 \begin{description}
 \item[YES:] There is a partition
   $V(G)=V_1\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}V_q$ with
-  $\mu_G(V_i)=1/q$ and $\Phi_G(V_i)\leq2\varepsilon$ for every $i$.
+  $\mu_G(V_i)=1/q$ and $\Phi_G(V_i)\leq2\varepsilon$ for every $i\in[q]$.
 \item[NO:] Every $A\subseteq V(G)$ with
   $\mu_G(A)\in[1/10,9/10]$ satisfies
   $w(\cut_G(A))\geq c\sqrt{\varepsilon}\,W$.
 \end{description}
 \end{theorem}
 
-\begin{proof}[Proof of Theorem~\ref{thm:sse-source}]
-Fix $q$ and $\varepsilon$ as in the statement, taking its threshold
-$\varepsilon_0\leq\min\{1,\varepsilon_{\mathrm G}\}$. Choose a rational $\rho$ with
-$\sqrt{1-\varepsilon/2}<\rho<\sqrt{1-\varepsilon/4}$. Put
-$\varepsilon'=2(1-\rho^2)$. Then $\rho$ and $\varepsilon'$ are
-rational, and $\varepsilon'\in(\varepsilon/2,\varepsilon)$.
-Instantiate Theorem~3.5 of~\cite{RST} with error parameter
-$\varepsilon'$ and a fixed rational source error $\gamma$, to be
-chosen below.
-
-\emph{YES case.}
-In the YES case the source theorem gives $q$ disjoint classes of
-normalized volume $1/q$. The proof of RST Theorem~3.5~\cite{RST} uses
-$\rho^2=1-\varepsilon'/2$ and, by its Lemma~6.2, bounds every class
-expansion by
+\begin{proof}
+Let $a$ be the constant from Lemma~\ref{lem:gaussian-medium-separation}
+and choose $\gamma=a\sqrt\varepsilon/2$ in
+Theorem~\ref{thm:rst-partition}.
+Choose an absolute $\varepsilon_0\leq\min\{\varepsilon_*,\varepsilon_{\mathrm G}\}$
+small enough that its YES bound is at most $2\varepsilon$.
+In the NO case, for $\mu=\mu_G(A)\in[1/10,1/2]$,
 \[
- 2(1-\rho^2+\eta+2\varepsilon_V)
-  +(1-\rho^2+\eta+2\varepsilon_V)^2
-  +\frac{(1-\rho^2)\beta}{\rho^2}+2^{-\Omega(k)}.
+ \frac{w(\cut_G(A))}{W}
+ =2\mu\Phi_G(A)
+ \overset{\text{Thm.~\ref{thm:rst-partition}}}{\geq}
+ 2\bigl(\mu-\Gamma_{1-\varepsilon/2}(\mu)\bigr)-2\gamma
+ \overset{\text{Lem.~\ref{lem:gaussian-medium-separation}}}{\geq}
+ a\sqrt\varepsilon.
 \]
-Their parameter choices satisfy
-$\varepsilon_V=\varepsilon'^2$, with their small-set source parameter
-$\eta\leq\varepsilon'^2$, $\beta\leq\varepsilon'$, and
-$k$ is a sufficiently large constant multiple of
-$\log(1/\varepsilon')$. Thus their $2^{-\Omega(k)}$ error is
-$O(\varepsilon'^2)$, so for an absolute constant $C_{\mathrm{RST}}$,
-$2^{-\Omega(k)}\leq C_{\mathrm{RST}}\varepsilon'^2$. Put
-$u=1-\rho^2+\eta+2\varepsilon_V$. Since
-$1-\rho^2=\varepsilon'/2$, we have
-$u\leq\varepsilon'/2+3\varepsilon'^2$. For $\varepsilon'\leq1/6$,
-$u\leq\varepsilon'$, so the first two terms in the displayed bound
-are at most
-\[
- 2u+u^2\leq2(\varepsilon'/2+3\varepsilon'^2)+\varepsilon'^2
- =\varepsilon'+7\varepsilon'^2.
-\]
-Also $\rho^2=1-\varepsilon'/2\geq1/2$, and hence
-\[
- \frac{(1-\rho^2)\beta}{\rho^2}
- \leq\frac{(\varepsilon'/2)\varepsilon'}{1/2}
- =\varepsilon'^2.
-\]
-Thus the full bound is at most
-$\varepsilon'+(8+C_{\mathrm{RST}})\varepsilon'^2$. It is at most
-$2\varepsilon'$ after reducing the theorem's $\varepsilon_0$ so that
-$\varepsilon_0\leq\min\{1/6,(8+C_{\mathrm{RST}})^{-1}\}$. The error constant does
-not depend on $q$. The sum of the classes' normalized
-volumes is $q\cdot(1/q)=1$. Since normalized volume is additive
-on disjoint sets and the whole graph has normalized volume one,
-the vertices outside these classes have total volume zero.
-Such vertices have degree zero and can be assigned to any class
-without changing its volume or its boundary. We therefore obtain
-a partition of the entire vertex set with the required
-class volumes. Use the rational-parameter version of the finite RST
-reduction. Its output graph has rational edge weights. The bound
-above gives each class expansion at most
-$2\varepsilon'\leq2\varepsilon$.
-
-\emph{NO case.}
-In the NO case, Theorem~3.5 gives, for every set of positive volume,
-the lower bound
-\[
-  \Phi_G(A)\geq
-  1-\frac{\Gamma_{1-\varepsilon'/2}(\mu_G(A))+\gamma}{\mu_G(A)}.
-\]
-Let $a$ be the constant in Lemma~\ref{lem:gaussian-medium-separation},
-and choose a fixed rational $0<\gamma\le a\sqrt\varepsilon/20$, as the source
-theorem permits.
-For $\mu_G(A)\in[1/10,1/2]$, multiply the source expansion
-inequality by $2\mu_G(A)$. Since
-$\Phi_G(A)=w(\cut_G(A))/\vol_G(A)$ and
-$\vol_G(A)=2W\mu_G(A)$, this gives
-\[
- \begin{aligned}
-  \frac{w(\cut_G(A))}{W}
-  &=2\mu_G(A)\Phi_G(A)\\
-  &\geq2\mu_G(A)-2\Gamma_{1-\varepsilon'/2}(\mu_G(A))-2\gamma\\
-  &=2\bigl(\mu_G(A)-\Gamma_{1-\varepsilon'/2}(\mu_G(A))\bigr)-2\gamma\\
-  &\geq2a\sqrt{\varepsilon}-2\gamma
-   \geq\left(2-\frac1{10}\right)a\sqrt{\varepsilon}
-   \geq\frac{a}{10}\sqrt{\varepsilon}.
- \end{aligned}
-\]
-Here $2\gamma\leq(a/10)\sqrt{\varepsilon}$. If
-$\mu_G(A)\in[1/2,9/10]$, its complement has measure
-$1-\mu_G(A)\in[1/10,1/2]$, since volume is additive and
-$\mu_G(V(G))=1$. A boundary edge has one endpoint in
-each side, so $\cut_G(V(G)\setminus A)=\cut_G(A)$ as multisets.
-Applying the preceding argument to the complement therefore gives
-the same cut bound for $A$. Thus the
-claimed NO cut bound holds throughout $[1/10,9/10]$ with $c=a/10$.
-All parameters are fixed constants for each source
-promise, so the source reduction remains polynomial for each fixed
-$(q,\varepsilon)$.
+For $\mu_G(A)\in[1/2,9/10]$, apply the same bound to its
+complement, which has measure $1-\mu_G(A)\in[1/10,1/2]$ and the
+same cut. Thus $c=a$ suffices.
 \end{proof}
 
 \subsubsection{Rounding to an unweighted host}
 
-Theorem~\ref{thm:sse-source} gives a weighted multigraph, whereas the
-output line graph has one vertex per unweighted host-edge copy. Replace each
-weighted edge $e$ by $\lfloor Mw_e/W\rfloor$ parallel copies, where
-$W$ is the total source edge weight and $M$ is chosen below.
-Rounding introduces an additive error in normalized
-volumes and cut sizes, so the source promise uses the wider interval
+The following conversion proves Lemma~\ref{lem:sse-unweighted-gap}
+by replacing weighted edges with parallel unweighted copies.
+The source promise uses the wider interval
 $[1/10,9/10]$ rather than the interval $[1/4,3/4]$ required by
-Lemma~\ref{lem:linegraph-separators}.
-The conversion proves the unweighted source promise stated in
-Lemma~\ref{lem:sse-unweighted-gap}. The degree reduction is applied
-later to its line graph, through incidence clique factors, in
-Section~\ref{subsec:bounded-degree-consequences}.
+Lemma~\ref{lem:linegraph-separators} to absorb additive errors in
+volumes and cuts. Section~\ref{subsec:bounded-degree-consequences}
+later reduces the line graph's degree through incidence clique factors.
 
 \begin{restatedlemma}{Lemma~\ref{lem:sse-unweighted-gap}}
 There are absolute constants $c>0$ and $\varepsilon_0>0$ such that,
-for every fixed integer $q\geq2$ and every fixed rational
+for every fixed integer $q\geq2$ and every fixed
 $0<\varepsilon<\varepsilon_0$, the following promise on unweighted
 multigraphs $G$ with $m>0$ edges, allowing loops, is SSE-hard:
 \begin{description}
 \item[YES:] There is a partition
   $V(G)=V_1\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}V_q$ such that
   $(1-\varepsilon)/q\leq\mu_G(V_i)\leq(1+\varepsilon)/q$ and
-  $\Phi_G(V_i)\leq3\varepsilon$ for every $i$.
+  $\Phi_G(V_i)\leq3\varepsilon$ for every $i\in[q]$.
 \item[NO:] Every $A\subseteq V(G)$ with
   $\mu_G(A)\in[1/4,3/4]$ satisfies
   $|\cut_G(A)|\geq(c/2)\sqrt{\varepsilon}\,m$.
@@ -282,33 +199,39 @@ Let $c$ and $\varepsilon_0$ be the constants from
 Theorem~\ref{thm:sse-source}. Decrease $\varepsilon_0$ so that every
 $0<\varepsilon<\varepsilon_0$ satisfies $\varepsilon\leq1/10$ and
 $\varepsilon^2\leq(c/2)\sqrt\varepsilon$.
-Fix $q\geq2$ and a rational $\varepsilon$ in this range, and set
+Fix $q\geq2$ and $\varepsilon$ in this range, and set
 $\theta=\min\{\varepsilon^2,\varepsilon/(2q)\}$.
 
 \emph{Construction.}
-Let $G$ be a weighted source instance with $k\geq1$ edges of weights
-$w_e$ and total weight $W$, counting parallel edges separately.
-Set $M=\lceil k/\theta\rceil$ and $r_e=\lfloor Mw_e/W\rfloor$.
+Let $G$ be a weighted source instance with $k=|E(G)|\geq1$ and
+$W=w(E(G))$, counting parallel edges separately.
+Set $M=\lceil k/\theta\rceil$ and
+$r_e=\lfloor Mw_e/W\rfloor$ for every $e\in E(G)$.
 Form the unweighted multigraph $G^*$ on $V(G)$ by replacing each
 edge $e$ by $r_e$ copies with the same endpoints, with no other edges.
 A loop is replaced by loops, and an edge with $r_e=0$ is removed.
-Write $m=\sum_e r_e$ and output $G^*$.
+Write $m=\sum_{e\in E(G)}r_e$ and output $G^*$.
 
 \emph{Rounding estimates.}
 For each input edge $e$, write $\omega_e=Mw_e/W-r_e\in[0,1)$.
 Since $k\leq\theta M$ and $\omega_e<1$ for each of the $k$ input edges,
-$(1-\theta)M\leq M-k<M-\sum_e\omega_e=m\leq M$.
-Thus $m>0$, and $G^*$ has at most $M=O(k/\theta)$ edges.
-Since $q,\theta$ are fixed, the reduction has polynomial size.
+\begin{equation}\label{eq:sse-round-edge-count}
+ (1-\theta)M\leq M-k<M-\sum_{e\in E(G)}\omega_e=m\leq M.
+\end{equation}
+Thus $m>0$, and $G^*$ has at most
+$M\leq k/\theta+1\leq(1+1/\theta)k$ edges.
+The vertex set is unchanged, including vertices whose rounded degree
+becomes zero. Since $\theta$ is fixed for each $(q,\varepsilon)$,
+the construction is polynomial time and the output has polynomial size.
 
-For a fixed vertex set $A$, an edge contributes zero, one, or two
+For a fixed $A\subseteq V(G)=V(G^*)$, an edge contributes zero, one, or two
 endpoint incidences to its volume. A loop in $A$ contributes two.
 Since $w_e/W-r_e/M=\omega_e/M$, edge $e$ contributes between zero
 and $\omega_e/M$ to the difference of normalized volumes. Summing gives
 \begin{equation}\label{eq:round-volume}
  0\leq\frac{\vol_G(A)}{2W}
        -\frac{\vol_{G^*}(A)}{2M}
- \leq\frac1M\sum_e\omega_e
+ \leq\frac1M\sum_{e\in E(G)}\omega_e
  <\frac{k}{M}\leq\theta.
 \end{equation}
 
@@ -322,67 +245,89 @@ because $\sum_{e\in\cut_G(A)}\omega_e<k\leq\theta M$.
 
 \emph{YES case.}
 Use the source partition $(V_1,\ldots,V_q)$.
-Since $\mu_G(V_i)=1/q$, equation~\eqref{eq:round-volume} gives
-$1/q-\theta\leq\vol_{G^*}(V_i)/(2M)\leq1/q$.
-Also, $(1-\theta)M\leq m\leq M$, so
-$1-\theta\leq m/M\leq1$. Since
-$\mu_{G^*}(V_i)=\bigl(\vol_{G^*}(V_i)/(2M)\bigr)/(m/M)$, it follows
-that
+Since $\mu_G(V_i)\overset{\text{Thm.~\ref{thm:sse-source}}}{=}1/q$,
+equation~\eqref{eq:round-volume} and
+$(1-\theta)M\leq m\leq M$ give
 \[
-\begin{aligned}
- \mu_{G^*}(V_i)
- &\geq1/q-\theta
+\mu_{G^*}(V_i)
+ \overset{\eqref{eq:round-volume},\,\eqref{eq:sse-round-edge-count}}{\geq}
+ 1/q-\theta
  \geq(1-\varepsilon/2)/q
- \geq(1-\varepsilon)/q,\\
- \mu_{G^*}(V_i)
- &\leq\frac{1/q}{1-\theta}
+ \geq(1-\varepsilon)/q,\qquad \mu_{G^*}(V_i)
+ \overset{\eqref{eq:round-volume},\,\eqref{eq:sse-round-edge-count}}{\leq}
+ \frac{1/q}{1-\theta}
  \leq\frac{1+\varepsilon}{q}.
-\end{aligned}
 \]
-Here the last inequality uses
-$\theta\leq\varepsilon/(2q)\leq\varepsilon/(1+\varepsilon)$.
+The lower bound uses $\theta\leq\varepsilon/(2q)$; the upper bound
+uses $\theta\leq\varepsilon/(2q)\leq\varepsilon/(1+\varepsilon)$.
 The source bounds give
-$w(\cut_G(V_i))=\Phi_G(V_i)\vol_G(V_i)
-\leq2\varepsilon\cdot2W/q=4\varepsilon W/q$.
+\begin{equation}\label{eq:sse-yes-source-cut}
+ w(\cut_G(V_i))=\Phi_G(V_i)\vol_G(V_i)
+ \overset{\text{Thm.~\ref{thm:sse-source}}}{\leq}
+ 2\varepsilon\cdot2W/q=4\varepsilon W/q.
+\end{equation}
 Since $r_e\leq Mw_e/W$, summing the rounded edge multiplicities over
 the cut gives
-$|\cut_{G^*}(V_i)|\leq Mw(\cut_G(V_i))/W\leq4\varepsilon M/q$.
+\begin{equation}\label{eq:sse-yes-rounded-cut}
+ |\cut_{G^*}(V_i)|\leq Mw(\cut_G(V_i))/W
+ \overset{\eqref{eq:sse-yes-source-cut}}{\leq}4\varepsilon M/q.
+\end{equation}
 Consequently
 \[
-  \Phi_{G^*}(V_i)
-  \leq\frac{4\varepsilon M/q}{2M(1/q-\theta)}
+\Phi_{G^*}(V_i)
+  \overset{\eqref{eq:sse-yes-rounded-cut},\,\eqref{eq:round-volume}}{\leq}
+  \frac{4\varepsilon M/q}{2M(1/q-\theta)}
   =\frac{2\varepsilon}{1-q\theta}
-  \leq\frac{2\varepsilon}{1-\varepsilon/2}
-  \leq\frac{40}{19}\varepsilon<3\varepsilon.
+ \leq\frac{2\varepsilon}{1-\varepsilon/2}
+  <3\varepsilon.
 \]
-The penultimate inequality uses $\varepsilon\le1/10$.
+The last inequality uses $\varepsilon\le1/10$.
 
 \emph{NO case.}
 Let $A$ be any set with
-$\mu_{G^*}(A)\in[1/4,3/4]$. Since
-$\vol_{G^*}(V(G))/(2M)=m/M$, its volume measured at scale $2M$
-satisfies $\vol_{G^*}(A)/(2M)=(m/M)\mu_{G^*}(A)
-\in[(1-\theta)/4,3/4]$.
-The volume bound~\eqref{eq:round-volume} says that this scaled volume
-is at most $\mu_G(A)$ and differs from it by at most $\theta$. Hence
+$\mu_{G^*}(A)\in[1/4,3/4]$. Since $1-\theta\leq m/M\leq1$,
+equation~\eqref{eq:round-volume} gives
 \[
  \frac{1-\theta}{4}
- \leq\frac{\vol_{G^*}(A)}{2M}
- \leq\mu_G(A)
- \leq\frac{\vol_{G^*}(A)}{2M}+\theta
- \leq\frac34+\theta.
+ \overset{\eqref{eq:sse-round-edge-count}}{\leq}\frac{m}{M}\mu_{G^*}(A)
+ \overset{\eqref{eq:round-volume}}{\leq}\mu_G(A)
+ \overset{\eqref{eq:round-volume}}{\leq}\frac{m}{M}\mu_{G^*}(A)+\theta
+ \overset{\eqref{eq:sse-round-edge-count}}{\leq}\frac34+\theta.
 \]
-Since $\theta\le1/10$, the lower endpoint is at least $9/40>1/10$
-and the upper endpoint is at most $17/20<9/10$. Thus
-$\mu_G(A)\in[1/10,9/10]$. The source NO promise
-therefore gives $w(\cut_G(A))/W\geq c\sqrt{\varepsilon}$. Applying
+For $\theta\le1/10$, this interval lies in
+$[9/40,17/20]\subset[1/10,9/10]$. The source NO promise gives
+\begin{equation}\label{eq:sse-source-no-cut}
+ \frac{w(\cut_G(A))}{W}
+ \overset{\text{Thm.~\ref{thm:sse-source}}}{\geq}c\sqrt{\varepsilon}.
+\end{equation}
+Applying
 \eqref{eq:round-cut}, $\theta\leq(c/2)\sqrt\varepsilon$, and $M\geq m$ gives
 \[
-  |\cut_{G^*}(A)|\geq M(c\sqrt\varepsilon-\theta)
+  |\cut_{G^*}(A)|
+  \overset{\eqref{eq:round-cut},\,\eqref{eq:sse-source-no-cut}}{\geq}
+  M(c\sqrt\varepsilon-\theta)
   \geq(c/2)\sqrt\varepsilon\,M
-  \geq(c/2)\sqrt\varepsilon\,m.
+  \overset{\eqref{eq:sse-round-edge-count}}{\geq}(c/2)\sqrt\varepsilon\,m.
 \]
+Section~\ref{sec:sseh} constructs the simple line graph
+$\mathcal L(G^*)$ in $O(M^2)$ time: it has $m\leq M$ vertices,
+one per edge occurrence, including parallel edges and loops.
 \end{proof}
+
+For reference, let $G_0$ be a basic SSE instance, $H$ the weighted
+output supplied by Theorem~\ref{thm:rst-partition}, and $G^*$ its
+unweighted host from Lemma~\ref{lem:sse-unweighted-gap}.
+The source normalization is
+\[
+ G_0
+ \xrightarrow{\text{Thm.~\ref{thm:rst-partition}}}
+ H
+ \xrightarrow{\text{Lem.~\ref{lem:sse-unweighted-gap}}}
+ G^*.
+\]
+Theorem~\ref{thm:sse-source} gives the weighted cut bound, and
+Equations~\eqref{eq:round-volume} and~\eqref{eq:round-cut} account
+for the last arrow's losses.
 
 \subsection{Provenance of the NP-hardness construction}
 \label{subsec:np-provenance}
@@ -396,8 +341,7 @@ We inherit two opposite truth blocks per variable, complete bipartite
 edges between them, and witnesses for satisfying local assignments.
 For each variable in its equation, a witness is adjacent to the truth
 block assigning the value opposite to the witness's represented value.
-Thus a selected truth block is compatible with the witnesses
-that agree with its assignment. Variable-dependent block
+Variable-dependent block
 sizes also occur in Bonnet's full version~\cite[Section~3.5]{BonnetTreewidth}.
 
 Here the source predicates are three-variable parity equations. Each
@@ -420,7 +364,8 @@ with the cover-first upper bound and Claims~7 and~9 of their proof.
 The main-text corollary extends the identity to anchors as short
 as the largest part. Its derivation is given in
 Appendix~\ref{app:anchor-proof}. For our balanced source graph this
-allows $\ell=3m$ even though $\vc(G_F)\ge11m/2$. Combined with the
+allows $\ell=3m$ even though
+$\vc(G_F)\overset{\text{Lem.~\ref{lem:xor-cover}}}{\geq}11m/2$. Combined with the
 parity-witness bound, the anchor identity yields the factor below
 $18/17$.
 
@@ -428,15 +373,18 @@ $18/17$.
 \label{app:xor-normalization}
 
 \begin{lemma}[Balancing parity right-hand sides]\label{lem:parity-balance}
-A system $F_0$ of $m_0$ three-variable parity equations can be paired
+A system $F_0$ of $m_0\ge1$ parity equations, each on three distinct
+Boolean variables, can be paired
 with a system $F_0'$ on fresh variables so that their union has
 $2m_0$ equations, optimum $2\OPT(F_0)$, and $m_0$ equations with
-each right-hand side.
+each right-hand side. Each variable and its copy retain the
+original variable's occurrence count.
 \end{lemma}
 
 \begin{proof}
 Make a copy $F_0'$ on fresh
-variables, replacing every equation $x+y+z=a$ by
+variables, replacing every equation $x+y+z=a\pmod2$, with
+$a\in\{0,1\}$, by
 $x'+y'+z'=1-a$. For an assignment $\sigma$ to $F_0$, assign
 $x'=1-\sigma(x)$ in $F_0'$. Since each equation contains three variables,
 \[
@@ -448,13 +396,30 @@ one is satisfied. Complementing all variable values is a bijection
 between assignments of the two systems, so
 $\OPT(F_0')=\OPT(F_0)$.
 
-The systems have disjoint variable sets. Any assignment to their
-union satisfies at most $\OPT(F_0)+\OPT(F_0')$ equations. Choosing
-an optimal assignment independently in each system attains this
-bound. Hence their union has $2m_0$ equations and optimum
-$2\OPT(F_0)$. Every original equation is paired with one having
+Because the variable sets are disjoint, any assignment to the union
+satisfies at most $\OPT(F_0)+\OPT(F_0')=2\OPT(F_0)$ equations;
+independent optimal assignments attain this bound. The union has
+$2m_0$ equations. Every original equation is paired with one having
 the opposite right-hand side, so each right-hand side occurs in
-$m_0$ equations.
+$m_0$ equations. Copying to fresh variables preserves each
+occurrence count and the distinctness of the three variables in
+every equation.
+\end{proof}
+
+\begin{lemma}[Repeating parity equations]\label{lem:parity-repetition}
+Let $F_1$ be an unweighted system of $m_1\ge1$ equations, and let
+$F$ repeat every equation of $F_1$ six times. Then $F$ has
+$m=6m_1$ equations and $\OPT(F)=6\OPT(F_1)$. Every occurrence count
+is multiplied by six. The fraction of satisfied equations and the
+fraction with each right-hand side are unchanged.
+\end{lemma}
+
+\begin{proof}
+Every assignment satisfies all six copies of an equation or none.
+Thus its number of satisfied equations is multiplied by six, as
+are the total equation count, every variable's occurrence count,
+and the number of equations with either right-hand side.
+Taking a maximum over the same assignments proves the optimum claim.
 \end{proof}
 
 \begin{restatedtheorem}{Theorem~\ref{thm:xor-source}}
@@ -463,183 +428,78 @@ $b_\epsilon\geq6$ depending only on $\epsilon$ such that the following
 promise problem is NP-hard. The input is an unweighted system $F$ of
 $m\geq1$ equations $x+y+z=a\pmod2$, where $a\in\{0,1\}$ and
 $x,y,z$ are distinct Boolean variables. Equations may be repeated.
+Let $\mathcal X(F)$ be its finite Boolean variable set.
 Every variable occurs at most $b_\epsilon$ times, with at most two
-possible occurrence counts, and the instances satisfy
+possible occurrence counts. For $x\in\mathcal X(F)$, write $d_x$ for
+the number of equations containing $x$. For $1\leq j\leq m$, write
+$a_j$ for the right-hand side of equation $j$,
+and let $\OPT(F)$ count the maximum number of satisfied equations,
+including repetitions. The instances satisfy
 \[
- d_x\in6\mathbb Z_{>0},\qquad
- \sum_xd_x=3m,\qquad
- |\{j:a_j=0\}|=|\{j:a_j=1\}|=m/2.
+d_x\in6\mathbb Z_{>0},\quad
+ \sum_{x\in\mathcal X(F)}d_x=3m,\quad |\{j\in\{1,\ldots,m\}:a_j=0\}|
+ =|\{j\in\{1,\ldots,m\}:a_j=1\}|=m/2.
 \]
-Here $d_x$ is the number of equations containing $x$, and $\OPT(F)$
-is the maximum number of equations satisfied by one assignment,
-counting repetitions.
-\begin{description}
- \item[YES:] $\OPT(F)\geq(1-\epsilon)m$.
- \item[NO:] $\OPT(F)\leq(1/2+\epsilon)m$.
-\end{description}
+\[
+ \textup{YES:}\quad\OPT(F)\geq(1-\epsilon)m,
+ \qquad
+ \textup{NO:}\quad\OPT(F)\leq(1/2+\epsilon)m.
+\]
 \end{restatedtheorem}
 
 \begin{proof}[Proof of the normalized form in Theorem~\ref{thm:xor-source}]
 Hazan, Safra, and Schwartz state the required source gap as
 Theorem~10 of~\cite{HazanSafraSchwartz2003}, attributing it to
-H\aa stad. Their theorem gives unweighted Max-3-LIN-2 instances in
-which each variable occurs a constant number of times, chosen from
-two possible values, and no variable repeats within an equation.
-Thus the three variables in each source equation are distinct. Apply
-their theorem with parameter $\epsilon/2$. Its YES
+H\aa stad. Apply their Max-3-LIN-$q$ theorem with $q=2$ and error
+$\epsilon/2$, and call its unweighted output $F_{\mathrm{raw}}$.
+There is a fixed integer $B_\epsilon\ge1$ bounding its occurrence
+counts; each variable's count is chosen from at most two values,
+and no variable repeats within an equation. Thus each equation
+has three distinct Boolean variables. The cited YES
 threshold $1-\epsilon/2$ is at least $1-\epsilon$, and its NO bound
 $<1/2+\epsilon/2$ implies the required bound $\leq1/2+\epsilon$.
-We use this form directly. Only the balance of the right-hand sides
-and the divisibility of occurrence counts need normalization.
+We retain this source promise and impose only the additional balance
+and divisibility conditions.
 
-We impose the additional conditions in~\eqref{eq:xor-normalization}.
-Call the initial system $F_0$, and let $m_0$ be its number of
-equations. First delete unused variables. This does not change the
-number of equations or the optimum. Apply Lemma~\ref{lem:parity-balance} to pair $F_0$ with its
-complemented copy.
-
-Next repeat every equation in the union six times, and call the
-resulting system $F$. An assignment either satisfies all six copies
-of an equation or satisfies none. Consequently
+Delete unused variables from $F_{\mathrm{raw}}$, calling the result
+$F_0$ and its equation count $m_0\ge1$. This changes neither the
+equations nor the optimum, and it removes only zero occurrence
+counts. Let $F_1=F_0\mathbin{\dot\cup}F_0'$ be the union supplied
+by Lemma~\ref{lem:parity-balance}, and let $F$ be the sixfold
+repetition of $F_1$ from Lemma~\ref{lem:parity-repetition}.
+Record the variable and equation pairing between $F_0$ and its
+complemented copy, pairing corresponding repeated equations as well.
+This construction data remains available to the later reduction;
+it imposes no additional condition on the original source promise.
+The normalization is summarized by
 \[
- m=12m_0,\qquad \OPT(F)=12\OPT(F_0),\qquad
- \frac{\OPT(F)}m=\frac{\OPT(F_0)}{m_0}.
+ \text{NP-hard gap}
+ \xrightarrow{\text{source}}
+ F_{\mathrm{raw}}
+ \xrightarrow{\text{remove unused}}F_0
+ \xrightarrow{\text{balance}}F_1
+ \xrightarrow{\text{repeat}}F.
 \]
-In particular, a YES instance of the original promise satisfies
-$\OPT(F)\geq(1-\epsilon)m$, and a NO instance satisfies
-$\OPT(F)\leq(1/2+\epsilon)m$.
+
+The two lemmas give
+\[
+m\overset{\text{Lems.~\ref{lem:parity-balance}, \ref{lem:parity-repetition}}}{=}12m_0,
+ \OPT(F)\overset{\text{Lems.~\ref{lem:parity-balance}, \ref{lem:parity-repetition}}}{=}12\OPT(F_0),\qquad \frac{\OPT(F)}m=\frac{\OPT(F_0)}{m_0}.
+\]
+Thus $F$ retains the required YES and NO fractions.
 
 Each remaining variable occurred at least once before repetition,
 and its final occurrence count is six times a positive integer.
-The repetition also multiplies the occurrence upper bound by six,
-so the normalized bound $b_\epsilon$ still depends only on $\epsilon$.
-Thus $d_x\in6\mathbb Z_{>0}$. Counting the three variable
-occurrences in every equation gives $\sum_xd_x=3m$.
+Set $b_\epsilon=6B_\epsilon\ge6$. Copying preserves occurrence
+counts, and repetition multiplies them by six, so there are still
+at most two possible positive counts and all are at most
+$b_\epsilon$. Thus $d_x\in6\mathbb Z_{>0}$. Counting the three variable
+occurrences in every equation gives
+$\sum_{x\in\mathcal X(F)}d_x=3m$.
 The repetition creates $6m_0=m/2$ equations with each right-hand
 side, so the required balance also holds and $m$ is even. These
 operations increase the number of equations by the fixed factor
-twelve and therefore take polynomial time. This proves all the
+twelve, preserve the distinct variables within each equation, and
+are deterministic and polynomial time. This proves all the
 conditions in~\eqref{eq:xor-normalization}.
-\end{proof}
-
-\subsection{A cubic independent-set source from the parity gap}
-\label{app:cubic-independent-set-source}
-
-We derive the threshold promise in
-Theorem~\ref{thm:source-cubic-independent-set} from the existing
-parity source. The degree normalization below has an explicitly
-computed additive effect on the independence number, so the
-threshold remains part of the polynomial-time reduction.
-
-\begin{restatedtheorem}{Theorem~\ref{thm:source-cubic-independent-set}}
-There is a fixed rational constant $\delta_0\in(0,1)$ such that the
-following promise problem is NP-hard. The input is a simple
-unweighted cubic graph $J$ on $n\geq4$ vertices and an integer
-$1\leq K\leq n$.
-\begin{description}
- \item[YES:] $\alphaI(J)\geq K$.
- \item[NO:] $\alphaI(J)\leq(1-\delta_0)K$.
-\end{description}
-\end{restatedtheorem}
-
-\begin{proof}[Proof of Theorem~\ref{thm:source-cubic-independent-set}]
-Use Theorem~\ref{thm:xor-source} with the fixed error
-$\epsilon=1/12$, and construct its witness graph $G_F$ from
-Section~\ref{subsec:np-treedepth}. Put $n_0=|V(G_F)|=9m$ and
-$e_0=|E(G_F)|$, and take a fixed integer
-$D\geq3b_{1/12}$. The construction has maximum degree at most $D$,
-and Lemma~\ref{lem:xor-cover} gives
-\[
- \alphaI(G_F)=\frac{5m}{2}+\OPT(F).
-\]
-Consequently its YES independence number is at least $41m/12$,
-and its NO independence number is at most $37m/12$. The graph has
-no isolated vertices. Every truth vertex meets its opposite truth
-block, and every witness meets a truth block.
-
-For each vertex $v$ of degree $d_v\geq1$, replace $v$ by a path
-on $2d_v-1$ new vertices. Designate its $d_v$ odd-position vertices
-as ports, assign the edges incident with $v$ to distinct ports, and
-replace each original edge by an edge between its assigned ports.
-Call the resulting simple graph $Q$. Each port has at most two
-path neighbors and one external neighbor, so $Q$ has maximum degree
-at most three.
-
-An independent set in this path has at most $d_v$ vertices, and it
-has $d_v$ only when it contains all the ports. Thus the original
-vertices whose paths contribute $d_v$ form an independent set in
-$G_F$. Every other path contributes at most $d_v-1$. Conversely,
-an independent set in $G_F$ gives one in $Q$ by selecting all ports
-in its paths and all even-position vertices in the other paths.
-The external edges do not join two selected vertices. These two
-bounds prove
-\[
- \alphaI(Q)=\alphaI(G_F)+\sum_v(d_v-1)
-           =\alphaI(G_F)+2e_0-n_0.
-\]
-The path construction also gives
-\[
- |V(Q)|=4e_0-n_0,\qquad |E(Q)|=5e_0-2n_0.
-\]
-Hence the number of missing degrees needed to make $Q$ cubic is
-\[
- r=\sum_{u\in V(Q)}(3-\deg_Q(u))
-   =3|V(Q)|-2|E(Q)|=2e_0+n_0.
-\]
-
-For each missing degree at a vertex $u$ of $Q$, take a fresh copy
-of $K_4$, subdivide one edge $ab$ with a new vertex $z$, and add
-the edge $uz$. All five vertices in this copy are new. The four
-original vertices have degree three, and $z$ has degree three
-after attachment. The resulting graph $J$ is therefore simple,
-unweighted, and cubic.
-
-Each five-vertex attachment has independence number two. Without
-$z$, it is $K_4$ with the edge $ab$ removed, whose maximum
-independent set is $\{a,b\}$. With $z$ selected, neither $a$ nor
-$b$ can be selected, and the two other vertices are adjacent.
-Moreover, the pair $\{a,b\}$ avoids the attachment vertex $z$, so
-it can be selected whether or not $u$ is selected. Thus the
-attachments add exactly $2r$ to the independence number, giving
-\[
- \begin{aligned}
-  |V(J)|&=|V(Q)|+5r=14e_0+4n_0,\\
-  \alphaI(J)&=\alphaI(G_F)+s,
-  \qquad s=2e_0-n_0+2r=6e_0+n_0.
- \end{aligned}
-\]
-
-Define the integer threshold and the fixed rational gap by
-\[
- K=s+\left\lceil\frac{41m}{12}\right\rceil,
- \qquad \delta_0=\frac{1}{81D+41}.
-\]
-In the YES case, integrality of the independence number gives
-$\alphaI(J)\geq K$. In the NO case,
-\[
- \alphaI(J)\leq s+\frac{37m}{12}
-              \leq K-\frac m3.
-\]
-Since $e_0\leq Dn_0/2$, $n_0=9m$, and $m\geq1$,
-\[
- K\leq6e_0+9m+\frac{41m}{12}+1
-   \leq\left(27D+\frac{161}{12}\right)m.
-\]
-It follows that
-\[
- \delta_0K\leq
- \frac{27D+161/12}{81D+41}\,m<\frac m3,
-\]
-and therefore the NO case satisfies
-$\alphaI(J)\leq(1-\delta_0)K$.
-The threshold is positive and at most the output order, since
-\[
- |V(J)|-K\geq8e_0+3n_0-\frac{41m}{12}-1
-            =8e_0+\frac{283m}{12}-1>0.
-\]
-The bound on $D$ is fixed, so $e_0=O(m)$ and every construction
-above has $O(m)$ vertices and edges. All operations and the
-threshold computation take deterministic polynomial time.
-The source hardness in Theorem~\ref{thm:xor-source} therefore
-proves the claimed cubic promise.
 \end{proof}

@@ -13,15 +13,13 @@ independent-set gap~\cite{KhotRegev}.
 
 \begin{theorem}[Bounded-degree independent-set source]
 \label{thm:bounded-degree-kr-source}
-For every fixed rational $0<\eta<1/10$, there is a constant
-$d_\eta$ such that the following promise problem is Unique Games-hard.
-The input is a simple unweighted graph $G$ on $n\geq1$ vertices
-of maximum degree at most $d_\eta$. Distinguish the following cases:
-\begin{description}
- \item[YES:] $\alphaI(G)\geq(1/2-\eta)n$.
- \item[NO:] $\alphaI(G)<\eta n$.
-\end{description}
-The reduction is deterministic and polynomial time.
+For every fixed $0<\eta<1/10$, there is a constant
+$d_\eta$ such that the following promise problem is Unique Games-hard
+under deterministic polynomial-time reductions. Given a simple
+unweighted graph $G$ with $|V(G)|=n\geq1$ and
+$\Delta(G)\leq d_\eta$, distinguish:
+\textbf{YES:} $\alphaI(G)\geq(1/2-\eta)n$;
+\textbf{NO:} $\alphaI(G)<\eta n$.
 \end{theorem}
 
 We derive this bounded-degree form in
@@ -40,6 +38,7 @@ levels when the source independence number is small. The first-branch
 lemmas will also be used for total depth.
 
 \subsubsection{The layered construction and first-branch notation}
+\label{subsec:ugc-layered-construction}
 
 Let $G$ be a finite simple graph on $n$ vertices and let $q\geq1$
 be an integer. Define $S_q(G)$ on $V(G)\times[q]$, writing
@@ -51,17 +50,27 @@ $v_i=(v,i)$. For distinct output vertices $u_i,v_j$, set
  \ \text{or}\ \bigl(i\ne j\text{ and }uv\in E(G)\bigr).
 \]
 Thus each layer $V(G)\times\{i\}$ is a clique, and the displayed rule
-specifies all edges between layers. The graph has $qn$ vertices and
-$q\binom n2+q(q-1)|E(G)|$ edges, so the construction has polynomial
-size for fixed $q$.
-For $n\geq1$, its maximum degree is
+specifies all edges between layers. Its order and size, and for $n\geq1$ its maximum degree, are
 \[
- \Delta(S_q(G))=n-1+(q-1)\Delta(G).
+ |V(S_q(G))|=qn,\quad
+ |E(S_q(G))|=q\binom n2+q(q-1)|E(G)|,\qquad \Delta(S_q(G))=n-1+(q-1)\Delta(G).
 \]
+The construction therefore has polynomial size for fixed $q$.
 The clique layers therefore give a dense output even for a
 bounded-degree source. Corollaries~\ref{cor:td-bounded-degree}
 and~\ref{cor:total-depth-bounded-degree} replace these layers by
 bounded-degree expanders while retaining all cross-layer source edges.
+
+Writing $\Lambda$ for the Unique Games input, apply
+Theorem~\ref{thm:bounded-degree-kr-source} and then form the layers:
+\[
+ \Lambda\xrightarrow{\text{independent-set source}}G
+ \xrightarrow{\text{clique layers}}S_q(G).
+\]
+Lemma~\ref{lem:ugc-completeness} and
+Theorem~\ref{thm:ugc-structural} analyze its treedepth gap;
+Lemma~\ref{lem:total-depth-completeness} and
+Theorem~\ref{thm:total-depth-structural} analyze its total-depth gap.
 
 Bonnet's construction~\cite[Section~3.1]{BonnetTreewidth} completes
 three parts to cliques. Here the $q$ parts are copies of one source
@@ -71,7 +80,7 @@ for arbitrary $q$.
 \paragraph{Notation at the first branch.}
 \label{subsec:ugc-branch-notation}
 
-Fix a graph $G$ on $n\geq1$ vertices and let $q\geq2$. Let $F$
+Fix a graph $G$ on $n\geq1$ vertices and let $q\geq2$ be an integer. Let $F$
 be an elimination forest of $S_q(G)$ that is not a single chain.
 Vertices in different rooted trees, or in different child subtrees
 of one node, are nonadjacent. We use this property in the first-branch
@@ -83,24 +92,26 @@ its rooted trees. Otherwise, start at the unique root and follow the
 unique child until the first vertex with at least two children.
 Such a vertex exists because $F$ is not a single chain. Let $P$
 include this vertex, and let $F_1,\ldots,F_\nu$ be the trees rooted at
-its children. In both cases $\nu\geq2$. Measure the
-depths in each $F_j$ from its own root at depth one.
+its children. In both cases $\nu\geq2$. Write $|P|=|V(P)|$ for the
+number of prefix vertices, and measure the depths in each $F_j$
+from its own root at depth one.
 
 For each $j\in[\nu]$, put $N_j=|V(F_j)|$ and define
 \[
 \begin{aligned}
- I_j&=\{i\in[q]:F_j\text{ contains a vertex from layer }i\},
+ I_j&=\{i\in[q]:V(F_j)\cap(V(G)\times\{i\})\ne\varnothing\},
  &q_j&=|I_j|,\\
- U_j&=\{v\in V(G):F_j\text{ contains a copy of }v\},
+ U_j&=\{v\in V(G):\exists i\in[q],\ v_i\in V(F_j)\},
  &n_j&=|U_j|.
 \end{aligned}
 \]
 Thus $U_j$ is the set of source vertices represented in child
 $F_j$, without counting repeated copies. Of the $q_jn_j$ pairs in
-$U_j\times I_j$, the child contains $N_j$ pairs. Write
-$M_j=q_jn_j-N_j$ for the number of missing pairs, and let $D$
-be the set of source vertices
-belonging to at least two of the sets $U_j$.
+$U_j\times I_j$, the child contains $N_j$ pairs. Define the missing count
+$M_j$ and the repeated-source set $D$ by
+\[
+ M_j=q_jn_j-N_j,\qquad D=\{v\in V(G):|\{j\in[\nu]:v\in U_j\}|\geq2\}.
+\]
 We use this notation in the treedepth and total-depth lower-bound
 arguments.
 
@@ -126,11 +137,15 @@ $q(n-|I|)+|I|$. If $n=0$, it is the empty forest. If the top chain
 is empty and $n>0$, use the $q$ lower chains as separate rooted trees.
 \end{proof}
 
-Write $A_{q,\eta}:=(q+1)/2+(q-1)\eta$. In a YES instance of
+For $0\leq\eta<1/10$, write $A_{q,\eta}:=(q+1)/2+(q-1)\eta$.
+In a YES instance of
 Theorem~\ref{thm:bounded-degree-kr-source}, Lemma~\ref{lem:ugc-completeness} gives
 \begin{equation}\label{eq:ugc-yes}
- \td(S_q(G))\leq qn-(q-1)\alphaI(G)
- \leq A_{q,\eta}n.
+ \td(S_q(G))
+ \overset{\text{Lem.~\ref{lem:ugc-completeness}}}{\leq}
+ qn-(q-1)\alphaI(G)
+ \overset{\text{Thm.~\ref{thm:bounded-degree-kr-source}}}{\leq}
+ A_{q,\eta}n.
 \end{equation}
 
 \paragraph{The structural lower bound.}
@@ -149,8 +164,8 @@ whole forest, whose longest path enters only one child.
 For a positive integer $\nu$, positive reals $q_1,\ldots,q_\nu$, and nonnegative reals
 $n_1,\ldots,n_\nu$,
 \[
-  3\sum_{j=1}^\nu q_jn_j-2\max_j(q_jn_j)
-  \leq \left(\sum_{j=1}^\nu q_j\right)\left(\sum_{j=1}^\nu n_j\right).
+  3\sum_{j=1}^{\nu} q_jn_j-2\max_{j\in[\nu]}(q_jn_j)
+  \leq \left(\sum_{j=1}^{\nu} q_j\right)\left(\sum_{j=1}^{\nu} n_j\right).
 \]
 \end{lemma}
 
@@ -158,14 +173,14 @@ The proof is given in Appendix~\ref{app:branching-proof}.
 
 \begin{lemma}[Layers in different children]\label{lem:ugc-layer-usage}
 The sets $I_j$ are pairwise disjoint. Moreover,
-$\nu\leq\sum_jq_j\leq q$ and $1\leq q_j\leq q-\nu+1<q$ for every
+$\nu\leq\sum_{j=1}^{\nu} q_j\leq q$ and $1\leq q_j\leq q-\nu+1<q$ for every
 $j\in[\nu]$.
 \end{lemma}
 
 \begin{proof}
 Vertices in different child trees are incomparable, so a clique
 layer cannot occur in two children. Thus the $I_j$ are pairwise
-disjoint. Each is nonempty, giving $\nu\leq\sum_jq_j\leq q$.
+disjoint. Each is nonempty, giving $\nu\leq\sum_{j=1}^{\nu} q_j\leq q$.
 The other $\nu-1$ children use at least $\nu-1$ layers, so
 $q_j\leq q-\nu+1<q$.
 \end{proof}
@@ -174,55 +189,74 @@ $q_j\leq q-\nu+1<q$.
 \label{lem:ugc-source-supports}
 The set $D$ is independent in $G$, and
 \begin{equation}\label{eq:ugc-support-count}
- \sum_jn_j\leq n+(\nu-1)\alphaI(G)
- \leq n+(q-1)\alphaI(G)\leq qn.
+ \sum_{j=1}^{\nu} n_j\leq n+(\nu-1)\alphaI(G)\leq
+ n+(q-1)\alphaI(G)\leq qn.
 \end{equation}
-Moreover,
-\[
- \sum_j\vc(G[U_j])=\vc\Bigl(G\bigl[\bigcup_jU_j\bigr]\Bigr)\leq\vc(G).
-\]
+Moreover, put $c=\vc(G)$ and $c_j=\vc(G[U_j])$ for $j\in[\nu]$.
+The child resources satisfy
+\begin{equation}\label{eq:ugc-child-source-bounds}
+ \sum_{j=1}^{\nu}q_j\leq q,\qquad
+ n_j\leq c_j+\alphaI(G)\quad(j\in[\nu]),\qquad
+ \sum_{j=1}^{\nu}c_j
+ =\vc\Bigl(G\bigl[\bigcup_{j=1}^{\nu} U_j\bigr]\Bigr)\leq c.
+\end{equation}
 \end{lemma}
 
 \begin{proof}
-Let $i\ne j$, and let distinct $u\in U_i$ and $v\in U_j$ be source
-vertices. Choose copies $u_a\in F_i$ and $v_b\in F_j$. Since the
+Let $i,j\in[\nu]$ be distinct, and let $u\in U_i$ and $v\in U_j$
+be distinct source vertices. Choose copies $u_a\in V(F_i)$ and $v_b\in V(F_j)$. Since the
 layer sets $I_i$ and $I_j$ are disjoint, $a\ne b$. If $uv$ were an
 edge of $G$, then $u_av_b$ would be an edge of $S_q(G)$, contrary to
 the fact that vertices in different child trees are incomparable.
 Thus no source edge joins distinct vertices represented in different
 children.
 
-Fix $u\in D$ and $v\in\bigcup_jU_j$ with $v\ne u$. Choose $i$ with
+Fix $u\in D$ and $v\in\bigcup_{j=1}^{\nu} U_j$ with $v\ne u$. Choose $i$ with
 $v\in U_i$. Since $u$ occurs in at least two supports, it belongs to
 some $U_j$ with $j\ne i$. The preceding argument shows that $uv$ is
-not an edge. Thus $D$ is isolated in $G[\bigcup_jU_j]$, and in
-particular is independent, with $|D|\leq\alphaI(G)$.
+not an edge. Thus $D$ is isolated in $G[\bigcup_{j=1}^{\nu} U_j]$, and in
+particular is independent, giving
+\begin{equation}\label{eq:ugc-repeated-support-bound}
+ |D|\leq\alphaI(G).
+\end{equation}
 
 The sets $U_j\setminus D$ are pairwise disjoint and have no edges
 between them. Removing isolated vertices does not change a
 vertex-cover number, and vertex-cover numbers add over disjoint
 components. Therefore
 \[
- \sum_j\vc(G[U_j])
- =\vc\Bigl(G\bigl[\bigcup_jU_j\bigr]\Bigr).
+ \sum_{j=1}^{\nu} \vc(G[U_j])
+ =\vc\Bigl(G\bigl[\bigcup_{j=1}^{\nu} U_j\bigr]\Bigr).
+\]
+A minimum vertex cover of $G$, restricted to $\bigcup_{j=1}^{\nu} U_j$, covers
+the induced graph on that union. This proves the remaining inequality
+$\vc(G[\bigcup_{j=1}^{\nu} U_j])\leq\vc(G)$.
+The layer sum is bounded by Lemma~\ref{lem:ugc-layer-usage}, and
+the last resource bound follows from
+\[
+ n_j\overset{\eqref{eq:cover-independent-complement}}{=}
+ c_j+\alphaI(G[U_j])\leq c_j+\alphaI(G),
+ \qquad j\in[\nu].
 \]
 
-Each vertex in $\bigcup_j U_j$ is counted once in its first child
+Each vertex in $\bigcup_{j=1}^{\nu} U_j$ is counted once in its first child
 support. A vertex in $D$ may also be counted in other child supports,
 at most $\nu-1$ additional times. Thus,
 \[
- \sum_jn_j
- =\Bigl|\bigcup_jU_j\Bigr|
-   +\sum_{v\in D}\bigl(|\{j:v\in U_j\}|-1\bigr)
- \leq n+(\nu-1)|D|\leq n+(\nu-1)\alphaI(G).
+\sum_{j=1}^{\nu} n_j
+ =\Bigl|\bigcup_{j=1}^{\nu} U_j\Bigr|
+   +\sum_{v\in D}\bigl(|\{j\in[\nu]:v\in U_j\}|-1\bigr) \leq n+(\nu-1)|D|
+ \overset{\eqref{eq:ugc-repeated-support-bound}}{\leq}
+ n+(\nu-1)\alphaI(G).
 \]
 The remaining inequalities in~\eqref{eq:ugc-support-count} follow
-from $\nu\leq q$ and $\alphaI(G)\leq n$.
+from $\nu\overset{\text{Lem.~\ref{lem:ugc-layer-usage}}}{\leq}q$
+and $\alphaI(G)\leq n$.
 \end{proof}
 
 \begin{lemma}[The full graph associated with a child]
 \label{lem:ugc-child-restriction}
-After relabeling the layers in $I_j$ by $[q_j]$, the graph induced by
+For every $j\in[\nu]$, after relabeling the layers in $I_j$ by $[q_j]$, the graph induced by
 $V(F_j)$ is obtained from $S_{q_j}(G[U_j])$ by deleting $M_j$
 vertices.
 \end{lemma}
@@ -234,38 +268,54 @@ after relabeling the layers. The child contains $N_j$ of the
 $q_jn_j$ possible vertices, leaving $M_j=q_jn_j-N_j\geq0$ missing.
 \end{proof}
 
-\begin{lemma}[Prefix and child heights]
+\begin{lemma}[Prefix and child accounting]
 \label{lem:ugc-forest-accounting}
+\label{lem:ugc-total-depth-accounting}
 The prefix and the children satisfy
-$|P|+\sum_jN_j=qn$ and $h(F)=|P|+\max_jh(F_j)$.
+\[
+ |P|+\sum_{j=1}^{\nu} N_j=qn,\qquad h(F)=|P|+\max_{j\in[\nu]}h(F_j),
+\]
+and
+\[
+ \totd(F)=\frac{|P|(|P|+1)}2+|P|\sum_{j=1}^{\nu} N_j+\sum_{j=1}^{\nu} \totd(F_j).
+\]
 \end{lemma}
 
 \begin{proof}
 By the construction of $P$, its vertex set and the sets $V(F_j)$
 partition $V(F)$, proving the first identity. A longest path in $F$
 consists of $P$ followed by a longest path in one child, proving
-the second.
+the height identity. The prefix vertices have depths
+$1,\ldots,|P|$, and each child vertex has depth $|P|$ greater than
+its depth within that child. Summing these contributions proves the
+total-depth identity.
 \end{proof}
 
-For every graph $H$, the complement of a vertex cover is an
-independent set, and the complement of an independent set is a
-vertex cover. Thus
-\begin{equation}\label{eq:cover-independent-complement}
- \vc(H)=|V(H)|-\alphaI(H).
-\end{equation}
-
-\begin{lemma}[Restoring deleted vertices: height]\label{lem:restore-vertices}
+\begin{lemma}[Restoring deleted vertices]
+\label{lem:restore-vertices}
+\label{lem:restore-total-depth}
 Let $H$ be a graph on $N$ vertices, let $X\subseteq V(H)$ have size
 $d$, and let $F$ be an elimination forest of $H-X$. There is an
-elimination forest $F'$ of $H$ with $h(F')=h(F)+d$.
-In particular, $\td(H)\leq\td(H-X)+d$.
+elimination forest $F'$ of $H$ with
+\[
+ h(F')=h(F)+d,\qquad
+ \totd(F')=\totd(F)+d(N-d)+\frac{d(d+1)}2.
+\]
+In particular,
+\[
+ \td(H)\leq\td(H-X)+d,\qquad
+ \totd(H)\leq\totd(H-X)+d(N-d)+\frac{d(d+1)}2.
+\]
 \end{lemma}
 
 \begin{proof}
-Place $X$ on a chain above all roots of $F$. If $X$ is empty,
-keep $F$. Every new vertex is comparable with every vertex. Hence
-$H$ has an elimination forest whose height increases
-by $d$. Minimizing height gives the inequality.
+Place $X$ on a chain above all roots of $F$. If $F$ is empty, use
+the chain on $X$ alone; if $X$ is empty, keep $F$.
+Every new vertex is comparable with every vertex, so the restored
+forest is valid. Its height increases by $d$, as does the depth of
+each of the $N-d$ old vertices; the new vertices have depths
+$1,\ldots,d$, with sum $d(d+1)/2$. These counts prove both
+identities. Minimizing separately over $F$ gives the two inequalities.
 \end{proof}
 
 \begin{theorem}[Structural treedepth lower bound]\label{thm:ugc-structural}
@@ -293,98 +343,85 @@ $qn\geq2q\vc(G)/3$, so assume that $F$ is not a
 single chain.
 
 Use the first-branch notation from
-Section~\ref{subsec:ugc-branch-notation}. By
-Lemmas~\ref{lem:ugc-layer-usage}, \ref{lem:ugc-source-supports},
-and~\ref{lem:ugc-forest-accounting}, we have
-$|P|=qn-\sum_jN_j$ and $1\leq q_j<q$.
-Put $c=\vc(G)$ and $c_j=\vc(G[U_j])$. Then
-$\sum_jc_j\leq c$. By~\eqref{eq:cover-independent-complement},
-$n_j=c_j+\alphaI(G[U_j])\leq c_j+\alphaI(G)$.
+Section~\ref{subsec:ugc-branch-notation}. We have
+\[
+ |P|\overset{\text{Lem.~\ref{lem:ugc-forest-accounting}}}{=}
+ qn-\sum_{j=1}^{\nu} N_j,
+ \qquad
+ 1\leq q_j\overset{\text{Lem.~\ref{lem:ugc-layer-usage}}}{<}q.
+\]
+Put $c=\vc(G)$ and $c_j=\vc(G[U_j])$ for $j\in[\nu]$.
+Their resource bounds are~\eqref{eq:ugc-child-source-bounds}.
 
-\emph{Induction within each child.}
+\emph{Induction on the height deficit.}
+The difference between the order and the height of a forest is unchanged
+when a chain is added above all its roots: both quantities increase by
+the chain length. We use this invariant to account for missing vertices.
 By Lemma~\ref{lem:ugc-child-restriction}, the graph induced by
-child $j$ is $S_{q_j}(G[U_j])$ with $M_j$ vertices deleted. Let $X_j$
-be this deleted set. Thus $F_j$ is an elimination forest of
-$S_{q_j}(G[U_j])-X_j$. Lemma~\ref{lem:restore-vertices} and the height
-of $F_j$ give
-\[
- \td(S_{q_j}(G[U_j]))
- \leq \td(S_{q_j}(G[U_j])-X_j)+M_j
- \leq h(F_j)+M_j.
-\]
-Induction therefore gives
-\[
-  h(F_j)\geq\frac{2}{3}q_jc_j-M_j.
-\]
+child $j$ is $S_{q_j}(G[U_j])$ with $M_j$ vertices deleted.
+Lemma~\ref{lem:restore-vertices} restores them to obtain an
+elimination forest of $S_{q_j}(G[U_j])$ with height $h(F_j)+M_j$.
+Since $N_j+M_j=q_jn_j$ and $q_j<q$, induction therefore gives
+\begin{equation}\label{eq:ugc-child-height-bound}
+  N_j-h(F_j)
+  \overset{\text{Lem.~\ref{lem:restore-vertices}, induction}}{\leq}
+  q_jn_j-\frac{2}{3}q_jc_j.
+\end{equation}
 
 \emph{Combining the child bounds.}
-Choose an index $k$ maximizing $q_jc_j$. A path through this child
-contains the prefix as well as a longest path in $F_k$. Hence
-Lemma~\ref{lem:ugc-forest-accounting} gives
-$h(F)\geq qn-\sum_jN_j+h(F_k)$. Substituting
-$N_j=q_jn_j-M_j$ and
-$h(F_k)\geq\frac23q_kc_k-M_k$ gives the following cancellation:
-\[
-\begin{aligned}
- h(F)&\geq qn-\sum_jN_j+h(F_k)\\
-     &\geq qn-\sum_j(q_jn_j-M_j)+\frac23q_kc_k-M_k\\
-     &=qn-\sum_jq_jn_j+\frac23q_kc_k+\sum_{j\ne k}M_j\\
-     &\geq qn-\sum_jq_jn_j+\frac23q_kc_k.
-\end{aligned}
-\]
+The prefix also leaves the height deficit unchanged. Using
+$N_i\leq q_in_i$ for every other child gives
+\begin{equation}\label{eq:ugc-prefix-child-bound}
+ qn-h(F)\overset{\text{Lem.~\ref{lem:ugc-forest-accounting}}}{=}
+ \min_{j\in[\nu]}\left(N_j-h(F_j)+
+       \sum_{i\in[\nu]\setminus\{j\}}N_i\right)
+ \overset{\eqref{eq:ugc-child-height-bound}}{\leq}
+ \sum_{i=1}^{\nu}q_in_i-\frac23\max_{j\in[\nu]}q_jc_j.
+\end{equation}
 The prefix is long when few source vertices fit in the children.
-Using $n_j\leq c_j+\alphaI(G)$, $n=c+\alphaI(G)$ from
-\eqref{eq:cover-independent-complement}, and $\sum_jq_j\leq q$, we
-obtain
-\[
- qn-\sum_jq_jn_j
- \geq q(c+\alphaI(G))-\sum_jq_j(c_j+\alphaI(G))
- =qc-\sum_jq_jc_j+\alphaI(G)\Bigl(q-\sum_jq_j\Bigr)
- \geq qc-\sum_jq_jc_j.
-\]
+We obtain
+\begin{equation}\label{eq:ugc-prefix-cover-bound}
+\begin{aligned}
+ qn-\sum_{j=1}^{\nu} q_jn_j
+ &\overset{\eqref{eq:cover-independent-complement},\,\eqref{eq:ugc-child-source-bounds}}{\geq}
+ q(c+\alphaI(G))-\sum_{j=1}^{\nu} q_j(c_j+\alphaI(G))\\
+ &=qc-\sum_{j=1}^{\nu} q_jc_j
+       +\alphaI(G)\Bigl(q-\sum_{j=1}^{\nu} q_j\Bigr)
+ \overset{\text{Lem.~\ref{lem:ugc-layer-usage}}}{\geq}
+ qc-\sum_{j=1}^{\nu} q_jc_j.
+\end{aligned}
+\end{equation}
 Combining these estimates and applying Lemma~\ref{lem:branching-ineq}
 to $q_j,c_j$ yields
 \[
-\begin{aligned}
- h(F)&\geq qc-\frac13\left(3\sum_jq_jc_j-2\max_j(q_jc_j)\right)\\
- &\geq qc-\frac13\left(\sum_jq_j\right)\left(\sum_jc_j\right)
- \geq\frac23qc.
-\end{aligned}
+h(F)\overset{\eqref{eq:ugc-prefix-child-bound},\,\eqref{eq:ugc-prefix-cover-bound}}{\geq}
+ qc-\frac13\left(3\sum_{j=1}^{\nu} q_jc_j-2\max_{j\in[\nu]}(q_jc_j)\right) \overset{\text{Lem.~\ref{lem:branching-ineq}}}{\geq}
+ qc-\frac13\left(\sum_{j=1}^{\nu} q_j\right)\left(\sum_{j=1}^{\nu} c_j\right)
+ \overset{\text{Lem.~\ref{lem:ugc-layer-usage}, }\eqref{eq:ugc-child-source-bounds}}{\geq}
+ \frac23qc.
 \]
 This completes the induction.
 \end{proof}
 
-For $q\geq2$, write $B_{q,\eta}:=(2q/3)(1-\eta)$.
+For an integer $q\geq2$ and $0\leq\eta<1/10$, write $B_{q,\eta}:=(2q/3)(1-\eta)$.
 For a NO instance of Theorem~\ref{thm:bounded-degree-kr-source}, the structural bound gives
 \begin{equation}\label{eq:ugc-no}
- \td(S_q(G))\geq\frac{2q}{3}\bigl(n-\alphaI(G)\bigr)
- >B_{q,\eta}n.
+ \td(S_q(G))
+ \overset{\text{Thm.~\ref{thm:ugc-structural}, }\eqref{eq:cover-independent-complement}}{\geq}
+ \frac{2q}{3}\bigl(n-\alphaI(G)\bigr)
+ \overset{\text{Thm.~\ref{thm:bounded-degree-kr-source}}}{>}
+ B_{q,\eta}n.
 \end{equation}
 
 \subsubsection{The approximation gap}
 \label{subsec:ugc-td-gap}
 
-\begin{proof}[Dense treedepth gap]
-At zero source error, the ratio of the NO and YES coefficients is
-$B_{q,0}/A_{q,0}=4q/(3(q+1))$, which approaches $4/3$ as $q$
-increases. For any fixed $1\leq r<4/3$, we can therefore first
-choose $q$ so that this ratio exceeds $r$, and then choose a small
-positive source error $\eta$ without losing the strict inequality.
-Concretely, choose an integer $q>3r/(4-3r)$.
-For all sufficiently small rational $\eta\in(0,1/10)$,
-\[
-\begin{aligned}
- B_{q,\eta}-rA_{q,\eta}
- &=\frac{2q}{3}(1-\eta)
-   -r\left(\frac{q+1}{2}+(q-1)\eta\right)\\
- &=\frac{q(4-3r)-3r}{6}
-   -\left(\frac{2q}{3}+r(q-1)\right)\eta>0.
-\end{aligned}
-\]
-The first term is the separation at zero error. It is positive by
-the choice of $q$, so $\eta$ can be chosen to make the subtracted
-error smaller than this term.
-Fix such an $\eta$. Equations~\eqref{eq:ugc-yes} and~\eqref{eq:ugc-no}
-give a gap greater than $r$. Since $q$ and $\eta$ depend only
-on $r$, this is a polynomial reduction.
+\begin{proof}[Dense treedepth gap: proof sketch]
+The bounds~\eqref{eq:ugc-yes} and~\eqref{eq:ugc-no} have zero-error
+coefficient ratio $4q/(3(q+1))$, tending to $4/3$. For any fixed
+$1\leq r<4/3$, first choose $q$ so that this ratio exceeds $r$, then
+choose the source error $\eta>0$ small enough to retain the strict
+inequality. Both parameters are fixed independently of the input,
+so the layered construction is polynomial. Appendix~\ref{app:dense-ugc-td}
+gives explicit choices and the approximation decision threshold.
 \end{proof}

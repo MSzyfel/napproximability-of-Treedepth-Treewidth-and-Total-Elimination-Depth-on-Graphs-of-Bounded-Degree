@@ -1,76 +1,122 @@
 \subsection{General sparsification theorems}
 \label{subsec:general-sparsification}
 
-The comparison lemmas reduce sparsification to choosing thresholds
-whose deletion bounds have a small sum. We take each threshold
-proportional to its factor's size. To bound the sum by a multiple of
-$N=|V(H)|$, we limit how many factors contain each vertex. Together
-with a bound on the degree of the retained edges, this also bounds
-the degree after replacement.
+We choose thresholds proportional to factor sizes. Bounding the
+number of factors containing each vertex bounds both the total
+completion loss and the degree after replacement, provided the
+retained edges also have bounded degree.
 
 Use the edge decomposition in~\eqref{eq:factor-edge-union} and the
 replacement graph $J$ from Section~\ref{sec:bounded-degree-hardness}.
-The input includes this decomposition: it specifies $E_0$, the two
-factor index sets, and the support or sides of each factor. The
-constructions below use this supplied description.
+The input supplies $E_0$, the factor index sets, and each factor's
+support or sides. Put $N=|V(H)|$.
 Fix constants $d_0\ge0$,
-$d_1\ge1$, and $\kappa\ge1$, and assume:
+$d_1\ge1$, and assume:
 \begin{enumerate}
-\item\label{hyp:retained-degree} the retained graph $(V(H),E_0)$ has maximum degree at most $d_0$.
-\item\label{hyp:factor-incidence} each vertex belongs to at most $d_1$ factor supports $U_f$.
-\item\label{hyp:biclique-ratio} every biclique factor has nonempty sides and satisfies
-$\max\{|A_f|,|B_f|\}/\min\{|A_f|,|B_f|\}\le\kappa$.
+\item\label{hyp:retained-degree} $\Delta((V(H),E_0))\le d_0$.
+\item\label{hyp:factor-incidence}
+$|\{f\in\mathcal C\cup\mathcal B:v\in U_f\}|\le d_1$
+for every $v\in V(H)$.
 \end{enumerate}
 Counting incidences between vertices and factor supports gives
 \begin{equation}\label{eq:general-factor-incidence}
- \sum_{f\in\mathcal C\cup\mathcal B}|U_f|\le d_1N.
+ \sum_{f\in\mathcal C\cup\mathcal B}|U_f|
+ \overset{\text{Hyp.~\ref{hyp:factor-incidence}}}{\leq}d_1N.
 \end{equation}
+
+For a fixed real $\zeta>0$, the integer
+$t_f=\lceil\zeta|U_f|\rceil\ge1$ is the number of vertices in
+each set that the replacement of factor $f$ must join. Write $R_f$
+for that replacement graph, and let
+$\mathcal R=(R_f)_{f\in\mathcal C\cup\mathcal B}$ be the collection
+of all replacements. Each $R_f$ is built on its prescribed support;
+the output keeps $E_0$ and takes their union:
+\[
+ H\xrightarrow{\text{Lemma~\ref{lem:factor-replacement}}}(E_0,\mathcal R)
+ \xrightarrow{\text{Lemma~\ref{lem:factor-replacement}}}J,\qquad
+ V(J)=V(H),\qquad
+ E(J)=E_0\cup\bigcup_{f\in\mathcal C\cup\mathcal B}E(R_f).
+\]
+The following lemma bounds the degree of this union and the sum of
+the threshold losses.
 
 \begin{lemma}[Common sparse factor replacements]
 \label{lem:factor-replacement}
 Let $H$ have the edge description~\eqref{eq:factor-edge-union},
-and let fixed constants $d_0\ge0$, $d_1\ge1$, $\kappa\ge1$ satisfy
-conditions~\ref{hyp:retained-degree}--\ref{hyp:biclique-ratio}.
+and let fixed constants $d_0\ge0$, $d_1\ge1$ satisfy
+conditions~\ref{hyp:retained-degree}--\ref{hyp:factor-incidence}.
 Fix $\zeta>0$ and set
 $t_f=\lceil\zeta|U_f|\rceil$ for every factor. There is a
 deterministic polynomial-time construction of a spanning subgraph
 $J\subseteq H$ with $E_0\subseteq E(J)$ that replaces each factor by a graph
-with no $(t_f,t_f)$ hole, and has maximum degree at most
-$d_0+d_1d_{\zeta,\kappa}$, where $d_{\zeta,\kappa}$
-is the constant in Lemma~\ref{lem:factor-expanders}.
-Moreover, $\sum_f(t_f-1)<\zeta d_1N$ whenever at least one factor
-is present.
+satisfying its no-hole condition at threshold $t_f$, and has maximum degree at most
+$d_0+d_1c_\zeta$, where $c_\zeta$ depends only on $\zeta$.
+Moreover,
+$\sum_{f\in\mathcal C\cup\mathcal B}(t_f-1)<\zeta d_1N$
+whenever at least one factor is present.
 \end{lemma}
 
 \begin{proof}
-Apply Lemma~\ref{lem:factor-expanders} to each clique support and
-each pair of biclique sides, using $\zeta,\kappa$. Its thresholds
-are $t_f=\lceil\zeta|U_f|\rceil$ in both cases. Thus each
-replacement satisfies the required no-hole condition and has
-maximum degree at most $d_{\zeta,\kappa}$.
-Take $E(J)$ to be $E_0$ together with the replacement edges.
+Set $\kappa=\max\{1,1/\zeta-1\}$ and
+$c_\zeta=d_{\zeta,\kappa}$ from Lemma~\ref{lem:factor-expanders}.
+Use that lemma for each clique factor. For a biclique with side
+sizes $a,b$, put $u=\lceil\zeta(a+b)\rceil$. If $\min\{a,b\}<u$,
+use the empty graph on its support: no admissible pair of $u$-sets
+exists. Otherwise $\min\{a,b\}\ge u\ge\zeta(a+b)$, so
+\[
+ \frac{\max\{a,b\}}{\min\{a,b\}}
+ =\frac{a+b}{\min\{a,b\}}-1
+ \le\frac1\zeta-1\le\kappa.
+\]
+Lemma~\ref{lem:factor-expanders} therefore applies to this factor.
+Each replacement has degree at most $c_\zeta$ and satisfies the
+no-hole condition at threshold $t_f$. If $\zeta>1/2$ the nonempty
+branch is impossible, and if $\zeta=1/2$
+it requires $a=b$.
+
+Take the union of the replacements with $E_0$. The replacements of
+vacuous biclique factors need not be connected. The completion
+lemmas require only the no-hole conditions; when connected factor
+replacements are needed separately, use Lemma~\ref{lem:factor-expanders}
+with its side-ratio assumption.
 For every $v\in V(H)$, the degree in the union satisfies
 \[
- \deg_J(v)\le\deg_{(V(H),E_0)}(v)
- +|\{f\in\mathcal C\cup\mathcal B:v\in U_f\}|d_{\zeta,\kappa}
- \le d_0+d_1d_{\zeta,\kappa}.
+ \deg_J(v)\overset{\text{Lem.~\ref{lem:factor-expanders}}}{\leq}
+ \deg_{(V(H),E_0)}(v)
+ +|\{f\in\mathcal C\cup\mathcal B:v\in U_f\}|c_\zeta
+ \overset{\text{Hyps.~\ref{hyp:retained-degree}, \ref{hyp:factor-incidence}}}{\leq}
+ d_0+d_1c_\zeta.
 \]
-Finally, $t_f-1<\zeta|U_f|$ for each factor. Summing and using
-\eqref{eq:general-factor-incidence} proves the last assertion.
+Finally, the ceiling defining $t_f$ gives
+\begin{equation}\label{eq:factor-threshold-slack}
+ t_f-1<\zeta|U_f|\qquad(f\in\mathcal C\cup\mathcal B).
+\end{equation}
+If at least one factor is present, then
+\[
+ \sum_{f\in\mathcal C\cup\mathcal B}(t_f-1)
+ \overset{\eqref{eq:factor-threshold-slack}}{<}
+ \zeta\sum_{f\in\mathcal C\cup\mathcal B}|U_f|
+ \overset{\eqref{eq:general-factor-incidence}}{\leq}\zeta d_1N.
+\]
 Each factor has nonempty support, so there are at most
-$d_1N$ factors. The construction is therefore
-polynomial time for the fixed parameters.
+$d_1N$ factors. Let $h\ge1$ be the fixed walk length chosen in
+Appendix~\ref{app:factor-expanders} for this $\zeta$. The construction
+enumerates $O(8^h\sum_{f\in\mathcal C\cup\mathcal B}|U_f|)
+=O(8^h d_1N)$ auxiliary steps.
+Sorting the resulting endpoint pairs and merging repetitions uses
+$O(8^h d_1N\log(2+8^h d_1N))$ comparisons, so the construction
+is deterministic and polynomial time for the fixed parameters.
 \end{proof}
 
 \begin{theorem}[Treedepth sparsification]
 \label{thm:td-sparsification}
 Let $H$ have the edge description~\eqref{eq:factor-edge-union},
-and let fixed constants $d_0\ge0$, $d_1\ge1$, $\kappa\ge1$ satisfy
-conditions~\ref{hyp:retained-degree}--\ref{hyp:biclique-ratio}.
+and let fixed constants $d_0\ge0$, $d_1\ge1$ satisfy
+conditions~\ref{hyp:retained-degree}--\ref{hyp:factor-incidence}.
 For every fixed $\varepsilon>0$
 one can construct deterministically in polynomial time a spanning
 subgraph $J\subseteq H$ with $E_0\subseteq E(J)$ whose maximum degree depends only on
-$d_0,d_1,\kappa,\varepsilon$ and such that
+$d_0,d_1,\varepsilon$ and such that
 $\td(H)-\varepsilon N\le\td(J)\le\td(H)$.
 Every elimination forest of $J$ can be transformed into one of
 $H$ whose height increases by at most $\varepsilon N$.
@@ -82,12 +128,11 @@ $\zeta=\varepsilon/(4d_1)$. Its degree bound depends only on
 the stated constants. The exception bound in
 Lemma~\ref{lem:factor-sparsification} satisfies
 \begin{equation}\label{eq:common-forest-exception-budget}
- \begin{aligned}
  \operatorname{exc}_{\mathrm{td}}
- &=2\sum_{f\in\mathcal C}(t_f-1)+4\sum_{f\in\mathcal B}(t_f-1)\\
- &\le4\sum_{f\in\mathcal C\cup\mathcal B}(t_f-1)
- \le4\zeta d_1N=\varepsilon N.
- \end{aligned}
+ \overset{\eqref{eq:completion-deletion-bounds}}{=}
+ 2\sum_{f\in\mathcal C}(t_f-1)+4\sum_{f\in\mathcal B}(t_f-1) \le4\sum_{f\in\mathcal C\cup\mathcal B}(t_f-1)
+ \overset{\text{Lem.~\ref{lem:factor-replacement}}}{\leq}
+ 4\zeta d_1N=\varepsilon N.
 \end{equation}
 Lemma~\ref{lem:factor-sparsification} now gives both conclusions.
 \end{proof}
@@ -95,8 +140,8 @@ Lemma~\ref{lem:factor-sparsification} now gives both conclusions.
 \begin{theorem}[Treewidth sparsification]
 \label{thm:tw-sparsification}
 Let $H$ have the edge description~\eqref{eq:factor-edge-union},
-and let fixed constants $d_0\ge0$, $d_1\ge1$, $\kappa\ge1$ satisfy
-conditions~\ref{hyp:retained-degree}--\ref{hyp:biclique-ratio}.
+and let fixed constants $d_0\ge0$, $d_1\ge1$ satisfy
+conditions~\ref{hyp:retained-degree}--\ref{hyp:factor-incidence}.
 Fix an integer $s\ge1$. Suppose the supplied factor description also
 includes, for every $f\in\mathcal B$, integers
 $1\le\ell_f,m_f\le s$ and partitions
@@ -109,7 +154,7 @@ for every $i\in[\ell_f]$ and $j\in[m_f]$.
 For every fixed $\varepsilon>0$, one can construct deterministically
 in polynomial time a spanning subgraph $J\subseteq H$ with
 $E_0\subseteq E(J)$ whose maximum
-degree depends only on $d_0,d_1,\kappa,s,\varepsilon$ and such that
+degree depends only on $d_0,d_1,s,\varepsilon$ and such that
 $\operatorname{tw}(H)-\varepsilon N
  \le\operatorname{tw}(J)\le\operatorname{tw}(H)$.
 Every tree decomposition of $J$ can be transformed into one of
@@ -122,12 +167,12 @@ with $\zeta=\varepsilon/(d_1\max\{3,2s^2\})$. It constructs $J$
 with maximum degree depending only on the stated constants and
 thresholds $t_f=\lceil\zeta|U_f|\rceil$.
 
-For each $f\in\mathcal B$, use its supplied partitions and indices.
-They give the disjoint union
-\[
+For $f\in\mathcal B$, the supplied partitions and their indices give
+\begin{equation}\label{eq:tw-factor-piece-count}
+ \ell_fm_f\leq s^2,\qquad
  A_f\times B_f=\mathop{\dot\bigcup}_{i\in[\ell_f],\,j\in[m_f]}
  (A_{f,i}\times B_{f,j}).
-\]
+\end{equation}
 Describe the same graph $H$ by keeping $E_0$ and its clique
 factors and replacing the biclique indexed by $f$ with the
 $\ell_fm_f$ bicliques indexed by $(f,i,j)$, on sides
@@ -135,45 +180,40 @@ $A_{f,i},B_{f,j}$. Give each of these bicliques threshold $t_f$.
 Each has its sides contained in the clique supports $U_{g_{f,i}}$
 and $U_{h_{f,j}}$.
 
-We verify the replacement conditions for this factor description
-and the same graph $J$. The clique conditions already hold by
-Lemma~\ref{lem:factor-replacement}. For a new biclique, take
-$X\subseteq A_{f,i}$ and $Y\subseteq B_{f,j}$ with
-$|X|=|Y|=t_f$. Since $X\subseteq A_f$ and $Y\subseteq B_f$,
-the original replacement supplies an edge of $J$ between $X$ and
-$Y$. If $|A_{f,i}|<t_f$ or $|B_{f,j}|<t_f$, there are no such
-sets, so the condition holds vacuously.
+The same graph $J$ satisfies this refined factor description. The
+clique conditions hold by Lemma~\ref{lem:factor-replacement}.
+Any $t_f$-subsets of $A_{f,i}$ and $B_{f,j}$ are also subsets of
+$A_f$ and $B_f$, so the original replacement joins them. If either
+new side has fewer than $t_f$ vertices, this condition is vacuous.
 
-Lemma~\ref{lem:tw-factor-sparsification} now completes every tree
-decomposition of $J$ to one of $H$ with width increase at most
+Lemma~\ref{lem:tw-factor-sparsification} charges at most $3(t_f-1)$
+per clique and $2(t_f-1)$ per refined biclique. Thus its completion
+increases width by at most
 \[
 \begin{aligned}
- 3\sum_{f\in\mathcal C}(t_f-1)
+ &3\sum_{f\in\mathcal C}(t_f-1)
  +2\sum_{f\in\mathcal B}\ell_fm_f(t_f-1)
- &\le3\sum_{f\in\mathcal C}(t_f-1)
+ \quad\overset{\eqref{eq:tw-factor-piece-count}}{\leq}
+ 3\sum_{f\in\mathcal C}(t_f-1)
        +2s^2\sum_{f\in\mathcal B}(t_f-1)\\
- &\le\max\{3,2s^2\}\sum_{f\in\mathcal C\cup\mathcal B}(t_f-1)
- \le\max\{3,2s^2\}\zeta d_1N=\varepsilon N.
+ &\quad\le\max\{3,2s^2\}\sum_{f\in\mathcal C\cup\mathcal B}(t_f-1)
+ \quad\overset{\text{Lem.~\ref{lem:factor-replacement}}}{\leq}
+ \max\{3,2s^2\}\zeta d_1N=\varepsilon N.
 \end{aligned}
 \]
-Here we used $\ell_fm_f\le s^2$ and the sum bound in
-Lemma~\ref{lem:factor-replacement}. Applying completion to a
-minimum-width decomposition of $J$ gives
-$\operatorname{tw}(H)\le\operatorname{tw}(J)+\varepsilon N$.
-Also, $J\subseteq H$ gives $\operatorname{tw}(J)\le\operatorname{tw}(H)$,
-proving the parameter inequalities.
+The comparison lemma also gives the stated parameter inequalities.
 \end{proof}
 
 \Needspace{9\baselineskip}
 \begin{theorem}[Total-depth sparsification]
 \label{thm:total-depth-sparsification}
 Let $H$ have the edge description~\eqref{eq:factor-edge-union},
-and let fixed constants $d_0\ge0$, $d_1\ge1$, $\kappa\ge1$ satisfy
-conditions~\ref{hyp:retained-degree}--\ref{hyp:biclique-ratio}.
+and let fixed constants $d_0\ge0$, $d_1\ge1$ satisfy
+conditions~\ref{hyp:retained-degree}--\ref{hyp:factor-incidence}.
 For every fixed $\varepsilon>0$
 one can construct deterministically in polynomial time a spanning
 subgraph $J\subseteq H$ with $E_0\subseteq E(J)$ whose maximum degree depends only on
-$d_0,d_1,\kappa,\varepsilon$ and such that
+$d_0,d_1,\varepsilon$ and such that
 $\totd(H)-\varepsilon N^2\le\totd(J)\le\totd(H)$.
 Every elimination forest $F$ of $J$ can be transformed into an
 elimination forest $\widehat F$ of $H$ satisfying
@@ -185,20 +225,20 @@ Use the same factor replacements as in
 Theorem~\ref{thm:td-sparsification}, with
 $\zeta=\varepsilon/(4d_1)$. Equation~\eqref{eq:common-forest-exception-budget}
 gives $\operatorname{exc}_{\mathrm{td}}\le\varepsilon N$, and
-Lemma~\ref{lem:total-depth-comparison} completes every forest with
-total-depth increase at most
-$N\operatorname{exc}_{\mathrm{td}}\le\varepsilon N^2$.
-Minimizing therefore gives the lower bound on $\totd(J)$. The upper
-bound follows from $J\subseteq H$.
+Lemma~\ref{lem:total-depth-comparison} gives the completion and both
+parameter bounds, with total-depth increase at most
+$N\operatorname{exc}_{\mathrm{td}}
+\overset{\eqref{eq:common-forest-exception-budget}}{\leq}\varepsilon N^2$.
 \end{proof}
 
-If a construction has $d$ designated vertices that are not needed
-for sparsification, deleting them lowers treedepth and treewidth by
+If a construction has a fixed number $d$ of designated vertices
+that are not needed for sparsification, deleting them lowers treedepth and treewidth by
 at most $d$. Restoring them above all existing roots increases total
 depth by at most $dN$, where $N$ is the original graph order.
 These costs are $O(1)$ for treedepth and treewidth, whose promise
 bounds are linear in $N$, and $O(N)$ for total depth, whose bounds
-are quadratic. They are therefore $o(Y)$, so
+are quadratic. They are therefore $o(Y)$ for the corresponding YES
+upper bound $Y$, so
 Lemma~\ref{lem:gap-preservation} absorbs them on sufficiently large
 instances. We use this to omit the three vertices
 $z_A,z_B,z_C$ from the NP treedepth construction.

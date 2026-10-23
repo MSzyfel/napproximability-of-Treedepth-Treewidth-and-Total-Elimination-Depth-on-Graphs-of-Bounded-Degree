@@ -3,14 +3,35 @@
 \label{subsec:bounded-degree-consequences}
 
 Fix a target factor $r$ below a dense hardness threshold, and choose
-a dense factor $r'>r$. Write $Y$ for its YES upper bound. It is linear
-in $N$ for treedepth and treewidth and quadratic for total depth. The
-sparsification losses $\tau N$ and $\tau N^2$ can therefore be made
+a dense factor $r'>r$. Write $N$ for the dense graph's order and
+$Y$ for its YES upper bound. It is linear
+in $N$ for treedepth and treewidth and quadratic for total depth.
+For $\tau>0$, the sparsification losses $\tau N$ and $\tau N^2$ can therefore be made
 at most $\delta Y$ by choosing $\tau$ small. Taking
-$\delta<(r'-r)/(r+1)$, Lemma~\ref{lem:gap-preservation} transfers
+$0<\delta<(r'-r)/(r+1)$, Lemma~\ref{lem:gap-preservation} transfers
 the factor-$r$ hardness.
 We verify the factor conditions below, using the following observation
 for the SSE construction.
+In these applications we choose connected replacements using
+Lemma~\ref{lem:factor-expanders}. The biclique side-size ratios,
+when bicliques occur, are bounded as checked below. Although the
+general sparsification theorems do not require balance, these
+connected replacements preserve the connected components of the
+dense graph: each replaced factor still connects its entire support.
+
+The transfer steps are summarized below. Here $H$ is a dense graph,
+$H'$ its sparse replacement, $R$ its regular extension, and
+$R_\ell$ replaces each edge of $R$ by a path of fixed even length
+$\ell$. Sparsification and regularization apply to all three objectives;
+subdivision applies to treedepth and treewidth, and to total depth under SSE.
+The guarantees are Theorems~\ref{thm:td-sparsification}--\ref{thm:total-depth-sparsification},
+Proposition~\ref{prop:regularization}, and
+Corollary~\ref{cor:subdivision-hardness}, respectively:
+\[
+ H\xrightarrow{\text{sparsify}}H'
+ \xrightarrow{\text{regularize}}R
+ \xrightarrow{\text{subdivide}}R_\ell.
+\]
 
 \begin{lemma}[Clique factors of a line graph]\label{lem:linegraph-factors}
 Let $G$ be an unweighted host multigraph. Identify each edge
@@ -24,14 +45,12 @@ vertex belongs to at most two factors.
 \begin{proof}
 Two line-graph vertices are adjacent if and only if their host edges
 share an endpoint, so
-$E(\mathcal L(G))=\bigcup_v\binom{U_v}{2}$.
+$E(\mathcal L(G))=\bigcup_{v\in V(G)}\binom{U_v}{2}$.
 An edge has at most two endpoints. A loop contributes one vertex
 to the factor at its endpoint.
 \end{proof}
 
-For each promise transfer, fix a target factor and a larger dense
-hardness factor, then choose $\tau$. We may require arbitrarily
-large sources: disjoint copies preserve the satisfiable fraction
+We may require arbitrarily large sources: disjoint copies preserve the satisfiable fraction
 of a parity system and the independence fraction and maximum degree
 of an independent-set source. A relative independent-set
 approximation on the copies transfers to the original by choosing
@@ -39,18 +58,20 @@ the copy with the largest selected set. For SSE, parallel copies
 of every host edge preserve normalized volumes and normalized cut sizes and
 multiply the line-graph order.
 
-In all SSE cases, use Lemma~\ref{lem:sse-unweighted-gap} with source
-parameter $\eta$ and $q=\lceil2/\eta\rceil$, as in
-Section~\ref{subsec:sse-dense-gap}. Write $N=|E(G^*)|$, counting
-multiplicity, and $\beta=(c/2)\sqrt\eta\le1/4$.
+In all SSE cases, let $c>0$ and $\varepsilon_0>0$ be the constants
+in Lemma~\ref{lem:sse-unweighted-gap}. Apply it with sufficiently
+small source error $0<\eta<\varepsilon_0$ and
+$q=\lceil2/\eta\rceil$, as in Section~\ref{subsec:sse-dense-gap}.
+Let $G^*$ denote its host, put $H=\mathcal L(G^*)$, and write
+$N=|E(G^*)|=|V(H)|$, counting edge multiplicity, and
+$\beta=(c/2)\sqrt\eta\le1/4$.
 The line graph has YES height bound $4\eta N$ and NO balanced-separator
 bound $\beta N$, the latter by
 Lemma~\ref{lem:linegraph-separators} with $\rho=1/2$.
 Lemma~\ref{lem:linegraph-factors} gives $d_1=2$, $d_0=0$, and no
-biclique factors. Sparsification acts directly on the line graph by
-replacing these host-incidence cliques. Each line-graph vertex lies
-in at most two factors regardless of the host degree. The sparse
-output need not itself be a line graph. Since $\beta/\eta$ grows
+biclique factors, regardless of the host degree. Sparsification
+replaces these host-incidence cliques directly; the sparse output
+need not itself be a line graph. Since $\beta/\eta$ grows
 without bound as $\eta$ decreases, any fixed target gap can be
 obtained before sparsification.
 
@@ -79,46 +100,32 @@ $z_A,z_B,z_C$, replace the three anchor cliques and the three
 anchor--part bicliques. Each vertex lies in at most two factor
 supports, and each biclique has both sides of size $3m$.
 Thus $d_1=2$, $d_0=3b_\epsilon$, and $\kappa=1$.
-    Deleting $z_A,z_B,z_C$ lowers treedepth by at most $3$, by
-    Lemma~\ref{lem:restore-vertices}. The resulting graph has order
-    $18m$, so sparsification lowers treedepth by at most $18\tau m$.
-The resulting YES bound is $(17/2+\epsilon)m+1$, and the NO lower
-bound is $(9-\epsilon)m-2-18\tau m$. Fix a target factor
-$r<18/17$ and let
-$\gamma=9-\epsilon-r(17/2+\epsilon)>0$, using the choice of
-$\epsilon$ in Section~\ref{subsec:np-td-gap}. Choose
-$\tau<\gamma/36$ and take enough source copies that
-$m>2(2+r)/\gamma$. Then
-\[
- (9-\epsilon)m-2-18\tau m
- -r\bigl((17/2+\epsilon)m+1\bigr)
- \ge \frac{\gamma m}{2}-(2+r)>0,
-\]
-so the gap survives both losses.
+Deleting the three designated vertices costs at most $3$ in treedepth.
+The remaining order is $18m$, so sparsification costs at most $18\tau m$.
+The dense gap has positive linear slack; choose $\tau$ small and then
+$m$ large. Appendix~\ref{app:transfer-td-np} gives the exact bounds
+and choices.
 
 \emph{UGC hardness.}
 Fix a target factor $r<4/3$, and choose $r'$ with
 $r<r'<4/3$. Take $q,\eta$ from the dense gap calculation in
 Section~\ref{subsec:ugc-td-gap} for factor $r'$, and apply
 Theorem~\ref{thm:bounded-degree-kr-source} with this $\eta$ in
-$S_q(G)$. Replace the $q$ layer cliques by bounded-degree expanders
-and retain all cross-layer source edges. These retained edges have
+$S_q(G)$, where $n=|V(G)|$. Replace the $q$ layer cliques by
+bounded-degree expanders and retain all cross-layer source edges. These retained edges have
 maximum degree at most $(q-1)d_\eta$, so $d_1=1$ and
-$d_0=(q-1)d_\eta$. Write $Y$ for
-the dense YES upper bound. A layer clique gives
-$n\le\td(S_q(G))\le Y$ in the YES case.
-The sparsification loss is therefore at most $\tau qn\le\tau qY$.
-Choose $\tau<(r'-r)/(q(r+1))$. Lemma~\ref{lem:gap-preservation}
-then transfers the dense factor-$r'$ gap to factor $r$.
+$d_0=(q-1)d_\eta$. A layer clique gives a YES scale of at least $n$, while the graph
+has $qn$ vertices. Thus the loss is at most $q\tau Y$ and can be
+absorbed into the factor slack; see Appendix~\ref{app:transfer-td-ugc}.
 
 \emph{SSE hardness.}
 Use the common line-graph factors above.
 Lemma~\ref{lem:balanced-by-td} converts the separator bound into
-NO treedepth bound $\beta N$. For a target factor $r$, choose $\eta$
-small enough that $\gamma:=\beta-4r\eta>0$, which is possible
-since $\beta=(c/2)\sqrt{\eta}$. Choose $\tau<\gamma$. After
-sparsification, the NO lower bound minus $r$ times the YES upper
-bound is at least $(\gamma-\tau)N>0$.
+NO treedepth bound $\beta N$. Since $\beta/\eta$ is unbounded as $\eta$ tends to zero, first
+choose a dense gap larger than the target factor, then make $\tau$
+small enough to preserve it. The calculation is in
+Appendix~\ref{app:transfer-td-sse}.
+
 \end{proof}
 
 The NP-hardness assertion answers the bounded-degree conjecture of
@@ -150,24 +157,12 @@ In $K_R(G_F)$, replace the three global cliques and retain every
 edge of each source copy. Lemma~\ref{lem:xor-cover} bounds the
 retained degree by $d_0=3b_\epsilon$. Each vertex lies in one
 clique factor, so $d_1=1$. There are no biclique factors.
-Take $\kappa=s=1$.
-Fix a target factor $r<12/11$. The dense gap calculation in
-Section~\ref{subsec:np-treewidth} chooses $\epsilon,R$ so that
-\[
- \gamma=R(6-\epsilon)-r\bigl(R(11/2+\epsilon)+3\bigr)>0.
-\]
-The dense YES and NO bounds are respectively
-$R(11/2+\epsilon)m+3m-1$ and $R(6-\epsilon)m-1$.
-Since the output order is $9Rm$, sparsification preserves the YES
-upper bound and lowers the NO bound by at most $9\tau Rm$. Choose
-$\tau<\gamma/(18R)$. The sparse NO lower bound minus $r$ times the
-sparse YES upper bound is
-\[
- \bigl(R(6-\epsilon)m-1-9\tau Rm\bigr)
- -r\bigl(R(11/2+\epsilon)m+3m-1\bigr)
- =(\gamma-9\tau R)m+(r-1)
- >\frac{\gamma m}{2}+r-1>0.
-\]
+The clique replacements use $\kappa=1$ in
+Lemma~\ref{lem:factor-expanders}.
+The dense gap has positive slack proportional to $m$, and the
+sparsification loss is $9\tau Rm$. A sufficiently small fixed $\tau$
+preserves the gap; Appendix~\ref{app:transfer-tw-np} records its
+coefficient and the exact choice.
 
 \emph{UGC hardness.}
 Fix a target factor $r<4/3$, and choose $r'$ with
@@ -176,7 +171,7 @@ Section~\ref{subsec:ugc-tw-gap} for factor $r'$, and use
 Theorem~\ref{thm:bounded-degree-kr-source} with $\eta=\zeta/2$,
 as in Theorem~\ref{thm:ugc-tripartite-cover}. This is admissible
 since $0<\eta<1/24<1/10$. Apply it in
-$K_R(P_3(G))$.
+$K_R(P_3(G))$, where $n=|V(G)|$.
 Replace only the three global cliques by bounded-degree expanders
 and retain every product edge in each source copy. These source
 edges already have bounded degree, so
@@ -185,12 +180,9 @@ Lemma~\ref{lem:multipartite-product} gives YES cover bound
 $(3/2+3\zeta/2)n\leq(3/2+3\zeta)n$ and NO cover bound
 $(2-\zeta)n\geq(2-3\zeta)n$ for $P_3(G)$, as required by
 Section~\ref{subsec:ugc-tw-gap}.
-The dense graph has global cliques of size $Rn$, so its treewidth is
-at least $Rn-1$. Write $Y$ for the dense YES upper bound, so
-$Y\ge Rn-1$. Since the graph has order $3Rn$, the sparsification
-loss is at most $3\tau Rn\le6\tau(Rn-1)\le6\tau Y$ when $Rn\ge2$. Choose
-$\tau<(r'-r)/(6(r+1))$. Lemma~\ref{lem:gap-preservation} then
-transfers the dense factor-$r'$ gap to factor $r$.
+The global cliques give YES scale at least $Rn-1$, compared with
+order $3Rn$. A small fixed $\tau$ therefore absorbs the loss into
+the factor slack; see Appendix~\ref{app:transfer-tw-ugc}.
 
 \emph{SSE hardness.}
 Use the common line-graph factors.
@@ -198,21 +190,17 @@ Lemma~\ref{lem:treewidth-balanced-separator} gives
 $b(H)\leq\operatorname{tw}(H)+1$ for the dense line graph.
 Thus the sparse NO width is at least $\beta N-1-\tau N$.
 The YES line-graph construction has treedepth at most $4\eta N$.
-For an elimination forest of height $h$, connect its roots to form
-a tree and use one bag per forest vertex, containing that vertex and
-all its ancestors. The bags containing a fixed vertex form its
-descendant subtree, and every graph edge is covered at its deeper
-endpoint. Thus these bags give a tree decomposition of width at most
-$h-1$. Hence the dense YES treewidth is at most $4\eta N$. By
+An elimination forest of height $h$ gives a tree decomposition of
+width at most $h-1$: connect its roots and use its ancestor paths as
+bags. A fixed vertex occurs on its descendant subtree, and every
+edge is covered at its deeper endpoint. Hence the dense YES
+treewidth is at most $4\eta N$. By
 Lemma~\ref{lem:minor-monotonicity}, deleting edges to obtain the sparse
 graph cannot increase this bound.
-Fix $\eta$ so that $\gamma:=\beta-4r\eta>0$, which is possible
-because $\beta=(c/2)\sqrt\eta$. Choose $\tau<\gamma/2$ and take
-sufficiently many parallel copies so that $N>2/\gamma$. Then
-\[
- \beta N-1-\tau N>(\beta-\gamma)N=4r\eta N,
-\]
-so the sparse NO width exceeds $r$ times the YES bound.
+Choose $\eta$ for positive linear gap slack, then $\tau$ small and
+$N$ large enough to absorb the sparsification loss and the constant
+$1$. Appendix~\ref{app:transfer-tw-sse} gives the choices.
+
 \end{proof}
 
 The SSE treewidth hardness at every fixed factor on unrestricted
@@ -227,11 +215,20 @@ lifting an approximate solution through a reduction.
 \label{lem:solution-lifting}
 Suppose each solution of a minimization instance $I'$ with cost $z$
 can be converted in polynomial time into a solution of $I$ with cost
-at most $z/a+\eta L(I)$, where $a>0$, $\eta\ge0$, and
-$0\le L(I)\le\OPT(I)$. If
-$\OPT(I')\le a\OPT(I)+\eta aL(I)$, then an $r$-approximation for
+at most $z/a+\eta L(I)$, where $a>0$, $\eta\ge0$, and the bound $L(I)$ satisfies
+\begin{equation}\label{eq:solution-lifting-lower}
+ 0\le L(I)\le\OPT(I).
+\end{equation}
+If
+\begin{equation}\label{eq:solution-lifting-upper}
+ \OPT(I')\le a\OPT(I)+\eta aL(I),
+\end{equation}
+then, for every $r\ge1$, an $r$-approximation for
 $I'$ gives an $(r+(r+1)\eta)$-approximation for $I$. If instead
-$\OPT(I')\le a\OPT(I)$, the factor is $r+\eta$.
+\begin{equation}\label{eq:solution-lifting-exact-upper}
+ \OPT(I')\le a\OPT(I),
+\end{equation}
+the factor is $r+\eta$.
 \end{lemma}
 
 \begin{proof}
@@ -239,13 +236,17 @@ An $r$-approximate solution has $z\le r\OPT(I')$, so its conversion
 has cost at most
 \[
 \frac za+\eta L(I)
- \le\frac{r\OPT(I')}{a}+\eta L(I)
- \le r\OPT(I)+(r+1)\eta L(I)
- \le\bigl(r+(r+1)\eta\bigr)\OPT(I).
+ \le\frac{r\OPT(I')}{a}+\eta L(I) \overset{\eqref{eq:solution-lifting-upper}}{\le}
+ r\OPT(I)+(r+1)\eta L(I)
+ \overset{\eqref{eq:solution-lifting-lower}}{\le}
+ \bigl(r+(r+1)\eta\bigr)\OPT(I).
 \]
-When $\OPT(I')\le a\OPT(I)$, use $z/a\le r\OPT(I)$ to bound the
-conversion cost by
-$r\OPT(I)+\eta L(I)\le(r+\eta)\OPT(I)$.
+Under~\eqref{eq:solution-lifting-exact-upper}, the conversion cost satisfies
+\[
+ \frac za+\eta L(I)
+ \overset{\eqref{eq:solution-lifting-exact-upper}}{\le}r\OPT(I)+\eta L(I)
+ \overset{\eqref{eq:solution-lifting-lower}}{\le}(r+\eta)\OPT(I).
+\]
 \end{proof}
 
 \Needspace{8\baselineskip}
@@ -254,9 +255,9 @@ $r\OPT(I)+\eta L(I)\le(r+\eta)\OPT(I)$.
 \label{thm:np-total-depth-bounded-degree}
 \label{thm:total-depth-ugc-bounded-degree}
 \label{cor:total-depth-sse-bounded-degree}
-There is an absolute constant $\epsilon_0>0$ such that approximating
-total depth within factor $1+\epsilon_0$ is NP-hard on simple
-unweighted graphs of bounded maximum degree. On such graphs,
+Approximating total depth within every fixed factor $1\le r<63/62$
+is NP-hard on simple unweighted graphs of bounded maximum degree.
+On such graphs,
 total depth is also Unique Games-hard to approximate within every
 fixed factor $1\le r<8/7$, and SSE-hard to approximate within every
 fixed factor $r\ge1$. The degree bound depends only on the excluded
@@ -269,45 +270,26 @@ It loses at most $\tau N^2$ and completes sparse forests at the
 same additive cost.
 
 \emph{NP-hardness.}
-Use the dense family $H=H^\Sigma_M(G(J))$ from
-Section~\ref{subsec:np-total-depth}, where the cubic source $J$ has
-$n$ vertices and $M=\Theta(n)$. Choose $0<\epsilon_0<1/2$ so that this
-family is hard within factor $1+2\epsilon_0$.
-The three part cliques and the three bicliques joining each part
-$X$ to $T_X$ give $d_1=2$. Retain $E(G(J))$, of maximum degree
-three. Here $N=11n$ and
-$M=\lceil N(N+1)/(2\epsilon_0n)\rceil$. Since $n\ge4$ and
-$\epsilon_0<1$,
-\[
- \frac{121n}{2\epsilon_0}\le M
- \le\frac{121n}{2\epsilon_0}+\frac{11}{2\epsilon_0}+1
- \le\frac{64n}{\epsilon_0}.
-\]
-The parts have sizes $2n,9n/2,9n/2$, so $M>9n/2$ and each
-biclique $X\times T_X$ has side-size ratio
-$M/|X|\le32/\epsilon_0$. Thus $\kappa=32/\epsilon_0$ suffices.
+Fix $1\le r<r'<63/62$. Use the dense family
+$H=H^\Sigma_M(G_F^\Sigma)$ from
+Theorem~\ref{thm:np-total-depth-dense-gap} for factor $r'$, where
+$F$ is a parity system with $m$ equations and occurrence bound
+$b_\epsilon$ from Theorem~\ref{thm:xor-source}.
+The three part cliques and the three bicliques $X\times T_X$
+for $X\in\{A,B,C\}$
+give $d_1=2$. Retain every edge of $G_F^\Sigma$; its maximum degree
+is at most $14b_\epsilon$ by~\eqref{eq:np-total-depth-degree}, so
+$d_0=14b_\epsilon$. The part sizes are $27m,36m,36m$ by
+\eqref{eq:np-total-depth-part-sizes}, while each $T_X$ has size
+$M=\Theta(m)$. Thus all biclique side-size ratios are bounded by
+a constant depending only on $r'$.
 
-The output order is $N=11n+3M$. The bounds on $M$ give
-\[
- \frac{Mn}{N^2}\geq
- \frac{121/(2\epsilon_0)}{(11+192/\epsilon_0)^2}=:c_*>0.
-\]
-Equation~\eqref{eq:np-total-depth-added-vertices-bounds} and
-Lemma~\ref{lem:np-total-depth-cubic} give
-\[
- \totd(H)\ge MW(G(J))
- \ge M(37n/2+3)\ge Mn=\Omega(N^2).
-\]
-Choose the fixed sparsification parameter $\tau\le\epsilon_0c_*$,
-so that $\tau N^2\le\epsilon_0 Mn$ for every source order $n$.
-Since the sparse graph $H'\subseteq H$
-has $\totd(H')\le\totd(H)$, Lemma~\ref{lem:solution-lifting},
-with $L(H)=Mn$, lifts a
-$(1+\epsilon_0)$-approximate sparse forest to a
-$(1+2\epsilon_0)$-approximate dense forest, a contradiction.
-Also $\totd(H')\ge\totd(H)-\tau N^2\ge(1-\epsilon_0)Mn
-=\Omega(N^2)$. We use this lower bound in the regular-graph
-transfer below.
+The dense family has $N=99m+3M=\Theta(m)$ and total depth at
+least $Mm=\Omega(N^2)$. Choose $\tau$ small relative to this
+quadratic scale and the gap slack. This preserves the gap and also
+ensures $\totd(H')\ge Mm/2$ for the sparse graph $H'$, as proved
+in Appendix~\ref{app:transfer-total-np}. The latter bound will be
+used for regularization.
 
 \emph{UGC hardness.}
 Fix a target factor $r<8/7$, and choose $r'$ with
@@ -316,31 +298,62 @@ calculation in Section~\ref{subsec:ugc-total-depth-gap} for factor $r'$, startin
 Theorem~\ref{thm:bounded-degree-kr-source}. Replace the $q$ layer
 cliques by bounded-degree expanders and retain every cross-layer
 source edge. Thus $d_1=1$ and $d_0=(q-1)d_\eta$.
-Each layer is a clique, so its $n$ vertices lie on one ancestor
-path and have depths at least $1,2,\ldots,n$. Summing over all $q$
-layers gives the lower bound
-\[
- L:=q\,\frac{n(n+1)}2\le\totd(S_q(G)),\qquad
- L\ge\frac{qn^2}{2}=\frac{N^2}{2q},\quad N=qn.
-\]
-Write $Y$ for the dense YES upper bound. Since the layer cliques give
-$L\le\totd(S_q(G))\le Y$ in the YES case, the sparsification loss
-$\tau N^2$ is at most $2q\tau L\le2q\tau Y$. Choose
-$\tau<(r'-r)/(2q(r+1))$. Lemma~\ref{lem:gap-preservation} then
-transfers the dense factor-$r'$ gap to factor $r$.
+Write $n=|V(G)|$ and $N=qn$. The layer cliques force total depth at least
+$q n(n+1)/2\ge N^2/(2q)$. Hence the loss $\tau N^2$ is a
+small fraction of the YES scale when $\tau$ is small. See
+Appendix~\ref{app:transfer-total-ugc} for the factor calculation.
 
 \emph{SSE hardness.}
 The YES line-graph construction has height at most $4\eta N$ and
 has $N$ vertices, so its total depth is at most
 $N\cdot4\eta N=4\eta N^2$. Lemma~\ref{lem:balanced-by-td} gives NO total depth
-at least $\beta N^2/2$. For a target factor $r$, choose $\eta$
-small enough that $\gamma:=\beta/2-4r\eta>0$, which is possible
-since $\beta=(c/2)\sqrt{\eta}$. Choose $\tau<\gamma$. After
-sparsification, the NO lower bound minus $r$ times the YES upper
-bound is $(\gamma-\tau)N^2>0$.
+at least $\beta N^2/2$. The ratio of these quadratic bounds is unbounded as $\eta$ tends
+to zero. Choose the dense gap first and then $\tau$ small enough
+to absorb the quadratic loss; Appendix~\ref{app:transfer-total-sse}
+gives the explicit slack.
+
 \end{proof}
 
 \subsection{Regular graphs and subdivisions}
+
+Both constructions below recover a forest by contracting connected
+vertex sets. The following observation records the common argument.
+
+\begin{lemma}[Projection through connected parts]
+\label{lem:connected-part-projection}
+Let $G,H$ be finite simple graphs, and let
+$(X_v)_{v\in V(G)}$ partition $V(H)$ into nonempty connected sets.
+Suppose every edge $uv\in E(G)$ has an edge of $H$ between $X_u$
+and $X_v$. From any elimination forest $F$ of $H$, one can compute
+in polynomial time an elimination forest $\overline F$ of $G$ such that
+\[
+ \operatorname{depth}_{\overline F}(v)\le\operatorname{depth}_F(x)
+ \quad(v\in V(G),\ x\in X_v).
+\]
+Consequently $h(\overline F)\le h(F)$ and
+$\totd(F)\ge\sum_{v\in V(G)}|X_v|\operatorname{depth}_{\overline F}(v)$.
+\end{lemma}
+
+\begin{proof}
+For each $v$, choose the shallowest vertex $r_v$ of $X_v$.
+Lemma~\ref{lem:connected-set-ancestor} makes it unique and an ancestor
+of every vertex in $X_v$. If $xy$ witnesses an edge $uv\in E(G)$,
+with $x\in X_u$ and $y\in X_v$, then $x,y$ are comparable in $F$.
+Both $r_u,r_v$ are ancestors of their deeper endpoint, so they too
+are comparable. Restrict $F$ to the representatives and rename
+$r_v$ as $v$; this gives $\overline F$. Restriction and the ancestor
+property give, for every $x\in X_v$,
+\[
+ \operatorname{depth}_{\overline F}(v)
+ \le\operatorname{depth}_F(r_v)
+ \overset{\text{Lem.~\ref{lem:connected-set-ancestor}}}{\le}
+ \operatorname{depth}_F(x).
+\]
+Taking the maximum and summing over the partition prove the two
+consequences. Computing depths, choosing representatives, and restricting
+the forest are polynomial-time operations. No connectedness of $G$ or
+$H$ is required; for empty graphs the empty partition and forest suffice.
+\end{proof}
 
 \begin{proposition}\label{prop:regularization}
 For every finite simple graph $G$ of order $n$ and fixed odd $d\geq3$ with
@@ -348,13 +361,12 @@ $d>\Delta(G)$, one can construct in polynomial time a simple
 $d$-regular graph $R$ containing $G$ as an induced subgraph, with
 $(d+2)n\leq |V(R)|\leq(d+3)n$ and
 \[
-\begin{aligned}
- \td(G)&\leq\td(R)\leq\td(G)+d+2,\\
- \operatorname{tw}(G)&\leq\operatorname{tw}(R)
+\begin{gathered}
+ \td(G)\leq\td(R)\leq\td(G)+d+2,\qquad \operatorname{tw}(G)\leq\operatorname{tw}(R)
  \leq\max\{\operatorname{tw}(G),d+2\},\\
- (d+2)\totd(G)&\leq\totd(R)
+ (d+2)\totd(G)\leq\totd(R)
  \leq(d+3)\totd(G)+\tfrac12(d+2)(d+3)n.
-\end{aligned}
+\end{gathered}
 \]
 \end{proposition}
 
@@ -373,23 +385,36 @@ and join $v$ to every vertex of $P_v$. Define $Q_v$ as follows.
    distinct $a,b\in V(Q_v)\setminus\{p\}$. Remove $pa,pb$ and a
    perfect matching on $V(Q_v)\setminus\{p,a,b\}$.
 \end{enumerate}
-Let $R$ be the graph obtained from $G$ by these attachments.
-Every vertex in $P_v$ has degree $d-1$ inside $Q_v$ and gains one
-edge to $v$. Every vertex of $V(Q_v)\setminus P_v$ has degree $d$
-inside $Q_v$, and $v$ gains $t=d-\deg_G(v)$ neighbors. Thus all
-degrees in $R$ are $d$.
-Each $Q_v$ has minimum degree $d-1$ and at most $d+2$ vertices.
+Define the graph $R$ by
+\[
+V(R)=V(G)\mathbin{\dot\cup}
+       \mathop{\dot\bigcup}_{v\in V(G)}V(Q_v),\qquad E(R)=E(G)\cup\bigcup_{v\in V(G)}E(Q_v)
+       \cup\bigcup_{v\in V(G)}\{\{v,p\}:p\in P_v\}.
+\]
+The three cases give
+\[
+ \deg_{Q_v}(p)=d-1\quad(p\in P_v),\qquad
+ \deg_{Q_v}(x)=d\quad(x\in V(Q_v)\setminus P_v).
+\]
+Hence $\deg_R(v)=\deg_G(v)+|P_v|=d$ for every $v\in V(G)$,
+and $\deg_R(x)=d$ for every $x\in V(Q_v)$.
+Each $Q_v$ has minimum degree $d-1$, and its order satisfies
+\begin{equation}\label{eq:regularization-attachment-size}
+ d+1\le |V(Q_v)|\le d+2\qquad(v\in V(G)).
+\end{equation}
 Every connected component therefore has at least $d$ vertices,
 so $Q_v$ is connected because
 $2d>d+2$ for $d\geq3$. The resulting graph $R$ is simple.
 
-Appending $V(Q_v)$ as a chain below $v$ increases the height by at
+Given an elimination forest $F$ of $G$, appending $V(Q_v)$ as a chain
+below $v$ increases the height by at
 most $d+2$. If the chain has $|V(Q_v)|$ vertices, their total depth is
 at most
 \[
  |V(Q_v)|\operatorname{depth}_F(v)
  +\frac{|V(Q_v)|(|V(Q_v)|+1)}2
- \leq(d+2)\operatorname{depth}_F(v)+\frac{(d+2)(d+3)}2.
+ \overset{\eqref{eq:regularization-attachment-size}}{\leq}
+ (d+2)\operatorname{depth}_F(v)+\frac{(d+2)(d+3)}2.
 \]
 Summing over $v$ and including the original vertices gives the stated
 total-depth upper bound. Attach a bag $\{v\}\cup V(Q_v)$ to an
@@ -397,24 +422,23 @@ existing bag containing $v$ in a tree decomposition of $G$.
 Doing this for every $v$ proves the treewidth bound.
 
 For the total-depth lower bound, partition $V(R)$ into connected sets
-$X_v=\{v\}\cup V(Q_v)$. Fix an elimination forest $F$ of $R$.
-The shallowest
-vertex $r_v$ of $X_v$ is an ancestor of every vertex in $X_v$.
-To see this, take a path in $X_v$ starting at $r_v$. If a next vertex
-is a descendant of the current one, it remains below $r_v$. If it is
-an ancestor of the current one, it lies on the path from the root to
-the current vertex and cannot be above $r_v$, by the choice of $r_v$.
-Thus every vertex of $X_v$ is below $r_v$. For every source edge $uv$,
-the endpoints $u,v$ are comparable in the forest. Since $r_u$ and
-$r_v$ are ancestors of $u$ and $v$, they are both ancestors of the
-deeper endpoint and are therefore comparable. Restrict the forest to
-the representatives $r_v$ and rename each $r_v$ as $v$. The result
-$\overline F$ is an elimination forest of $G$. For every $x\in X_v$,
-$\operatorname{depth}_F(x)\ge\operatorname{depth}_F(r_v)
-\ge\operatorname{depth}_{\overline F}(v)$, so
+$X_v=\{v\}\cup V(Q_v)$. Each edge $uv$ of $G$ itself witnesses
+an edge between $X_u$ and $X_v$. Thus any elimination forest $F$
+of $R$ projects by Lemma~\ref{lem:connected-part-projection} to a
+forest $\overline F$ of $G$ with
+\begin{equation}\label{eq:regularization-depth-projection}
+ \operatorname{depth}_F(x)
+ \overset{\text{Lem.~\ref{lem:connected-part-projection}}}{\ge}
+ \operatorname{depth}_{\overline F}(v)
+ \qquad(v\in V(G),\ x\in X_v).
+\end{equation}
+Consequently,
 \[
- \totd(F)\geq\sum_v|X_v|\operatorname{depth}_{\overline F}(v)
- \geq(d+2)\totd(\overline F)\geq(d+2)\totd(G).
+ \totd(F)
+ \overset{\eqref{eq:regularization-depth-projection}}{\geq}
+ \sum_{v\in V(G)}|X_v|\operatorname{depth}_{\overline F}(v)
+ \overset{\eqref{eq:regularization-attachment-size}}{\geq}
+ (d+2)\totd(\overline F)\geq(d+2)\totd(G).
 \]
 This argument also gives a polynomial-time projection of forests.
 \end{proof}
@@ -423,69 +447,22 @@ This argument also gives a polynomial-time projection of forests.
 The hardness ranges in Corollaries~\ref{cor:td-bounded-degree},
 \ref{cor:tw-bounded-degree}, and~\ref{cor:total-depth-bounded-degree}
 also hold on $d$-regular graphs for a suitable fixed odd degree $d$
-depending only on the excluded factor. The NP-hardness constant for
-total depth may decrease.
+depending only on the excluded factor.
 \end{corollary}
 
 \begin{proof}
-Fix a target factor $r$ and a larger factor $r'$ in the same
-hardness range. For NP-hardness of total depth, take
-$1<r<r'<1+\epsilon_0$.
-Choose an odd $d$ larger than the maximum degree of the
-bounded-degree source family. We may increase $d$ further, then
-require a sufficiently large source order $n$, using the
-enlargements described in Section~\ref{subsec:bounded-degree-consequences}.
-
-For treedepth and treewidth, Proposition~\ref{prop:regularization}
-changes the promise bounds by at most the fixed constant $d+2$.
-Their YES bounds have linear scale, so this is $o(Y)$ as the source
-order grows. Lemma~\ref{lem:gap-preservation} preserves the
-factor-$r$ gap.
-
-For total depth, divide the regularized cost by $d+2$.
-Proposition~\ref{prop:regularization} gives
-\[
- 0\le\frac{\totd(R)}{d+2}-\totd(G)
- \le\frac{\totd(G)}{d+2}+\frac{d+3}{2}n
- \le\frac{n(n+1)}{2(d+2)}+\frac{d+3}{2}n.
-\]
-Let $Y=\Theta(n^2)$ be the YES upper bound. For any fixed
-$\epsilon>0$, choose $d$ large enough that the first term in the
-last bound is at most $\epsilon Y/2$ for all sufficiently large $n$,
-then choose $n$ large enough that the second term is at most
-$\epsilon Y/2$. The normalized error is then at most $\epsilon Y$,
-and the NO bound does not decrease. Choosing
-$\epsilon<(r'-r)/(r+1)$, Lemma~\ref{lem:gap-preservation}
-preserves the factor-$r$ gap.
-
-For the NP total-depth family, let $G=H'$ be the sparse instance
-from the preceding proof, and write $s=|V(G)|=11n+3M$, with $n$
-and $M$ as defined there. That proof gives
-$\OPT(G)=\totd(H')\geq(1-\epsilon_0)Mn=:L$. Since $M=\Theta(n)$,
-we have $s=\Theta(n)$ and $L=\Omega(s^2)$. Choose $\epsilon>0$
-such that $r+(r+1)\epsilon<r'$. Applying
-Proposition~\ref{prop:regularization} to a graph of order $s$ gives
-\[
- 0\leq\frac{\totd(R)}{d+2}-\totd(G)
- \leq\frac{s(s+1)}{2(d+2)}+\frac{d+3}{2}s.
-\]
-Fix $c>0$ such that $L\geq cs^2$ throughout this family. For
-$s\geq1$, the first term is at most $s^2/(d+2)\leq
-L/(c(d+2))$. Choose an odd $d$, also larger than the maximum degree
-of $G$, so that $1/(c(d+2))\leq\epsilon/2$. For this fixed $d$,
-the second term is at most $\epsilon L/2$ whenever
-$s\geq(d+3)/(c\epsilon)$. Therefore
-\[
- \frac{\totd(R)}{d+2}-\totd(G)\leq\epsilon L,
- \qquad
- \OPT(R)\leq(d+2)\OPT(G)+(d+2)\epsilon L.
-\]
-The projection in Proposition~\ref{prop:regularization} converts
-every forest of $R$ of cost $z$ into one of $G$ of cost at most
-$z/(d+2)$. Lemma~\ref{lem:solution-lifting}, with $a=d+2$ and
-$\eta=\epsilon$, therefore turns an $r$-approximation on regular
-graphs into an approximation of factor at most
-$r+(r+1)\epsilon<r'$ on the source family.
+Choose a source gap larger than the target gap and apply
+Proposition~\ref{prop:regularization}. Its fixed additive costs for
+treedepth and treewidth vanish relative to their linear YES scale.
+For total depth, let $G$ be the source graph, put $n=|V(G)|$, and
+divide costs by $d+2$: the error is
+$O(n^2/d+dn)$. Choose $d$ large, then $n$ large, relative to the
+quadratic scale. In the NP case, with $M,m$ from the NP construction,
+the bound $L=Mm/2\le\totd(G)$
+from Appendix~\ref{app:transfer-total-np} and the proposition's
+forest projection give the same approximation transfer directly.
+Appendix~\ref{app:transfer-regular} supplies all parameter choices
+and the projection calculation.
 \end{proof}
 
 \begin{corollary}\label{cor:subdivision-hardness}
@@ -509,8 +486,11 @@ Every cycle uses at least three
 replacement paths and therefore has length at least $3\ell\geq g$.
 By Lemma~\ref{lem:minor-monotonicity}, contracting each replacement
 path gives
-$\operatorname{tw}(G)\leq\operatorname{tw}(G_\ell)$ and
-$\td(G)\leq\td(G_\ell)$. Conversely, for each path
+$\operatorname{tw}(G)
+\overset{\text{Lem.~\ref{lem:minor-monotonicity}}}{\leq}
+\operatorname{tw}(G_\ell)$ and
+$\td(G)\overset{\text{Lem.~\ref{lem:minor-monotonicity}}}{\leq}
+\td(G_\ell)$. Conversely, for each path
 $u=x_0,x_1,\ldots,x_\ell=v$, attach the bags
 $\{u,v,x_1\},\{v,x_1,x_2\},\ldots,
 \{v,x_{\ell-2},x_{\ell-1}\}$ along a path to an old bag containing
@@ -518,11 +498,9 @@ $u,v$. These bags cover the replacement path and preserve the
 connectedness condition for each vertex, so
 $\operatorname{tw}(G_\ell)\leq\max\{\operatorname{tw}(G),2\}$.
 If $\operatorname{tw}(G)\ge2$, the two bounds give equality.
-If $\operatorname{tw}(G)=1$, then $G$ is a forest with an edge,
-so subdivision preserves acyclicity and both graphs have treewidth
-one. If $\operatorname{tw}(G)=0$, then $G$ is edgeless and the
-construction leaves it unchanged. Thus subdivision preserves
-treewidth in every case.
+If $\operatorname{tw}(G)\le1$, then $G$ is a forest. Subdivision
+preserves acyclicity and whether an edge exists, so it preserves
+treewidth zero or one as well. Thus treewidth is preserved in every case.
 A path on $s$ vertices has an
 elimination tree of height at most $\lceil\log_2(s+1)\rceil$: choose
 a middle vertex as root and recurse on the two remaining subpaths.
@@ -531,15 +509,17 @@ a tree of height $h=\lceil\log_2\ell\rceil$. Attach this tree below
 the deeper of the original edge's endpoints in an elimination forest
 of $G$. The original endpoints are comparable, so the edge to the
 shallower endpoint is represented as well. This gives
-\[
+\begin{equation}\label{eq:subdivision-height-upper}
  \td(G_\ell)\leq\td(G)+h,\qquad h=\lceil\log_2\ell\rceil.
-\]
+\end{equation}
 Lemma~\ref{lem:gap-preservation} absorbs the fixed height increase
-$h$, since the YES bounds grow linearly with the source order. For
+in~\eqref{eq:subdivision-height-upper}, since the YES bounds grow
+linearly with the source order. For
 total depth, start with a
 $d$-regular instance $G$ on $n$ vertices from
 Corollary~\ref{cor:regular-hardness}.
-Since $d$ is odd, add a perfect matching to make every degree even,
+The identity $dn=2|E(G)|$ and oddness of $d$ imply that $n$ is even.
+Add a perfect matching on the vertex set to make every degree even,
 using auxiliary matching edges that may be parallel to original edges.
 Each connected component of the augmented multigraph has even
 degrees and therefore has an Euler tour, a closed walk traversing
@@ -551,50 +531,57 @@ at least $(d-1)/2$.
 Assign the internal vertices of each replacement path to the tail
 of its oriented edge. For each vertex $v$, let $X_v$ consist of $v$
 and the internal vertices assigned to it. The sets $X_v$ partition
-$V(G_\ell)$. Each is connected and has size at least
-$s=1+(\ell-1)(d-1)/2$. In an elimination forest of $G_\ell$, let
-$r_v$ be the shallowest vertex of $X_v$. Since $X_v$ is connected
-and the endpoints of each graph edge are comparable, $r_v$ is an
-ancestor of every vertex in $X_v$. Each original edge $uv$ has a
-replacement path whose last edge joins $X_u$ to $X_v$, so $r_u$ and
-$r_v$ are comparable. Restrict the forest to the representatives
-$r_v$ and identify each $r_v$ with $v$. The resulting forest
-$\overline F$ is an elimination forest of $G$. Restriction never
-increases depth, and every vertex of $X_v$ was below $r_v$. Hence
-the original depth sum is at least
-$\sum_v|X_v|\operatorname{depth}_{\overline F}(v)
-\ge s\totd(\overline F)\ge s\totd(G)$.
+$V(G_\ell)$. Each is connected, and
+\begin{equation}\label{eq:subdivision-block-size}
+ s=1+(\ell-1)(d-1)/2,\qquad |X_v|\ge s\quad(v\in V(G)).
+\end{equation}
+Each oriented edge $uv$ has a replacement path whose last edge
+joins $X_u$ to $X_v$. Lemma~\ref{lem:connected-part-projection}
+therefore projects any elimination forest $F$ of $G_\ell$ to an
+elimination forest $\overline F$ of $G$, and gives
+\begin{equation}\label{eq:subdivision-depth-projection}
+ \totd(F)
+ \overset{\text{Lem.~\ref{lem:connected-part-projection}}}{\ge}
+ \sum_{v\in V(G)}|X_v|\operatorname{depth}_{\overline F}(v)
+ \overset{\eqref{eq:subdivision-block-size}}{\ge}
+ s\totd(\overline F)\ge s\totd(G).
+\end{equation}
 
-For the upper bound, take an optimal elimination forest of $G$ and,
-for each original edge, attach a midpoint-recursive elimination tree
-of its internal path below the deeper endpoint. Each of the
-$\ell-1$ new vertices on that path has depth at most the depth of
-that endpoint plus $h$. Each vertex is the deeper endpoint of at
+For the upper bound, use the same midpoint-recursive trees below the
+deeper endpoints in an optimal elimination forest $F$ of $G$, and call
+the resulting forest of $G_\ell$ $\widehat F$. Each of the
+$\ell-1$ new vertices $x$ on a replacement path $uv$ satisfies
+\begin{equation}\label{eq:subdivision-new-depth}
+ \operatorname{depth}_{\widehat F}(x)\le
+ \operatorname{depth}_F(\text{deeper endpoint of }uv)+h.
+\end{equation}
+Each vertex is the deeper endpoint of at
 most $d$ edges, so summing the original and new depths gives
 \[
 \begin{aligned}
- s\totd(G)&\leq\totd(G_\ell)\\
- &\leq\totd(G)+(\ell-1)\sum_{uv\in E(G)}
+ s\totd(G)
+ &\overset{\eqref{eq:subdivision-depth-projection}}{\leq}
+ \totd(G_\ell)\\
+ &\overset{\eqref{eq:subdivision-new-depth}}{\leq}
+ \totd(G)+(\ell-1)\sum_{uv\in E(G)}
        \operatorname{depth}_{F}(\text{deeper endpoint of }uv)
        +h(\ell-1)|E(G)|\\
- &\leq[1+d(\ell-1)]\totd(G)+h(\ell-1)|E(G)|.
+ &\leq
+ [1+d(\ell-1)]\totd(G)+h(\ell-1)|E(G)|.
 \end{aligned}
 \]
-Here $1+d(\ell-1)\leq3s$, since
-$3s-[1+d(\ell-1)]=2+(\ell-1)(d-3)/2\geq0$. The last term is
-$O(n)$ because $d$ and $\ell$ are fixed. For a target factor $r$,
-choose a fixed $r'>r$ and a source SSE gap with NO bound $Z>3r'Y$,
-where $Y$ is its YES upper bound. For a fixed $C$, the subdivided
-instance has YES bound at most $3sY+Cn$ and NO bound at least $sZ$.
-Therefore the NO lower bound minus $r$ times the YES upper bound is
-at least
+Since $d\geq3$, using the definition of $s$, $|E(G)|=dn/2$,
+and $C=h(\ell-1)d/2$ gives
 \[
- sZ-r(3sY+Cn)>3s(r'-r)Y-rCn>0
+ 3s-[1+d(\ell-1)]=2+\frac{(d-3)(\ell-1)}2\geq0,\qquad
+ s\totd(G)\leq\totd(G_\ell)\leq3s\totd(G)+Cn.
 \]
-for sufficiently large instances, since $Y$ is quadratic in $n$.
-Such orders are obtained from
-parallel host-edge copies as described in
-Section~\ref{subsec:bounded-degree-consequences}.
+Choose a regular SSE source with a gap larger than three times
+the target factor. This fixes $d$; next fix $\ell$, and then enlarge
+the source so that $Cn$ is negligible compared with its quadratic
+YES scale. The resulting gap survives by the calculation in
+Appendix~\ref{app:transfer-subdivision}.
+
 \end{proof}
 
 Equation~\eqref{eq:tp-adjusted-cost} also transfers the total-depth

@@ -12,20 +12,101 @@ unweighted graphs of bounded maximum degree:
 | --- | --- | --- | --- |
 | Treedepth | below `18/17` | below `4/3` | every fixed factor |
 | Treewidth | below `12/11` | below `4/3` | every fixed factor |
-| Total elimination depth | some `1 + ε₀ > 1` | below `8/7` | every fixed factor |
+| Total elimination depth | below `63/62` | below `8/7` | every fixed factor |
 
-The reductions are deterministic. The degree bound may depend on the
-excluded approximation factor.
+The degree bound may depend on the excluded approximation factor.
+
+Minimum total hierarchical customizable-label size and minimum total CCH
+upward vertex search-space size equal total elimination depth. Their total
+and average objectives therefore inherit its NP, UGC, and SSE hardness
+ranges, including on bounded-degree and regular graphs. Search spaces count
+the starting vertex. The applications section supplies polynomial decoding
+from hierarchical labels to elimination forests.
+
+General factor sparsification assumes bounded factor incidence and bounded
+degree of retained edges; it requires no balance assumption on biclique
+sides. The connected replacement lemma retains its separate balance
+hypothesis. Search applications distinguish mandatory target confirmation
+from free singleton identification; their summed optima differ by at most
+the graph order, which the quadratic hardness gaps absorb.
+
+After implementing the October 22 audit improvements, further research in
+this workspace is focused only on hardness results and stronger hardness
+bounds.
+
+Prioritize simple proofs and qualitative gains. Omit ancillary refinements
+that only improve constants or finite-size estimates without changing the
+main hardness thresholds, hypotheses, or scope. Use sufficient coarse
+bounds while keeping correctness and nontrivial calculations explicit.
+Omit routine arithmetic and encoding details. Use "copies" for replicated
+vertices and "number of copies" for their counts.
+State supporting properties as numbered lemmas or theorems before use.
+Invoke published results directly, citing their source in the statement;
+retain proofs only for the adaptations and deductions needed here.
+Introduce each step with its purpose and the obstacle it addresses.
+Explain how the ideas connect before listing their guarantees.
+For long mechanical gap calculations, give the shortest useful proof
+sketch in the main text and place the full derivation in the appendix,
+with a precise cross-reference. Display successive transformations as
+one arrow chain on one line when it fits; put lengthy citations in the
+surrounding prose.
+Chain successive equalities and inequalities in one or two display lines
+where they remain readable. Keep intermediate steps and their justifications,
+and use more lines only when needed to avoid overwide formulas. Several
+calculations or symbol definitions may share a line, including independent
+formulas separated by commas or appropriate spacing. Use the available text
+width; do not retain a line break solely because the formulas are independent.
+Keep proofs whose sole purpose is to establish sharpness commented out of
+the compiled manuscript; preserve the proofs of the bounds themselves.
+
+All three NP-hardness reductions use the bounded-occurrence parity source
+stated in [sections/np-hardness.tex](sections/np-hardness.tex).
+Treedepth and treewidth share a parity-witness graph; total elimination
+depth uses a separate encoding by literal blocks and auxiliary pairs in
+[sections/np-total-depth-hardness.tex](sections/np-total-depth-hardness.tex).
 
 ## Manuscript structure
 
 - The main text presents the UGC results, then SSE hardness, NP-hardness,
   bounded-degree reductions, applications, and open questions.
 - `sections/appendix-source-normalizations.tex` contains the source-promise
-  normalizations and the provenance discussion for the NP reduction.
-- `sections/appendix-auxiliary-proofs.tex` contains the earlier incidence
-  construction argument, the branching inequalities, and the anchor-length
-  derivation.
+  normalizations and the provenance discussion for the NP reductions.
+  The parity normalization pairs the source with a complemented copy and
+  repeats each equation six times, preserving its satisfied fraction.
+- `sections/appendix-auxiliary-proofs.tex` contains the branching
+  inequalities, the anchor-length derivation, and the total-depth
+  normalization and path identities, followed by the factor-replacement
+  construction.
+- `sections/appendix-dense-gap-calculations.tex` gives the full parameter
+  choices and arithmetic for the dense hardness gaps.
+- `sections/appendix-transfer-gap-calculations.tex` gives the gap
+  calculations for sparsification, regularization, and subdivision;
+  `sections/appendix-application-gap-calculations.tex` continues that
+  appendix with the binary state-space application.
+
+In proof calculations, put the relevant theorem, lemma, or equation
+reference above each nontrivial equality or inequality transition, using
+`\overset`. State theorem, lemma, proposition, and corollary bounds without
+these annotations; give their justifications in the proofs. Keep direct
+arithmetic steps plain and retain explicit sum domains. Do not use
+`\substack` or framed bounds.
+
+Keep the introduction's reduction overview on one page as a connected
+directed graph. Use separate vertices with short labels for the important
+transformations and normalization steps. Align the three source columns,
+merge the parameter gaps before degree reduction, and show only the main
+application branches. Keep longer explanations and specialized routes in
+the surrounding text. Scale the finished diagram to fit the page while
+preserving clear node spacing and readable labels. Use as few text lines
+per vertex as practical and avoid semicolons in visible diagram text.
+
+Define mathematical assignments, probabilities, and guarantees by explicit
+formulas, with their domains and parameters. When following a published
+construction, credit its idea before stating the actual construction used
+here. Specify the base measures and independence assumptions of samplers.
+Bind symbols to their domains when introducing notation, including edge
+collections, vertex sets, and indexing variables. Distinguish the weights
+of an original graph from those of a reweighted graph.
 
 Build from this directory with:
 

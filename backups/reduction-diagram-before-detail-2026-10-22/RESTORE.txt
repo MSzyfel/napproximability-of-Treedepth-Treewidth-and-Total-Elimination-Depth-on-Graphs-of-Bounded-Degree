@@ -1,0 +1,14 @@
+Original reduction diagram saved before the detailed revision on 2026-10-22.
+
+introduction-reduction-map.tex is the exact original diagram source.
+manuscript-before-detail.pdf is the original compiled manuscript.
+original-diagram.pdf contains just its diagram page.
+01-introduction.tex and README.md preserve the surrounding overview text.
+
+To restore only the diagram, copy introduction-reduction-map.tex from this
+folder to ../../sections/introduction-reduction-map.tex. The figure label is
+unchanged. The saved 01-introduction.tex contains the original overview
+wording; avoid replacing the entire file if it has later edits.
+
+Then build from the conditional-treedepth-hardness directory:
+latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex

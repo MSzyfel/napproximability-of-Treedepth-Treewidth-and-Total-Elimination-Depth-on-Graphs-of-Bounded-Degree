@@ -28,7 +28,7 @@ parts $V(G)=A\mathbin{\dot\cup}B\mathbin{\dot\cup}C$, and put
 $n_{\max}=\max\{|A|,|B|,|C|\}$. Thus $G$ has no edge within a part.
 For an integer $R\ge1$, take copies $G_1,\ldots,G_R$ on
 $V(G)\times\{1\},\ldots,V(G)\times\{R\}$, writing $v_j=(v,j)$.
-For $X\in\{A,B,C\}$, let $X_j=X\times\{j\}$ and
+For $X\in\{A,B,C\}$ and $j\in[R]$, let $X_j=X\times\{j\}$ and
 $X^*=X\times[R]$. Define $K_R(G)$ on $V(G)\times[R]$ by
 writing $\binom{X^*}{2}$ for the set of unordered pairs of distinct
 vertices in $X^*$:
@@ -54,15 +54,17 @@ In particular, that bag has size at least $R\vc(G)$.
 \begin{proof}
 We use Bonnet's central-bag argument
 \cite[proof of Lemma~6]{BonnetTreewidth}.
-Fix a tree decomposition $(T,(B_t))$.
+Fix a tree decomposition $(T,(B_t)_{t\in V(T)})$ of $K_R(G)$.
 For each nonempty clique $X^*$, the subtrees $T_x$, $x\in X^*$,
-intersect pairwise. By the Helly property for subtrees of a tree,
+intersect pairwise. By Lemma~\ref{lem:subtree-helly},
 they have a common node $u_X$, so $X^*\subseteq B_{u_X}$
-\cite[Lemma~4]{BonnetTreewidth}. Choose $u_X$ arbitrarily if
-$X^*=\varnothing$. Let $u$ be the median of $u_A,u_B,u_C$, namely
-the unique common node of their three pairwise connecting paths.
-For every edge $xy$ of a source copy $G_j$, with $x\in X^*$ and
-$y\in Y^*$, the subtrees $T_x,T_y$ intersect. Their union is
+\cite[Lemma~4]{BonnetTreewidth}. Choose $u_X\in V(T)$ arbitrarily if
+$X^*=\varnothing$. Lemma~\ref{lem:three-tree-paths} gives a unique
+common node $u$ of the three paths joining pairs of
+$u_A,u_B,u_C$.
+For an edge $xy\in E(G_j)$, with $j\in[R]$, let
+$x\in X^*$ and $y\in Y^*$ for distinct $X,Y\in\{A,B,C\}$.
+The subtrees $T_x,T_y$ intersect. Their union is
 connected and contains $u_X,u_Y$, so it contains the
 $u_X$--$u_Y$ path and hence $u$. Thus $u\in T_x\cup T_y$,
 which means that $B_u$ contains $x$ or $y$.
@@ -73,7 +75,8 @@ and has size at least $R\vc(G)$.
 
 \begin{lemma}[A decomposition from a source cover]\label{lem:tw-cover-decomposition}
 For every vertex cover $S$ of $G$, the graph $K_R(G)$ has a tree
-decomposition whose bags have size at most $R\max\{|S|,n_{\max}\}+n_{\max}$.
+decomposition whose bags have size at most
+$R\max\{|S|,n_{\max}\}+n_{\max}$.
 \end{lemma}
 
 \begin{proof}
@@ -81,26 +84,30 @@ We adapt the three-path decomposition of~\cite[Section~3.3]{BonnetTreewidth}
 by processing copies separately, so the temporary bag increase is at
 most $n_{\max}$, independently of $R$.
 Put $I=V(G)\setminus S$.
-For each $j$, let $S_j$ and $I_j$ denote the corresponding copies
-in $G_j$. Start with the central bag
-$S^*=\bigcup_{j=1}^R S_j$, of size $R|S|$. Attach three paths to this
-node, one for each part $X$. The path to $X$ ends with the bag $X^*$.
+For each $j\in[R]$, put $S_j=S\times\{j\}$ and $I_j=I\times\{j\}$.
+Start with the central bag
+$S^*=\bigcup_{j=1}^R S_j$, where $|S^*|=R|S|$. Attach three paths to this
+node, one for each $X\in\{A,B,C\}$. The path to $X$ ends with the bag $X^*$.
 On this path process the copies in order $j=1,\ldots,R$. At step $j$,
 first add all vertices of $I_j\cap X_j$, and then remove all vertices
 of $S_j\setminus X_j$.
 
 After processing the first $j$ copies, the bag is
 \[
- B^X_j=\bigcup_{i\le j}X_i\;\cup\!\bigcup_{i>j}S_i
+ B^X_j=\bigcup_{i=1}^j X_i\;\cup\!\bigcup_{i=j+1}^R S_i
  \qquad(0\le j\le R).
 \]
 Here $B^X_0=S^*$ and $B^X_R=X^*$. Between $B^X_{j-1}$ and
 $B^X_j$ insert the bag $B^X_{j-1}\cup(I_j\cap X_j)$.
-The bags after completed steps have size
-$j|X|+(R-j)|S|\le R\max\{|S|,|X|\}$. An inserted bag has at most
-$|I\cap X|\le n_{\max}$ additional vertices. Every bag therefore has
-size at most $R\max\{|S|,n_{\max}\}+n_{\max}$.
-
+The bag sizes satisfy
+\[
+\begin{aligned}
+ |B^X_j|&=j|X|+(R-j)|S|\le R\max\{|S|,|X|\},\\
+ |B^X_{j-1}\cup(I_j\cap X_j)|
+ &=|B^X_{j-1}|+|I\cap X|
+ \le R\max\{|S|,n_{\max}\}+n_{\max}.
+\end{aligned}
+\]
 We verify the decomposition axioms. Every vertex is present in its
 part's final bag. A vertex in $S_j\cap X_j$ occurs at the center and
 throughout the $X$-path, and on each other path it is removed once.
@@ -123,23 +130,22 @@ parts $A,B,C$, put $n_{\max}=\max\{|A|,|B|,|C|\}$, and let
 $R\ge1$ be an integer. Then
 \[
  R\max\{\vc(G),n_{\max}\}-1
- \ \leq\ \operatorname{tw}(K_R(G))
- \ \leq\ R\max\{\vc(G),n_{\max}\}+n_{\max}-1.
+ \leq\operatorname{tw}(K_R(G))\leq
+ R\max\{\vc(G),n_{\max}\}+n_{\max}-1.
 \]
 \end{lemma}
 
 
 \begin{proof}
-The Helly argument in Lemma~\ref{lem:tw-central-bag} puts each global
-clique in a bag, so every tree decomposition has a bag of size at least
-$Rn_{\max}$. Lemma~\ref{lem:tw-central-bag} also gives a bag of size
-at least $R\vc(G)$. Thus the largest bag in each decomposition has
-size at least $R\max\{\vc(G),n_{\max}\}$. Subtracting one gives the
-lower bound on treewidth. For the upper bound, apply
+Lemma~\ref{lem:tw-central-bag} gives a bag of size at least $R\vc(G)$,
+and Lemma~\ref{lem:subtree-helly} applied to a largest global clique
+gives one of size at least $Rn_{\max}$.
+Thus every decomposition has a bag of size at least
+$R\max\{\vc(G),n_{\max}\}$. For the upper bound, apply
 Lemma~\ref{lem:tw-cover-decomposition} to a minimum cover of $G$:
 its largest bag has size at most
-$R\max\{\vc(G),n_{\max}\}+n_{\max}$. Subtracting one gives the
-stated upper bound.
+$R\max\{\vc(G),n_{\max}\}+n_{\max}$. Subtracting one from both
+bag-size bounds proves the claim.
 \end{proof}
 
 For fixed $R$, the construction has $R|V(G)|$ vertices and is
@@ -158,9 +164,12 @@ Section~\ref{sec:bounded-degree-hardness}.
 \begin{lemma}[Multipartite product]\label{lem:multipartite-product}
 For a nonempty simple graph $G$ on $n$ vertices and a positive integer
 $k$, let $P_k(G)$ have vertex set $V(G)\times[k]$, and write
-$v_i=(v,i)$. Join $u_i$ to $v_j$ if and only if $i\ne j$ and
-$uv\in E(G)$. Its $k$ layers are independent
-sets of size $n$. Moreover,
+$v_i=(v,i)$. For $u,v\in V(G)$ and $i,j\in[k]$, define its edges by
+\[
+ u_iv_j\in E(P_k(G))\quad\Longleftrightarrow\quad
+ i\ne j\text{ and }uv\in E(G).
+\]
+Its layers $V(G)\times\{i\}$, $i\in[k]$, are independent sets of size $n$. Moreover,
 $k\alphaI(G)\le\alphaI(P_k(G))\le n+(k-1)\alphaI(G)$ and
 $\Delta(P_k(G))=(k-1)\Delta(G)$.
 \end{lemma}
@@ -168,28 +177,36 @@ $\Delta(P_k(G))=(k-1)\Delta(G)$.
 \begin{proof}
 All $k$ copies of an independent set of $G$ form an independent
 set of $P_k(G)$, proving the first bound. For the upper bound, let
-$I$ be any independent set in the product. Let $m_v$ count the copies
-of $v$ in $I$, and put $D=\{v:m_v\ge2\}$. If distinct $u,v\in D$
+$I$ be any independent set in the product. Put
+$m_v=|\{i\in[k]:v_i\in I\}|$ for $v\in V(G)$ and
+$D=\{v\in V(G):m_v\ge2\}$. If distinct $u,v\in D$
 were adjacent in $G$, choose a copy $u_i\in I$. The set $I$ contains
 at least two copies of $v$, so one has a layer index $j\ne i$. Then
-$u_iv_j$ would be an edge inside $I$. Thus $D$ is independent, and
-$|I|=\sum_vm_v\le n+(k-1)|D|\le n+(k-1)\alphaI(G)$.
-Each copy of a vertex has one neighbor in each of the other
-$k-1$ layers for every source neighbor, giving the degree identity.
+$u_iv_j$ would be an edge inside $I$. Thus $D$ is independent, so
+\begin{equation}\label{eq:multipartite-repeated-support}
+ |D|\leq\alphaI(G).
+\end{equation}
+Since $m_v\leq k$ for $v\in D$ and $m_v\leq1$ otherwise,
+\[
+ |I|=\sum_{v\in V(G)}m_v\leq n+(k-1)|D|
+ \overset{\eqref{eq:multipartite-repeated-support}}{\leq}
+ n+(k-1)\alphaI(G).
+\]
+For every $v\in V(G)$ and $i\in[k]$,
+$\deg_{P_k(G)}(v_i)=(k-1)\deg_G(v)$,
+which proves the maximum-degree identity.
 \end{proof}
 
 \begin{theorem}[Balanced bounded-degree multipartite cover gap]
 \label{thm:ugc-tripartite-cover}
-For every fixed integer $k\geq3$ and fixed rational
+For every fixed integer $k\geq3$ and fixed
 $0<\zeta<1/12$, there is a constant $D_{k,\zeta}$ such that the
 following promise problem is Unique Games-hard. The input is a
-simple unweighted $k$-partite graph $G$ on $N$ vertices, of maximum
+simple unweighted $k$-partite graph $G$ on $N\geq k$ vertices, of maximum
 degree at most $D_{k,\zeta}$, with a specified partition into $k$
 independent parts each of size $N/k$. Distinguish the following cases:
-\begin{description}
- \item[YES:] $\vc(G)\leq(1/2+\zeta)N$.
- \item[NO:] $\vc(G)\geq(1-1/k-\zeta)N$.
-\end{description}
+\textbf{YES:} $\vc(G)\leq(1/2+\zeta)N$;
+\textbf{NO:} $\vc(G)\geq(1-1/k-\zeta)N$.
 The reduction is deterministic and polynomial time.
 \end{theorem}
 
@@ -197,44 +214,29 @@ The promise follows from Theorem~\ref{thm:bounded-degree-kr-source} and
 Lemma~\ref{lem:multipartite-product}, with
 $D_{k,\zeta}=(k-1)d_{\zeta/2}$. The independent-set source is already
 of bounded degree by the spectral sparsification in
-Appendix~\ref{app:bounded-degree-ugc-source}. The multipartite product
-multiplies its maximum degree by $k-1$.
+Appendix~\ref{app:bounded-degree-ugc-source}.
 Appendix~\ref{app:multipartite-normalization} records the parameter
 substitution. Taking $k=3$ and applying the
 replication lemma proves the treewidth gap.
 
 
 
-\begin{proof}[Dense treewidth gap]
-As the source error decreases and $R$ increases, the leading NO
-and YES coefficients approach $2/3$ and $1/2$, giving ratio $4/3$.
-Fix $1\le r<4/3$. The positive difference $2/3-r/2$ allows us to
-choose a fixed rational
-$0<\zeta<1/12$ and then a fixed integer $R\ge1$ such that
-$2/3-\zeta>r(1/2+\zeta+1/(3R))$.
-Here $\zeta$ controls the source error and $1/(3R)$ controls the
-additional YES cost of the replication construction.
-Take the $N$-vertex source from Theorem~\ref{thm:ugc-tripartite-cover}
-with $k=3$. Its parts have size $N/3$. Since $\zeta<1/12$, both
-cover thresholds, $(1/2+\zeta)N$ and $(2/3-\zeta)N$, exceed $N/3$.
-Thus the $n_{\max}=N/3$ term in the maximum of
-Lemma~\ref{lem:tw-replication} does not weaken either case, and the
-lemma gives
+\begin{proof}[Dense treewidth gap: proof sketch]
+Apply Theorem~\ref{thm:ugc-tripartite-cover} with $k=3$ and then
+Lemma~\ref{lem:tw-replication}. For the $N$-vertex source, the
+YES and NO width bounds are respectively
 \[
- \begin{array}{ll}
- \textup{YES:}&\operatorname{tw}(K_R(G))
-       \le R(1/2+\zeta)N+N/3-1,\\
- \textup{NO:}&\operatorname{tw}(K_R(G))
-       \ge R(2/3-\zeta)N-1.
- \end{array}
+ R(1/2+\zeta)N+N/3-1,\qquad R(2/3-\zeta)N-1.
 \]
-The choices of $\zeta,R$ make
-$\gamma:=R(2/3-\zeta)-r\bigl(R(1/2+\zeta)+1/3\bigr)>0$.
-The NO lower bound minus $r$ times the YES upper bound is
-$\gamma N+r-1>0$, giving the gap for both treewidth and maximum
-bag size. Indeed, adding one to both treewidth bounds gives the
-corresponding maximum-bag-size bounds, whose difference is
-$\gamma N>0$.
-The construction is polynomial, and its three specified cliques
-each have size $RN/3$.
+As the source error decreases and the fixed replication count $R$
+increases, their leading coefficient ratio approaches $4/3$.
+Thus every fixed $r<4/3$ is excluded. The same comparison applies
+to maximum bag size by adding one to both bounds.
+Appendix~\ref{app:dense-ugc-tw} supplies the choices of $\zeta,R$
+and checks the additive constants and decision thresholds.
+Writing $\Lambda$ for the Unique Games instance, the construction is
+\[
+ \Lambda\xrightarrow{\text{tripartite source}}G
+ \xrightarrow{\text{replicate and complete}}K_R(G).
+\]
 \end{proof}

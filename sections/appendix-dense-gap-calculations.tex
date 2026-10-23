@@ -1,0 +1,450 @@
+\section{Dense-gap calculations}
+\label{app:dense-gap-calculations}
+
+This appendix supplies the parameter choices and gap calculations
+for the proof sketches in the main text. All parameters are fixed
+once the excluded approximation factor is fixed.
+
+\subsection{UGC treedepth}
+\label{app:dense-ugc-td}
+
+\begin{proof}[Dense treedepth gap]
+Use the coefficients $A_{q,\eta}$ and $B_{q,\eta}$ from
+\eqref{eq:ugc-yes} and~\eqref{eq:ugc-no}, with $n=|V(G)|$ for
+the independent-set source graph $G$.
+At zero source error, the ratio of the NO and YES coefficients is
+$B_{q,0}/A_{q,0}=4q/(3(q+1))$, which approaches $4/3$ as $q$
+increases. Fix $1\leq r<4/3$ and choose
+$q=\lfloor3r/(4-3r)\rfloor+1$. Put
+$\delta=[q(4-3r)-3r]/6>0$ and
+$C=2q/3+r(q-1)>0$. Choose
+$0<\eta<\min\{1/10,\delta/(2C)\}$. Then
+\begin{equation}\label{eq:ugc-gap-parameter}
+ \left(\frac{2q}{3}+r(q-1)\right)\eta
+ <\frac{q(4-3r)-3r}{6}.
+\end{equation}
+Then
+\[
+B_{q,\eta}-rA_{q,\eta}
+ =\frac{2q}{3}(1-\eta)
+   -r\left(\frac{q+1}{2}+(q-1)\eta\right)
+  =\frac{q(4-3r)-3r}{6}
+   -\left(\frac{2q}{3}+r(q-1)\right)\eta
+   \overset{\eqref{eq:ugc-gap-parameter}}{>}0.
+\]
+An $r$-approximation returning a feasible forest has height at most
+$rA_{q,\eta}n$ in a YES instance. In a NO instance every feasible
+forest has height greater than $B_{q,\eta}n>rA_{q,\eta}n$ by
+\eqref{eq:ugc-no} and~\eqref{eq:ugc-gap-parameter}. Comparing the
+returned height with $rA_{q,\eta}n$ therefore distinguishes the cases.
+Since $q$ and $\eta$ depend only
+on $r$, this is a polynomial reduction.
+\end{proof}
+
+\subsection{UGC total elimination depth}
+\label{app:dense-ugc-total}
+
+\begin{proof}[Dense total-depth gap]
+Fix $1\leq r<8/7$. For an integer $q\geq2$ and a source error
+$0<\eta<1/10$, let $G$ be the independent-set source graph and
+put $n=|V(G)|$. The source thresholds are
+\begin{equation}\label{eq:ugc-total-depth-source-thresholds}
+\textup{YES:}\quad \alphaI(G)
+ \overset{\text{Thm.~\ref{thm:bounded-degree-kr-source}}}{\geq}(1/2-\eta)n,
+ \qquad \textup{NO:}\quad \vc(G)
+ \overset{\eqref{eq:cover-independent-complement}}{=}n-\alphaI(G)
+ \overset{\text{Thm.~\ref{thm:bounded-degree-kr-source}}}{>}(1-\eta)n.
+\end{equation}
+For $0\leq\eta<1/10$, define the coefficient polynomials
+$A^{\Sigma}_{q,\eta}=(q^2-q(q-1)(1/2-\eta)^2)/2$ and
+$B^{\Sigma}_{q,\eta}=(3/7)q^2(1-\eta)^2$.
+The value $\eta=0$ is used only for the limiting calculation;
+the reduction uses a positive source error.
+The corresponding output satisfies
+\[
+\begin{aligned}
+ \textup{YES:}\quad \totd(S_q(G))
+ &\overset{\text{Lem.~\ref{lem:total-depth-completeness}}}{\leq}
+ \frac{qn(qn+1)-q(q-1)\alphaI(G)^2}{2}
+  \overset{\eqref{eq:ugc-total-depth-source-thresholds}}{\leq}
+ A^{\Sigma}_{q,\eta}n^2+qn/2,\\
+ \textup{NO:}\quad \totd(S_q(G))
+ &\overset{\eqref{eq:total-depth-structural}}{\geq}
+ \frac37q^2\vc(G)^2+\frac{qn}{2}
+ \overset{\eqref{eq:ugc-total-depth-source-thresholds}}{\geq}
+ B^{\Sigma}_{q,\eta}n^2+qn/2.
+\end{aligned}
+\]
+At $\eta=0$, the ratio of the quadratic NO and YES coefficients
+is $24q/(7(3q+1))$, which approaches $8/7$ as $q$ increases.
+Choose a fixed integer $q$ satisfying
+\begin{equation}\label{eq:ugc-total-depth-q-choice}
+ q>\frac{7r}{24-21r}.
+\end{equation}
+At $\eta=0$,
+\[
+\begin{aligned}
+ A^{\Sigma}_{q,0}
+ &=\frac{q^2-q(q-1)/4}{2}=\frac{q(3q+1)}8,\\
+ B^{\Sigma}_{q,0}-rA^{\Sigma}_{q,0}
+ &=\frac{3q^2}{7}-\frac{rq(3q+1)}8
+   =\frac{q\bigl(24q-7r(3q+1)\bigr)}{56}
+   \overset{\eqref{eq:ugc-total-depth-q-choice}}{>}0.
+\end{aligned}
+\]
+Indeed,
+$24q-7r(3q+1)=(24-21r)q-7r
+\overset{\eqref{eq:ugc-total-depth-q-choice}}{>}0$.
+To choose the source error explicitly, put
+\[
+ D_0=\frac{q\bigl((24-21r)q-7r\bigr)}{56},\qquad
+ K=\frac{6q^2}{7}+\frac{rq(q-1)}2,\qquad
+ L=\frac{3q^2}{7}+\frac{rq(q-1)}2.
+\]
+Here $D_0>0$ by~\eqref{eq:ugc-total-depth-q-choice}, and $K,L>0$.
+Choose a fixed
+$0<\eta<\min\{1/10,D_0/(2K)\}$. Expanding the two coefficients gives
+\begin{equation}\label{eq:ugc-total-depth-coefficient-gap}
+B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta}
+ =D_0-K\eta+L\eta^2
+ \overset{K\eta<D_0/2}{>}\frac{D_0}{2}>0,\qquad B^{\Sigma}_{q,\eta}>rA^{\Sigma}_{q,\eta}.
+\end{equation}
+For a source graph $G_0$ on $n_0\geq1$ vertices, put
+\[
+ m=1+\left\lfloor
+ \frac{q(r-1)}{2(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta})}
+ \right\rfloor,
+ \qquad G=\mathop{\dot\bigcup}_{j=1}^{m}G_0^{(j)},
+\]
+where $G_0^{(1)},\ldots,G_0^{(m)}$ are disjoint copies of $G_0$.
+Then the order $n=mn_0\geq m$ satisfies
+\begin{equation}\label{eq:ugc-total-depth-source-size}
+ n>\frac{q(r-1)}
+ {2(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta})}.
+\end{equation}
+The denominator is positive by~\eqref{eq:ugc-total-depth-coefficient-gap}.
+Since there are no edges between the copies,
+\[
+ |V(G)|=m|V(G_0)|,\qquad
+ \alphaI(G)=m\alphaI(G_0),\qquad
+ \Delta(G)=\Delta(G_0).
+\]
+Thus the source promise remains unchanged. The YES and NO
+bounds then have gap
+\[
+\left(B^{\Sigma}_{q,\eta}n^2+\frac{qn}{2}\right)
+ -r\left(A^{\Sigma}_{q,\eta}n^2+\frac{qn}{2}\right)=\left(B^{\Sigma}_{q,\eta}-rA^{\Sigma}_{q,\eta}\right)n^2
+   -\frac{(r-1)qn}{2}
+   \overset{\eqref{eq:ugc-total-depth-source-size}}{>}0.
+\]
+The reduction has gap greater than $r$.
+All parameters, including $m$, depend only on $r$, so the reduction
+is polynomial.
+\end{proof}
+
+\subsection{UGC treewidth}
+\label{app:dense-ugc-tw}
+
+\begin{proof}[Dense treewidth gap]
+As the source error decreases and $R$ increases, the leading NO
+and YES coefficients approach $2/3$ and $1/2$, giving ratio $4/3$.
+Fix $1\le r<4/3$ and put $\delta=2/3-r/2>0$. Choose
+$0<\zeta<\min\{1/12,\delta/[2(1+r)]\}$ and then an integer
+$R>2r/(3\delta)$. These choices give
+$(1+r)\zeta+r/(3R)<\delta$, or equivalently
+\begin{equation}\label{eq:ugc-tw-parameter-gap}
+ 2/3-\zeta>r(1/2+\zeta+1/(3R)).
+\end{equation}
+Here $\zeta$ controls the source error and $1/(3R)$ controls the
+additional YES cost of the replication construction.
+Take the $N$-vertex source graph $G$ from Theorem~\ref{thm:ugc-tripartite-cover}
+with $k=3$. Its parts have size $N/3$. Since $\zeta<1/12$, both
+cover thresholds, $(1/2+\zeta)N$ and $(2/3-\zeta)N$, exceed $N/3$.
+Thus the $n_{\max}=N/3$ term in the maximum of
+Lemma~\ref{lem:tw-replication} does not weaken either case, and the
+lemma and source promise give
+\[
+\begin{aligned}
+ \textup{YES:}\quad \operatorname{tw}(K_R(G))
+ &\overset{\text{Lem.~\ref{lem:tw-replication}}}{\leq}
+ R\max\{\vc(G),N/3\}+N/3-1
+  \overset{\text{Thm.~\ref{thm:ugc-tripartite-cover}}}{\leq}
+ R(1/2+\zeta)N+N/3-1,\\
+ \textup{NO:}\quad \operatorname{tw}(K_R(G))
+ &\overset{\text{Lem.~\ref{lem:tw-replication}}}{\geq}
+ R\vc(G)-1
+ \overset{\text{Thm.~\ref{thm:ugc-tripartite-cover}}}{\geq}
+ R(2/3-\zeta)N-1.
+\end{aligned}
+\]
+The choices of $\zeta,R$ make
+$\gamma:=R(2/3-\zeta)-r\bigl(R(1/2+\zeta)+1/3\bigr)
+\overset{\eqref{eq:ugc-tw-parameter-gap}}{>}0$.
+The NO lower bound minus $r$ times the YES upper bound is
+$\gamma N+r-1\overset{\eqref{eq:ugc-tw-parameter-gap}}{>}0$.
+Adding one to both treewidth bounds gives the
+maximum-bag-size bounds, whose corresponding difference is
+$\gamma N\overset{\eqref{eq:ugc-tw-parameter-gap}}{>}0$.
+Thus both objectives have gap greater than $r$.
+More explicitly, let $U=R(1/2+\zeta)N+N/3-1$ be the displayed
+YES width bound. A factor-$r$ approximation returning a tree
+decomposition has width at most $rU$ in the YES case, whereas
+every decomposition has width greater than $rU$ in the NO case.
+For maximum bag size, use the cutoff $r(U+1)$ instead.
+The construction is polynomial, and its three specified cliques
+each have size $RN/3$.
+\end{proof}
+
+\subsection{SSE treedepth}
+\label{app:dense-sse-td}
+
+\begin{proof}[Dense treedepth gap]
+Let $c>0$ be the absolute constant in
+Lemma~\ref{lem:sse-unweighted-gap}.
+Using the convenient YES coefficient $4\varepsilon$, the ratio
+of the NO and YES coefficients is $c/(8\sqrt\varepsilon)$,
+which grows without bound as $\varepsilon$ decreases.
+Fix $C\geq1$ and choose a fixed $\varepsilon>0$ small enough
+that Lemma~\ref{lem:sse-unweighted-gap} applies,
+$c\sqrt\varepsilon\leq1/4$, and $\sqrt\varepsilon<c/(8C)$.
+Since $\varepsilon$ is fixed, $q=\lceil2/\varepsilon\rceil$ is a
+constant. Apply that lemma with this $q$ to obtain an
+unweighted host $G^*$ with $m$ edges, and output $\mathcal L(G^*)$.
+
+In the YES case, let $D$ be the multiset of host edges joining different
+partition classes. The host bounds are
+\begin{equation}\label{eq:sse-yes-host-bounds}
+|D|
+ \overset{\text{Lem.~\ref{lem:sse-yes-edge-counts}}}{\leq}
+ m\max_{i\in[q]}\Phi_{G^*}(V_i)
+ \overset{\text{Lem.~\ref{lem:sse-unweighted-gap}}}{\leq}3\varepsilon m,\qquad |E(G^*[V_i])|
+ \overset{\text{Lem.~\ref{lem:sse-yes-edge-counts}}}{\leq}
+ \vol_{G^*}(V_i)/2
+ \overset{\text{Lem.~\ref{lem:sse-unweighted-gap}}}{\leq}(1+\varepsilon)m/q.
+\end{equation}
+Consequently
+\begin{equation}\label{eq:sse-yes-height}
+\begin{aligned}
+ \td(\mathcal L(G^*))
+ &\overset{\text{Lem.~\ref{lem:sse-complete}}}{\leq}
+ |D|+\max_{i\in[q]}|E(G^*[V_i])|\\
+ &\overset{\eqref{eq:sse-yes-host-bounds}}{\leq}
+ 3\varepsilon m+(1+\varepsilon)m/q
+ \leq3\varepsilon m+(1+\varepsilon)\varepsilon m/2
+ =(7/2+\varepsilon/2)\varepsilon m<4\varepsilon m,
+\end{aligned}
+\end{equation}
+where $q=\lceil2/\varepsilon\rceil$ gives $1/q\leq\varepsilon/2$,
+and $\varepsilon<1$ gives $7/2+\varepsilon/2<4$.
+In the NO case, $(c/2)\sqrt{\varepsilon}\leq1/8<1/4$, so
+Corollary~\ref{lem:sse-sound} gives
+\[
+ \td(\mathcal L(G^*))
+ \overset{\text{Lem.~\ref{lem:sse-unweighted-gap}, Cor.~\ref{lem:sse-sound}}}{\geq}
+ (c/2)\sqrt\varepsilon\,m
+ >4C\varepsilon m,
+\]
+by the choice of $\varepsilon$. The NO bound therefore exceeds the
+YES bound by a factor greater than $C$.
+Indeed, a $C$-approximation returning an elimination forest has height
+at most $4C\varepsilon m$ in the YES case, whereas every valid forest
+has larger height in the NO case. Comparing the returned height
+with this threshold distinguishes the source promise.
+The threshold uses only the fixed parameters and the observable
+output order $m$; all construction sizes are polynomial for these
+fixed parameters.
+\end{proof}
+
+\subsection{NP-hardness of treedepth}
+\label{app:dense-np-td}
+
+\begin{proof}[Dense treedepth gap]
+The leading NO and YES coefficients below approach $9$ and $17/2$
+as the source error decreases, giving ratio $18/17$.
+Fix $1\le r<18/17$ and put $\delta_0=9-17r/2>0$.
+Choose a fixed
+$0<\epsilon<\min\{1/4,\delta_0/(2(1+r))\}$.
+Then $9-\epsilon-r(17/2+\epsilon)
+=\delta_0-(1+r)\epsilon>\delta_0/2$.
+Put $\gamma=9-\epsilon-r(17/2+\epsilon)>0$. Obtain a source system
+$F$ from Theorem~\ref{thm:xor-source} with error $\epsilon$, and fix
+$t=\lfloor(r-1)/\gamma\rfloor+1$. Replace $F$ by $t$ disjoint
+copies on disjoint variable sets, and let $m$ denote their total
+equation count. Since the original count is at least one,
+\begin{equation}\label{eq:xor-td-replication-choice}
+ \gamma m>r-1.
+\end{equation}
+Both the equation count and the optimum are multiplied by the fixed
+integer $t$, which depends only on $r,\epsilon$. Thus replication
+is polynomial and preserves the source promise and~\eqref{eq:xor-normalization}.
+Let $H=H_{3m}(G_F)$ be the output of
+Proposition~\ref{prop:xor-treedepth-identity}.
+By Proposition~\ref{prop:xor-treedepth-identity} and the source
+promise, the two cases satisfy
+\[
+\begin{aligned}
+\textup{YES: }\td(H)
+ &\overset{\eqref{eq:xor-treedepth-identity}}{=}
+   19m/2-\OPT(F)+1
+  \overset{\text{Thm.~\ref{thm:xor-source}}}{\le}
+   19m/2-(1-\epsilon)m+1
+   =(17/2+\epsilon)m+1,\\
+\textup{NO: }\td(H)
+ &\overset{\eqref{eq:xor-treedepth-identity}}{=}
+   19m/2-\OPT(F)+1
+  \overset{\text{Thm.~\ref{thm:xor-source}}}{\ge}
+   19m/2-(1/2+\epsilon)m+1
+   =(9-\epsilon)m+1.\end{aligned}
+\]
+The NO lower bound minus $r$ times the YES upper bound is
+$\gamma m+1-r\overset{\eqref{eq:xor-td-replication-choice}}{>}0$,
+proving the gap.
+\end{proof}
+
+\subsection{NP-hardness of treewidth}
+\label{app:dense-np-tw}
+
+\begin{proof}[Dense treewidth gap]
+Fix $1\le r<12/11$ and put $\delta_0=6-11r/2>0$.
+Choose a fixed
+$0<\epsilon<\min\{1/4,\delta_0/(2(1+r))\}$, so that
+$6-\epsilon-r(11/2+\epsilon)>\delta_0/2$. Put
+$\delta=6-\epsilon-r(11/2+\epsilon)>0$, and set the fixed integer
+$R=\lfloor3r/\delta\rfloor+1$, so that
+\begin{equation}\label{eq:np-treewidth-replication-choice}
+ R\delta>3r.
+\end{equation}
+These choices preserve the source separation and control the
+additional bag size in the replicated decomposition.
+Use Theorem~\ref{thm:xor-source} with error $\epsilon$ to obtain
+a system $F$ with $m\ge1$ equations and occurrence bound $b_\epsilon$.
+Apply the witness construction of
+Section~\ref{subsec:np-treedepth}. By~\eqref{eq:xor-equal-parts} and
+Lemma~\ref{lem:xor-cover}, the resulting simple unweighted graph
+$G_F$ satisfies
+\[
+ |V(G_F)|=9m,\qquad |A|=|B|=|C|=3m,\qquad
+ \Delta(G_F)\leq3b_\epsilon,
+\]
+and
+$\vc(G_F)\overset{\text{Lem.~\ref{lem:xor-cover}}}{=}13m/2-\OPT(F)$.
+The two graph transformations are
+\[
+ F\xrightarrow{\text{witness graph}}G_F
+ \xrightarrow{\text{replicate and complete}}K_R(G_F).
+\]
+Since $\OPT(F)\leq m$, every instance satisfies
+\[
+ \vc(G_F)\overset{\text{Lem.~\ref{lem:xor-cover}}}{=}
+ \frac{13m}{2}-\OPT(F)\geq\frac{13m}{2}-m=\frac{11m}{2}>3m.
+\]
+The source promise gives the two bounds
+\begin{equation}\label{eq:np-treewidth-cover-gap}
+\begin{aligned}
+ \textup{YES:}\quad
+ \vc(G_F)&\overset{\text{Lem.~\ref{lem:xor-cover}}}{=}
+    \frac{13m}{2}-\OPT(F)
+  \overset{\text{Thm.~\ref{thm:xor-source}}}{\leq}
+    \frac{13m}{2}-(1-\epsilon)m
+ =\left(\frac{11}{2}+\epsilon\right)m,\\
+ \textup{NO:}\quad
+ \vc(G_F)&\overset{\text{Lem.~\ref{lem:xor-cover}}}{=}
+    \frac{13m}{2}-\OPT(F)
+  \overset{\text{Thm.~\ref{thm:xor-source}}}{\geq}
+    \frac{13m}{2}-\left(\frac12+\epsilon\right)m
+ =(6-\epsilon)m.\end{aligned}
+\end{equation}
+Applying Lemma~\ref{lem:tw-replication} gives
+\[
+ \begin{aligned}
+ \textup{YES:}\quad\operatorname{tw}(K_R(G_F))
+   &\overset{\text{Lem.~\ref{lem:tw-replication}}}{\leq}
+       R\vc(G_F)+3m-1
+  \overset{\eqref{eq:np-treewidth-cover-gap}}{\leq}
+       R(11/2+\epsilon)m+3m-1,\\
+ \textup{NO:}\quad\operatorname{tw}(K_R(G_F))
+   &\overset{\text{Lem.~\ref{lem:tw-replication}}}{\geq}
+       R\vc(G_F)-1
+ \overset{\eqref{eq:np-treewidth-cover-gap}}{\geq}
+       R(6-\epsilon)m-1.
+ \end{aligned}
+\]
+For every $m\ge1$, the NO bound minus $r$ times the YES bound is
+\[
+ (R\delta-3r)m+(r-1)
+ \overset{\eqref{eq:np-treewidth-replication-choice}}{>}0,
+\]
+by the choice of $R$ and $r\ge1$. Thus the bounds are separated by
+factor $r$ even with the additive constants $-1$.
+The output has $9Rm$ vertices, and its three global cliques have
+equal size $3Rm$. 
+\end{proof}
+
+\subsection{NP-hardness of total elimination depth}
+\label{app:dense-np-total}
+
+\begin{proof}
+Fix $1\leq r<63/62=189/186$. Choose a fixed
+\[
+0<\epsilon<\min\left\{\frac14,
+                  \frac{189-186r}{6(1+r)}\right\},\qquad \gamma:=(189-6\epsilon)-r(186+6\epsilon)>0.
+\]
+Apply Theorem~\ref{thm:xor-source} with this error, obtaining a system
+with $m_0\geq1$ equations. Fix an integer $K>6(r-1)/\gamma$, and
+take $K$ disjoint copies with fresh variable names. Denote the resulting
+system by $F$; its total equation count $m=Km_0$ satisfies
+\begin{equation}\label{eq:np-total-depth-source-scale}
+ 3(r-1)<\gamma m/2.
+\end{equation}
+This preserves its optimum fraction,
+the occurrence bound, and~\eqref{eq:xor-normalization}.
+Construct $G=G_F^\Sigma$ and put $N=99m$. Fix an integer
+$C_r\geq9900r/\gamma$ and set
+$M=C_rm$.
+Both $K$ and $C_r$ depend only on $r,\epsilon$. Since $m\geq1$,
+$N(N+1)=9801m^2+99m\leq9900m^2$, so these choices give
+\begin{equation}\label{eq:np-total-depth-amplification-budget}
+ N(N+1)\leq9900m^2,\qquad
+ M\geq\frac{rN(N+1)}{\gamma m}.
+\end{equation}
+For the fixed parameters,
+$M=\Theta(m)$. Proposition~\ref{prop:np-total-depth-parity-identity}
+and Lemma~\ref{lem:np-total-depth-added-vertices} give
+\begin{equation}\label{eq:np-total-depth-W-gap}
+\begin{aligned}
+ \textup{YES:}\quad W(G)
+ &\overset{\eqref{eq:np-total-depth-parity-W}}{=}192m-6\OPT(F)+3
+ \overset{\text{Thm.~\ref{thm:xor-source}}}{\leq}(186+6\epsilon)m+3,\\
+ \textup{NO:}\quad W(G)
+ &\overset{\eqref{eq:np-total-depth-parity-W}}{=}192m-6\OPT(F)+3
+ \overset{\text{Thm.~\ref{thm:xor-source}}}{\geq}(189-6\epsilon)m+3.
+\end{aligned}
+\end{equation}
+Consequently,
+\[
+\begin{aligned}
+ \textup{YES:}\quad \totd(H^\Sigma_M(G))
+ &\overset{\eqref{eq:np-total-depth-added-vertices-bounds},\,
+                 \eqref{eq:np-total-depth-W-gap}}{\leq}
+ M\bigl((186+6\epsilon)m+3\bigr)+N(N+1)/2,\\
+ \textup{NO:}\quad \totd(H^\Sigma_M(G))
+ &\overset{\eqref{eq:np-total-depth-added-vertices-bounds},\,
+                 \eqref{eq:np-total-depth-W-gap}}{\geq}
+ M\bigl((189-6\epsilon)m+3\bigr).
+\end{aligned}
+\]
+The NO lower bound minus $r$ times the YES upper bound is at least
+\[
+M\bigl(\gamma m-3(r-1)\bigr)-rN(N+1)/2
+  \quad\overset{\eqref{eq:np-total-depth-source-scale}}{>}
+       M\gamma m/2-rN(N+1)/2
+ \quad\overset{\eqref{eq:np-total-depth-amplification-budget}}{\geq}0.
+\]
+The output has $99m+3M=O(m)$ vertices and $O(m^2)$ edges, and is
+constructed deterministically in polynomial time. Its completed core
+is connected, because each part is a nonempty clique, auxiliary pairs
+join $B$ to $C$, and literal-block edges join $A$ to the other parts.
+Every added vertex has a neighbor in its corresponding part, so the
+whole output is connected. An $r$-approximation would distinguish the
+source YES and NO cases.
+\end{proof}
